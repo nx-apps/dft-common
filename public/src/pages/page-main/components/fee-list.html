@@ -1,0 +1,191 @@
+<link rel="import" href="../../../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../../layout/shared-styles.html">
+<link rel="import" href="../../../nylon-behavior.html">
+<link rel="import" href="../../components/page-header.html">
+<link rel="import" href="../../components/page-panel.html">
+<link rel="import" href="../../../../bower_components/vaadin-combo-box/vaadin-combo-box.html">
+<link rel="import" href="../../../../bower_components/paper-button/paper-button.html">
+
+
+<dom-module id="fee-list">
+    <template>
+        <style include="shared-styles"></style>
+
+        <div class="Table">
+            <div class="Heading">
+                <div class="Cell">
+                    <p>เลือก</p>
+                </div>
+                <div class="Cell">
+                    <p>ชื่อฟอร์ม</p>
+                </div>
+                <div class="Cell">
+                    <p>บริษัท</p>
+                </div>
+                <div class="Cell">
+                    <p>เลขที่คำขอ EC</p>
+                </div>
+                <div class="Cell">
+                    <p>เลขที่หนังสือรับรอง</p>
+                </div>
+                <div class="Cell">
+                    <p>วันที่ส่ง</p>
+                </div>
+                <div class="Cell">
+                    <p>ปริมาณ(ตัน)</p>
+                </div>
+                <div class="Cell">
+                    <p>ราคาต่อหน่วย</p>
+                </div>
+                <div class="Cell">
+                    <p>จำนวนเงิน</p>
+                </div>
+            </div>
+            <div class="Row">
+                <div class="Cell">
+                    <p>ไม่พบข้อมูล</p>
+                </div>
+                <div class="Cell">
+                    <p></p>
+                </div>
+                <div class="Cell">
+                    <p></p>
+                </div>
+                <div class="Cell">
+                    <p></p>
+                </div>
+                <div class="Cell">
+                    <p></p>
+                </div>
+                <div class="Cell">
+                    <p></p>
+                </div>
+                <div class="Cell">
+                    <p></p>
+                </div>
+                <div class="Cell">
+                    <p></p>
+                </div>
+                <div class="Cell">
+                    <p></p>
+                </div>
+            </div>
+        </div>
+<!--
+        
+        <table>
+            <tr>
+                <template is="dom-if" if="{{checkBox}}">
+                    <th>เลือก</th>
+                </template>
+                <th>ชื่อฟอร์ม</th>
+                <th>บริษัท</th>
+                <th>เลขที่คำขอ EC</th>
+                <th>เลขที่หนังสือรับรอง</th>
+                <th>วันที่ส่ง</th>
+                <template is="dom-if" if="{{showData}}">
+                     <th class="right">ปริมาณ(ตัน)</th>
+                     <th class="right">ราคาต่อหน่วย</th>
+                     <th class="right">จำนวนเงิน</th>
+                </template>
+                <template is="dom-if" if="{{dataOverplay}}">
+                    <th class="right">ยอดเงินสุทธิ</th>
+                    <th class="right">ยอดเงินที่ใช้</th>
+                    <th class="right">คงเหลือ</th>
+                </template>
+            </tr>
+            <template is="dom-if" if={{dataStat}}>
+                <tr>
+                    <td colspan="10" style="text-align: left">ไม่พบข้อมูล</td>
+                </tr>
+            </template>
+            <template is="dom-if" if={{!dataStat}}>
+                <template is="dom-repeat" items={{data}}>
+                <tr check-group$="[[item.class]]">
+                    <template is="dom-if" if="{{checkBox}}">
+                        <td><paper-checkbox on-tap="getDataCheckBox" value="{{item}}" checked="{{item.check}}" disabled="{{item.hidden}}"></paper-checkbox></td>
+                    </template>
+                    <td>EC ในโควตา EU</td>
+                    <td>[[item.exporter_name]]</td>
+                    <td>[[item.req_number]]</td>
+                    <td>[[item.ec_number]]</td>
+                    <td>[[item.req_date]]</td>
+                    <template is="dom-if" if="{{showData}}">
+                        <td class="right">[[formatNumber(item.quantity)]]</td>                    
+                        <td class="right">[[formatNumber(item.price)]]</td>
+                        <td class="right">[[mathMoney(item.quantity,item.price)]]</td>
+                    </template>
+                    <template is="dom-if" if="{{dataOverplay}}">
+                        <td class="right">[[formatNumber(item.balance)]]</td>
+                        <td class="right">[[formatNumber(item.useBalance)]]</td>
+                        <td class="right">[[formatNumber(item.totalBalance)]]</td>
+                    </template>
+                </tr>
+                </template>
+             </template>
+        </table>-->
+
+    </template>
+    <script>
+        Polymer({
+            is: 'fee-list',
+            // behaviors:[DataManageBehavior,FormatNumberBehavior],
+            // observers:['checkData(data)','hiddenCheckBox(data.*)'],
+            // properties:{
+            //     checkBox:{
+            //         type: Boolean,
+            //         value: false
+            //     },
+            //     data:{
+            //         observer: 'setDataForCheckBox'
+            //     }
+            // },
+            // dataSelected:function(e){
+            //     this.fire('data-select',e.currentTarget.item);
+            // },
+            // hiddenCheckBox:function(data){
+            //     // console.log(data);
+            //     if(data.value == true){
+            //         var dataArray = this.data.filter((item)=>{
+            //             return item.check == true;
+            //         })
+            //         var exporter
+            //         dataArray.map((item)=>{
+            //             exporter = item.exporter_id;
+            //         })
+            //         this.data.map((item,index)=>{
+            //             if(exporter != item.exporter_id){
+            //                 this.set('data.'+index+'.hidden',true);
+            //                 this.set('data.'+index+'.class',true);
+            //             }
+            //         })
+            //         // console.log('<------>',exporter);
+            //     }
+            //     else if(data.value == false && typeof this.data != 'undefined'){
+            //         // console.log('--->',this.data);
+            //         this.data.map((item,index)=>{
+            //             this.set('data.'+index+'.hidden',false);
+            //             this.set('data.'+index+'.class',false);
+            //         })
+            //     }
+            // },
+            // mathMoney:function(quantity,price){
+            //     console.log(quantity,price);
+            //     var answer = quantity * price;
+            //     return this.formatNumber(answer)
+            // },
+            // setDataForCheckBox:function(){
+            //     this.data.map((item)=>{
+            //         item.check = false;
+            //         item.hidden = false;
+            //         item.class = false;
+            //     })
+            // },
+            // getDataCheckBox:function(){  
+            //     return this.data.filter(function(item){
+            //         return item.check == true;
+            //     });
+            // } 
+        });
+    </script>
+</dom-module>

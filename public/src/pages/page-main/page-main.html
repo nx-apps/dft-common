@@ -1,0 +1,123 @@
+<link rel="import" href="../../nylon-behavior.html">
+<link rel="import" href="../../layout/page-style.html">
+<link rel="import" href="../../../bower_components/paper-listbox/paper-listbox.html">
+<link rel="import" href="../../../bower_components/paper-item/paper-item.html">
+<link rel="import" href="../../../bower_components/paper-item/paper-item.html">
+
+<dom-module id="page-main">
+    <style include="page-style">
+    </style>
+    <template>
+        <!--<paper-material elevation="1" style="padding:5px; margin-left:15%; width:70%;">-->
+            <div class="material" style="padding:5px; margin-left:15%; width:70%;">
+            <template is="dom-repeat" items="[[menuTable]]">
+                <div style="padding:5px">
+                    <paper-listbox>
+                        <paper-item on-tap="_getUrl" url$="[[item.url]]" style="cursor:pointer;">
+                            <iron-image style="margin-right:5px;" src="{{item.img}}"></iron-image>
+                            {{item.nameMenu}}
+                        </paper-item>
+                    </paper-listbox>
+                </div>
+            </template>
+            </div>
+        <!--</paper-material>-->
+    </template>
+    <script>
+        Polymer({
+            is: "page-main",
+
+            properties: {
+                menuTable: {
+                    type: Object,
+                    value:
+                    [
+                        {
+                            id: 0,
+                            nameMenu: 'ธนาคาร',
+                            url: '/backoffice/table-bank',
+                            img: '../../../images/01/72.png'
+                        },
+                        {
+                            id: 1,
+                            nameMenu: 'ผู้ซื้อ',
+                            url: '/backoffice/table-buyer',
+                            img: '../../../images/02/72.png'
+                        },
+                        {
+                            id: 2,
+                            nameMenu: 'ผู้ให้บริการเรือ',
+                            url: '/backoffice/table-carrier',
+                            img: '../../../images/03/72.png'
+                        },
+                        {
+                            id: 3,
+                            nameMenu: 'ประเทศ',
+                            url: '/backoffice/table-country',
+                            img: '../../../images/04/72.png'
+                        },
+                        {
+                            id: 4,
+                            nameMenu: 'ข้อกำหนดการส่งสินค้า',
+                            url: '/backoffice/table-incoterms',
+                            img: '../../../images/05/72.png'
+                        },
+                        {
+                            id: 5,
+                            nameMenu: 'แพ็คเกจ',
+                            url: '/backoffice/table-package',
+                            img: '../../../images/06/72.png'
+                        },
+                        {
+                            id: 6,
+                            nameMenu: 'ท่าเรือ',
+                            url: '/backoffice/table-port',
+                            img: '../../../images/07/72.png'
+                        },
+                        {
+                            id: 7,
+                            nameMenu: 'เรือ',
+                            url: '/backoffice/table-ship',
+                            img: '../../../images/08/72.png'
+                        },
+                        {
+                            id: 8,
+                            nameMenu: 'สายเรือ',
+                            url: '/backoffice/table-shipline',
+                            img: '../../../images/09/72.png'
+                        },
+                        {
+                            id: 9,
+                            nameMenu: 'หน่วยงานตรวจสอบสินค้า',
+                            url: '/backoffice/table-surveyor',
+                            img: '../../../images/10/72.png'
+                        },
+                        {
+                            id: 10,
+                            nameMenu: 'พิกัดข้าว',
+                            url: '/backoffice/table-Harmonizedcode',
+                            img: '../../../images/11/72.png'
+                        },
+                        {
+                            id: 11,
+                            nameMenu: 'ที่อยู่ผู้รับสินค้า',
+                            url: '/backoffice/table-notifyparty',
+                            img: '../../../images/12/72.png'
+                        },
+                        {
+                            id: 12,
+                            nameMenu: 'ทวีป',
+                            url: '/backoffice/table-continent',
+                            img: '../../../images/13/72.png'
+                        }
+                    ]
+                }
+            },
+            behaviors: [nylonBehavior],
+            _getUrl:function(e){
+                var url = e.target.getAttribute('url')
+                this.fire('nylon-change-page',{path:url})
+            }
+        });
+    </script>
+</dom-module>

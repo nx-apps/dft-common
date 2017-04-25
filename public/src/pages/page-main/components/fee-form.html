@@ -1,0 +1,105 @@
+<link rel="import" href="../../../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../../layout/shared-styles.html">
+<link rel="import" href="../../../nylon-behavior.html">
+<link rel="import" href="../../components/page-header.html">
+<link rel="import" href="../../components/page-panel.html">
+<link rel="import" href="../../../../bower_components/vaadin-combo-box/vaadin-combo-box.html">
+<link rel="import" href="../../../../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../../../../bower_components/paper-input/paper-input.html">
+<link rel="import" href="../../../../bower_components/paper-input/paper-textarea.html">
+
+<dom-module id="fee-form">
+    <style include="shared-styles"></style>
+    <template>
+        <div>
+            <div class="title">คำนวณเงินที่ต้องชำระ</div>
+        </div>
+        <div class="row around-xs">
+            <div class="col-xs-4">
+                <div class="box">
+                    <paper-input label="จำนวนเงินตามคำขอ EC "></paper-input>
+                </div>
+            </div>
+            <div class="col-xs-4">
+                <div class="box">
+                    <paper-input label="เงินคงเหลือจาก EC ที่ยกเลิก"></paper-input>
+                </div>
+            </div>
+        </div>
+        <div class="row around-xs">
+            <div class="col-xs-4">
+                <div class="box">
+                    <paper-input label="จำนวนเงินที่ต้องการใช้จากใบเสร็จ/ EC ที่ยกเลิก"></paper-input>
+                </div>
+            </div>
+            <div class="col-xs-4">
+                <div class="box">
+                    <paper-input label="จำนวนเงินที่ต้องชำระ"></paper-input>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="title">รายละเอียดการจ่ายเงิน</div>
+            <div class="row around-xs">
+                <div class="col-xs-4">
+                    <div class="box">
+                        <vaadin-combo-box label="เลือกธนาคาร"></vaadin-combo-box>
+                    </div>
+                </div>
+                <div class="col-xs-4">
+                    <div class="box">
+                        <paper-input label="สาขา"></paper-input>
+                    </div>
+                </div>
+            </div>
+            <div class="row around-xs">
+                <div class="col-xs-4">
+                    <div class="box">
+                        <paper-input label="เลขที่เช็ค"></paper-input>
+                    </div>
+                </div>
+                <div class="col-xs-4">
+                    <div class="box">
+                        <paper-input label="วันที่เช็ค"></paper-input>
+                    </div>
+                </div>
+            </div>
+            <div class="row around-xs">
+                <div class="col-xs-4">
+                    <div class="box">
+                        <paper-input label="จำนวนเงินที่ต้องชำระ"></paper-input>
+                    </div>
+                </div>
+                <div class="col-xs-4">
+                    <div class="box">
+                        <paper-input label="จำนวนเงินที่ชำระจริงตามเช็ค"></paper-input>
+                    </div>
+                </div>
+            </div>
+            <div class="row around-xs">
+                <div class="col-xs-8">
+                    <div class="box" style="text-align:left">
+                        <paper-textarea label="หมายเหตุ" row="2"></paper-textarea>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section">
+                <div class="row end-xs">
+                    <div class="col-xs-6">
+                        <div class="box" style="text-align:right">
+                            <paper-button class="gl-btn-danger" raised>ยกเลิก</paper-button>
+                            <paper-button class="gl-btn-success" raised>บันทึก</paper-button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </template>
+    <script>
+        Polymer({
+            is: 'fee-form',
+        });
+    </script>
+</dom-module>
