@@ -88,7 +88,7 @@
             </thead>
 
             <!-- <template is="dom-repeat" items="{{dataPackage}}"> -->
-            <template is="dom-repeat" items="[[newData]]">
+            <template is="dom-repeat" items="[[data]]">
               <tbody>
                 <tr>
                   <!-- <td><div class="text-center">{{item.no}}</div></td> -->
@@ -117,14 +117,14 @@
   <script>
     Polymer({
       is: "page-package",
-      behaviors: [nylonBehavior, ReduxBehavior, buyerAction],
+      behaviors: [nylonBehavior, ReduxBehavior, packageAction],
       properties: {
         data: {
-          statePath: 'buyer.list'
+          statePath: 'package.list'
         }
       },
       nylonPageActive: function () {
-        this.dispatchAction('BUYER_GET_DATA');
+        this.dispatchAction('PACKAGE_GET_DATA');
       },
       _toggleDrawer: function (e) {
         this.$$('nylon-panel-right').open();
@@ -135,11 +135,11 @@
         return val + 1
       },
       _delete: function (e) {
-        this.dispatchAction('BUYER_DELETE', e.target.data.id);
+        this.dispatchAction('PACKAGE_DELETE', e.target.data.id);
       },
       _edit: function (e) {
         this.$$('nylon-panel-right').open();
-        this.dispatchAction('BUYER_GET_ID', e.target.data.id);
+        this.dispatchAction('PACKAGE_GET_ID', e.target.data.id);
         this.title = "แก้ไขข้อมูล";
       },
       _back: function () {
