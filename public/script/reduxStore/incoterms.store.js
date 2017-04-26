@@ -2,6 +2,7 @@ import axios from '../axios'
 import { commonAction } from '../config'
 const initialState = {
     list: [],
+    seleted:{},
     data: {}
 }
 export function incotermsReducer(state = initialState, action) {
@@ -9,9 +10,9 @@ export function incotermsReducer(state = initialState, action) {
         case 'INCOTERMS_GET_DATA':
             return Object.assign({}, state, { list: action.payload });
         case 'INCOTERMS_GET_ID':
-            return Object.assign({}, state, { data: action.payload });
+            return Object.assign({}, state, { seleted: action.payload });
         case 'CLEAR_DATA':
-            return Object.assign({}, state, { data: {} });
+            return Object.assign({}, state, { seleted: {} });
         default:
             return state
     }
@@ -29,15 +30,16 @@ export function incotermsAction(store) {
                     console.log(error);
                 });
         },
-        INCOTERMS_GET_ID: function (id) {
-            axios.get('./incoterms/id/'+id)
-                .then(function (response) {
-                    store.dispatch({ type: 'INCOTERMS_GET_ID', payload: response.data })
-                })
-                .catch(function (error) {
-                    console.log('error');
-                    console.log(error);
-                });
+        INCOTERMS_GET_ID: function (data) {
+            // axios.get('./incoterms/id/'+id)
+            //     .then(function (response) {
+                // console.log(data);
+                    store.dispatch({ type: 'INCOTERMS_GET_ID', payload: data })
+                // })
+                // .catch(function (error) {
+                //     console.log('error');
+                //     console.log(error);
+                // });
         },
         INCOTERMS_INSERT: function (data) {
             this.fire('toast', {
@@ -46,9 +48,8 @@ export function incotermsAction(store) {
                 confirmed: (result) => {
                     if (result == true) {
                         var newData = {
-                            id: data.incoterms_id,
-                            incoterms_name_th: data.incoterms_name_th,
-                            incoterms_name_en: data.incoterms_name_en
+                            id: data.inct_id,
+                            inct_name: data.inct_name,
                         }
                         this.fire('toast', { status: 'load', text: 'กำลังบันทึกข้อมูล...' })
                         axios.post('./incoterms/insert', newData)
@@ -82,9 +83,8 @@ export function incotermsAction(store) {
                 confirmed: (result) => {
                     if (result == true) {
                         var newData = {
-                            id: data.incoterms_id,
-                            incoterms_name_th: data.incoterms_name_th,
-                            incoterms_name_en: data.incoterms_name_en
+                            id: data.inct_id,
+                            inct_name: data.inct_name,
                         }
                         this.fire('toast', { status: 'load', text: 'กำลังบันทึกข้อมูล...' })
                         axios.put('./incoterms/update', newData)
@@ -99,7 +99,7 @@ export function incotermsAction(store) {
                                 }
                                 else {
                                     this.fire('toast', {
-                                        status: 'connectError', text: 'ธนาคารนี้มีอยู่แล้ว',
+                                        status: 'connectError', text: 'ข้อกำหนดส่งสินค้า',
                                         callback: function () {
                                         }
                                     })

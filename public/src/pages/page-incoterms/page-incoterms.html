@@ -132,11 +132,11 @@
         return val + 1
       },
       _delete: function (e) {
-        this.dispatchAction('INCOTERMS_DELETE', e.target.data.id);
+        this.dispatchAction('INCOTERMS_DELETE', e.target.data.inct_id);
       },
       _edit: function (e) {
         this.$$('nylon-panel-right').open();
-        this.dispatchAction('INCOTERMS_GET_ID', e.target.data.id);
+        this.dispatchAction('INCOTERMS_GET_ID', e.target.data);
         this.title = "แก้ไขข้อมูล";
       },
       _back: function () {
