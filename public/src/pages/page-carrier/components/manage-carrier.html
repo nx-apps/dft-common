@@ -3,7 +3,7 @@
 <link rel="import" href="./../../../../bower_components/gl-grid/gl-grid-col.html">
 <link rel="import" href="./../../../../bower_components/gl-form/gl-combo-box.html">
 
-<dom-module id="manage-buyer">
+<dom-module id="manage-carrier">
     <style include="iron-flex iron-flex-alignment gl-color gl-size">
         * {
             font-family: 'CSChatThaiUI', sans-serif;
@@ -83,24 +83,24 @@
     </template>
     <script>
         Polymer({
-            is: "manage-buyer",
+            is: "manage-carrier",
             properties: {
                 data: {
-                    statePath: 'buyer.data'
+                    statePath: 'carrier.data'
                 }
             },
             behaviors: [nylonBehavior, ReduxBehavior],
             _save: function () {
                 if (this.data.creater == 'admin') {
-                    this.dispatchAction('BUYER_EDIT', this.data);
+                    this.dispatchAction('CARRIER_EDIT', this.data);
                 }
                 else {
-                    this.dispatchAction('BUYER_INSERT', this.data);
+                    this.dispatchAction('CARRIER_INSERT', this.data);
                 }
             },
             _cancel: function () {
                 if (this.data.creater == 'admin') {
-                    this.dispatchAction('BUYER_GET_ID', this.data.id);
+                    this.dispatchAction('CARRIER_GET_ID', this.data.id);
                 }
                 else {
                     this.dispatchAction('CLEAR_DATA');
