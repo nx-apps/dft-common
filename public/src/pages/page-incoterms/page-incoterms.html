@@ -113,11 +113,15 @@
       behaviors: [nylonBehavior, ReduxBehavior, incotermsAction],
       properties: {
         data: {
-          statePath: 'incoterms.list'
+          statePath: 'incoterms.list',
+          observer: 'setNo'
         }
       },
       nylonPageActive: function () {
         this.dispatchAction('INCOTERMS_GET_DATA');
+      },
+      setNo(data){
+        return data.map((mkNo,index)=> mkNo.no = index+1)
       },
       _toggleDrawer: function (e) {
         this.$$('nylon-panel-right').open();
