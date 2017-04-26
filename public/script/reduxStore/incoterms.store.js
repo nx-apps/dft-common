@@ -30,16 +30,16 @@ export function incotermsAction(store) {
                     console.log(error);
                 });
         },
-        INCOTERMS_GET_ID: function (data) {
-            // axios.get('./incoterms/id/'+id)
-            //     .then(function (response) {
+        INCOTERMS_GET_ID: function (id) {
+            axios.get('./incoterms/id/'+id)
+                .then(function (response) {
                 // console.log(data);
-                    store.dispatch({ type: 'INCOTERMS_GET_ID', payload: data })
-                // })
-                // .catch(function (error) {
-                //     console.log('error');
-                //     console.log(error);
-                // });
+                    store.dispatch({ type: 'INCOTERMS_GET_ID', payload: response.data })
+                })
+                .catch(function (error) {
+                    console.log('error');
+                    console.log(error);
+                });
         },
         INCOTERMS_INSERT: function (data) {
             this.fire('toast', {
@@ -66,7 +66,7 @@ export function incotermsAction(store) {
                                 }
                                 else {
                                     this.fire('toast', {
-                                        status: 'connectError', text: 'ธนาคารนี้มีอยู่แล้ว',
+                                        status: 'connectError', text: 'ข้อกำหนดส่งสินค้ามีอยู่แล้ว',
                                         callback: function () {
                                         }
                                     })
@@ -89,6 +89,7 @@ export function incotermsAction(store) {
                         this.fire('toast', { status: 'load', text: 'กำลังบันทึกข้อมูล...' })
                         axios.put('./incoterms/update', newData)
                             .then((response) => {
+                                console.log(response);
                                 if (response.data.result == true) {
                                     this.fire('toast', {
                                         status: 'success', text: 'บันทึกสำเร็จ', callback: () => {
@@ -99,7 +100,7 @@ export function incotermsAction(store) {
                                 }
                                 else {
                                     this.fire('toast', {
-                                        status: 'connectError', text: 'ข้อกำหนดส่งสินค้า',
+                                        status: 'connectError', text: 'ข้อกำหนดส่งสินค้ามีอยู่แล้ว',
                                         callback: function () {
                                         }
                                     })

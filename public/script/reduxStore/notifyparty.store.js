@@ -2,16 +2,17 @@ import axios from '../axios'
 import { commonAction } from '../config'
 const initialState = {
     list: [],
+    seleted:{},
     data: {}
 }
 export function notifypartyReducer(state = initialState, action) {
     switch (action.type) {
-        case 'BUYER_GET_DATA':
+        case 'NOTIFY_PARTY_GET_DATA':
             return Object.assign({}, state, { list: action.payload });
-        case 'BUYER_GET_ID':
-            return Object.assign({}, state, { data: action.payload });
+        case 'NOTIFY_PARTY_GET_ID':
+            return Object.assign({}, state, { seleted: action.payload });
         case 'CLEAR_DATA':
-            return Object.assign({}, state, { data: {} });
+            return Object.assign({}, state, { seleted: {} });
         default:
             return state
     }
@@ -19,27 +20,27 @@ export function notifypartyReducer(state = initialState, action) {
 export function notifypartyAction(store) {
     return [commonAction(),
     {
-        BUYER_GET_DATA: function () {
+        NOTIFY_PARTY_GET_DATA: function () {
             axios.get('./notifyparty')
                 .then(function (response) {
-                    store.dispatch({ type: 'BUYER_GET_DATA', payload: response.data })
+                    store.dispatch({ type: 'NOTIFY_PARTY_GET_DATA', payload: response.data })
                 })
                 .catch(function (error) {
                     console.log('error');
                     console.log(error);
                 });
         },
-        BUYER_GET_ID: function (id) {
+        NOTIFY_PARTY_GET_ID: function (id) {
             axios.get('./notifyparty/id/'+id)
                 .then(function (response) {
-                    store.dispatch({ type: 'BUYER_GET_ID', payload: response.data })
+                    store.dispatch({ type: 'NOTIFY_PARTY_GET_ID', payload: response.data })
                 })
                 .catch(function (error) {
                     console.log('error');
                     console.log(error);
                 });
         },
-        BUYER_INSERT: function (data) {
+        NOTIFY_PARTY_INSERT: function (data) {
             this.fire('toast', {
                 status: 'openDialog',
                 text: 'ต้องการเพิ่มข้อมูลใช่หรือไม่ ?',
@@ -58,7 +59,7 @@ export function notifypartyAction(store) {
                                 if (response.data.result == true) {
                                     this.fire('toast', {
                                         status: 'success', text: 'บันทึกสำเร็จ', callback: () => {
-                                            this.BUYER_GET_DATA();
+                                            this.NOTIFY_PARTY_GET_DATA();
                                             this.CLEAR_DATA();
                                         }
                                     });
@@ -75,7 +76,7 @@ export function notifypartyAction(store) {
                 }
             })
         },
-        BUYER_EDIT: function (data) {
+        NOTIFY_PARTY_EDIT: function (data) {
             this.fire('toast', {
                 status: 'openDialog',
                 text: 'ต้องการแก้ไขข้อมูลใช่หรือไม่ ?',
@@ -92,8 +93,8 @@ export function notifypartyAction(store) {
                                 if (response.data.result == true) {
                                     this.fire('toast', {
                                         status: 'success', text: 'บันทึกสำเร็จ', callback: () => {
-                                            this.BUYER_GET_DATA();
-                                            this.BUYER_GET_ID(newData.id);
+                                            this.NOTIFY_PARTY_GET_DATA();
+                                            this.NOTIFY_PARTY_GET_ID(newData.id);
                                         }
                                     });
                                 }
@@ -109,7 +110,7 @@ export function notifypartyAction(store) {
                 }
             })
         },
-        BUYER_DELETE: function (data) {
+        NOTIFY_PARTY_DELETE: function (data) {
             this.fire('toast', {
                 status: 'openDialog',
                 text: 'ต้องการลบข้อมูลใช่หรือไม่ ?',
@@ -121,7 +122,7 @@ export function notifypartyAction(store) {
                                 if (response.data.result == true) {
                                     this.fire('toast', {
                                         status: 'success', text: 'ลบข้อมูลสำเร็จ', callback: () => {
-                                            this.BUYER_GET_DATA();
+                                            this.NOTIFY_PARTY_GET_DATA();
                                         }
                                     });
                                 }
