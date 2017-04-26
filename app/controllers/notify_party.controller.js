@@ -50,6 +50,11 @@ exports.insert = function (req, res) {
     var r = req.r;
     var result = { result: false, message: null, id: null };
     if (valid) {
+        req.body = Object.assign(req.body, { 
+            creater : 'admin',
+            date_created : new Date().toISOString(),
+            date_updated : new Date().toISOString(),
+        });
         r.db("common").table("notify_party")
             .insert(req.body)
             .run()
@@ -75,6 +80,10 @@ exports.update = function (req, res) {
     var result = { result: false, message: null, id: null };
     if (req.body.id != '' && req.body.id != null && typeof req.body.id != 'undefined') {
         result.id = req.body.id;
+        req.body = Object.assign(req.body, { 
+            updater : 'admin',
+            date_updated : new Date().toISOString()
+        });
         r.db("common").table("notify_party")
             .get(req.body.id)
             .update(req.body)

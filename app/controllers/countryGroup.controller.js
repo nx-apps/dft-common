@@ -61,6 +61,11 @@ exports.countries = function (req, res) {
 }
 exports.insert = function (req, res) {
     var r = req.r;
+    req.body = Object.assign(req.body, {
+        creater: 'admin',
+        date_created: new Date().toISOString(),
+        date_updated: new Date().toISOString(),
+    });
     r.db('common').table('country_group')
         .insert(req.body)
         .run()
@@ -73,6 +78,10 @@ exports.insert = function (req, res) {
 }
 exports.update = function (req, res) {
     var r = req.r;
+    req.body = Object.assign(req.body, {
+        updater: 'admin',
+        date_updated: new Date().toISOString()
+    });
     r.db('common').table('country_group')
         .get(req.body.id)
         .update(req.body)
