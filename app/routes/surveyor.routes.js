@@ -1,5 +1,5 @@
 module.exports = function (app) {
-    var controller = require('../../controllers/common/surveyor.controller');
+    var controller = require('../controllers/surveyor.controller');
     app.get(['/', '/list'], controller.list);
     app.get('/id/:id', controller.getById);
     app.post('/insert', controller.insert);

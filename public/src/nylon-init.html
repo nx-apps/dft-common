@@ -120,6 +120,8 @@
 			<iron-pages role="main" selected="[[selected]]" attr-for-selected="path" selected-attribute="visible">
 				<page-test path="test"></page-test>
 				<page-main path="main"></page-main>
+				<page-bank path="bank"></page-bank>
+				<page-buyer path="buyer"></page-buyer>
                 <page-401 path="401"></page-401> <!-- ยังไม่ login -->
                 <page-403 path="403"></page-403> <!-- ไม่มีสิทธิ -->
                 <page-404 path="404"></page-404> <!-- ไม่พบไฟล์ -->
@@ -132,7 +134,7 @@
 	<script>
         Polymer({
             is:'nylon-init',
-			behaviors:[commonDataAction],
+			// behaviors:[commonDataAction],
 			ready:function(){
 				this.loader = false;
 				// this.loader = true;

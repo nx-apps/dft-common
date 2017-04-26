@@ -1,5 +1,5 @@
 module.exports = function (app) {
-    var controller = require('../../controllers/common/notify_party.controller');
+    var controller = require('../controllers/notify_party.controller');
     app.get(['/', '/list'], controller.list);
     app.get('/id/:id', controller.getById);
     app.post('/insert', controller.insert);

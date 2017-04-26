@@ -1,5 +1,5 @@
 module.exports = function (app) {
-    var controller = require('../../controllers/common/province.controller');
+    var controller = require('../controllers/province.controller');
     app.get(['/', '/list'], controller.list);
     app.get('/id/:id', controller.getById);
     app.post('/insert', controller.insert);

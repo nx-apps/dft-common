@@ -1,0 +1,96 @@
+<link rel="import" href="./../../../../bower_components/gl-form/gl-form-input.html">
+<link rel="import" href="./../../../../bower_components/gl-grid/gl-grid-row.html">
+<link rel="import" href="./../../../../bower_components/gl-grid/gl-grid-col.html">
+<dom-module id="manage-bank">
+    <style include="iron-flex iron-flex-alignment gl-color gl-size">
+        * {
+            font-family: 'CSChatThaiUI', sans-serif;
+            -webkit-font-smoothing: antialiased;
+            font-size: var(--font-size-h5);
+            text-align: left;
+        }
+        .text-center {
+            text-align: center;
+            font-size: var(--font-size-h3);
+            background-color: var(--paper-grey-100);
+            margin-top: 20px;
+        }
+        .margin-top {
+            margin-top: 15px;
+        }
+        .button {
+            margin-top: 20px;
+            margin-bottom: 20px;
+        }
+    </style>
+    <template>
+        <div class="text-center" hidden="{{_checkStatus(data.creater)}}">เพิ่มข้อมูลธนาคาร</div>
+        <div class="text-center" hidden="{{!_checkStatus(data.creater)}}">แก้ไขข้อมูลธนาคาร</div>
+
+        <gl-grid-row width="{{getWidth}}">
+            <gl-grid-col width="[[getWidth]]" grid="[[300,12],[500,4]]"></gl-grid-col>
+            <gl-grid-col width="[[getWidth]]" grid="[[300,12],[500,4]]">
+                <gl-form-input class="margin-top" error-message="กรุณากรอกรหัสธนาคาร" required label="Bank Code (รหัสธนาคาร) :" placeholder="กรอกรหัสธนาคาร"
+                    value="{{data.bank_id}}" disabled="{{_checkStatus(data.creater)}}"></gl-form-input>
+            </gl-grid-col>
+            <gl-grid-col width="[[getWidth]]" grid="[[300,12],[500,4]]"></gl-grid-col>
+        </gl-grid-row>
+
+        <gl-grid-row>
+            <gl-grid-col width="[[getWidth]]" grid="[[300,12],[500,4]]"></gl-grid-col>
+            <gl-grid-col width="[[getWidth]]" grid="[[300,12],[500,4]]">
+                <gl-form-input class="margin-top" error-message="กรุณากรอกชื่อธนาคาร" required label="Bank Name (ชื่อธนาคาร ภาษาไทย) :" placeholder="กรอกชื่อธนาคาร (ภาษาไทย)"
+                    value="{{data.bank_name_th}}"></gl-form-input>
+            </gl-grid-col>
+            <gl-grid-col width="[[getWidth]]" grid="[[300,12],[500,4]]"></gl-grid-col>
+        </gl-grid-row>
+
+        <gl-grid-row>
+            <gl-grid-col width="[[getWidth]]" grid="[[300,12],[500,4]]"></gl-grid-col>
+            <gl-grid-col width="[[getWidth]]" grid="[[300,12],[500,4]]">
+                <gl-form-input class="margin-top" error-message="กรุณากรอกชื่อธนาคาร" required label="Bank Name (ชื่อธนาคาร ภาษาอังกฤษ) :"
+                    placeholder="กรอกชื่อธนาคาร (ภาษาอังกฤษ)" value="{{data.bank_name_en}}"></gl-form-input>
+            </gl-grid-col>
+            <gl-grid-col width="[[getWidth]]" grid="[[300,12],[500,4]]"></gl-grid-col>
+        </gl-grid-row>
+
+        <div class="horizontal end-justified layout">
+            <div class="button">
+                <paper-button class="gl-btn-warning" raised on-tap="_cancel">คืนค่าข้อมูล</paper-button>
+                <paper-button class="gl-btn-success" raised on-tap="_save">บันทึก</paper-button>
+            </div>
+        </div>
+    </template>
+    <script>
+        Polymer({
+            is: "manage-bank",
+            properties: {
+                data: {
+                    statePath: 'bank.data'
+                }
+            },
+            behaviors: [nylonBehavior, ReduxBehavior],
+            _save: function () {
+                if (this.data.creater == 'admin') {
+                    this.dispatchAction('BANK_EDIT', this.data);
+                }
+                else{
+                    this.dispatchAction('BANK_INSERT', this.data);
+                }
+            },
+            _cancel:function() {
+                if (this.data.creater == 'admin') {
+                    this.dispatchAction('BANK_GET_ID', this.data.bank_id);
+                }
+                else{
+                    this.dispatchAction('CLEAR_DATA');
+                }
+            },
+            _checkStatus:function(val){
+                if(typeof val != 'undefined' && val != undefined){
+                    return true
+                }
+            }
+        });
+    </script>
+</dom-module>

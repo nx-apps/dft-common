@@ -1,5 +1,5 @@
 module.exports = function (app) {
-    var controller = require('../../controllers/common/bank.controller');
+    var controller = require('../controllers/bank.controller');
     app.get(['/', '/list'], controller.list);
     app.get('/id/:bank_id', controller.getById);
     app.post('/insert', controller.insert);

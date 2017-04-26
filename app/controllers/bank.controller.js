@@ -42,6 +42,11 @@ exports.insert = function (req, res) {
     var r = req.r;
     var result = { result: false, message: null, id: null };
     if (valid) {
+        req.body = Object.assign(req.body, { 
+            creater : 'admin',
+            date_created : new Date().toISOString(),
+            date_updated : new Date().toISOString(),
+        });
         r.db("common").table("bank")
             .insert(req.body)
             .run()

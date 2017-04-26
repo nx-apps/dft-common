@@ -1,5 +1,5 @@
 module.exports = function (app) {
-    var controller = require('../../controllers/common/shipline.controller');
+    var controller = require('../controllers/shipline.controller');
     app.get(['/', '/list'], controller.list);
     app.get('/id/:id', controller.getById);
     app.get('/ship', controller.ship);

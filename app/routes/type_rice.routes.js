@@ -1,5 +1,5 @@
 module.exports = function (app) {
-    var controller = require('../../controllers/common/type_rice.controller');
+    var controller = require('../controllers/type_rice.controller');
     app.get(['/', '/list'], controller.list);
     app.get('/id/:id', controller.getById);
     app.post('/insert', controller.insert);
