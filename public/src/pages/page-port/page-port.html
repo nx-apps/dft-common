@@ -3,7 +3,7 @@
 <link rel="import" href="./../../../bower_components/gl-styles/gl-table.html">
 <link rel="import" href="./../../../bower_components/paper-input/paper-input.html">
 <link rel="import" href="../../nylon-behavior.html">
-<link rel="import" href="components/manage-buyer.html">
+<link rel="import" href="components/manage-port.html">
 <dom-module id="page-port">
   <style is="custom-style" include="iron-flex iron-flex-factors iron-flex-alignment gl-color gl-size gl-table">
     * {
@@ -39,11 +39,15 @@
     }
     
     .table-head>tr>th:nth-child(3) {
-      width: 25%;
+      width: 15%;
     }
     
     .table-head>tr>th:nth-child(4) {
-      width: 25%;
+      width: 15%;
+    }
+    
+    .table-head>tr>th:nth-child(5) {
+      width: 15%;
     }
     
     .elevation {
@@ -61,21 +65,20 @@
   <template>
 
     <paper-material elevation="1" class="elevation">
-
       <paper-button class="gl-btn-primary" style="margin:10px" raised on-tap="_back">
         <iron-icon icon="icons:chevron-left"></iron-icon>back</paper-button>
 
-      <div class="text-head">ระบบจัดการผู้ซื้อ</div>
+      <div class="text-head">ระบบจัดการท่าเรือ</div>
 
       <div class="horizontal justified layout">
         <div class="horizontal layout" style="margin-top:25px;">
-          <!--<div class="labelSearch">ชื่อผู้ซื้อ</div>{{_searchInArray(searchInput)}}
+          <div class="labelSearch">เลขประจำตัวท่าเรือ</div>{{_searchInArray(searchInput)}}
           <paper-input label=" " no-label-float value="{{searchInput}}"></paper-input>
-          <iron-icon icon="search" style="margin-top:10px;"></iron-icon>-->
+          <iron-icon icon="search" style="margin-top:10px;"></iron-icon>
         </div>
         <div>
-          <paper-button class="gl-btn-primary button-top" title="เพิ่มผู้ซื้อ" raised on-tap="_toggleDrawer">
-            <iron-icon icon="add"></iron-icon>เพิ่มข้อมูลผู้ซื้อ</paper-button>
+          <paper-button class="gl-btn-primary button-top" title="เพิ่มท่าเรือ" raised on-tap="_toggleDrawer">
+            <iron-icon icon="add"></iron-icon>เพิ่มท่าเรือ</paper-button>
         </div>
       </div>
 
@@ -87,42 +90,47 @@
                 <p>(ลำดับ)</div>
             </th>
             <th>
-              <div class="text-center">Country Name
-                <p>(ชื่อประเทศ)</div>
+              <div class="text-center">Country
+                <p>(ประเทศ)</div>
             </th>
             <th>
-              <div class="text-center">Buyer Name
-                <p>(ชื่อผู้ซื้อ)</div>
+              <div class="text-center">Port ID
+                <p>(เลขประจำตัวท่าเรือ)</div>
             </th>
             <th>
-              <div class="text-center">Buyer Masks
-                <p>(นามแฝง)</div>
+              <div class="text-center">Port Code
+                <p>(รหัสท่าเรือ)</div>
+            </th>
+            <th>
+              <div class="text-center">Port Name
+                <p>(ชื่อท่าเรือ)</div>
             </th>
             <th>
               <div class="text-center">Date Update
                 <p>(วันที่อัพเดทล่าสุด)</div>
             </th>
-            <th style="text-align:right;">
-              <!-- <paper-button class="gl-btn-primary button-top" title="เพิ่มพิกัดข้าว" raised on-tap="_toggleDrawer"><iron-icon icon="add"></iron-icon>เพิ่มพิกัดข้าว</paper-button> -->
-            </th>
+            <th style="text-align:right;"></th>
           </tr>
         </thead>
 
-        <!-- <template is="dom-repeat" items="{{dataBuyer}}"> -->
-        <template is="dom-repeat" items="[[data]]">
+        <!-- <template is="dom-repeat" items="{{dataPort}}"> -->
+        <template is="dom-repeat" items="[[newData]]">
           <tbody>
             <tr>
               <td>
-                <div class="text-center">{{_count(index)}}</div>
+                <div class="text-center">{{item.no}}</div>
               </td>
               <td>
                 <div class="text-center">{{item.country_name_en}}</div>
               </td>
               <td>
-                <div class="text-center">{{item.buyer_name}}</div>
+                <div class="text-center">{{item.port_id}}</div>
               </td>
               <td>
-                <div class="text-center">{{item.buyer_masks}}</div>
+                <div class="text-center">{{item.port_code}}</div>
+              </td>
+              <td>
+                <div class="text-center">{{item.port_name}}</div>
               </td>
               <td>
                 <div class="text-center">{{item.date_updated}}</div>
@@ -140,7 +148,7 @@
     </paper-material>
 
     <nylon-panel-right title="{{title}}">
-      <manage-buyer></manage-buyer>
+      <manage-port></manage-port>
     </nylon-panel-right>
   </template>
   <script>

@@ -1,0 +1,105 @@
+<link rel="import" href="./../../../../bower_components/gl-form/gl-form-input.html">
+<link rel="import" href="./../../../../bower_components/gl-grid/gl-grid-row.html">
+<link rel="import" href="./../../../../bower_components/gl-grid/gl-grid-col.html">
+<link rel="import" href="./../../../../bower_components/gl-form/gl-combo-box.html">
+
+<dom-module id="manage-notifyparty">
+    <style include="iron-flex iron-flex-alignment gl-color gl-size">
+       *{
+      font-family: 'CSChatThaiUI', sans-serif;
+      -webkit-font-smoothing: antialiased;
+      font-size: var(--font-size-h5);
+    }
+    .text-center {
+      text-align: center;
+      font-size: var(--font-size-h3);
+      background-color: var(--paper-grey-100);
+      margin-top: 20px;
+    }
+    .margin-top{
+      margin-top: 15px;
+    }
+    .button{
+      margin-top: 20px;
+      margin-bottom: 20px;
+    }
+    </style>
+    <template>
+        <div class="text-center">เพิ่มข้อมูลที่อยู่ผู้รับสินค้า</div>
+
+    <gl-grid-row width="{{getWidth}}">
+      <gl-grid-col width="[[getWidth]]" grid="[[300,12],[500,2]]"></gl-grid-col>
+      <gl-grid-col width="[[getWidth]]" grid="[[300,12],[500,4]]">
+        <gl-combo-box class="checkData" items="{{ports}}" item-label-path="port_name" label="Port Name (ชื่อท่าเรือ)" item-value-path="port_id"
+        value="{{data.port_id}}" error-message="กรุณาเลือกท่าเรือ" required></gl-combo-box>
+      </gl-grid-col>
+      <gl-grid-col width="[[getWidth]]" grid="[[300,12],[500,4]]">
+        <gl-combo-box class="checkData" items="{{buyers}}" item-label-path="buyer_name" label="Buyer Name (ชื่อผู้ซื้อ)" item-value-path="buyer_id"
+        value="{{data.buyer_id}}" error-message="กรุณาเลือกผู้ซื้อ" required></gl-combo-box>
+      </gl-grid-col>
+    </gl-grid-row>
+
+    <gl-grid-row>
+      <gl-grid-col width="[[getWidth]]" grid="[[300,12],[500,2]]"></gl-grid-col>
+      <gl-grid-col width="[[getWidth]]" grid="[[300,12],[500,8]]">
+        <gl-form-input class="margin-top checkData" label="Notify Name (ชื่อที่อยู่ผู้รับสินค้า) :" placeholder="กรอกชื่อที่อยู่ผู้รับสินค้า" value="{{data.notify_name}}" error-message="กรุณากรอกชื่อที่อยู่ผู้รับสินค้า" required></gl-form-input>
+      </gl-grid-col>
+    </gl-grid-row>
+
+    <gl-grid-row>
+      <gl-grid-col width="[[getWidth]]" grid="[[300,12],[500,2]]"></gl-grid-col>
+      <gl-grid-col width="[[getWidth]]" grid="[[300,12],[500,4]]">
+        <gl-form-textarea class="margin-top checkData" label="Tel. (เบอร์โทร) :" placeholder="กรอกเบอร์โทร" value="{{data.notify_tel}}" error-message="กรุณากรอกเบอร์โทร" required></gl-form-textarea>
+      </gl-grid-col>
+      <gl-grid-col width="[[getWidth]]" grid="[[300,12],[500,4]]">
+        <gl-form-textarea class="margin-top checkData" label="Fax. (เบอร์แฟกซ์) :" placeholder="กรอกเบอร์แฟกซ์" value="{{data.notify_fax}}" error-message="กรุณากรอกเบอร์แฟกซ์" required></gl-form-textarea>
+      </gl-grid-col>
+    </gl-grid-row>
+
+    <gl-grid-row>
+      <gl-grid-col width="[[getWidth]]" grid="[[300,12],[500,2]]"></gl-grid-col>
+      <gl-grid-col width="[[getWidth]]" grid="[[300,12],[500,8]]">
+        <gl-form-textarea class="margin-top checkData" label="Nortfy Address (ที่อยู่) :" rows="2" placeholder="กรอกที่อยู่" value="{{data.notify_address}}" error-message="กรุณากรอกที่อยู่" required></gl-form-textarea>
+      </gl-grid-col>
+    </gl-grid-row>
+
+    <div class="horizontal end-justified layout">
+      <div class="button">
+        <paper-button class="gl-btn-danger" raised on-tap="_cancel">ยกเลิก</paper-button>
+        <paper-button class="gl-btn-success" raised on-tap="_save">บันทึก</paper-button>
+      </div>
+    </div>
+    </template>
+    <script>
+        Polymer({
+            is: "manage-notifyparty",
+            properties: {
+                data: {
+                    statePath: 'buyer.data'
+                }
+            },
+            behaviors: [nylonBehavior, ReduxBehavior],
+            _save: function () {
+                if (this.data.creater == 'admin') {
+                    this.dispatchAction('BUYER_EDIT', this.data);
+                }
+                else {
+                    this.dispatchAction('BUYER_INSERT', this.data);
+                }
+            },
+            _cancel: function () {
+                if (this.data.creater == 'admin') {
+                    this.dispatchAction('BUYER_GET_ID', this.data.id);
+                }
+                else {
+                    this.dispatchAction('CLEAR_DATA');
+                }
+            },
+            _checkStatus: function (val) {
+                if (typeof val != 'undefined' && val != undefined) {
+                    return true
+                }
+            }
+        });
+    </script>
+</dom-module>

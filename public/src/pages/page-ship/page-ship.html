@@ -3,7 +3,7 @@
 <link rel="import" href="./../../../bower_components/gl-styles/gl-table.html">
 <link rel="import" href="./../../../bower_components/paper-input/paper-input.html">
 <link rel="import" href="../../nylon-behavior.html">
-<link rel="import" href="components/manage-buyer.html">
+<link rel="import" href="components/manage-ship.html">
 <dom-module id="page-ship">
   <style is="custom-style" include="iron-flex iron-flex-factors iron-flex-alignment gl-color gl-size gl-table">
     * {
@@ -35,14 +35,10 @@
     }
     
     .table-head>tr>th:nth-child(2) {
-      width: 15%;
-    }
-    
-    .table-head>tr>th:nth-child(3) {
       width: 25%;
     }
     
-    .table-head>tr>th:nth-child(4) {
+    .table-head>tr>th:nth-child(3) {
       width: 25%;
     }
     
@@ -62,41 +58,38 @@
 
     <paper-material elevation="1" class="elevation">
 
-      <paper-button class="gl-btn-primary" style="margin:10px" raised on-tap="_back">
+      <paper-button style="margin:10px" raised on-tap="_back">
         <iron-icon icon="icons:chevron-left"></iron-icon>back</paper-button>
 
-      <div class="text-head">ระบบจัดการผู้ซื้อ</div>
+      <div class="text-head">ระบบจัดการเรือ</div>
 
       <div class="horizontal justified layout">
         <div class="horizontal layout" style="margin-top:25px;">
-          <!--<div class="labelSearch">ชื่อผู้ซื้อ</div>{{_searchInArray(searchInput)}}
+          <div class="labelSearch">ชื่อเรือ</div>{{_searchInArray(searchInput)}}
           <paper-input label=" " no-label-float value="{{searchInput}}"></paper-input>
-          <iron-icon icon="search" style="margin-top:10px;"></iron-icon>-->
+          <iron-icon icon="search" style="margin-top:10px;"></iron-icon>
         </div>
         <div>
-          <paper-button class="gl-btn-primary button-top" title="เพิ่มผู้ซื้อ" raised on-tap="_toggleDrawer">
-            <iron-icon icon="add"></iron-icon>เพิ่มข้อมูลผู้ซื้อ</paper-button>
+          <paper-button class="gl-btn-primary button-top" title="เพิ่มเรือ" raised on-tap="_toggleDrawer">
+            <iron-icon icon="add"></iron-icon>เพิ่มเรือ</paper-button>
         </div>
       </div>
 
       <table class="gl-table-default">
         <thead class="table-head">
           <tr>
+            <!-- <th><div class="text-center">รหัสเรือ</div></th> -->
             <th>
               <div class="text-center">No
                 <p>(ลำดับ)</div>
             </th>
             <th>
-              <div class="text-center">Country Name
-                <p>(ชื่อประเทศ)</div>
+              <div class="text-center">Shipline Name
+                <p>(ชื่อสายเรือ)</div>
             </th>
             <th>
-              <div class="text-center">Buyer Name
-                <p>(ชื่อผู้ซื้อ)</div>
-            </th>
-            <th>
-              <div class="text-center">Buyer Masks
-                <p>(นามแฝง)</div>
+              <div class="text-center">Ship Name
+                <p>(ชื่อเรือ)</div>
             </th>
             <th>
               <div class="text-center">Date Update
@@ -108,21 +101,19 @@
           </tr>
         </thead>
 
-        <!-- <template is="dom-repeat" items="{{dataBuyer}}"> -->
-        <template is="dom-repeat" items="[[data]]">
+        <!-- <template is="dom-repeat" items="{{dataShip}}"> -->
+        <template is="dom-repeat" items="[[newData]]">
           <tbody>
             <tr>
+              <!-- <td><div class="text-center">{{item.ship_id}}</div></td> -->
               <td>
-                <div class="text-center">{{_count(index)}}</div>
+                <div class="text-center">{{item.no}}</div>
               </td>
               <td>
-                <div class="text-center">{{item.country_name_en}}</div>
+                <div class="text-center">{{item.shipline_name}}</div>
               </td>
               <td>
-                <div class="text-center">{{item.buyer_name}}</div>
-              </td>
-              <td>
-                <div class="text-center">{{item.buyer_masks}}</div>
+                <div class="text-center">{{item.ship_name}}</div>
               </td>
               <td>
                 <div class="text-center">{{item.date_updated}}</div>
@@ -140,7 +131,7 @@
     </paper-material>
 
     <nylon-panel-right title="{{title}}">
-      <manage-buyer></manage-buyer>
+      <manage-ship></manage-ship>
     </nylon-panel-right>
   </template>
   <script>
