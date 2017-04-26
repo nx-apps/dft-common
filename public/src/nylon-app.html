@@ -43,7 +43,7 @@
                 '_routePageChanged(routeData.page)'
             ],
             _routePageChanged: function(page) {
-                this.page = page;
+                this.page = page || 'main';
             },
             _pageChanged: function(page, oldPage) {
                 if (page != null && page != "") {
