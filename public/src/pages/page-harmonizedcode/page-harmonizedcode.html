@@ -1,0 +1,194 @@
+<link rel="import" href="./../../../bower_components/nylon-panel/nylon-panel-right.html">
+<link rel="import" href="./../../../bower_components/gl-form/gl-form-panel.html">
+<link rel="import" href="./../../../bower_components/gl-styles/gl-table.html">
+<link rel="import" href="./../../../bower_components/paper-input/paper-input.html">
+<link rel="import" href="../../nylon-behavior.html">
+<!--<link rel="import" href="components/manage-buyer.html">-->
+<dom-module id="page-harmonizedcode">
+  <style is="custom-style" include="iron-flex iron-flex-factors iron-flex-alignment gl-color gl-size gl-table">
+    * {
+      font-family: 'CSChatThaiUI', sans-serif;
+      -webkit-font-smoothing: antialiased;
+      font-size: var(--font-size-h5);
+    }
+    
+    .button-top {
+      margin: 20px;
+    }
+    
+    .text-center {
+      text-align: center;
+    }
+    
+    .text-head {
+      text-align: center;
+      padding: 10px 0px 10px 10px;
+      background-color: var(--paper-grey-100);
+      color: var(--paper-grey-600);
+      font-size: var(--font-size-h3);
+      /*font-family: 'rsuregular', sans-serif;
+        -webkit-font-smoothing: antialiased;*/
+    }
+    
+    .table-head>tr>th:nth-child(1) {
+      width: 5%;
+    }
+    
+    .table-head>tr>th:nth-child(2) {
+      width: 15%;
+    }
+    
+    .table-head>tr>th:nth-child(3) {
+      width: 25%;
+    }
+    
+    .table-head>tr>th:nth-child(4) {
+      width: 25%;
+    }
+    
+    .elevation {
+      border-radius: 5px;
+      margin: 10px;
+      padding: 5px;
+      background-color: white;
+    }
+    
+    .labelSearch {
+      font-size: var(--font-size-h5);
+      margin: 10px 10px 10px 10px;
+    }
+  </style>
+  <template>
+
+    <paper-material elevation="1" class="elevation">
+
+      <paper-button class="gl-btn-primary" style="margin:10px" raised on-tap="_back">
+        <iron-icon icon="icons:chevron-left"></iron-icon>back</paper-button>
+
+      <div class="text-head">ระบบจัดการผู้ซื้อ</div>
+
+      <div class="horizontal justified layout">
+        <div class="horizontal layout" style="margin-top:25px;">
+          <!--<div class="labelSearch">ชื่อผู้ซื้อ</div>{{_searchInArray(searchInput)}}
+          <paper-input label=" " no-label-float value="{{searchInput}}"></paper-input>
+          <iron-icon icon="search" style="margin-top:10px;"></iron-icon>-->
+        </div>
+        <div>
+          <paper-button class="gl-btn-primary button-top" title="เพิ่มผู้ซื้อ" raised on-tap="_toggleDrawer">
+            <iron-icon icon="add"></iron-icon>เพิ่มข้อมูลผู้ซื้อ</paper-button>
+        </div>
+      </div>
+
+      <table class="gl-table-default">
+        <thead class="table-head">
+          <tr>
+            <th>
+              <div class="text-center">No
+                <p>(ลำดับ)</div>
+            </th>
+            <th>
+              <div class="text-center">Country Name
+                <p>(ชื่อประเทศ)</div>
+            </th>
+            <th>
+              <div class="text-center">Buyer Name
+                <p>(ชื่อผู้ซื้อ)</div>
+            </th>
+            <th>
+              <div class="text-center">Buyer Masks
+                <p>(นามแฝง)</div>
+            </th>
+            <th>
+              <div class="text-center">Date Update
+                <p>(วันที่อัพเดทล่าสุด)</div>
+            </th>
+            <th style="text-align:right;">
+              <!-- <paper-button class="gl-btn-primary button-top" title="เพิ่มพิกัดข้าว" raised on-tap="_toggleDrawer"><iron-icon icon="add"></iron-icon>เพิ่มพิกัดข้าว</paper-button> -->
+            </th>
+          </tr>
+        </thead>
+
+        <!-- <template is="dom-repeat" items="{{dataBuyer}}"> -->
+        <template is="dom-repeat" items="[[data]]">
+          <tbody>
+            <tr>
+              <td>
+                <div class="text-center">{{_count(index)}}</div>
+              </td>
+              <td>
+                <div class="text-center">{{item.country_name_en}}</div>
+              </td>
+              <td>
+                <div class="text-center">{{item.buyer_name}}</div>
+              </td>
+              <td>
+                <div class="text-center">{{item.buyer_masks}}</div>
+              </td>
+              <td>
+                <div class="text-center">{{item.date_updated}}</div>
+              </td>
+              <td style="text-align:right;">
+                <paper-icon-button data="{{item}}" on-tap="_edit" icon="icons:create"></paper-icon-button>
+                <paper-icon-button data="{{item}}" icon="delete" on-tap="_delete"></paper-icon-button>
+              </td>
+            </tr>
+          </tbody>
+        </template>
+        <!-- </template> -->
+
+      </table>
+    </paper-material>
+
+    <nylon-panel-right title="{{title}}">
+      <manage-buyer></manage-buyer>
+    </nylon-panel-right>
+  </template>
+  <script>
+    Polymer({
+      is: "page-harmonizedcode",
+      behaviors: [nylonBehavior, ReduxBehavior, buyerAction],
+      properties: {
+        data: {
+          statePath: 'buyer.list'
+        }
+      },
+      nylonPageActive: function () {
+        this.dispatchAction('BUYER_GET_DATA');
+      },
+      _toggleDrawer: function (e) {
+        this.$$('nylon-panel-right').open();
+        this.dispatchAction('CLEAR_DATA');
+        this.title = "เพิ่มข้อมูล";
+      },
+      _count: function (val) {
+        return val + 1
+      },
+      _delete: function (e) {
+        this.dispatchAction('BUYER_DELETE', e.target.data.id);
+      },
+      _edit: function (e) {
+        this.$$('nylon-panel-right').open();
+        this.dispatchAction('BUYER_GET_ID', e.target.data.id);
+        this.title = "แก้ไขข้อมูล";
+      },
+      _back: function () {
+        window.history.back();
+      },
+      // _searchInArray:function (searchInput) {
+      //     // console.log(searchInput == '');
+      //     if (searchInput != '') {
+      //       let arr=[];
+      //       this.dataBank.map((el)=>{
+      //         if (el.bank_id.search(searchInput) > -1) {
+      //             //  console.log('search==> ',el);
+      //               arr.push(el);
+      //         }
+      //       });
+      //       this.newData=arr;
+      //     }else{
+      //       this.initDatabl(this.dataBank);
+      //     }
+      // }
+    });
+  </script>
+</dom-module>
