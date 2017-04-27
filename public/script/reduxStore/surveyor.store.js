@@ -6,9 +6,9 @@ const initialState = {
 }
 export function surveyorReducer(state = initialState, action) {
     switch (action.type) {
-        case 'BUYER_GET_DATA':
+        case 'SURVEYOR_GET_DATA':
             return Object.assign({}, state, { list: action.payload });
-        case 'BUYER_GET_ID':
+        case 'SURVEYOR_GET_ID':
             return Object.assign({}, state, { data: action.payload });
         case 'CLEAR_DATA':
             return Object.assign({}, state, { data: {} });
@@ -19,27 +19,27 @@ export function surveyorReducer(state = initialState, action) {
 export function surveyorAction(store) {
     return [commonAction(),
     {
-        BUYER_GET_DATA: function () {
+        SURVEYOR_GET_DATA: function () {
             axios.get('./surveyor')
                 .then(function (response) {
-                    store.dispatch({ type: 'BUYER_GET_DATA', payload: response.data })
+                    store.dispatch({ type: 'SURVEYOR_GET_DATA', payload: response.data })
                 })
                 .catch(function (error) {
                     console.log('error');
                     console.log(error);
                 });
         },
-        BUYER_GET_ID: function (id) {
+        SURVEYOR_GET_ID: function (id) {
             axios.get('./surveyor/id/'+id)
                 .then(function (response) {
-                    store.dispatch({ type: 'BUYER_GET_ID', payload: response.data })
+                    store.dispatch({ type: 'SURVEYOR_GET_ID', payload: response.data })
                 })
                 .catch(function (error) {
                     console.log('error');
                     console.log(error);
                 });
         },
-        BUYER_INSERT: function (data) {
+        SURVEYOR_INSERT: function (data) {
             this.fire('toast', {
                 status: 'openDialog',
                 text: 'ต้องการเพิ่มข้อมูลใช่หรือไม่ ?',
@@ -47,8 +47,7 @@ export function surveyorAction(store) {
                     if (result == true) {
                         var newData = {
                             id: data.surveyor_id,
-                            surveyor_name_th: data.surveyor_name_th,
-                            surveyor_name_en: data.surveyor_name_en
+                            surveyor_name: data.surveyor_name
                         }
                         this.fire('toast', { status: 'load', text: 'กำลังบันทึกข้อมูล...' })
                         axios.post('./surveyor/insert', newData)
@@ -58,14 +57,14 @@ export function surveyorAction(store) {
                                 if (response.data.result == true) {
                                     this.fire('toast', {
                                         status: 'success', text: 'บันทึกสำเร็จ', callback: () => {
-                                            this.BUYER_GET_DATA();
+                                            this.SURVEYOR_GET_DATA();
                                             this.CLEAR_DATA();
                                         }
                                     });
                                 }
                                 else {
                                     this.fire('toast', {
-                                        status: 'connectError', text: 'ธนาคารนี้มีอยู่แล้ว',
+                                        status: 'connectError', text: 'หน่วยงานตรวจสอบสินค้านี้มีอยู่แล้ว',
                                         callback: function () {
                                         }
                                     })
@@ -75,7 +74,7 @@ export function surveyorAction(store) {
                 }
             })
         },
-        BUYER_EDIT: function (data) {
+        SURVEYOR_EDIT: function (data) {
             this.fire('toast', {
                 status: 'openDialog',
                 text: 'ต้องการแก้ไขข้อมูลใช่หรือไม่ ?',
@@ -83,8 +82,7 @@ export function surveyorAction(store) {
                     if (result == true) {
                         var newData = {
                             id: data.surveyor_id,
-                            surveyor_name_th: data.surveyor_name_th,
-                            surveyor_name_en: data.surveyor_name_en
+                            surveyor_name: data.surveyor_name
                         }
                         this.fire('toast', { status: 'load', text: 'กำลังบันทึกข้อมูล...' })
                         axios.put('./surveyor/update', newData)
@@ -92,14 +90,14 @@ export function surveyorAction(store) {
                                 if (response.data.result == true) {
                                     this.fire('toast', {
                                         status: 'success', text: 'บันทึกสำเร็จ', callback: () => {
-                                            this.BUYER_GET_DATA();
-                                            this.BUYER_GET_ID(newData.id);
+                                            this.SURVEYOR_GET_DATA();
+                                            this.SURVEYOR_GET_ID(newData.id);
                                         }
                                     });
                                 }
                                 else {
                                     this.fire('toast', {
-                                        status: 'connectError', text: 'ธนาคารนี้มีอยู่แล้ว',
+                                        status: 'connectError', text: 'หน่วยงานตรวจสอบสินค้านี้มีอยู่แล้ว',
                                         callback: function () {
                                         }
                                     })
@@ -109,7 +107,7 @@ export function surveyorAction(store) {
                 }
             })
         },
-        BUYER_DELETE: function (data) {
+        SURVEYOR_DELETE: function (data) {
             this.fire('toast', {
                 status: 'openDialog',
                 text: 'ต้องการลบข้อมูลใช่หรือไม่ ?',
@@ -121,7 +119,7 @@ export function surveyorAction(store) {
                                 if (response.data.result == true) {
                                     this.fire('toast', {
                                         status: 'success', text: 'ลบข้อมูลสำเร็จ', callback: () => {
-                                            this.BUYER_GET_DATA();
+                                            this.SURVEYOR_GET_DATA();
                                         }
                                     });
                                 }
