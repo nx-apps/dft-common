@@ -146,7 +146,7 @@
   <script>
     Polymer({
       is: "page-buyer",
-      behaviors: [nylonBehavior, ReduxBehavior, buyerAction],
+      behaviors: [nylonBehavior, ReduxBehavior, buyerAction, countryAction],
       properties: {
         data: {
           statePath: 'buyer.list'
@@ -158,6 +158,7 @@
       _toggleDrawer: function (e) {
         this.$$('nylon-panel-right').open();
         this.dispatchAction('CLEAR_DATA');
+        this.dispatchAction('COUNTRY_GET_DATA');
         this.title = "เพิ่มข้อมูล";
       },
       _count: function (val) {

@@ -79,12 +79,12 @@ exports.insert = function (req, res) {
     var r = req.r;
     var result = { result: false, message: null, id: null };
     if (valid) {
-        r.db("common").table("continent")
         req.body = Object.assign(req.body, { 
             creater : 'admin',
             date_created : new Date().toISOString(),
             date_updated : new Date().toISOString(),
         });
+        r.db("common").table("continent")
             .insert(req.body)
             .run()
             .then(function (response) {
