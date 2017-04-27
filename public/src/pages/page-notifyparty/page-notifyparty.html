@@ -146,14 +146,16 @@
   <script>
     Polymer({
       is: "page-notifyparty",
-      behaviors: [nylonBehavior, ReduxBehavior, notifypartyAction],
+      behaviors: [nylonBehavior, ReduxBehavior, notifypartyAction,buyerAction,portAction],
       properties: {
         data: {
           statePath: 'notifyparty.list'
         }
       },
       nylonPageActive: function () {
-        this.dispatchAction('NOTIFYPARTY_GET_DATA');
+        this.dispatchAction('NOTIFY_PARTY_GET_DATA');
+        this.dispatchAction('BUYER_GET_DATA');
+        this.dispatchAction('PORT_GET_DATA');
       },
       _toggleDrawer: function (e) {
         this.$$('nylon-panel-right').open();
@@ -164,11 +166,11 @@
         return val + 1
       },
       _delete: function (e) {
-        this.dispatchAction('NOTIFYPARTY_DELETE', e.target.data.id);
+        this.dispatchAction('NOTIFY_PARTY_DELETE', e.target.data.notify_id);
       },
       _edit: function (e) {
         this.$$('nylon-panel-right').open();
-        this.dispatchAction('NOTIFYPARTY_GET_ID', e.target.data.id);
+        this.dispatchAction('NOTIFY_PARTY_GET_ID', e.target.data.notify_id);
         this.title = "แก้ไขข้อมูล";
       },
       _back: function () {

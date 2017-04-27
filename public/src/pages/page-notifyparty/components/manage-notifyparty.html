@@ -2,7 +2,7 @@
 <link rel="import" href="./../../../../bower_components/gl-grid/gl-grid-row.html">
 <link rel="import" href="./../../../../bower_components/gl-grid/gl-grid-col.html">
 <link rel="import" href="./../../../../bower_components/gl-form/gl-combo-box.html">
-
+<link rel="import" href="./../../../../bower_components/gl-form/gl-form-textarea.html">
 <dom-module id="manage-notifyparty">
     <style include="iron-flex iron-flex-alignment gl-color gl-size">
        *{
@@ -76,21 +76,27 @@
             is: "manage-notifyparty",
             properties: {
                 data: {
-                    statePath: 'buyer.data'
+                    statePath: 'notifyparty.data'
+                },
+                buyers:{
+                    statePath:'buyer.list'
+                },
+                ports:{
+                    statePath:'port.list'
                 }
             },
             behaviors: [nylonBehavior, ReduxBehavior],
             _save: function () {
                 if (this.data.creater == 'admin') {
-                    this.dispatchAction('BUYER_EDIT', this.data);
+                    this.dispatchAction('NOTIFY_PARTY_EDIT', this.data);
                 }
                 else {
-                    this.dispatchAction('BUYER_INSERT', this.data);
+                    this.dispatchAction('NOTIFY_PARTY_INSERT', this.data);
                 }
             },
             _cancel: function () {
                 if (this.data.creater == 'admin') {
-                    this.dispatchAction('BUYER_GET_ID', this.data.id);
+                    this.dispatchAction('NOTIFY_PARTY_GET_ID', this.data.id);
                 }
                 else {
                     this.dispatchAction('CLEAR_DATA');

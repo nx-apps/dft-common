@@ -5,11 +5,9 @@
 /public/bundle.js
 /public/bundle.js.map
 /public/css/main.css
-/public/script/main.js
 /temp
 /loggers/*
 !/loggers/file.log
 npm-debug*
 .DS_Store
-/src/main.js
 yarn.lock

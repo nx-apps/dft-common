@@ -2,13 +2,14 @@ import axios from '../axios'
 import { commonAction } from '../config'
 const initialState = {
     list: [],
+    seleted: {},
     data: {}
 }
 export function packageReducer(state = initialState, action) {
     switch (action.type) {
-        case 'BUYER_GET_DATA':
+        case 'PACKAGE_GET_DATA':
             return Object.assign({}, state, { list: action.payload });
-        case 'BUYER_GET_ID':
+        case 'PACKAGE_GET_ID':
             return Object.assign({}, state, { data: action.payload });
         case 'CLEAR_DATA':
             return Object.assign({}, state, { data: {} });
@@ -19,27 +20,27 @@ export function packageReducer(state = initialState, action) {
 export function packageAction(store) {
     return [commonAction(),
     {
-        BUYER_GET_DATA: function () {
+        PACKAGE_GET_DATA: function () {
             axios.get('./package')
                 .then(function (response) {
-                    store.dispatch({ type: 'BUYER_GET_DATA', payload: response.data })
+                    store.dispatch({ type: 'PACKAGE_GET_DATA', payload: response.data })
                 })
                 .catch(function (error) {
                     console.log('error');
                     console.log(error);
                 });
         },
-        BUYER_GET_ID: function (id) {
-            axios.get('./package/id/'+id)
+        PACKAGE_GET_ID: function (id) {
+            axios.get('./package/id/' + id)
                 .then(function (response) {
-                    store.dispatch({ type: 'BUYER_GET_ID', payload: response.data })
+                    store.dispatch({ type: 'PACKAGE_GET_ID', payload: response.data })
                 })
                 .catch(function (error) {
                     console.log('error');
                     console.log(error);
                 });
         },
-        BUYER_INSERT: function (data) {
+        PACKAGE_INSERT: function (data) {
             this.fire('toast', {
                 status: 'openDialog',
                 text: 'ต้องการเพิ่มข้อมูลใช่หรือไม่ ?',
@@ -47,8 +48,10 @@ export function packageAction(store) {
                     if (result == true) {
                         var newData = {
                             id: data.package_id,
+                            package_kg_per_bag: Number(data.package_kg_per_bag),
+                            package_name_en: data.package_name_en,
                             package_name_th: data.package_name_th,
-                            package_name_en: data.package_name_en
+                            package_weight_bag: Number(data.package_weight_bag)
                         }
                         this.fire('toast', { status: 'load', text: 'กำลังบันทึกข้อมูล...' })
                         axios.post('./package/insert', newData)
@@ -58,14 +61,14 @@ export function packageAction(store) {
                                 if (response.data.result == true) {
                                     this.fire('toast', {
                                         status: 'success', text: 'บันทึกสำเร็จ', callback: () => {
-                                            this.BUYER_GET_DATA();
+                                            this.PACKAGE_GET_DATA();
                                             this.CLEAR_DATA();
                                         }
                                     });
                                 }
                                 else {
                                     this.fire('toast', {
-                                        status: 'connectError', text: 'ธนาคารนี้มีอยู่แล้ว',
+                                        status: 'connectError', text: 'แพ็คเกจนี้มีอยู่แล้ว',
                                         callback: function () {
                                         }
                                     })
@@ -75,7 +78,7 @@ export function packageAction(store) {
                 }
             })
         },
-        BUYER_EDIT: function (data) {
+        PACKAGE_EDIT: function (data) {
             this.fire('toast', {
                 status: 'openDialog',
                 text: 'ต้องการแก้ไขข้อมูลใช่หรือไม่ ?',
@@ -83,8 +86,10 @@ export function packageAction(store) {
                     if (result == true) {
                         var newData = {
                             id: data.package_id,
+                            package_kg_per_bag: Number(data.package_kg_per_bag),
+                            package_name_en: data.package_name_en,
                             package_name_th: data.package_name_th,
-                            package_name_en: data.package_name_en
+                            package_weight_bag: Number(data.package_weight_bag)
                         }
                         this.fire('toast', { status: 'load', text: 'กำลังบันทึกข้อมูล...' })
                         axios.put('./package/update', newData)
@@ -92,14 +97,14 @@ export function packageAction(store) {
                                 if (response.data.result == true) {
                                     this.fire('toast', {
                                         status: 'success', text: 'บันทึกสำเร็จ', callback: () => {
-                                            this.BUYER_GET_DATA();
-                                            this.BUYER_GET_ID(newData.id);
+                                            this.PACKAGE_GET_DATA();
+                                            this.PACKAGE_GET_ID(newData.id);
                                         }
                                     });
                                 }
                                 else {
                                     this.fire('toast', {
-                                        status: 'connectError', text: 'ธนาคารนี้มีอยู่แล้ว',
+                                        status: 'connectError', text: 'แพ็คเกจนี้มีอยู่แล้ว',
                                         callback: function () {
                                         }
                                     })
@@ -109,7 +114,7 @@ export function packageAction(store) {
                 }
             })
         },
-        BUYER_DELETE: function (data) {
+        PACKAGE_DELETE: function (data) {
             this.fire('toast', {
                 status: 'openDialog',
                 text: 'ต้องการลบข้อมูลใช่หรือไม่ ?',
@@ -121,7 +126,7 @@ export function packageAction(store) {
                                 if (response.data.result == true) {
                                     this.fire('toast', {
                                         status: 'success', text: 'ลบข้อมูลสำเร็จ', callback: () => {
-                                            this.BUYER_GET_DATA();
+                                            this.PACKAGE_GET_DATA();
                                         }
                                     });
                                 }

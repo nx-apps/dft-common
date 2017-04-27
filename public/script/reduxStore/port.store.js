@@ -6,9 +6,9 @@ const initialState = {
 }
 export function portReducer(state = initialState, action) {
     switch (action.type) {
-        case 'BUYER_GET_DATA':
+        case 'PORT_GET_DATA':
             return Object.assign({}, state, { list: action.payload });
-        case 'BUYER_GET_ID':
+        case 'PORT_GET_ID':
             return Object.assign({}, state, { data: action.payload });
         case 'CLEAR_DATA':
             return Object.assign({}, state, { data: {} });
@@ -19,27 +19,27 @@ export function portReducer(state = initialState, action) {
 export function portAction(store) {
     return [commonAction(),
     {
-        BUYER_GET_DATA: function () {
+        PORT_GET_DATA: function () {
             axios.get('./port')
                 .then(function (response) {
-                    store.dispatch({ type: 'BUYER_GET_DATA', payload: response.data })
+                    store.dispatch({ type: 'PORT_GET_DATA', payload: response.data })
                 })
                 .catch(function (error) {
                     console.log('error');
                     console.log(error);
                 });
         },
-        BUYER_GET_ID: function (id) {
+        PORT_GET_ID: function (id) {
             axios.get('./port/id/'+id)
                 .then(function (response) {
-                    store.dispatch({ type: 'BUYER_GET_ID', payload: response.data })
+                    store.dispatch({ type: 'PORT_GET_ID', payload: response.data })
                 })
                 .catch(function (error) {
                     console.log('error');
                     console.log(error);
                 });
         },
-        BUYER_INSERT: function (data) {
+        PORT_INSERT: function (data) {
             this.fire('toast', {
                 status: 'openDialog',
                 text: 'ต้องการเพิ่มข้อมูลใช่หรือไม่ ?',
@@ -58,7 +58,7 @@ export function portAction(store) {
                                 if (response.data.result == true) {
                                     this.fire('toast', {
                                         status: 'success', text: 'บันทึกสำเร็จ', callback: () => {
-                                            this.BUYER_GET_DATA();
+                                            this.PORT_GET_DATA();
                                             this.CLEAR_DATA();
                                         }
                                     });
@@ -75,7 +75,7 @@ export function portAction(store) {
                 }
             })
         },
-        BUYER_EDIT: function (data) {
+        PORT_EDIT: function (data) {
             this.fire('toast', {
                 status: 'openDialog',
                 text: 'ต้องการแก้ไขข้อมูลใช่หรือไม่ ?',
@@ -92,8 +92,8 @@ export function portAction(store) {
                                 if (response.data.result == true) {
                                     this.fire('toast', {
                                         status: 'success', text: 'บันทึกสำเร็จ', callback: () => {
-                                            this.BUYER_GET_DATA();
-                                            this.BUYER_GET_ID(newData.id);
+                                            this.PORT_GET_DATA();
+                                            this.PORT_GET_ID(newData.id);
                                         }
                                     });
                                 }
@@ -109,7 +109,7 @@ export function portAction(store) {
                 }
             })
         },
-        BUYER_DELETE: function (data) {
+        PORT_DELETE: function (data) {
             this.fire('toast', {
                 status: 'openDialog',
                 text: 'ต้องการลบข้อมูลใช่หรือไม่ ?',
@@ -121,7 +121,7 @@ export function portAction(store) {
                                 if (response.data.result == true) {
                                     this.fire('toast', {
                                         status: 'success', text: 'ลบข้อมูลสำเร็จ', callback: () => {
-                                            this.BUYER_GET_DATA();
+                                            this.PORT_GET_DATA();
                                         }
                                     });
                                 }
