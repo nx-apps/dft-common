@@ -123,11 +123,11 @@
         return val + 1
       },
       _delete: function (e) {
-        this.dispatchAction('HARMONIZE_DELETE', e.target.data.id);
+        this.dispatchAction('HARMONIZE_DELETE', e.target.data.type_rice_id);
       },
       _edit: function (e) {
         this.$$('nylon-panel-right').open();
-        this.dispatchAction('HARMONIZE_GET_ID', e.target.data.id);
+        this.dispatchAction('HARMONIZE_GET_ID', e.target.data.type_rice_id);
         this.title = "แก้ไขข้อมูล";
       },
       _back: function () {
