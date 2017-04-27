@@ -60,21 +60,24 @@
             is: "manage-port",
             properties: {
                 data: {
-                    statePath: 'buyer.data'
+                    statePath: 'port.data'
+                },
+                countrys:{
+                    statePath: 'country.list'
                 }
             },
             behaviors: [nylonBehavior, ReduxBehavior],
             _save: function () {
                 if (this.data.creater == 'admin') {
-                    this.dispatchAction('BUYER_EDIT', this.data);
+                    this.dispatchAction('PORT_EDIT', this.data);
                 }
                 else {
-                    this.dispatchAction('BUYER_INSERT', this.data);
+                    this.dispatchAction('PORT_INSERT', this.data);
                 }
             },
             _cancel: function () {
                 if (this.data.creater == 'admin') {
-                    this.dispatchAction('BUYER_GET_ID', this.data.id);
+                    this.dispatchAction('PORT_GET_ID', this.data.id);
                 }
                 else {
                     this.dispatchAction('CLEAR_DATA');

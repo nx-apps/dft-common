@@ -30,7 +30,7 @@ export function portAction(store) {
                 });
         },
         PORT_GET_ID: function (id) {
-            axios.get('./port/id/'+id)
+            axios.get('./port/id/' + id)
                 .then(function (response) {
                     store.dispatch({ type: 'PORT_GET_ID', payload: response.data })
                 })
@@ -47,8 +47,9 @@ export function portAction(store) {
                     if (result == true) {
                         var newData = {
                             id: data.port_id,
-                            port_name_th: data.port_name_th,
-                            port_name_en: data.port_name_en
+                            port_code: data.port_code,
+                            port_name: data.port_name,
+                            country_id: data.country_id
                         }
                         this.fire('toast', { status: 'load', text: 'กำลังบันทึกข้อมูล...' })
                         axios.post('./port/insert', newData)
@@ -65,7 +66,7 @@ export function portAction(store) {
                                 }
                                 else {
                                     this.fire('toast', {
-                                        status: 'connectError', text: 'ธนาคารนี้มีอยู่แล้ว',
+                                        status: 'connectError', text: 'ท่าเรือนี้มีอยู่แล้ว',
                                         callback: function () {
                                         }
                                     })
@@ -83,8 +84,9 @@ export function portAction(store) {
                     if (result == true) {
                         var newData = {
                             id: data.port_id,
-                            port_name_th: data.port_name_th,
-                            port_name_en: data.port_name_en
+                            port_code: data.port_code,
+                            port_name: data.port_name,
+                            country_id: data.country_id
                         }
                         this.fire('toast', { status: 'load', text: 'กำลังบันทึกข้อมูล...' })
                         axios.put('./port/update', newData)
@@ -99,7 +101,7 @@ export function portAction(store) {
                                 }
                                 else {
                                     this.fire('toast', {
-                                        status: 'connectError', text: 'ธนาคารนี้มีอยู่แล้ว',
+                                        status: 'connectError', text: 'ท่าเรือนี้มีอยู่แล้ว',
                                         callback: function () {
                                         }
                                     })

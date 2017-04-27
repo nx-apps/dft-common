@@ -22,6 +22,7 @@ export function countryAction(store) {
         COUNTRY_GET_DATA: function () {
             axios.get('./country')
                 .then(function (response) {
+                    console.log(response.data);
                     store.dispatch({ type: 'COUNTRY_GET_DATA', payload: response.data })
                 })
                 .catch(function (error) {
