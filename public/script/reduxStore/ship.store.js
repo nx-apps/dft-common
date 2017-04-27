@@ -6,9 +6,9 @@ const initialState = {
 }
 export function shipReducer(state = initialState, action) {
     switch (action.type) {
-        case 'BUYER_GET_DATA':
+        case 'SHIP_GET_DATA':
             return Object.assign({}, state, { list: action.payload });
-        case 'BUYER_GET_ID':
+        case 'SHIP_GET_ID':
             return Object.assign({}, state, { data: action.payload });
         case 'CLEAR_DATA':
             return Object.assign({}, state, { data: {} });
@@ -19,27 +19,27 @@ export function shipReducer(state = initialState, action) {
 export function shipAction(store) {
     return [commonAction(),
     {
-        BUYER_GET_DATA: function () {
+        SHIP_GET_DATA: function () {
             axios.get('./ship')
                 .then(function (response) {
-                    store.dispatch({ type: 'BUYER_GET_DATA', payload: response.data })
+                    store.dispatch({ type: 'SHIP_GET_DATA', payload: response.data })
                 })
                 .catch(function (error) {
                     console.log('error');
                     console.log(error);
                 });
         },
-        BUYER_GET_ID: function (id) {
+        SHIP_GET_ID: function (id) {
             axios.get('./ship/id/'+id)
                 .then(function (response) {
-                    store.dispatch({ type: 'BUYER_GET_ID', payload: response.data })
+                    store.dispatch({ type: 'SHIP_GET_ID', payload: response.data })
                 })
                 .catch(function (error) {
                     console.log('error');
                     console.log(error);
                 });
         },
-        BUYER_INSERT: function (data) {
+        SHIP_INSERT: function (data) {
             this.fire('toast', {
                 status: 'openDialog',
                 text: 'ต้องการเพิ่มข้อมูลใช่หรือไม่ ?',
@@ -47,8 +47,8 @@ export function shipAction(store) {
                     if (result == true) {
                         var newData = {
                             id: data.ship_id,
-                            ship_name_th: data.ship_name_th,
-                            ship_name_en: data.ship_name_en
+                            shipline_id: data.shipline_id,
+                            ship_name: data.ship_name
                         }
                         this.fire('toast', { status: 'load', text: 'กำลังบันทึกข้อมูล...' })
                         axios.post('./ship/insert', newData)
@@ -58,14 +58,14 @@ export function shipAction(store) {
                                 if (response.data.result == true) {
                                     this.fire('toast', {
                                         status: 'success', text: 'บันทึกสำเร็จ', callback: () => {
-                                            this.BUYER_GET_DATA();
+                                            this.SHIP_GET_DATA();
                                             this.CLEAR_DATA();
                                         }
                                     });
                                 }
                                 else {
                                     this.fire('toast', {
-                                        status: 'connectError', text: 'ธนาคารนี้มีอยู่แล้ว',
+                                        status: 'connectError', text: 'เรือนี้มีอยู่แล้ว',
                                         callback: function () {
                                         }
                                     })
@@ -75,7 +75,7 @@ export function shipAction(store) {
                 }
             })
         },
-        BUYER_EDIT: function (data) {
+        SHIP_EDIT: function (data) {
             this.fire('toast', {
                 status: 'openDialog',
                 text: 'ต้องการแก้ไขข้อมูลใช่หรือไม่ ?',
@@ -83,8 +83,8 @@ export function shipAction(store) {
                     if (result == true) {
                         var newData = {
                             id: data.ship_id,
-                            ship_name_th: data.ship_name_th,
-                            ship_name_en: data.ship_name_en
+                            shipline_id: data.shipline_id,
+                            ship_name: data.ship_name
                         }
                         this.fire('toast', { status: 'load', text: 'กำลังบันทึกข้อมูล...' })
                         axios.put('./ship/update', newData)
@@ -92,14 +92,14 @@ export function shipAction(store) {
                                 if (response.data.result == true) {
                                     this.fire('toast', {
                                         status: 'success', text: 'บันทึกสำเร็จ', callback: () => {
-                                            this.BUYER_GET_DATA();
-                                            this.BUYER_GET_ID(newData.id);
+                                            this.SHIP_GET_DATA();
+                                            this.SHIP_GET_ID(newData.id);
                                         }
                                     });
                                 }
                                 else {
                                     this.fire('toast', {
-                                        status: 'connectError', text: 'ธนาคารนี้มีอยู่แล้ว',
+                                        status: 'connectError', text: 'เรือนี้มีอยู่แล้ว',
                                         callback: function () {
                                         }
                                     })
@@ -109,7 +109,7 @@ export function shipAction(store) {
                 }
             })
         },
-        BUYER_DELETE: function (data) {
+        SHIP_DELETE: function (data) {
             this.fire('toast', {
                 status: 'openDialog',
                 text: 'ต้องการลบข้อมูลใช่หรือไม่ ?',
@@ -121,7 +121,7 @@ export function shipAction(store) {
                                 if (response.data.result == true) {
                                     this.fire('toast', {
                                         status: 'success', text: 'ลบข้อมูลสำเร็จ', callback: () => {
-                                            this.BUYER_GET_DATA();
+                                            this.SHIP_GET_DATA();
                                         }
                                     });
                                 }

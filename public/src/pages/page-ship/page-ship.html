@@ -137,7 +137,7 @@
   <script>
     Polymer({
       is: "page-ship",
-      behaviors: [nylonBehavior, ReduxBehavior, shipAction],
+      behaviors: [nylonBehavior, ReduxBehavior, [shipAction,shiplineAction]],
       properties: {
         data: {
           statePath: 'ship.list'
@@ -145,6 +145,7 @@
       },
       nylonPageActive: function () {
         this.dispatchAction('SHIP_GET_DATA');
+        this.dispatchAction('SHIPLINE_GET_DATA');
       },
       _toggleDrawer: function (e) {
         this.$$('nylon-panel-right').open();
@@ -155,11 +156,13 @@
         return val + 1
       },
       _delete: function (e) {
-        this.dispatchAction('SHIP_DELETE', e.target.data.id);
+        // console.log(e.target.data);
+        this.dispatchAction('SHIP_DELETE', e.target.data.ship_id);
       },
       _edit: function (e) {
         this.$$('nylon-panel-right').open();
-        this.dispatchAction('SHIP_GET_ID', e.target.data.id);
+        // console.log(e.target.data);
+        this.dispatchAction('SHIP_GET_ID', e.target.data.ship_id);
         this.title = "แก้ไขข้อมูล";
       },
       _back: function () {
