@@ -30,7 +30,7 @@ export function shipAction(store) {
                 });
         },
         SHIP_GET_ID: function (id) {
-            axios.get('./ship/id/'+id)
+            axios.get('./ship/id/' + id)
                 .then(function (response) {
                     store.dispatch({ type: 'SHIP_GET_ID', payload: response.data })
                 })
@@ -45,27 +45,23 @@ export function shipAction(store) {
                 text: 'ต้องการเพิ่มข้อมูลใช่หรือไม่ ?',
                 confirmed: (result) => {
                     if (result == true) {
-                        var newData = {
-                            id: data.ship_id,
-                            shipline_id: data.shipline_id,
-                            ship_name: data.ship_name
-                        }
-                        this.fire('toast', { status: 'load', text: 'กำลังบันทึกข้อมูล...' })
-                        axios.post('./ship/insert', newData)
+                        axios.get('./check/duplicate?table=ship&field=ship_name&value=' + data.ship_name)
                             .then((response) => {
-                                // console.log("success");
-                                // console.log(response);
-                                if (response.data.result == true) {
-                                    this.fire('toast', {
-                                        status: 'success', text: 'บันทึกสำเร็จ', callback: () => {
-                                            this.SHIP_GET_DATA();
-                                            this.CLEAR_DATA();
-                                        }
-                                    });
+                                if (response.data == 0) {
+                                    this.fire('toast', { status: 'load', text: 'กำลังบันทึกข้อมูล...' })
+                                    axios.post('./ship/insert', data)
+                                        .then((response) => {
+                                            this.fire('toast', {
+                                                status: 'success', text: 'บันทึกสำเร็จ', callback: () => {
+                                                    this.SHIP_GET_DATA();
+                                                    this.CLEAR_DATA();
+                                                }
+                                            });
+                                        })
                                 }
                                 else {
                                     this.fire('toast', {
-                                        status: 'connectError', text: 'เรือนี้มีอยู่แล้ว',
+                                        status: 'connectError', text: 'ชื่อเรือนี้มีอยู่แล้ว',
                                         callback: function () {
                                         }
                                     })
@@ -81,32 +77,78 @@ export function shipAction(store) {
                 text: 'ต้องการแก้ไขข้อมูลใช่หรือไม่ ?',
                 confirmed: (result) => {
                     if (result == true) {
-                        var newData = {
-                            id: data.ship_id,
-                            shipline_id: data.shipline_id,
-                            ship_name: data.ship_name
-                        }
-                        this.fire('toast', { status: 'load', text: 'กำลังบันทึกข้อมูล...' })
-                        axios.put('./ship/update', newData)
+                        let { ship_id, ship_name, shipline_id } = data;
+                        let newData = { ship_name, shipline_id };
+                        newData.id = data.ship_id;
+                        axios.get('./check/duplicate?table=ship&field=ship_name&value=' + newData.ship_name)
                             .then((response) => {
-                                if (response.data.result == true) {
-                                    this.fire('toast', {
-                                        status: 'success', text: 'บันทึกสำเร็จ', callback: () => {
-                                            this.SHIP_GET_DATA();
-                                            this.SHIP_GET_ID(newData.id);
-                                        }
-                                    });
+                                if (response.data == 0) {
+                                    this.fire('toast', { status: 'load', text: 'กำลังบันทึกข้อมูล...' })
+                                    axios.put('./ship/update', newData)
+                                        .then((response) => {
+                                            this.fire('toast', {
+                                                status: 'success', text: 'บันทึกสำเร็จ', callback: () => {
+                                                    this.SHIP_GET_DATA();
+                                                    this.SHIP_GET_ID(newData.id);
+                                                }
+                                            });
+                                        })
                                 }
                                 else {
-                                    this.fire('toast', {
-                                        status: 'connectError', text: 'เรือนี้มีอยู่แล้ว',
-                                        callback: function () {
-                                        }
-                                    })
+                                    axios.get('./check/myowner?table=ship&id=' + newData.id + '&field=ship_name&value=' + newData.ship_name)
+                                        .then((response) => {
+                                            if (response.data == 1) {
+                                                this.fire('toast', { status: 'load', text: 'กำลังบันทึกข้อมูล...' })
+                                                axios.put('./ship/update', newData)
+                                                    .then((response) => {
+                                                        this.fire('toast', {
+                                                            status: 'success', text: 'บันทึกสำเร็จ', callback: () => {
+                                                                this.SHIP_GET_DATA();
+                                                                this.SHIP_GET_ID(newData.id);
+                                                            }
+                                                        });
+                                                    })
+                                            }
+                                            else {
+                                                this.fire('toast', {
+                                                    status: 'connectError', text: 'ชื่อเรือนี้มีอยู่แล้ว',
+                                                    callback: function () {
+                                                    }
+                                                })
+                                            }
+                                        })
                                 }
                             })
                     }
                 }
+                // confirmed: (result) => {
+                //     if (result == true) {
+                //         var newData = {
+                //             id: data.ship_id,
+                //             shipline_id: data.shipline_id,
+                //             ship_name: data.ship_name
+                //         }
+                //         this.fire('toast', { status: 'load', text: 'กำลังบันทึกข้อมูล...' })
+                //         axios.put('./ship/update', newData)
+                //             .then((response) => {
+                //                 if (response.data.result == true) {
+                //                     this.fire('toast', {
+                //                         status: 'success', text: 'บันทึกสำเร็จ', callback: () => {
+                //                             this.SHIP_GET_DATA();
+                //                             this.SHIP_GET_ID(newData.id);
+                //                         }
+                //                     });
+                //                 }
+                //                 else {
+                //                     this.fire('toast', {
+                //                         status: 'connectError', text: 'เรือนี้มีอยู่แล้ว',
+                //                         callback: function () {
+                //                         }
+                //                     })
+                //                 }
+                //             })
+                //     }
+                // }
             })
         },
         SHIP_DELETE: function (data) {

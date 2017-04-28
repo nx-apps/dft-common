@@ -30,7 +30,7 @@
     <gl-grid-row width="{{getWidth}}">
       <gl-grid-col width="[[getWidth]]" grid="[[300,12],[500,2]]"></gl-grid-col>
       <gl-grid-col width="[[getWidth]]" grid="[[300,12],[500,4]]">
-        <gl-form-input class="margin-top checkData" error-message="กรุณากรอกเลขประจำตัวท่าเรือ" required label="Port ID (เลขประจำตัวท่าเรือ) :" placeholder="กรอกรหัสท่าเรือ" value="{{data.port_id}}"></gl-form-input>
+        <gl-form-input class="margin-top checkData" error-message="กรุณากรอกเลขประจำตัวท่าเรือ" required label="Port ID (เลขประจำตัวท่าเรือ) :" placeholder="กรอกรหัสท่าเรือ" value="{{data.port_id}}" disabled="[[_checkStatus(data.creater)]]"></gl-form-input>
       </gl-grid-col>
       <gl-grid-col width="[[getWidth]]" grid="[[300,12],[500,4]]">
         <gl-form-input class="margin-top checkData" error-message="กรุณากรอกรหัสท่าเรือ" required label="Port Code (รหัสท่าเรือ) :" placeholder="port_code" value="{{data.port_code}}"></gl-form-input>
@@ -50,7 +50,7 @@
 
     <div class="horizontal end-justified layout">
       <div class="button">
-        <paper-button class="gl-btn-danger" raised on-tap="_cancel">ยกเลิก</paper-button>
+        <paper-button raised on-tap="_cancel">คืนค่าข้อมูล</paper-button>
         <paper-button class="gl-btn-success" raised on-tap="_save">บันทึก</paper-button>
       </div>
     </div>

@@ -75,7 +75,6 @@ exports.ports = function (req, res) {
         })
 }
 exports.insert = function (req, res) {
-    console.log(req.body);
     var valid = req.ajv.validate('common.country', req.body);
     var r = req.r;
     var result = { result: false, message: null, id: null };

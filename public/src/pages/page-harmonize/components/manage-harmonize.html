@@ -33,7 +33,7 @@
     <gl-grid-row width="{{getWidth}}">
       <gl-grid-col width="[[getWidth]]" grid="[[300,12],[500,4]]"></gl-grid-col>
       <gl-grid-col width="[[getWidth]]" grid="[[300,12],[500,4]]">
-        <gl-form-input class="margin-top checkData" error-message="กรุณากรอกพิกัดข้าว" required label="Harmonized Code (พิกัดข้าว) :" placeholder="ใส่เลขพิกัดข้าว 11 หลัก" maxlength="11" allowed-pattern="[0-9]" value="{{data.type_rice_id}}"></gl-form-input>
+        <gl-form-input class="margin-top checkData" error-message="กรุณากรอกพิกัดข้าว" required label="Harmonized Code (พิกัดข้าว) :" placeholder="ใส่เลขพิกัดข้าว 11 หลัก" maxlength="11" allowed-pattern="[0-9]" value="{{data.type_rice_id}}" disabled="[[_checkStatus(data.creater)]]"></gl-form-input>
       </gl-grid-col>
       <gl-grid-col width="[[getWidth]]" grid="[[300,12],[500,4]]"></gl-grid-col>
     </gl-grid-row>
@@ -56,7 +56,7 @@
 
     <div class="horizontal end-justified layout">
       <div class="button">
-        <paper-button class="gl-btn-danger" raised on-tap="_cancel">ยกเลิก</paper-button>
+        <paper-button raised on-tap="_cancel">คืนค่าข้อมูล</paper-button>
         <paper-button class="gl-btn-success" raised on-tap="_save">บันทึก</paper-button>
       </div>
     </div>
@@ -69,7 +69,7 @@
                     statePath: 'harmonize.data'
                 }
             },
-            behaviors: [nylonBehavior, ReduxBehavior],
+            behaviors: [nylonBehavior, ReduxBehavior, harmonizeAction],
             _save: function () {
                 if (this.data.creater == 'admin') {
                     this.dispatchAction('HARMONIZE_EDIT', this.data);
@@ -80,7 +80,7 @@
             },
             _cancel: function () {
                 if (this.data.creater == 'admin') {
-                    this.dispatchAction('HARMONIZE_GET_ID', this.data.id);
+                    this.dispatchAction('HARMONIZE_GET_ID', this.data.type_rice_id);
                 }
                 else {
                     this.dispatchAction('CLEAR_DATA');

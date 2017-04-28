@@ -46,10 +46,10 @@ exports.getById = function (req, res) {
         })
 }
 exports.insert = function (req, res) {
-    var valid = req.ajv.validate('common.notify_party', req.body);
+    // var valid = req.ajv.validate('common.notify_party', req.body);
     var r = req.r;
     var result = { result: false, message: null, id: null };
-    if (valid) {
+    // if (valid) {
         req.body = Object.assign(req.body, { 
             creater : 'admin',
             date_created : new Date().toISOString(),
@@ -70,10 +70,10 @@ exports.insert = function (req, res) {
                 result.message = err;
                 res.json(result);
             })
-    } else {
-        result.message = req.ajv.errorsText()
-        res.json(result);
-    }
+    // } else {
+    //     result.message = req.ajv.errorsText()
+    //     res.json(result);
+    // }
 }
 exports.update = function (req, res) {
     var r = req.r;

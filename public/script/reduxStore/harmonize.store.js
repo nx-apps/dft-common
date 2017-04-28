@@ -53,23 +53,12 @@ export function harmonizeAction(store) {
                         this.fire('toast', { status: 'load', text: 'กำลังบันทึกข้อมูล...' })
                         axios.post('./harmonize/insert', newData)
                             .then((response) => {
-                                // console.log("success");
-                                // console.log(response);
-                                if (response.data.result == true) {
-                                    this.fire('toast', {
-                                        status: 'success', text: 'บันทึกสำเร็จ', callback: () => {
-                                            this.HARMONIZE_GET_DATA();
-                                            this.CLEAR_DATA();
-                                        }
-                                    });
-                                }
-                                else {
-                                    this.fire('toast', {
-                                        status: 'connectError', text: 'ข้าวชนิดนี้มีอยู่แล้ว',
-                                        callback: function () {
-                                        }
-                                    })
-                                }
+                                this.fire('toast', {
+                                    status: 'success', text: 'บันทึกสำเร็จ', callback: () => {
+                                        this.HARMONIZE_GET_DATA();
+                                        this.CLEAR_DATA();
+                                    }
+                                });
                             })
                     }
                 }

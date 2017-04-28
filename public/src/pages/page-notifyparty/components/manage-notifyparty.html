@@ -66,7 +66,7 @@
 
     <div class="horizontal end-justified layout">
       <div class="button">
-        <paper-button class="gl-btn-danger" raised on-tap="_cancel">ยกเลิก</paper-button>
+        <paper-button raised on-tap="_cancel">คืนค่าข้อมูล</paper-button>
         <paper-button class="gl-btn-success" raised on-tap="_save">บันทึก</paper-button>
       </div>
     </div>
@@ -96,7 +96,7 @@
             },
             _cancel: function () {
                 if (this.data.creater == 'admin') {
-                    this.dispatchAction('NOTIFY_PARTY_GET_ID', this.data.id);
+                    this.dispatchAction('NOTIFY_PARTY_GET_ID', this.data.notify_id);
                 }
                 else {
                     this.dispatchAction('CLEAR_DATA');
