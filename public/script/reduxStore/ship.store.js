@@ -121,34 +121,6 @@ export function shipAction(store) {
                             })
                     }
                 }
-                // confirmed: (result) => {
-                //     if (result == true) {
-                //         var newData = {
-                //             id: data.ship_id,
-                //             shipline_id: data.shipline_id,
-                //             ship_name: data.ship_name
-                //         }
-                //         this.fire('toast', { status: 'load', text: 'กำลังบันทึกข้อมูล...' })
-                //         axios.put('./ship/update', newData)
-                //             .then((response) => {
-                //                 if (response.data.result == true) {
-                //                     this.fire('toast', {
-                //                         status: 'success', text: 'บันทึกสำเร็จ', callback: () => {
-                //                             this.SHIP_GET_DATA();
-                //                             this.SHIP_GET_ID(newData.id);
-                //                         }
-                //                     });
-                //                 }
-                //                 else {
-                //                     this.fire('toast', {
-                //                         status: 'connectError', text: 'เรือนี้มีอยู่แล้ว',
-                //                         callback: function () {
-                //                         }
-                //                     })
-                //                 }
-                //             })
-                //     }
-                // }
             })
         },
         SHIP_DELETE: function (data) {

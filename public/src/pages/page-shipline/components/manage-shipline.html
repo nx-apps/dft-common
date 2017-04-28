@@ -68,7 +68,7 @@
             },
             _cancel: function () {
                 if (this.data.creater == 'admin') {
-                    this.dispatchAction('SHIPLINE_GET_ID', this.data.id);
+                    this.dispatchAction('SHIPLINE_GET_ID', this.data.shipline_id);
                 }
                 else {
                     this.dispatchAction('CLEAR_DATA');

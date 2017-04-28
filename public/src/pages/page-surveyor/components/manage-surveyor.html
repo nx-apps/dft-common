@@ -62,7 +62,7 @@
             },
             _cancel: function () {
                 if (this.data.creater == 'admin') {
-                    this.dispatchAction('SURVEYOR_GET_ID', this.data.id);
+                    this.dispatchAction('SURVEYOR_GET_ID', this.data.surveyor_id);
                 }
                 else {
                     this.dispatchAction('CLEAR_DATA');
