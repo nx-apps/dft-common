@@ -11,37 +11,73 @@
             font-size: var(--font-size-h5);
             text-align: left;
         }
-        
         .text-center {
             text-align: center;
             font-size: var(--font-size-h3);
             background-color: var(--paper-grey-100);
             margin-top: 20px;
         }
-        
         .margin-top {
             margin-top: 15px;
         }
-        
         .button {
             margin-top: 20px;
             margin-bottom: 20px;
         }
     </style>
     <template>
-        <div class="text-center">แก้ไขข้อมูลผู้ให้บริการเรือ</div>
+        <div class="text-center">เพิ่มข้อมูลประเทศ</div>
+        <gl-grid-row width="{{getWidth}}">
+            <gl-grid-col width="[[getWidth]]" grid="[[300,12],[500,4]]"></gl-grid-col>
+            <gl-grid-col width="[[getWidth]]" grid="[[300,12],[500,5]]">
+                <gl-combo-box class="checkData" items="{{continents}}" item-label-path="continent_name_en" label="Continent (ทวีป)" item-value-path="continent_id"
+                    value="{{data.continent_id}}" error-message="กรุณาเลือกประเทศ" required></gl-combo-box>
+            </gl-grid-col>
+        </gl-grid-row>
 
-    <gl-grid-row width="{{getWidth}}">
-      <gl-grid-col width="[[getWidth]]" grid="[[300,12],[500,4]]"></gl-grid-col>
-      <gl-grid-col width="[[getWidth]]" grid="[[300,12],[500,5]]">
-        <gl-form-input class="margin-top checkData" error-message="กรุณากรอกชื่อผู้ให้บริการเรือ" required label="Carrier Name (ชื่อผู้ให้บริการเรือ) :" placeholder="กรอกชื่อผู้ให้บริการ" value="{{data.carrier_name}}"></gl-form-input>
-      </gl-grid-col>
-      <gl-grid-col width="[[getWidth]]" grid="[[300,12],[500,4]]"></gl-grid-col>
-    </gl-grid-row>
+        <gl-grid-row>
+            <gl-grid-col width="[[getWidth]]" grid="[[300,12],[500,4]]"></gl-grid-col>
+            <gl-grid-col width="[[getWidth]]" grid="[[300,12],[500,5]]">
+                <gl-form-input class="margin-top checkData" error-message="กรุณากรอกรหัสประเทศ" required label="Country Code (รหัสประเทศ) :"
+                    placeholder="ใส่รหัสประเทศ" value="{{data.country_id}}" disabled="[[_checkStatus(data.creater)]]"></gl-form-input>
+            </gl-grid-col>
+        </gl-grid-row>
+
+        <gl-grid-row>
+            <gl-grid-col width="[[getWidth]]" grid="[[300,12],[500,4]]"></gl-grid-col>
+            <gl-grid-col width="[[getWidth]]" grid="[[300,12],[500,5]]">
+                <gl-form-input class="margin-top checkData" error-message="กรุณากรอกชื่อประเทศ" required label="Country name (ชื่อประเทศภาษาไทย) :"
+                    placeholder="กรอกชื่อประเทศ" value="{{data.country_name_th}}"></gl-form-input>
+            </gl-grid-col>
+        </gl-grid-row>
+
+        <gl-grid-row>
+            <gl-grid-col width="[[getWidth]]" grid="[[300,12],[500,4]]"></gl-grid-col>
+            <gl-grid-col width="[[getWidth]]" grid="[[300,12],[500,5]]">
+                <gl-form-input class="margin-top checkData" error-message="กรุณากรอกชื่อเต็มประเทศ" required label="Country fullname (ชื่อเต็มประเทศภาษาไทย) :"
+                    placeholder="กรอกชื่อประเทศ" value="{{data.country_fullname_th}}"></gl-form-input>
+            </gl-grid-col>
+        </gl-grid-row>
+
+        <gl-grid-row>
+            <gl-grid-col width="[[getWidth]]" grid="[[300,12],[500,4]]"></gl-grid-col>
+            <gl-grid-col width="[[getWidth]]" grid="[[300,12],[500,5]]">
+                <gl-form-input class="margin-top checkData" error-message="กรุณากรอกชื่อประเทศ" required label="Country name (ชื่อประเทศภาษาอังกฤษ) :"
+                    placeholder="กรอกชื่อประเทศ" value="{{data.country_name_en}}"></gl-form-input>
+            </gl-grid-col>
+        </gl-grid-row>
+
+        <gl-grid-row>
+            <gl-grid-col width="[[getWidth]]" grid="[[300,12],[500,4]]"></gl-grid-col>
+            <gl-grid-col width="[[getWidth]]" grid="[[300,12],[500,5]]">
+                <gl-form-input class="margin-top checkData" error-message="กรุณากรอกชื่อเต็มประเทศ" required label="Country fullname (ชื่อเต็มประเทศภาษาอังกฤษ) :"
+                    placeholder="กรอกชื่อประเทศ" value="{{data.country_fullname_en}}"></gl-form-input>
+            </gl-grid-col>
+        </gl-grid-row>
 
         <div class="horizontal end-justified layout">
             <div class="button">
-                <paper-button raised on-tap="_cancel">คืนค่าข้อมูล</paper-button>
+                <paper-button class="gl-btn-danger" raised on-tap="_cancel">ยกเลิก</paper-button>
                 <paper-button class="gl-btn-success" raised on-tap="_save">บันทึก</paper-button>
             </div>
         </div>
@@ -52,6 +88,9 @@
             properties: {
                 data: {
                     statePath: 'country.data'
+                },
+                continents: {
+                    statePath: 'continent.list'
                 }
             },
             behaviors: [nylonBehavior, ReduxBehavior],
@@ -65,7 +104,7 @@
             },
             _cancel: function () {
                 if (this.data.creater == 'admin') {
-                    this.dispatchAction('COUNTRY_GET_ID', this.data.id);
+                    this.dispatchAction('COUNTRY_GET_ID', this.data.country_id);
                 }
                 else {
                     this.dispatchAction('CLEAR_DATA');

@@ -31,7 +31,7 @@ export function countryAction(store) {
                 });
         },
         COUNTRY_GET_ID: function (id) {
-            axios.get('./country/id/'+id)
+            axios.get('./country/id/' + id)
                 .then(function (response) {
                     store.dispatch({ type: 'COUNTRY_GET_ID', payload: response.data })
                 })
@@ -46,31 +46,18 @@ export function countryAction(store) {
                 text: 'ต้องการเพิ่มข้อมูลใช่หรือไม่ ?',
                 confirmed: (result) => {
                     if (result == true) {
-                        var newData = {
-                            id: data.country_id,
-                            country_name_th: data.country_name_th,
-                            country_name_en: data.country_name_en
-                        }
+                        let { continent_id, country_id, country_name_th, country_fullname_th, country_name_en, country_fullname_en } = data;
+                        let newData = { continent_id, country_name_th, country_fullname_th, country_name_en, country_fullname_en };
+                        newData.id = data.country_id
                         this.fire('toast', { status: 'load', text: 'กำลังบันทึกข้อมูล...' })
                         axios.post('./country/insert', newData)
                             .then((response) => {
-                                // console.log("success");
-                                // console.log(response);
-                                if (response.data.result == true) {
-                                    this.fire('toast', {
-                                        status: 'success', text: 'บันทึกสำเร็จ', callback: () => {
-                                            this.COUNTRY_GET_DATA();
-                                            this.CLEAR_DATA();
-                                        }
-                                    });
-                                }
-                                else {
-                                    this.fire('toast', {
-                                        status: 'connectError', text: 'ธนาคารนี้มีอยู่แล้ว',
-                                        callback: function () {
-                                        }
-                                    })
-                                }
+                                this.fire('toast', {
+                                    status: 'success', text: 'บันทึกสำเร็จ', callback: () => {
+                                        this.COUNTRY_GET_DATA();
+                                        this.CLEAR_DATA();
+                                    }
+                                });
                             })
                     }
                 }
@@ -82,29 +69,18 @@ export function countryAction(store) {
                 text: 'ต้องการแก้ไขข้อมูลใช่หรือไม่ ?',
                 confirmed: (result) => {
                     if (result == true) {
-                        var newData = {
-                            id: data.country_id,
-                            country_name_th: data.country_name_th,
-                            country_name_en: data.country_name_en
-                        }
+                        let { continent_id, country_id, country_name_th, country_fullname_th, country_name_en, country_fullname_en } = data;
+                        let newData = { continent_id, country_name_th, country_fullname_th, country_name_en, country_fullname_en };
+                        newData.id = data.country_id
                         this.fire('toast', { status: 'load', text: 'กำลังบันทึกข้อมูล...' })
                         axios.put('./country/update', newData)
                             .then((response) => {
-                                if (response.data.result == true) {
-                                    this.fire('toast', {
-                                        status: 'success', text: 'บันทึกสำเร็จ', callback: () => {
-                                            this.COUNTRY_GET_DATA();
-                                            this.COUNTRY_GET_ID(newData.id);
-                                        }
-                                    });
-                                }
-                                else {
-                                    this.fire('toast', {
-                                        status: 'connectError', text: 'ธนาคารนี้มีอยู่แล้ว',
-                                        callback: function () {
-                                        }
-                                    })
-                                }
+                                this.fire('toast', {
+                                    status: 'success', text: 'บันทึกสำเร็จ', callback: () => {
+                                        this.COUNTRY_GET_DATA();
+                                        this.COUNTRY_GET_ID(newData.id);
+                                    }
+                                });
                             })
                     }
                 }

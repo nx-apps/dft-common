@@ -75,7 +75,8 @@ exports.ports = function (req, res) {
         })
 }
 exports.insert = function (req, res) {
-    var valid = req.ajv.validate('common.continent', req.body);
+    console.log(req.body);
+    var valid = req.ajv.validate('common.country', req.body);
     var r = req.r;
     var result = { result: false, message: null, id: null };
     if (valid) {
@@ -84,7 +85,7 @@ exports.insert = function (req, res) {
             date_created : new Date().toISOString(),
             date_updated : new Date().toISOString(),
         });
-        r.db("common").table("continent")
+        r.db("common").table("country")
             .insert(req.body)
             .run()
             .then(function (response) {
@@ -113,7 +114,7 @@ exports.update = function (req, res) {
             updater : 'admin',
             date_updated : new Date().toISOString()
         });
-        r.db("common").table("continent")
+        r.db("common").table("country")
             .get(req.body.id)
             .update(req.body)
             .run()
@@ -138,7 +139,7 @@ exports.delete = function (req, res) {
     var result = { result: false, message: null, id: null };
     if (req.params.id != '' || req.params.id != null) {
         result.id = req.params.id;
-        r.db('common').table('continent')
+        r.db('common').table('country')
             .get(req.params.id)
             .delete()
             .run()
