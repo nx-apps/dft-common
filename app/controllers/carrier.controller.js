@@ -22,7 +22,7 @@ exports.list = function (req, res) {
 exports.getById = function (req, res) {
     var r = req.r;
     r.db('common').table("carrier")
-        .get(req.params.carrier_id)
+        .get(req.params.id)
         .merge({
             carrier_id: r.row('id'),
             date_created: r.row('date_created').split('T')(0),

@@ -45,11 +45,8 @@ export function buyerAction(store) {
                 text: 'ต้องการเพิ่มข้อมูลใช่หรือไม่ ?',
                 confirmed: (result) => {
                     if (result == true) {
-                        var newData = {
-                            id: data.buyer_id,
-                            buyer_name_th: data.buyer_name_th,
-                            buyer_name_en: data.buyer_name_en
-                        }
+                        let {country_id,buyer_name,buyer_masks,buyer_email,buyer_fax,buyer_tel,buyer_address} = data;
+                        let newData = {country_id,buyer_name,buyer_masks,buyer_email,buyer_fax,buyer_tel,buyer_address};
                         this.fire('toast', { status: 'load', text: 'กำลังบันทึกข้อมูล...' })
                         axios.post('./buyer/insert', newData)
                             .then((response) => {
@@ -65,7 +62,7 @@ export function buyerAction(store) {
                                 }
                                 else {
                                     this.fire('toast', {
-                                        status: 'connectError', text: 'ธนาคารนี้มีอยู่แล้ว',
+                                        status: 'connectError', text: 'ผู้ซื้ิอนี้มีอยู่แล้ว',
                                         callback: function () {
                                         }
                                     })
@@ -81,11 +78,10 @@ export function buyerAction(store) {
                 text: 'ต้องการแก้ไขข้อมูลใช่หรือไม่ ?',
                 confirmed: (result) => {
                     if (result == true) {
-                        var newData = {
-                            id: data.buyer_id,
-                            buyer_name_th: data.buyer_name_th,
-                            buyer_name_en: data.buyer_name_en
-                        }
+                        let {country_id,buyer_name,buyer_masks,buyer_email,buyer_fax,buyer_tel,buyer_address,buyer_id} = data;
+                        let newData = {country_id,buyer_name,buyer_masks,buyer_email,buyer_fax,buyer_tel,buyer_address};
+                        newData.id = data.buyer_id
+                        console.log(newData);
                         this.fire('toast', { status: 'load', text: 'กำลังบันทึกข้อมูล...' })
                         axios.put('./buyer/update', newData)
                             .then((response) => {
@@ -94,6 +90,7 @@ export function buyerAction(store) {
                                         status: 'success', text: 'บันทึกสำเร็จ', callback: () => {
                                             this.BUYER_GET_DATA();
                                             this.BUYER_GET_ID(newData.id);
+                                            this.$$('nylon-panel-right').close();
                                         }
                                     });
                                 }

@@ -1,4 +1,5 @@
 <link rel="import" href="./../../../../bower_components/gl-form/gl-form-input.html">
+<link rel="import" href="./../../../../bower_components/gl-form/gl-form-textarea.html">
 <link rel="import" href="./../../../../bower_components/gl-grid/gl-grid-row.html">
 <link rel="import" href="./../../../../bower_components/gl-grid/gl-grid-col.html">
 <link rel="import" href="./../../../../bower_components/gl-form/gl-combo-box.html">
@@ -34,7 +35,8 @@
             <gl-grid-col width="[[getWidth]]" grid="[[300,12],[500,2]]"></gl-grid-col>
             <gl-grid-col width="[[getWidth]]" grid="[[300,12],[500,4]]">
                 <gl-combo-box class="checkData" items="{{countrys}}" item-label-path="country_name_en" label="Country (ประเทศ)" item-value-path="country_id"
-                    value="{{data.country_id}}" error-message="กรุณาเลือกประเทศ" required></gl-combo-box>
+                    value="{{data.country_id}}" error-message="กรุณาเลือกประเทศ" required placeholder="กรุณาเลือกประเทศ"
+                    style="margin-top:15px;"></gl-combo-box>
             </gl-grid-col>
             <gl-grid-col width="[[getWidth]]" grid="[[300,12],[500,4]]">
                 <gl-form-input class="margin-top checkData" label="Buyer Name (ชื่อผู้ซื้อ) :" placeholder="กรอกชื่อผู้ซื้อ" value="{{data.buyer_name}}"
@@ -103,7 +105,7 @@
             },
             _cancel: function () {
                 if (this.data.creater == 'admin') {
-                    this.dispatchAction('BUYER_GET_ID', this.data.id);
+                    this.dispatchAction('BUYER_GET_ID', this.data.buyer_id);
                 }
                 else {
                     this.dispatchAction('CLEAR_DATA');

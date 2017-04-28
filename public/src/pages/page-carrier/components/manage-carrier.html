@@ -56,7 +56,7 @@
             },
             behaviors: [nylonBehavior, ReduxBehavior],
             _save: function () {
-                if (this.data.creater == 'admin') {
+                if (this.data.carrier_id != null) {
                     this.dispatchAction('CARRIER_EDIT', this.data);
                 }
                 else {
@@ -64,8 +64,8 @@
                 }
             },
             _cancel: function () {
-                if (this.data.creater == 'admin') {
-                    this.dispatchAction('CARRIER_GET_ID', this.data.id);
+                if (this.data.carrier_id != null) {
+                    this.dispatchAction('CARRIER_GET_ID', this.data.carrier_id);
                 }
                 else {
                     this.dispatchAction('CLEAR_DATA');

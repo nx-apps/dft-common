@@ -165,11 +165,12 @@
         return val + 1
       },
       _delete: function (e) {
-        this.dispatchAction('BUYER_DELETE', e.target.data.id);
+        this.dispatchAction('BUYER_DELETE', e.target.data.buyer_id);
       },
       _edit: function (e) {
         this.$$('nylon-panel-right').open();
-        this.dispatchAction('BUYER_GET_ID', e.target.data.id);
+        this.dispatchAction('BUYER_GET_ID', e.target.data.buyer_id);
+        this.dispatchAction('COUNTRY_GET_DATA');
         this.title = "แก้ไขข้อมูล";
       },
       _back: function () {

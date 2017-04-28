@@ -7,7 +7,7 @@ exports.duplicate = function (req, res) {
     }
     q[req.query['field']] = req.query['value'];
 
-    r.db('external').table(tb)
+    r.db('common').table(tb)
         .filter(q)
         .count()
         .run()
@@ -28,7 +28,7 @@ exports.myowner = function (req, res) {
         req.query['value'] = parseInt(req.query['value']);
     }
     q[req.query['field']] = req.query['value'];
-    r.db('external').table(tb)
+    r.db('common').table(tb)
         .filter(q)
         .count()
         .run()
