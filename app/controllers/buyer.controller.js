@@ -48,8 +48,7 @@ exports.insert = function (req, res) {
     if (valid) {
         req.body = Object.assign(req.body, { 
             creater : 'admin',
-            date_created : new Date().toISOString(),
-            date_updated : new Date().toISOString(),
+            date_created : new Date().toISOString()
         });
         r.db("common").table("buyer")
             .insert(req.body)
