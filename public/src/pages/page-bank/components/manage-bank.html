@@ -9,23 +9,36 @@
             font-size: var(--font-size-h5);
             text-align: left;
         }
+        
         .text-center {
             text-align: center;
             font-size: var(--font-size-h3);
             background-color: var(--paper-grey-100);
             margin-top: 20px;
         }
+        
         .margin-top {
             margin-top: 15px;
         }
+        
         .button {
             margin-top: 20px;
             margin-bottom: 20px;
         }
+        icon-button-management{
+            margin: 10px 10px;
+        }
+
     </style>
     <template>
-        <div class="text-center" hidden="{{_checkStatus(data.creater)}}">เพิ่มข้อมูลธนาคาร</div>
-        <div class="text-center" hidden="{{!_checkStatus(data.creater)}}">แก้ไขข้อมูลธนาคาร</div>
+        <!--<div class="text-center" hidden="{{_checkStatus(data.creater)}}">เพิ่มข้อมูลธนาคาร</div>
+        <div class="text-center" hidden="{{!_checkStatus(data.creater)}}">แก้ไขข้อมูลธนาคาร</div>-->
+        
+        <template is="dom-if" if={{_checkStatus(data.creater)}}>
+            <icon-button-management btn-state="[[!btnState]]"></icon-button-management>
+        </template>
+        
+        
 
         <gl-grid-row width="{{getWidth}}">
             <gl-grid-col width="[[getWidth]]" grid="[[300,12],[500,4]]"></gl-grid-col>
@@ -40,7 +53,7 @@
             <gl-grid-col width="[[getWidth]]" grid="[[300,12],[500,4]]"></gl-grid-col>
             <gl-grid-col width="[[getWidth]]" grid="[[300,12],[500,4]]">
                 <gl-form-input class="margin-top" error-message="กรุณากรอกชื่อธนาคาร" required label="Bank Name (ชื่อธนาคาร ภาษาไทย) :" placeholder="กรอกชื่อธนาคาร (ภาษาไทย)"
-                    value="{{data.bank_name_th}}"></gl-form-input>
+                    value="{{data.bank_name_th}}" disabled="[[btnState]]"></gl-form-input>
             </gl-grid-col>
             <gl-grid-col width="[[getWidth]]" grid="[[300,12],[500,4]]"></gl-grid-col>
         </gl-grid-row>
@@ -49,7 +62,7 @@
             <gl-grid-col width="[[getWidth]]" grid="[[300,12],[500,4]]"></gl-grid-col>
             <gl-grid-col width="[[getWidth]]" grid="[[300,12],[500,4]]">
                 <gl-form-input class="margin-top" error-message="กรุณากรอกชื่อธนาคาร" required label="Bank Name (ชื่อธนาคาร ภาษาอังกฤษ) :"
-                    placeholder="กรอกชื่อธนาคาร (ภาษาอังกฤษ)" value="{{data.bank_name_en}}"></gl-form-input>
+                    placeholder="กรอกชื่อธนาคาร (ภาษาอังกฤษ)" value="{{data.bank_name_en}}" disabled="[[btnState]]"></gl-form-input>
             </gl-grid-col>
             <gl-grid-col width="[[getWidth]]" grid="[[300,12],[500,4]]"></gl-grid-col>
         </gl-grid-row>
@@ -67,27 +80,30 @@
             properties: {
                 data: {
                     statePath: 'bank.data'
+                },
+                btnState:{
+                    statePath: 'commonState.btnState'
                 }
             },
             behaviors: [nylonBehavior, ReduxBehavior],
             _save: function () {
                 if (this.data.creater == 'admin') {
-                    this.dispatchAction('BANK_EDIT', this.data);
+                    this.dispatchAction('BANK_EDIT', this.data)
                 }
-                else{
+                else {
                     this.dispatchAction('BANK_INSERT', this.data);
                 }
             },
-            _cancel:function() {
+            _cancel: function () {
                 if (this.data.creater == 'admin') {
                     this.dispatchAction('BANK_GET_ID', this.data.bank_id);
                 }
-                else{
+                else {
                     this.dispatchAction('CLEAR_DATA');
                 }
             },
-            _checkStatus:function(val){
-                if(typeof val != 'undefined' && val != undefined){
+            _checkStatus: function (val) {
+                if (typeof val != 'undefined' && val != undefined) {
                     return true
                 }
             }

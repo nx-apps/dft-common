@@ -2,6 +2,9 @@
 <link rel="import" href="./../../../bower_components/gl-form/gl-form-panel.html">
 <link rel="import" href="./../../../bower_components/gl-styles/gl-table.html">
 <link rel="import" href="./../../../bower_components/paper-input/paper-input.html">
+<link rel="import" href="./../../../bower_components/paper-tooltip/paper-tooltip.html">
+<link rel="import" href="./../components/icon-button-management.html">
+
 <link rel="import" href="../../nylon-behavior.html">
 <!--<link rel="import" href="components/insert-bank.html">
 <link rel="import" href="components/edit-bank.html">-->
@@ -134,27 +137,38 @@
   <script>
     Polymer({
       is: "page-bank",
-      behaviors: [nylonBehavior, ReduxBehavior, bankAction],
+      behaviors: [nylonBehavior, ReduxBehavior, bankAction,commonStateAction],
       properties: {
         data: {
           statePath: 'bank.list'
         }
       },
+       listeners: {
+        'edit-input': 'editInput',
+        'delete-input': '_delete'
+      },
+      editInput(){
+        this.dispatchAction('BTN_SET_STATE',false);
+      },
       nylonPageActive: function () {
         this.dispatchAction('BANK_GET_DATA');
+        this.dispatchAction('BTN_SET_STATE',true);
       },
       _toggleDrawer: function(e) {
         this.$$('nylon-panel-right').open();
         this.dispatchAction('CLEAR_DATA');
+        this.dispatchAction('BTN_SET_STATE',false);
         this.title = "เพิ่มข้อมูล";
       },
       _count:function(val){
         return val+1
       },
       _delete: function(e){
-        this.dispatchAction('BANK_DELETE', e.target.data.bank_id);
+        console.log(e);
+        // this.dispatchAction('BANK_DELETE', e.target.data.bank_id);
       },
       _edit: function(e) {
+        this.dispatchAction('BTN_SET_STATE',true);
         this.$$('nylon-panel-right').open();
         this.dispatchAction('BANK_GET_ID', e.target.data.bank_id);
         this.title = "แก้ไขข้อมูล";

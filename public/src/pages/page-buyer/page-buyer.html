@@ -2,6 +2,8 @@
 <link rel="import" href="./../../../bower_components/gl-form/gl-form-panel.html">
 <link rel="import" href="./../../../bower_components/gl-styles/gl-table.html">
 <link rel="import" href="./../../../bower_components/paper-input/paper-input.html">
+<link rel="import" href="./../../../bower_components/paper-tooltip/paper-tooltip.html">
+<link rel="import" href="./../components/icon-button-management.html">
 <link rel="import" href="../../nylon-behavior.html">
 <link rel="import" href="components/manage-buyer.html">
 <dom-module id="page-buyer">
@@ -146,19 +148,28 @@
   <script>
     Polymer({
       is: "page-buyer",
-      behaviors: [nylonBehavior, ReduxBehavior, buyerAction, countryAction],
+      behaviors: [nylonBehavior, ReduxBehavior, buyerAction, countryAction,commonStateAction],
       properties: {
         data: {
           statePath: 'buyer.list'
         }
       },
+      listeners: {
+        'edit-input': 'editInput',
+        'delete-input': '_delete'
+      },
+      editInput(){
+        this.dispatchAction('BTN_SET_STATE',false);
+      },
       nylonPageActive: function () {
         this.dispatchAction('BUYER_GET_DATA');
+         this.dispatchAction('BTN_SET_STATE',true);
       },
       _toggleDrawer: function (e) {
         this.$$('nylon-panel-right').open();
         this.dispatchAction('CLEAR_DATA');
         this.dispatchAction('COUNTRY_GET_DATA');
+        this.dispatchAction('BTN_SET_STATE',false);
         this.title = "เพิ่มข้อมูล";
       },
       _count: function (val) {
@@ -169,6 +180,7 @@
       },
       _edit: function (e) {
         this.$$('nylon-panel-right').open();
+         this.dispatchAction('BTN_SET_STATE',true);
         this.dispatchAction('BUYER_GET_ID', e.target.data.buyer_id);
         this.dispatchAction('COUNTRY_GET_DATA');
         this.title = "แก้ไขข้อมูล";

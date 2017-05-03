@@ -94,6 +94,7 @@ export function bankAction(store) {
                                         status: 'success', text: 'บันทึกสำเร็จ', callback: () => {
                                             this.BANK_GET_DATA();
                                             this.BANK_GET_ID(newData.id);
+                                            this.dispatchAction('BTN_SET_STATE',true);
                                         }
                                     });
                                 }
