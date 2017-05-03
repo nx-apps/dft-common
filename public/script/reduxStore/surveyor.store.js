@@ -55,6 +55,7 @@ export function surveyorAction(store) {
                                                 status: 'success', text: 'บันทึกสำเร็จ', callback: () => {
                                                     this.SURVEYOR_GET_DATA();
                                                     this.CLEAR_DATA();
+                                                    
                                                 }
                                             });
                                         })
@@ -90,6 +91,7 @@ export function surveyorAction(store) {
                                                 status: 'success', text: 'บันทึกสำเร็จ', callback: () => {
                                                     this.SURVEYOR_GET_DATA();
                                                     this.SURVEYOR_GET_ID(newData.id);
+                                                    this.dispatchAction('BTN_SET_STATE',true);
                                                 }
                                             });
                                         })
@@ -105,6 +107,7 @@ export function surveyorAction(store) {
                                                             status: 'success', text: 'บันทึกสำเร็จ', callback: () => {
                                                                 this.SURVEYOR_GET_DATA();
                                                                 this.SURVEYOR_GET_ID(newData.id);
+                                                                this.dispatchAction('BTN_SET_STATE',true);
                                                             }
                                                         });
                                                     })

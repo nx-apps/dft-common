@@ -95,6 +95,7 @@ export function incotermsAction(store) {
                                         status: 'success', text: 'บันทึกสำเร็จ', callback: () => {
                                             this.INCOTERMS_GET_DATA();
                                             this.INCOTERMS_GET_ID(newData.id);
+                                            this.dispatchAction('BTN_SET_STATE',true);
                                         }
                                     });
                                 }

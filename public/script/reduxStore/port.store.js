@@ -96,6 +96,7 @@ export function portAction(store) {
                                         status: 'success', text: 'บันทึกสำเร็จ', callback: () => {
                                             this.PORT_GET_DATA();
                                             this.PORT_GET_ID(newData.id);
+                                            this.dispatchAction('BTN_SET_STATE',true);
                                         }
                                     });
                                 }

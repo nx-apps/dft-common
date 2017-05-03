@@ -91,6 +91,7 @@ export function notifypartyAction(store) {
                                                 status: 'success', text: 'บันทึกสำเร็จ', callback: () => {
                                                     this.NOTIFY_PARTY_GET_DATA();
                                                     this.NOTIFY_PARTY_GET_ID(newData.id);
+                                                    this.dispatchAction('BTN_SET_STATE',true);
                                                 }
                                             });
                                         })
@@ -106,6 +107,7 @@ export function notifypartyAction(store) {
                                                             status: 'success', text: 'บันทึกสำเร็จ', callback: () => {
                                                                 this.NOTIFY_PARTY_GET_DATA();
                                                                 this.NOTIFY_PARTY_GET_ID(newData.id);
+                                                                this.dispatchAction('BTN_SET_STATE',true);
                                                             }
                                                         });
                                                     })

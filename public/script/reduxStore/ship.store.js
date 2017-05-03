@@ -90,6 +90,7 @@ export function shipAction(store) {
                                                 status: 'success', text: 'บันทึกสำเร็จ', callback: () => {
                                                     this.SHIP_GET_DATA();
                                                     this.SHIP_GET_ID(newData.id);
+                                                    this.dispatchAction('BTN_SET_STATE',true);
                                                 }
                                             });
                                         })
@@ -105,6 +106,7 @@ export function shipAction(store) {
                                                             status: 'success', text: 'บันทึกสำเร็จ', callback: () => {
                                                                 this.SHIP_GET_DATA();
                                                                 this.SHIP_GET_ID(newData.id);
+                                                                this.dispatchAction('BTN_SET_STATE',true);
                                                             }
                                                         });
                                                     })

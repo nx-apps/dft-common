@@ -94,6 +94,7 @@ export function continentAction(store) {
                                         status: 'success', text: 'บันทึกสำเร็จ', callback: () => {
                                             this.CONTINENT_GET_DATA();
                                             this.CONTINENT_GET_ID(newData.id);
+                                            this.dispatchAction('BTN_SET_STATE',true);
                                         }
                                     });
                                 }

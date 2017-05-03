@@ -79,6 +79,7 @@ export function countryAction(store) {
                                     status: 'success', text: 'บันทึกสำเร็จ', callback: () => {
                                         this.COUNTRY_GET_DATA();
                                         this.COUNTRY_GET_ID(newData.id);
+                                        this.dispatchAction('BTN_SET_STATE',true);
                                     }
                                 });
                             })

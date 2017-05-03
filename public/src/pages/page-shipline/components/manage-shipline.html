@@ -24,28 +24,34 @@
       margin-top: 20px;
       margin-bottom: 20px;
     }
+    icon-button-management{
+            margin: 10px 10px;
+        }
     </style>
     <template>
        <div class="text-center">เพิ่มข้อมูลสายเรือ</div>
+       <template is="dom-if" if={{_checkStatus(data.date_created)}}>
+            <icon-button-management btn-state="[[!btnState]]"></icon-button-management>
+        </template>
 
     <gl-grid-row width="{{getWidth}}">
       <gl-grid-col width="[[getWidth]]" grid="[[300,12],[500,4]]"></gl-grid-col>
       <gl-grid-col width="[[getWidth]]" grid="[[300,12],[500,4]]">
-        <gl-form-input class="margin-top checkData" error-message="กรุณากรอกชื่อสายเรือ" required label="Shipline Name (ชื่อสายเรือ) :" placeholder="กรอกชื่อสายเรือ" value="{{data.shipline_name}}"></gl-form-input>
+        <gl-form-input class="margin-top checkData" error-message="กรุณากรอกชื่อสายเรือ" disabled="[[btnState]]" required label="Shipline Name (ชื่อสายเรือ) :" placeholder="กรอกชื่อสายเรือ" value="{{data.shipline_name}}"></gl-form-input>
       </gl-grid-col>
     </gl-grid-row>
 
     <gl-grid-row>
       <gl-grid-col width="[[getWidth]]" grid="[[300,12],[500,4]]"></gl-grid-col>
       <gl-grid-col width="[[getWidth]]" grid="[[300,12],[500,4]]">
-        <gl-form-input class="margin-top checkData" error-message="กรุณากรอกเบอร์โทรศัพท์" required label="Tel. (เบอร์โทรศัพท์) :" placeholder="กรอกชื่อเบอร์โทรศัพท์" value="{{data.shipline_tel}}"></gl-form-input>
+        <gl-form-input class="margin-top checkData" error-message="กรุณากรอกเบอร์โทรศัพท์" disabled="[[btnState]]" required label="Tel. (เบอร์โทรศัพท์) :" placeholder="กรอกชื่อเบอร์โทรศัพท์" value="{{data.shipline_tel}}"></gl-form-input>
       </gl-grid-col>
     </gl-grid-row>
 
     <div class="horizontal end-justified layout">
       <div class="button">
-        <paper-button class="gl-btn-danger" raised on-tap="_cancel">ยกเลิก</paper-button>
-        <paper-button class="gl-btn-success" raised on-tap="_save">บันทึก</paper-button>
+        <paper-button class="gl-btn-danger" raised on-tap="_cancel" hidden="{{btnState}}">ยกเลิก</paper-button>
+        <paper-button class="gl-btn-success" raised on-tap="_save" hidden="{{btnState}}">บันทึก</paper-button>
       </div>
     </div>
     </template>
@@ -55,6 +61,9 @@
             properties: {
                 data: {
                     statePath: 'shipline.data'
+                },
+                btnState:{
+                    statePath: 'commonState.btnState'
                 }
             },
             behaviors: [nylonBehavior, ReduxBehavior],

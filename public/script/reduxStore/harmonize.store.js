@@ -83,6 +83,7 @@ export function harmonizeAction(store) {
                                         status: 'success', text: 'บันทึกสำเร็จ', callback: () => {
                                             this.HARMONIZE_GET_DATA();
                                             this.HARMONIZE_GET_ID(newData.id);
+                                            this.dispatchAction('BTN_SET_STATE',true);
                                         }
                                     });
                                 }

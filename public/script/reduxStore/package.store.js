@@ -99,6 +99,7 @@ export function packageAction(store) {
                                         status: 'success', text: 'บันทึกสำเร็จ', callback: () => {
                                             this.PACKAGE_GET_DATA();
                                             this.PACKAGE_GET_ID(newData.id);
+                                            this.dispatchAction('BTN_SET_STATE',true);
                                         }
                                     });
                                 }

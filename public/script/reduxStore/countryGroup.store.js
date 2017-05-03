@@ -94,6 +94,7 @@ export function countryGroupAction(store) {
                         status: 'success', text: 'บันทึกสำเร็จ',
                         callback: () => {
                             this.$$('nylon-panel-right').close();
+                            this.dispatchAction('BTN_SET_STATE',true);
                         }
                     });
                 })

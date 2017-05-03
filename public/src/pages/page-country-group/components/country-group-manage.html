@@ -2,13 +2,19 @@
 <link rel="import" href="./../../../../bower_components/paper-button/paper-button.html">
 <link rel="import" href="./../../../../bower_components/gl-form/gl-combo-box.html">
 <link rel="import" href="./../../../../bower_components/gl-form/gl-form-input.html">
-
+<link rel="import" href="./../../../../bower_components/gl-styles/gl-table.html">
 <dom-module id="country-group-manage">
     <template>
-        <style include="gl-color">
-            *{
+        <style include="iron-flex iron-flex-alignment gl-color gl-color gl-table">
+            * {
                 text-align: left;
             }
+            .text-center {
+            text-align: center;
+            font-size: var(--font-size-h3);
+            background-color: var(--paper-grey-100);
+            margin-top: 20px;
+        }
             .question {
                 margin-top: 8px;
                 text-align: right;
@@ -54,20 +60,31 @@
             .hideBorder {
                 border-bottom: 2px solid white;
             }
+            
+            icon-button-management {
+                margin: 10px 10px;
+            }
+            .container{
+                margin: 10px;
+            }
         </style>
         <div class="container">
+            <div class="text-center">ข้อมูลกลุ่มประเทศประเทศ</div>
+            <template is="dom-if" if={{_checkStatus(data.date_create)}}>
+                <icon-button-management btn-state="[[!btnState]]"></icon-button-management>
+            </template>
             <table class="gl-table-default">
                 <thead>
                     <tr>
                         <th style="width:30%;text-align: right; font-size: 18px;">Name:</th>
                         <th style="width:50%">
-                            <gl-form-input no-label-float value="{{select.id}}" disabled="[[checkDisabled(select.creater)]]"></gl-form-input>
+                            <gl-form-input no-label-float value="{{data.id}}" disabled="[[checkDisabled(data.creater)]]"></gl-form-input>
                         </th>
                         <th style="width:20%"></th>
                     </tr>
                 </thead>
             </table>
-            <table class="gl-table-default">
+            <table class="gl-table-default" hidden="[[btnState]]">
                 <thead>
                     <tr>
                         <th style="width:30%;text-align: right; font-size: 18px;">Country:</th>
@@ -76,7 +93,7 @@
                                 item-label-path="country_name_th"></gl-combo-box>
                         </th>
                         <th style="width:20%">
-                            <paper-button class="gl-btn-primary" on-tap="addCountry" raised>เพิ่ม</paper-button>
+                            <paper-button class="gl-btn-primary" on-tap="addCountry" raised hidden="[[btnState]]">เพิ่ม</paper-button>
                         </th>
                     </tr>
                 </thead>
@@ -90,22 +107,22 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <template is="dom-repeat" items="[[select.country]]">
+                    <template is="dom-repeat" items="[[data.country]]">
                         <tr>
                             <td>[[toIndex(index)]]</td>
                             <td>[[item.country_name_th]]</td>
                             <td>
-                                <paper-button class="gl-btn-warning" on-tap="delCountry" item="[[item]]">Remove</paper-button>
+                                <paper-button class="gl-btn-warning" on-tap="delCountry" item="[[item]]" raised hidden="[[btnState]]">ลบ</paper-button>
                             </td>
                         </tr>
                     </template>
                 </tbody>
             </table>
             <div class="layout horizontal end-justified" style="padding:15px;">
-                <!--<template is="dom-if" if="[[select.id]]">
+                <!--<template is="dom-if" if="[[data.id]]">
                     <paper-button class="gl-btn-danger" on-tap="delSelect">Delete</paper-button>
                 </template>-->
-                <paper-button class="gl-btn-success" on-tap="saveSelect">Save</paper-button>
+                <paper-button class="gl-btn-success" on-tap="saveSelect" raised hidden="[[btnState]]">บันทึก</paper-button>
             </div>
         </div>
     </template>
@@ -114,7 +131,7 @@
             is: 'country-group-manage',
             behaviors: [ReduxBehavior],
             properties: {
-                select: {
+                data: {
                     statePath: 'countryGroup.select'
                 },
                 countryList: {
@@ -122,6 +139,9 @@
                 },
                 countrySelect: {
                     type: Object
+                },
+                btnState: {
+                    statePath: 'commonState.btnState'
                 }
             },
             toIndex: function (index) {
@@ -135,38 +155,40 @@
                     // if (!this.select.hasOwnProperty('country')) {
                     //     this.select['country'] = [];
                     // }
-                    this.push('select.country', item);
+                    this.push('data.country', item);
                     this.splice('countryList', index, 1);
                 }
                 this.countrySelect = "";
             },
             delCountry: function (e) {
                 var item = e.currentTarget.item;
-                var index = this.select.country.indexOf(item)
-                this.splice('select.country', index, 1);
+                var index = this.data.country.indexOf(item)
+                this.splice('data.country', index, 1);
                 this.push('countryList', item);
             },
             saveSelect: function () {
-                this.select.country = this.select.country.map((sc_map) => sc_map.id);
-                if (this.select.creater == "admin") {
-                    this.dispatchAction('COUNTRY_GROUP_UPDATE', this.select);
+                this.data.country = this.data.country.map((sc_map) => sc_map.id);
+                if (this.data.creater == "admin") {
+                    this.dispatchAction('COUNTRY_GROUP_UPDATE', this.data);
                 } else {
-                    this.dispatchAction('COUNTRY_GROUP_INSERT', this.select);
+                    this.dispatchAction('COUNTRY_GROUP_INSERT', this.data);
                 }
             },
-            checkDisabled:function(val){
-                if(typeof val != 'undefined' && val != undefined){
-                    if(val == 'admin'){
+            checkDisabled: function (val) {
+                if (typeof val != 'undefined' && val != undefined) {
+                    if (val == 'admin') {
                         return true
                     }
-                    else{
+                    else {
                         return false
                     }
                 }
+            },
+            _checkStatus: function (val) {
+                if (typeof val != 'undefined' && val != undefined) {
+                    return true
+                }
             }
-            // delSelect: function () {
-            //     this.dispatchAction('COUNTRY_GROUP_DELETE', this.select.id);
-            // }
         });
     </script>
 </dom-module>
