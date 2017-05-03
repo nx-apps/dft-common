@@ -16,12 +16,15 @@
       -webkit-font-smoothing: antialiased;
       font-size: var(--font-size-h5);
     }
+    
     .button-top {
       margin: 20px;
     }
+    
     .text-center {
       text-align: center;
     }
+    
     .text-head {
       text-align: center;
       padding: 10px 0px 10px 10px;
@@ -31,24 +34,30 @@
       /*font-family: 'rsuregular', sans-serif;
         -webkit-font-smoothing: antialiased;*/
     }
+    
     .table-head>tr>th:nth-child(1) {
       width: 5%;
     }
+    
     .table-head>tr>th:nth-child(2) {
       width: 15%;
     }
+    
     .table-head>tr>th:nth-child(3) {
       width: 25%;
     }
+    
     .table-head>tr>th:nth-child(4) {
       width: 25%;
     }
+    
     .elevation {
       border-radius: 5px;
       margin: 10px;
       padding: 5px;
       background-color: white;
     }
+    
     .labelSearch {
       font-size: var(--font-size-h5);
       margin: 10px 10px 10px 10px;
@@ -101,7 +110,7 @@
           </tr>
         </thead>
 
-        <template is="dom-repeat" items="[[data]]">
+        <template is="dom-repeat" items="[[newData]]">
           <tbody>
             <tr>
               <td>
@@ -137,60 +146,70 @@
   <script>
     Polymer({
       is: "page-bank",
-      behaviors: [nylonBehavior, ReduxBehavior, bankAction,commonStateAction],
+      behaviors: [nylonBehavior, ReduxBehavior, bankAction, commonStateAction],
       properties: {
         data: {
-          statePath: 'bank.list'
+          statePath: 'bank.list',
+          observer:'setNewData'
+        },
+        newData: {
+          type: Array,
         }
       },
-       listeners: {
+      listeners: {
         'edit-input': 'editInput',
         'delete-input': '_delete'
       },
-      editInput(){
-        this.dispatchAction('BTN_SET_STATE',false);
+      editInput() {
+        this.dispatchAction('BTN_SET_STATE', false);
       },
       nylonPageActive: function () {
-        this.dispatchAction('BANK_GET_DATA');
-        this.dispatchAction('BTN_SET_STATE',true);
+          this.dispatchAction('BANK_GET_DATA');
+          this.dispatchAction('BTN_SET_STATE', true);
+          
       },
-      _toggleDrawer: function(e) {
+      setNewData(data){
+       this.set('newData', JSON.parse(JSON.stringify(this.data)))
+       console.log(this.newData)
+      },
+      _toggleDrawer: function (e) {
         this.$$('nylon-panel-right').open();
         this.dispatchAction('CLEAR_DATA');
-        this.dispatchAction('BTN_SET_STATE',false);
+        this.dispatchAction('BTN_SET_STATE', false);
         this.title = "เพิ่มข้อมูล";
       },
-      _count:function(val){
-        return val+1
+      _count: function (val) {
+        return val + 1
       },
-      _delete: function(e){
+      _delete: function (e) {
         // console.log(e);
         this.dispatchAction('BANK_DELETE', e.target.data.bank_id);
       },
-      _edit: function(e) {
-        this.dispatchAction('BTN_SET_STATE',true);
+      _edit: function (e) {
+        this.dispatchAction('BTN_SET_STATE', true);
         this.$$('nylon-panel-right').open();
         this.dispatchAction('BANK_GET_ID', e.target.data.bank_id);
         this.title = "แก้ไขข้อมูล";
       },
-      _back:function() {
+      _back: function () {
         window.history.back();
       },
-      // _searchInArray:function (searchInput) {
-      //     // console.log(searchInput == '');
-      //     if (searchInput != '') {
-      //       let arr=[];
-      //       this.dataBank.map((el)=>{
-      //         if (el.bank_id.search(searchInput) > -1) {
-      //             //  console.log('search==> ',el);
-      //               arr.push(el);
-      //         }
-      //       });
-      //       this.newData=arr;
-      //     }else{
-      //       this.initDatabl(this.dataBank);
-      //     }
-      // }
+      _searchInArray: function (searchInput) {
+        // console.log(searchInput == '');
+        if (searchInput != '') {
+          // console.log(searchInput.toUpperCase());
+          let arr = [];
+          this.data.map((el) => {
+            if (el.bank_id.search(searchInput) > -1) {
+              //  console.log('search==> ',el);
+              arr.push(el);
+            }
+          });
+          this.set('newData',arr)
+        } else {
+           this.set('newData',this.data)
+        }
+      }
     });
   </script>
 </dom-module>

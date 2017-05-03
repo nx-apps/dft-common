@@ -1,46 +1,45 @@
-
-
-
 <script>
+
+
     FormatNumberBehavior = {
-        properties:{
-            _defaultFormat:{
+        properties: {
+            _defaultFormat: {
                 type: String,
                 value: '0,0.00'
             },
-            editFormat:{
+            editFormat: {
                 type: String,
                 value: '0,0.00'
             }
         },
-        formatNumber:function(number){
-        //    console.log(number);
-            if(number == null){
+        formatNumber: function (number) {
+            //    console.log(number);
+            if (number == null) {
                 return "";
             }
             else {
-                if(Number.isInteger(number)== true){
+                if (Number.isInteger(number) == true) {
                     this._defaultFormat = '0,0'
                     var num = numeral(number).format(this._defaultFormat);
                     return num
                 }
-                else if(Number.isInteger(number)==false){
+                else if (Number.isInteger(number) == false) {
                     // this._defaultFormat = '0,0.00'
                     var num = numeral(number).format(this.editFormat);
                     return num
                 }
             }
-           
+
         },
-        newFormat:function(number){
-            if(number == null){
+        newFormat: function (number) {
+            if (number == null) {
                 return "";
             }
             else {
                 return numeral(number).format(this.editFormat);
             }
         },
-        setFormat:function(format){
+        setFormat: function (format) {
             this.editFormat = format;
             // if(format == "" || format == "undefined"){
             //     format = '0,0';
@@ -51,10 +50,10 @@
             // } 
             // return this._defaultFormat;
         },
-        unFormat:function(number){
+        unFormat: function (number) {
             var num = numeral().unformat(number);
             return num;
-        }   
+        }
     }
-  
+
 </script>
