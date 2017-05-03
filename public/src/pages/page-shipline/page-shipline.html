@@ -4,6 +4,8 @@
 <link rel="import" href="./../../../bower_components/paper-input/paper-input.html">
 <link rel="import" href="../../nylon-behavior.html">
 <link rel="import" href="components/manage-shipline.html">
+<link rel="import" href="./../../../bower_components/paper-tooltip/paper-tooltip.html">
+<link rel="import" href="./../components/icon-button-management.html">
 <dom-module id="page-shipline">
   <style is="custom-style" include="iron-flex iron-flex-factors iron-flex-alignment gl-color gl-size gl-table">
     *{
@@ -108,18 +110,27 @@
   <script>
     Polymer({
       is: "page-shipline",
-      behaviors: [nylonBehavior, ReduxBehavior, shiplineAction],
+      behaviors: [nylonBehavior, ReduxBehavior, shiplineAction,commonStateAction],
       properties: {
         data: {
           statePath: 'shipline.list'
         }
       },
+       listeners: {
+        'edit-input': 'editInput',
+        'delete-input': '_delete'
+      },
+      editInput(){
+        this.dispatchAction('BTN_SET_STATE',false);
+      },
       nylonPageActive: function () {
         this.dispatchAction('SHIPLINE_GET_DATA');
+        this.dispatchAction('BTN_SET_STATE',true);
       },
       _toggleDrawer: function (e) {
         this.$$('nylon-panel-right').open();
         this.dispatchAction('CLEAR_DATA');
+        this.dispatchAction('BTN_SET_STATE',false);
         this.title = "เพิ่มข้อมูล";
       },
       _count: function (val) {
@@ -129,6 +140,7 @@
         this.dispatchAction('SHIPLINE_DELETE', e.target.data.shipline_id);
       },
       _edit: function (e) {
+        this.dispatchAction('BTN_SET_STATE',true);
         this.$$('nylon-panel-right').open();
         this.dispatchAction('SHIPLINE_GET_ID', e.target.data.shipline_id);
         this.title = "แก้ไขข้อมูล";

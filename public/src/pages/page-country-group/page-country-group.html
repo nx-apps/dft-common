@@ -5,7 +5,8 @@
 <link rel="import" href="./../../../bower_components/gl-styles/gl-table.html">
 <link rel="import" href="./../../../bower_components/paper-input/paper-input.html">
 
-
+<link rel="import" href="./../../../bower_components/paper-tooltip/paper-tooltip.html">
+<link rel="import" href="./../components/icon-button-management.html">
 <dom-module id="page-country-group">
     <style is="custom-style" include="iron-flex iron-flex-factors iron-flex-alignment gl-color gl-size gl-table">
         * {
@@ -94,13 +95,22 @@
                     statePath: 'countryGroup.list'
                 }
             },
-            behaviors: [nylonBehavior, ReduxBehavior, countryGroupAction],
+            behaviors: [nylonBehavior, ReduxBehavior, countryGroupAction,commonStateAction],
+             listeners: {
+        'edit-input': 'editInput',
+        'delete-input': '_delete'
+      },
+      editInput(){
+        this.dispatchAction('BTN_SET_STATE',false);
+      },
             nylonPageActive: function () {
                 this.dispatchAction('COUNTRY_GROUP_LIST');
+                this.dispatchAction('BTN_SET_STATE',true);
             },
             _toggleDrawer: function (e) {
                 this.dispatchAction('COUNTRY_GROUP_CLEAR_SELECT');
                 this.$$('nylon-panel-right').open();
+                this.dispatchAction('BTN_SET_STATE',false);
                 this.title = "เพิ่มข้อมูล";
             },
             _delete: function (e) {
@@ -108,6 +118,7 @@
             },
             _edit: function (e) {
                 this.$$('nylon-panel-right').open();
+                this.dispatchAction('BTN_SET_STATE',true);
                 this.dispatchAction('COUNTRY_LIST');
                 this.dispatchAction('COUNTRY_GROUP_SELECT', e.target.data.id);
                 this.title = "แก้ไขข้อมูล";

@@ -90,6 +90,7 @@ export function buyerAction(store) {
                                         status: 'success', text: 'บันทึกสำเร็จ', callback: () => {
                                             this.BUYER_GET_DATA();
                                             this.BUYER_GET_ID(newData.id);
+                                            this.dispatchAction('BTN_SET_STATE',true);
                                             this.$$('nylon-panel-right').close();
                                         }
                                     });

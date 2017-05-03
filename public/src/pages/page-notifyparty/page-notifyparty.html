@@ -4,6 +4,8 @@
 <link rel="import" href="./../../../bower_components/paper-input/paper-input.html">
 <link rel="import" href="../../nylon-behavior.html">
 <link rel="import" href="components/manage-notifyparty.html">
+<link rel="import" href="./../../../bower_components/paper-tooltip/paper-tooltip.html">
+<link rel="import" href="./../components/icon-button-management.html">
 <dom-module id="page-notifyparty">
   <style is="custom-style" include="iron-flex iron-flex-factors iron-flex-alignment gl-color gl-size gl-table">
     * {
@@ -146,20 +148,29 @@
   <script>
     Polymer({
       is: "page-notifyparty",
-      behaviors: [nylonBehavior, ReduxBehavior, notifypartyAction,buyerAction,portAction],
+      behaviors: [nylonBehavior, ReduxBehavior, notifypartyAction,buyerAction,portAction,commonStateAction],
       properties: {
         data: {
           statePath: 'notifyparty.list'
         }
       },
+       listeners: {
+        'edit-input': 'editInput',
+        'delete-input': '_delete'
+      },
+      editInput(){
+        this.dispatchAction('BTN_SET_STATE',false);
+      },
       nylonPageActive: function () {
         this.dispatchAction('NOTIFY_PARTY_GET_DATA');
         this.dispatchAction('BUYER_GET_DATA');
+        this.dispatchAction('BTN_SET_STATE',true);
         this.dispatchAction('PORT_GET_DATA');
       },
       _toggleDrawer: function (e) {
         this.$$('nylon-panel-right').open();
         this.dispatchAction('CLEAR_DATA');
+        this.dispatchAction('BTN_SET_STATE',false);
         this.title = "เพิ่มข้อมูล";
       },
       _count: function (val) {
@@ -170,6 +181,7 @@
       },
       _edit: function (e) {
         this.$$('nylon-panel-right').open();
+        this.dispatchAction('BTN_SET_STATE',true);
         this.dispatchAction('NOTIFY_PARTY_GET_ID', e.target.data.notify_id);
         this.title = "แก้ไขข้อมูล";
       },

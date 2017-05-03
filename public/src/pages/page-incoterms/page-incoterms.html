@@ -4,6 +4,8 @@
 <link rel="import" href="./../../../bower_components/paper-input/paper-input.html">
 <link rel="import" href="../../nylon-behavior.html">
 <link rel="import" href="components/manage-incoterms.html">
+<link rel="import" href="./../../../bower_components/paper-tooltip/paper-tooltip.html">
+<link rel="import" href="./../components/icon-button-management.html">
 <dom-module id="page-incoterms">
   <style is="custom-style" include="iron-flex iron-flex-factors iron-flex-alignment gl-color gl-size gl-table">
    *{
@@ -110,15 +112,23 @@
   <script>
     Polymer({
       is: "page-incoterms",
-      behaviors: [nylonBehavior, ReduxBehavior, incotermsAction],
+      behaviors: [nylonBehavior, ReduxBehavior, incotermsAction,commonStateAction],
       properties: {
         data: {
           statePath: 'incoterms.list',
           observer: 'setNo'
         }
       },
+       listeners: {
+        'edit-input': 'editInput',
+        'delete-input': '_delete'
+      },
+      editInput(){
+        this.dispatchAction('BTN_SET_STATE',false);
+      },
       nylonPageActive: function () {
         this.dispatchAction('INCOTERMS_GET_DATA');
+        this.dispatchAction('BTN_SET_STATE',true);
       },
       setNo(data){
         return data.map((mkNo,index)=> mkNo.no = index+1)
@@ -126,6 +136,7 @@
       _toggleDrawer: function (e) {
         this.$$('nylon-panel-right').open();
         this.dispatchAction('CLEAR_DATA');
+        this.dispatchAction('BTN_SET_STATE',false);
         this.title = "เพิ่มข้อมูล";
       },
       _count: function (val) {
@@ -136,6 +147,7 @@
       },
       _edit: function (e) {
         this.$$('nylon-panel-right').open();
+        this.dispatchAction('BTN_SET_STATE',true);
         this.dispatchAction('INCOTERMS_GET_ID', e.target.data.inct_id);
         this.title = "แก้ไขข้อมูล";
       },

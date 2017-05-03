@@ -90,6 +90,7 @@ export function carrierAction(store) {
                                             this.fire('toast', {
                                                 status: 'success', text: 'บันทึกสำเร็จ', callback: () => {
                                                     this.CARRIER_GET_ID(newData.id);
+                                                    this.dispatchAction('BTN_SET_STATE',true);
                                                 }
                                             });
                                         })
@@ -104,6 +105,7 @@ export function carrierAction(store) {
                                                         this.fire('toast', {
                                                             status: 'success', text: 'บันทึกสำเร็จ', callback: () => {
                                                                 this.CARRIER_GET_ID(newData.id);
+                                                                this.dispatchAction('BTN_SET_STATE',true);
                                                             }
                                                         });
                                                     })

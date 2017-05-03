@@ -154,19 +154,28 @@
   <script>
     Polymer({
       is: "page-port",
-      behaviors: [nylonBehavior, ReduxBehavior,[countryAction,portAction] ],
+      behaviors: [nylonBehavior, ReduxBehavior,[countryAction,portAction,commonStateAction] ],
       properties: {
         data: {
           statePath: 'port.list'
         }
       },
+       listeners: {
+        'edit-input': 'editInput',
+        'delete-input': '_delete'
+      },
+      editInput(){
+        this.dispatchAction('BTN_SET_STATE',false);
+      },
       nylonPageActive: function () {
         this.dispatchAction('PORT_GET_DATA');
         this.dispatchAction('COUNTRY_GET_DATA');
+        this.dispatchAction('BTN_SET_STATE',true);
       },
       _toggleDrawer: function (e) {
         this.$$('nylon-panel-right').open();
         this.dispatchAction('CLEAR_DATA');
+        this.dispatchAction('BTN_SET_STATE',false);
         this.title = "เพิ่มข้อมูล";
       },
       _count: function (val) {
@@ -177,6 +186,7 @@
       },
       _edit: function (e) {
         this.$$('nylon-panel-right').open();
+        this.dispatchAction('BTN_SET_STATE',true);
         this.dispatchAction('PORT_GET_ID', e.target.data.port_id);
         this.title = "แก้ไขข้อมูล";
       },

@@ -4,6 +4,8 @@
 <link rel="import" href="./../../../bower_components/paper-input/paper-input.html">
 <link rel="import" href="../../nylon-behavior.html">
 <link rel="import" href="components/manage-country.html">
+<link rel="import" href="./../../../bower_components/paper-tooltip/paper-tooltip.html">
+<link rel="import" href="./../components/icon-button-management.html">
 <dom-module id="page-country">
   <style is="custom-style" include="iron-flex iron-flex-factors iron-flex-alignment gl-color gl-size gl-table">
     * {
@@ -119,19 +121,28 @@
   <script>
     Polymer({
       is: "page-country",
-      behaviors: [nylonBehavior, ReduxBehavior, countryAction, continentAction],
+      behaviors: [nylonBehavior, ReduxBehavior, countryAction, continentAction,commonStateAction],
       properties: {
         data: {
           statePath: 'country.list'
         }
       },
+       listeners: {
+        'edit-input': 'editInput',
+        'delete-input': '_delete'
+      },
+      editInput(){
+        this.dispatchAction('BTN_SET_STATE',false);
+      },
       nylonPageActive: function () {
         this.dispatchAction('COUNTRY_GET_DATA');
+        this.dispatchAction('BTN_SET_STATE',true);
       },
       _toggleDrawer: function (e) {
         this.$$('nylon-panel-right').open();
         this.dispatchAction('CONTINENT_GET_DATA');
         this.dispatchAction('CLEAR_DATA');
+        this.dispatchAction('BTN_SET_STATE',false);
         this.title = "เพิ่มข้อมูล";
       },
       _count: function (val) {
@@ -143,6 +154,7 @@
       _edit: function (e) {
         this.$$('nylon-panel-right').open();
         this.dispatchAction('CONTINENT_GET_DATA');
+        this.dispatchAction('BTN_SET_STATE',true);
         this.dispatchAction('COUNTRY_GET_ID', e.target.data.country_id);
         this.title = "แก้ไขข้อมูล";
       },

@@ -4,6 +4,8 @@
 <link rel="import" href="./../../../bower_components/paper-input/paper-input.html">
 <link rel="import" href="../../nylon-behavior.html">
 <link rel="import" href="components/manage-carrier.html">
+<link rel="import" href="./../../../bower_components/paper-tooltip/paper-tooltip.html">
+<link rel="import" href="./../components/icon-button-management.html">
 <dom-module id="page-carrier">
   <style is="custom-style" include="iron-flex iron-flex-factors iron-flex-alignment gl-color gl-size gl-table">
     * {
@@ -117,17 +119,26 @@
   <script>
     Polymer({
       is: "page-carrier",
-      behaviors: [nylonBehavior, ReduxBehavior, carrierAction],
+      behaviors: [nylonBehavior, ReduxBehavior, carrierAction,commonStateAction],
       properties: {
         data: {
           statePath: 'carrier.list'
         }
       },
+       listeners: {
+        'edit-input': 'editInput',
+        'delete-input': '_delete'
+      },
+      editInput(){
+        this.dispatchAction('BTN_SET_STATE',false);
+      },
       nylonPageActive: function () {
         this.dispatchAction('CARRIER_GET_DATA');
+        this.dispatchAction('BTN_SET_STATE',true);
       },
       _toggleDrawer: function (e) {
         this.$$('nylon-panel-right').open();
+        this.dispatchAction('BTN_SET_STATE',false);
         this.dispatchAction('CLEAR_DATA');
         this.title = "เพิ่มข้อมูล";
       },
@@ -139,6 +150,7 @@
       },
       _edit: function (e) {
         this.$$('nylon-panel-right').open();
+        this.dispatchAction('BTN_SET_STATE',true);
         this.dispatchAction('CARRIER_GET_ID', e.target.data.carrier_id);
         this.title = "แก้ไขข้อมูล";
       },
