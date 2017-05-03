@@ -1,0 +1,29 @@
+<script>
+    SearchBehavior = {
+        // {{_searchInArray(searchInput,'bank_id',data)}}
+        //searchInput = ค่าที่ต้องการหา
+        // 'bank_id' = อ็อปเจ็ปที่ต้องการหา
+        // data = อาเรียที่ต้องการค้นหา
+        searchInArray(searchInput, type, data) {
+            if (searchInput != '') {
+                let arr = [];
+                data.map((el) => {
+                    if (el[type].search(searchInput) > -1) {
+                        arr.push(el);
+                    }
+                });
+                return arr
+            } else {
+                return data
+            }
+        },
+        searchInArrayState(searchInput, type, data) {
+            if (this.searchInArray(searchInput, type, data).length <= 0) {
+                return true
+            } else {
+                return false
+            }
+        }
+    }
+
+</script>

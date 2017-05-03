@@ -6,101 +6,105 @@
 <link rel="import" href="components/manage-shipline.html">
 <link rel="import" href="./../../../bower_components/paper-tooltip/paper-tooltip.html">
 <link rel="import" href="./../components/icon-button-management.html">
+<link rel="import" href="./../../layout/page-style.html">
+<link rel="import" href="./../components/search-behavior.html">
 <dom-module id="page-shipline">
-  <style is="custom-style" include="iron-flex iron-flex-factors iron-flex-alignment gl-color gl-size gl-table">
-    *{
-      font-family: 'CSChatThaiUI', sans-serif;
-      -webkit-font-smoothing: antialiased;
-      font-size: var(--font-size-h5);
-    }
-    .button-top{
-      margin: 20px;
-    }
-    .text-center {
-      text-align: center;
-    }
-    .text-head {
-      text-align: center;
-      padding: 10px 0px 10px 10px;
-      background-color: var(--paper-grey-100);
-      color: var(--paper-grey-600);
-      font-size: var(--font-size-h3);
-      /*font-family: 'rsuregular', sans-serif;
-        -webkit-font-smoothing: antialiased;*/
-    }
-    .table-head > tr > th:nth-child(1) {
+  <style is="custom-style" include="iron-flex iron-flex-factors iron-flex-alignment gl-table page-style">
+    .table-head>tr>th:nth-child(1) {
       width: 5%;
     }
-    .table-head > tr > th:nth-child(2) {
+    
+    .table-head>tr>th:nth-child(2) {
       width: 25%;
     }
-    .table-head > tr > th:nth-child(3) {
+    
+    .table-head>tr>th:nth-child(3) {
       width: 20%;
     }
-    .table-head > tr > th:nth-child(4) {
+    
+    .table-head>tr>th:nth-child(4) {
       width: 15%;
-    }
-    .elevation{
-      border-radius: 5px;
-      margin: 10px;
-      padding: 5px;
-      background-color: white;
-    }
-    .labelSearch{
-      font-size: var(--font-size-h5);
-      margin: 10px 10px 10px 10px;
     }
   </style>
   <template>
 
     <paper-material elevation="1" class="elevation">
 
-      <paper-button style="margin:10px" raised on-tap="_back"><iron-icon icon="icons:chevron-left"></iron-icon>back</paper-button>
+      <paper-button style="margin:10px" raised on-tap="_back">
+        <iron-icon icon="icons:chevron-left"></iron-icon>back</paper-button>
 
-          <div class="text-head">สายเรือ</div>
+      <div class="text-head">สายเรือ</div>
 
-          <div class="horizontal justified layout">
-            <div class="horizontal layout" style="margin-top:25px;">
-              <div class="labelSearch">ชื่อสายเรือ</div>{{_searchInArray(searchInput)}}
-              <paper-input label=" " no-label-float value="{{searchInput}}"></paper-input>
-              <iron-icon icon="search" style="margin-top:10px;"></iron-icon>
-            </div>
-            <div>
-              <paper-button class="gl-btn-primary button-top" title="เพิ่มสายเรือ" raised on-tap="_toggleDrawer"><iron-icon icon="add"></iron-icon>เพิ่มสายเรือ</paper-button>
-            </div>
-          </div>
+      <div class="horizontal justified layout">
+        <div class="horizontal layout" style="margin-top:25px;">
+          <div class="labelSearch">ชื่อสายเรือ</div>
+          <paper-input label=" " no-label-float value="{{searchInput}}"></paper-input>
+          <iron-icon icon="search" style="margin-top:10px;"></iron-icon>
+        </div>
+        <div>
+          <paper-button class="gl-btn-primary button-top" title="เพิ่มสายเรือ" raised on-tap="_toggleDrawer">
+            <iron-icon icon="add"></iron-icon>เพิ่มสายเรือ</paper-button>
+        </div>
+      </div>
 
-          <table class="gl-table-default">
-            <thead class="table-head">
-              <tr>
-                <th><div class="text-center">No<p>(ลำดับ)</div></th>
-                <th><div class="text-center">Shipline Name<p>(ชื่อสายเรือ)</div></th>
-                <th><div class="text-center">Tel.<p>(เบอร์โทรศัพท์)</div></th>
-                <th><div class="text-center">Date Update<p>(วันที่อัพเดทล่าสุด)</div></th>
-                <th style="text-align:right;">
-                  <!-- <paper-button class="gl-btn-primary button-top" title="เพิ่มพิกัดข้าว" raised on-tap="_toggleDrawer"><iron-icon icon="add"></iron-icon>เพิ่มพิกัดข้าว</paper-button> -->
-                </th>
-              </tr>
-            </thead>
+      <table class="gl-table-default">
+        <thead class="table-head">
+          <tr>
+            <th>
+              <div class="text-center">No
+                <p>(ลำดับ)</div>
+            </th>
+            <th>
+              <div class="text-center">Shipline Name
+                <p>(ชื่อสายเรือ)</div>
+            </th>
+            <th>
+              <div class="text-center">Tel.
+                <p>(เบอร์โทรศัพท์)</div>
+            </th>
+            <th>
+              <div class="text-center">Date Update
+                <p>(วันที่อัพเดทล่าสุด)</div>
+            </th>
+            <th style="text-align:right;">
+              <!-- <paper-button class="gl-btn-primary button-top" title="เพิ่มพิกัดข้าว" raised on-tap="_toggleDrawer"><iron-icon icon="add"></iron-icon>เพิ่มพิกัดข้าว</paper-button> -->
+            </th>
+          </tr>
+        </thead>
 
-            <!-- <template is="dom-repeat" items="{{dataShipline}}"> -->
-            <template is="dom-repeat" items="[[data]]">
-              <tbody>
-                <tr>
-                  <td><div class="text-center">{{_count(index)}}</div></td>
-                  <td><div class="text-center">{{item.shipline_name}}</div></td>
-                  <td><div class="text-center">{{item.shipline_tel}}</div></td>
-                  <td><div class="text-center">{{item.date_updated}}</div></td>
-                  <td style="text-align:right;">
-                    <paper-icon-button data="{{item}}" on-tap="_edit" icon="icons:create"></paper-icon-button>
-                    <paper-icon-button data="{{item}}" icon="delete" on-tap="_delete"></paper-icon-button>
-                  </td>
-                </tr>
-              </tbody>
-            </template>
-            <!-- </template> -->
+        <!-- <template is="dom-repeat" items="{{dataShipline}}"> -->
+        <template is="dom-repeat" items="{{searchInArray(searchInput,'shipline_name',data)}}">
+          <tbody>
+            <tr>
+              <td>
+                <div class="text-center">{{_count(index)}}</div>
+              </td>
+              <td>
+                <div class="text-center">{{item.shipline_name}}</div>
+              </td>
+              <td>
+                <div class="text-center">{{item.shipline_tel}}</div>
+              </td>
+              <td>
+                <div class="text-center">{{item.date_updated}}</div>
+              </td>
+              <td style="text-align:right;">
+                <paper-icon-button data="{{item}}" on-tap="_edit" icon="icons:create"></paper-icon-button>
+                <paper-icon-button data="{{item}}" icon="delete" on-tap="_delete"></paper-icon-button>
+              </td>
+            </tr>
 
-          </table>
+          </tbody>
+        </template>
+        <!-- </template> -->
+        <template is="dom-if" if="{{searchInArrayState(searchInput,'shipline_name',data)}}">
+          <tr>
+            <td colspan="6">
+              <div class="text-center">ไม่มีข้อมูล</div>
+            </td>
+          </tr>
+        </template>
+      </table>
     </paper-material>
 
     <nylon-panel-right title="{{title}}">
@@ -110,27 +114,27 @@
   <script>
     Polymer({
       is: "page-shipline",
-      behaviors: [nylonBehavior, ReduxBehavior, shiplineAction,commonStateAction],
+      behaviors: [nylonBehavior, ReduxBehavior, shiplineAction, commonStateAction, SearchBehavior],
       properties: {
         data: {
           statePath: 'shipline.list'
         }
       },
-       listeners: {
+      listeners: {
         'edit-input': 'editInput',
         'delete-input': '_delete'
       },
-      editInput(){
-        this.dispatchAction('BTN_SET_STATE',false);
+      editInput() {
+        this.dispatchAction('BTN_SET_STATE', false);
       },
       nylonPageActive: function () {
         this.dispatchAction('SHIPLINE_GET_DATA');
-        this.dispatchAction('BTN_SET_STATE',true);
+        this.dispatchAction('BTN_SET_STATE', true);
       },
       _toggleDrawer: function (e) {
         this.$$('nylon-panel-right').open();
         this.dispatchAction('CLEAR_DATA');
-        this.dispatchAction('BTN_SET_STATE',false);
+        this.dispatchAction('BTN_SET_STATE', false);
         this.title = "เพิ่มข้อมูล";
       },
       _count: function (val) {
@@ -140,7 +144,7 @@
         this.dispatchAction('SHIPLINE_DELETE', e.target.data.shipline_id);
       },
       _edit: function (e) {
-        this.dispatchAction('BTN_SET_STATE',true);
+        this.dispatchAction('BTN_SET_STATE', true);
         this.$$('nylon-panel-right').open();
         this.dispatchAction('SHIPLINE_GET_ID', e.target.data.shipline_id);
         this.title = "แก้ไขข้อมูล";

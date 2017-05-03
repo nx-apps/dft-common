@@ -1,7 +1,10 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html">
+
+<link rel="import" href="./../../bower_components/gl-styles/gl-color.html">
+<link rel="import" href="./../../bower_components/gl-styles/gl-size.html">
 <dom-module id="page-style">
     <template>
-        <style>
+        <style include="gl-size gl-color">
             .header {
                 font-size: 32px;
                 padding-top: 20px;
@@ -166,8 +169,48 @@
             vaadin-grid#material vaadin-grid-sorter[direction=desc] iron-icon {
                 transform: scale(0.8) rotate(180deg);
             }
-            .center{
+            
+            .center {
                 text-align: center;
+            }
+            
+            * {
+                font-family: 'CSChatThaiUI', sans-serif;
+                -webkit-font-smoothing: antialiased;
+                font-size: var(--font-size-h5);
+            }
+            
+            .button-top {
+                margin: 20px;
+            }
+            
+            .text-center {
+                text-align: center;
+            }
+            
+            .text-head {
+                text-align: center;
+                padding: 10px 0px 10px 10px;
+                background-color: var(--paper-grey-100);
+                color: var(--paper-grey-600);
+                font-size: var(--font-size-h3);
+                /*font-family: 'rsuregular', sans-serif;
+        -webkit-font-smoothing: antialiased;*/
+            }
+            
+            .elevation {
+                border-radius: 5px;
+                margin: 10px;
+                padding: 5px;
+                background-color: white;
+            }
+            
+            .labelSearch {
+                font-size: var(--font-size-h5);
+                margin: 10px 10px 10px 10px;
+            }
+            .no-data {
+                margin: 15px;
             }
         </style>
     </template>

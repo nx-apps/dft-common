@@ -7,19 +7,24 @@
 
 <link rel="import" href="./../../../bower_components/paper-tooltip/paper-tooltip.html">
 <link rel="import" href="./../components/icon-button-management.html">
+<link rel="import" href="./../../layout/page-style.html">
+<link rel="import" href="./../components/search-behavior.html">
 <dom-module id="page-country-group">
-    <style is="custom-style" include="iron-flex iron-flex-factors iron-flex-alignment gl-color gl-size gl-table">
+    <style is="custom-style" include="iron-flex iron-flex-factors iron-flex-alignment gl-table page-style">
         * {
             font-family: 'CSChatThaiUI', sans-serif;
             -webkit-font-smoothing: antialiased;
             font-size: var(--font-size-h5);
         }
+        
         .button-top {
             margin: 20px;
         }
+        
         .text-center {
             text-align: center;
         }
+        
         .text-head {
             text-align: center;
             padding: 10px 0px 10px 10px;
@@ -27,21 +32,26 @@
             color: var(--paper-grey-600);
             font-size: var(--font-size-h3);
         }
+        
         .table-head>tr>th:nth-child(1) {
             width: 1%;
         }
+        
         .table-head>tr>th:nth-child(2) {
             width: 10%;
         }
+        
         .table-head>tr>th:nth-child(3) {
             width: 20%;
         }
+        
         .elevation {
             border-radius: 5px;
             margin: 10px;
             padding: 5px;
             background-color: white;
         }
+        
         .labelSearch {
             font-size: var(--font-size-h5);
             margin: 10px 10px 10px 10px;
@@ -53,33 +63,53 @@
                 <iron-icon icon="icons:chevron-left"></iron-icon>back</paper-button>
             <div class="text-head">กลุ่มประเทศ</div>
 
-            <div class="horizontal end-justified layout">
-                <paper-button class="gl-btn-primary button-top" title="เพิ่มประเทศ" raised on-tap="_toggleDrawer">
-                <iron-icon icon="add"></iron-icon>เพิ่มประเทศ</paper-button>
+            <div class="horizontal justified layout">
+                <div class="horizontal layout" style="margin-top:25px;">
+                    <div class="labelSearch">รหัสกลุ่ม</div>
+                    <paper-input label=" " no-label-float value="{{searchInput}}"></paper-input>
+                    <iron-icon icon="search" style="margin-top:10px;"></iron-icon>
+                </div>
+                <div>
+                    <paper-button class="gl-btn-primary button-top" title="เพิ่มประเทศ" raised on-tap="_toggleDrawer">
+                        <iron-icon icon="add"></iron-icon>เพิ่มประเทศ</paper-button>
+                </div>
+
             </div>
 
             <table class="gl-table-default">
                 <thead class="table-head">
                     <tr>
-                        <th><div class="text-center">ลำดับ</div></th>
-                        <th><div class="text-center">กลุ่มประเทศ</div></th>
+                        <th>
+                            <div class="text-center">ลำดับ</div>
+                        </th>
+                        <th>
+                            <div class="text-center">กลุ่มประเทศ</div>
+                        </th>
                         <th></th>
                     </tr>
                 </thead>
-
-                <template is="dom-repeat" items="[[list]]">
+                <template is="dom-repeat" items="{{searchInArray(searchInput,'id',data)}}">
                     <tbody>
                         <tr>
-                            <td><div class="text-center">[[toIndex(index)]]</div></td>
+                            <td>
+                                <div class="text-center">[[toIndex(index)]]</div>
+                            </td>
                             <td>{{item.id}}</td>
                             <td style="text-align:right;">
                                 <paper-icon-button data="{{item}}" on-tap="_edit" icon="icons:create"></paper-icon-button>
                                 <paper-icon-button data="{{item}}" icon="delete" on-tap="_delete"></paper-icon-button>
                             </td>
                         </tr>
+
                     </tbody>
                 </template>
-
+                <template is="dom-if" if="{{searchInArrayState(searchInput,'id',data)}}">
+                    <tr>
+                        <td colspan="6">
+                            <div class="text-center">ไม่มีข้อมูล</div>
+                        </td>
+                    </tr>
+                </template>
             </table>
         </paper-material>
 
@@ -91,26 +121,26 @@
         Polymer({
             is: 'page-country-group',
             properties: {
-                list: {
+                data: {
                     statePath: 'countryGroup.list'
                 }
             },
-            behaviors: [nylonBehavior, ReduxBehavior, countryGroupAction,commonStateAction],
-             listeners: {
-        'edit-input': 'editInput',
-        'delete-input': '_delete'
-      },
-      editInput(){
-        this.dispatchAction('BTN_SET_STATE',false);
-      },
+            behaviors: [nylonBehavior, ReduxBehavior, countryGroupAction, commonStateAction, SearchBehavior],
+            listeners: {
+                'edit-input': 'editInput',
+                'delete-input': '_delete'
+            },
+            editInput() {
+                this.dispatchAction('BTN_SET_STATE', false);
+            },
             nylonPageActive: function () {
                 this.dispatchAction('COUNTRY_GROUP_LIST');
-                this.dispatchAction('BTN_SET_STATE',true);
+                this.dispatchAction('BTN_SET_STATE', true);
             },
             _toggleDrawer: function (e) {
                 this.dispatchAction('COUNTRY_GROUP_CLEAR_SELECT');
                 this.$$('nylon-panel-right').open();
-                this.dispatchAction('BTN_SET_STATE',false);
+                this.dispatchAction('BTN_SET_STATE', false);
                 this.title = "เพิ่มข้อมูล";
             },
             _delete: function (e) {
@@ -118,7 +148,7 @@
             },
             _edit: function (e) {
                 this.$$('nylon-panel-right').open();
-                this.dispatchAction('BTN_SET_STATE',true);
+                this.dispatchAction('BTN_SET_STATE', true);
                 this.dispatchAction('COUNTRY_LIST');
                 this.dispatchAction('COUNTRY_GROUP_SELECT', e.target.data.id);
                 this.title = "แก้ไขข้อมูล";

@@ -6,8 +6,10 @@
 <link rel="import" href="components/manage-incoterms.html">
 <link rel="import" href="./../../../bower_components/paper-tooltip/paper-tooltip.html">
 <link rel="import" href="./../components/icon-button-management.html">
+<link rel="import" href="./../../layout/page-style.html">
+<link rel="import" href="./../components/search-behavior.html">
 <dom-module id="page-incoterms">
-  <style is="custom-style" include="iron-flex iron-flex-factors iron-flex-alignment gl-color gl-size gl-table">
+  <style is="custom-style" include="iron-flex iron-flex-factors iron-flex-alignment gl-table page-style">
    *{
       font-family: 'CSChatThaiUI', sans-serif;
       -webkit-font-smoothing: antialiased;
@@ -61,7 +63,7 @@
 
           <div class="horizontal justified layout">
             <div class="horizontal layout" style="margin-top:25px;">
-              <div class="labelSearch">รหัสข้อกำหนดส่งสินค้า</div>{{_searchInArray(searchInput)}}
+              <div class="labelSearch">รหัสข้อกำหนดส่งสินค้า</div>
               <paper-input label=" " no-label-float value="{{searchInput}}"></paper-input>
               <iron-icon icon="search" style="margin-top:10px;"></iron-icon>
             </div>
@@ -85,7 +87,7 @@
             </thead>
 
             <!-- <template is="dom-repeat" items="{{dataIncoterms}}"> -->
-            <template is="dom-repeat" items="[[data]]">
+            <template is="dom-repeat" items="{{searchInArray(searchInput,'inct_id',data)}}">
               <tbody>
                 <tr>
                   <td><div class="text-center">{{_count(index)}}</div></td>
@@ -98,8 +100,16 @@
                     <paper-icon-button data="{{item}}" icon="delete" on-tap="_delete"></paper-icon-button>
                   </td>
                 </tr>
+                
               </tbody>
             </template>
+            <template is="dom-if" if="{{searchInArrayState(searchInput,'inct_id',data)}}">
+          <tr>
+            <td colspan="6">
+              <div class="text-center">ไม่มีข้อมูล</div>
+            </td>
+          </tr>
+        </template>
             <!-- </template> -->
 
           </table>
@@ -112,7 +122,7 @@
   <script>
     Polymer({
       is: "page-incoterms",
-      behaviors: [nylonBehavior, ReduxBehavior, incotermsAction,commonStateAction],
+      behaviors: [nylonBehavior, ReduxBehavior, incotermsAction,commonStateAction,SearchBehavior],
       properties: {
         data: {
           statePath: 'incoterms.list',

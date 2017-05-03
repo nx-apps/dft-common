@@ -4,8 +4,10 @@
 <link rel="import" href="./../../../bower_components/paper-input/paper-input.html">
 <link rel="import" href="../../nylon-behavior.html">
 <link rel="import" href="components/manage-port.html">
+<link rel="import" href="./../../layout/page-style.html">
+<link rel="import" href="./../components/search-behavior.html">
 <dom-module id="page-port">
-  <style is="custom-style" include="iron-flex iron-flex-factors iron-flex-alignment gl-color gl-size gl-table">
+  <style is="custom-style" include="iron-flex iron-flex-factors iron-flex-alignment gl-table page-style">
     * {
       font-family: 'CSChatThaiUI', sans-serif;
       -webkit-font-smoothing: antialiased;
@@ -72,7 +74,7 @@
 
       <div class="horizontal justified layout">
         <div class="horizontal layout" style="margin-top:25px;">
-          <div class="labelSearch">เลขประจำตัวท่าเรือ</div>{{_searchInArray(searchInput)}}
+          <div class="labelSearch">เลขประจำตัวท่าเรือ</div>
           <paper-input label=" " no-label-float value="{{searchInput}}"></paper-input>
           <iron-icon icon="search" style="margin-top:10px;"></iron-icon>
         </div>
@@ -114,7 +116,7 @@
         </thead>
 
         <!-- <template is="dom-repeat" items="{{dataPort}}"> -->
-        <template is="dom-repeat" items="[[data]]">
+        <template is="dom-repeat" items="{{searchInArray(searchInput,'port_id',data)}}">
           <tbody>
             <tr>
               <td>
@@ -140,10 +142,17 @@
                 <paper-icon-button data="{{item}}" icon="delete" on-tap="_delete"></paper-icon-button>
               </td>
             </tr>
+
           </tbody>
         </template>
         <!-- </template> -->
-
+        <template is="dom-if" if="{{searchInArrayState(searchInput,'port_id',data)}}">
+          <tr>
+            <td colspan="6">
+              <div class="text-center">ไม่มีข้อมูล</div>
+            </td>
+          </tr>
+        </template>
       </table>
     </paper-material>
 
@@ -154,28 +163,28 @@
   <script>
     Polymer({
       is: "page-port",
-      behaviors: [nylonBehavior, ReduxBehavior,[countryAction,portAction,commonStateAction] ],
+      behaviors: [nylonBehavior, ReduxBehavior, [countryAction, portAction, commonStateAction, SearchBehavior]],
       properties: {
         data: {
           statePath: 'port.list'
         }
       },
-       listeners: {
+      listeners: {
         'edit-input': 'editInput',
         'delete-input': '_delete'
       },
-      editInput(){
-        this.dispatchAction('BTN_SET_STATE',false);
+      editInput() {
+        this.dispatchAction('BTN_SET_STATE', false);
       },
       nylonPageActive: function () {
         this.dispatchAction('PORT_GET_DATA');
         this.dispatchAction('COUNTRY_GET_DATA');
-        this.dispatchAction('BTN_SET_STATE',true);
+        this.dispatchAction('BTN_SET_STATE', true);
       },
       _toggleDrawer: function (e) {
         this.$$('nylon-panel-right').open();
         this.dispatchAction('CLEAR_DATA');
-        this.dispatchAction('BTN_SET_STATE',false);
+        this.dispatchAction('BTN_SET_STATE', false);
         this.title = "เพิ่มข้อมูล";
       },
       _count: function (val) {
@@ -186,7 +195,7 @@
       },
       _edit: function (e) {
         this.$$('nylon-panel-right').open();
-        this.dispatchAction('BTN_SET_STATE',true);
+        this.dispatchAction('BTN_SET_STATE', true);
         this.dispatchAction('PORT_GET_ID', e.target.data.port_id);
         this.title = "แก้ไขข้อมูล";
       },

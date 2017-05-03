@@ -6,31 +6,11 @@
 <link rel="import" href="./../components/icon-button-management.html">
 <link rel="import" href="../../nylon-behavior.html">
 <link rel="import" href="components/manage-buyer.html">
+<link rel="import" href="./../../layout/page-style.html">
+<link rel="import" href="./../components/search-behavior.html">
 <dom-module id="page-buyer">
-  <style is="custom-style" include="iron-flex iron-flex-factors iron-flex-alignment gl-color gl-size gl-table">
-    * {
-      font-family: 'CSChatThaiUI', sans-serif;
-      -webkit-font-smoothing: antialiased;
-      font-size: var(--font-size-h5);
-    }
-    
-    .button-top {
-      margin: 20px;
-    }
-    
-    .text-center {
-      text-align: center;
-    }
-    
-    .text-head {
-      text-align: center;
-      padding: 10px 0px 10px 10px;
-      background-color: var(--paper-grey-100);
-      color: var(--paper-grey-600);
-      font-size: var(--font-size-h3);
-      /*font-family: 'rsuregular', sans-serif;
-        -webkit-font-smoothing: antialiased;*/
-    }
+  <style is="custom-style" include="iron-flex iron-flex-factors iron-flex-alignment gl-table page-style">
+   
     
     .table-head>tr>th:nth-child(1) {
       width: 5%;
@@ -48,17 +28,6 @@
       width: 25%;
     }
     
-    .elevation {
-      border-radius: 5px;
-      margin: 10px;
-      padding: 5px;
-      background-color: white;
-    }
-    
-    .labelSearch {
-      font-size: var(--font-size-h5);
-      margin: 10px 10px 10px 10px;
-    }
   </style>
   <template>
 
@@ -71,7 +40,7 @@
 
       <div class="horizontal justified layout">
         <div class="horizontal layout" style="margin-top:25px;">
-          <div class="labelSearch">ชื่อผู้ซื้อ</div>{{_searchInArray(searchInput)}}
+          <div class="labelSearch">ชื่อผู้ซื้อ</div>
           <paper-input label=" " no-label-float value="{{searchInput}}"></paper-input>
           <iron-icon icon="search" style="margin-top:10px;"></iron-icon>
         </div>
@@ -111,7 +80,7 @@
         </thead>
 
         <!-- <template is="dom-repeat" items="{{dataBuyer}}"> -->
-        <template is="dom-repeat" items="[[data]]">
+        <template is="dom-repeat" items="{{searchInArray(searchInput,'buyer_name',data)}}">
           <tbody>
             <tr>
               <td>
@@ -134,7 +103,15 @@
                 <paper-icon-button data="{{item}}" icon="delete" on-tap="_delete"></paper-icon-button>
               </td>
             </tr>
+            
           </tbody>
+        </template>
+        <template is="dom-if" if="{{searchInArrayState(searchInput,'buyer_name',data)}}">
+          <tr>
+            <td colspan="6">
+              <div class="text-center no-data">ไม่มีข้อมูล</div>
+            </td>
+          </tr>
         </template>
         <!-- </template> -->
 
@@ -148,7 +125,7 @@
   <script>
     Polymer({
       is: "page-buyer",
-      behaviors: [nylonBehavior, ReduxBehavior, buyerAction, countryAction,commonStateAction],
+      behaviors: [nylonBehavior, ReduxBehavior, buyerAction, countryAction,commonStateAction,SearchBehavior],
       properties: {
         data: {
           statePath: 'buyer.list'

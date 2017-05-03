@@ -6,31 +6,11 @@
 <link rel="import" href="components/manage-continent.html">
 <link rel="import" href="./../../../bower_components/paper-tooltip/paper-tooltip.html">
 <link rel="import" href="./../components/icon-button-management.html">
+<link rel="import" href="./../../layout/page-style.html">
+<link rel="import" href="./../components/search-behavior.html">
 <dom-module id="page-continent">
-  <style is="custom-style" include="iron-flex iron-flex-factors iron-flex-alignment gl-color gl-size gl-table">
-    * {
-      font-family: 'CSChatThaiUI', sans-serif;
-      -webkit-font-smoothing: antialiased;
-      font-size: var(--font-size-h5);
-    }
+  <style is="custom-style" include="iron-flex iron-flex-factors iron-flex-alignment gl-table page-style">
     
-    .button-top {
-      margin: 20px;
-    }
-    
-    .text-center {
-      text-align: center;
-    }
-    
-    .text-head {
-      text-align: center;
-      padding: 10px 0px 10px 10px;
-      background-color: var(--paper-grey-100);
-      color: var(--paper-grey-600);
-      font-size: var(--font-size-h3);
-      /*font-family: 'rsuregular', sans-serif;
-        -webkit-font-smoothing: antialiased;*/
-    }
     
     .table-head>tr>th:nth-child(1) {
       width: 5%;
@@ -52,17 +32,7 @@
       width: 15%;
     }
     
-    .elevation {
-      border-radius: 5px;
-      margin: 10px;
-      padding: 5px;
-      background-color: white;
-    }
     
-    .labelSearch {
-      font-size: var(--font-size-h5);
-      margin: 10px 10px 10px 10px;
-    }
   </style>
   <template>
 
@@ -75,7 +45,7 @@
 
       <div class="horizontal justified layout">
         <div class="horizontal layout" style="margin-top:25px;">
-          <div class="labelSearch">รหัสทวีป</div>{{_searchInArray(searchInput)}}
+          <div class="labelSearch">รหัสทวีป</div>
           <paper-input label=" " no-label-float value="{{searchInput}}"></paper-input>
           <iron-icon icon="search" style="margin-top:10px;"></iron-icon>
         </div>
@@ -115,7 +85,7 @@
         </thead>
 
         <!-- <template is="dom-repeat" items="{{dataCountry}}"> -->
-        <template is="dom-repeat" items="[[data]]">
+        <template is="dom-repeat" items="{{searchInArray(searchInput,'continent_id',data)}}">
           <tbody>
             <tr>
               <td>
@@ -138,6 +108,13 @@
                 <paper-icon-button data="{{item}}" icon="delete" on-tap="_delete"></paper-icon-button>
               </td>
             </tr>
+            <template is="dom-if" if="{{searchInArrayState(searchInput,'continent_id',data)}}">
+          <tr>
+            <td colspan="6">
+              <div class="text-center">ไม่มีข้อมูล</div>
+            </td>
+          </tr>
+        </template>
           </tbody>
         </template>
         <!-- </template> -->
@@ -152,7 +129,7 @@
   <script>
     Polymer({
       is: "page-continent",
-      behaviors: [nylonBehavior, ReduxBehavior, continentAction,commonStateAction],
+      behaviors: [nylonBehavior, ReduxBehavior, continentAction,commonStateAction,SearchBehavior],
       properties: {
         data: {
           statePath: 'continent.list'

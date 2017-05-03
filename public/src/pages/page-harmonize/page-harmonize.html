@@ -6,8 +6,10 @@
 <link rel="import" href="components/manage-harmonize.html">
 <link rel="import" href="./../../../bower_components/paper-tooltip/paper-tooltip.html">
 <link rel="import" href="./../components/icon-button-management.html">
+<link rel="import" href="./../../layout/page-style.html">
+<link rel="import" href="./../components/search-behavior.html">
 <dom-module id="page-harmonize">
-  <style is="custom-style" include="iron-flex iron-flex-factors iron-flex-alignment gl-color gl-size gl-table">
+  <style is="custom-style" include="iron-flex iron-flex-factors iron-flex-alignment gl-table page-style">
     *{
       font-family: 'CSChatThaiUI', sans-serif;
       -webkit-font-smoothing: antialiased;
@@ -58,7 +60,7 @@
 
           <div class="horizontal justified layout">
             <div class="horizontal layout" style="margin-top:25px;">
-              <div class="labelSearch">พิกัดข้าว</div>{{_searchInArray(searchInput)}}
+              <div class="labelSearch">พิกัดข้าว</div>
               <paper-input label=" " no-label-float value="{{searchInput}}"></paper-input>
               <iron-icon icon="search" style="margin-top:10px;"></iron-icon>
             </div>
@@ -81,7 +83,7 @@
             </thead>
 
             <!-- <template is="dom-repeat" items="{{dataRice}}"> -->
-            <template is="dom-repeat" items="[[data]]">
+            <template is="dom-repeat" items="{{searchInArray(searchInput,'type_rice_id',data)}}">
               <tbody>
                 <tr>
                   <td><div class="text-center">{{item.type_rice_id}}</div></td>
@@ -93,10 +95,17 @@
                     <paper-icon-button data="{{item}}" icon="delete" on-tap="_delete"></paper-icon-button>
                   </td>
                 </tr>
+                
               </tbody>
             </template>
             <!-- </template> -->
-
+<template is="dom-if" if="{{searchInArrayState(searchInput,'type_rice_id',data)}}">
+          <tr>
+            <td colspan="6">
+              <div class="text-center">ไม่มีข้อมูล</div>
+            </td>
+          </tr>
+        </template>
           </table>
     </paper-material>
 
@@ -107,7 +116,7 @@
   <script>
     Polymer({
       is: "page-harmonize",
-      behaviors: [nylonBehavior, ReduxBehavior, harmonizeAction,commonStateAction],
+      behaviors: [nylonBehavior, ReduxBehavior, harmonizeAction,commonStateAction,SearchBehavior],
       properties: {
         data: {
           statePath: 'harmonize.list'
