@@ -10,30 +10,7 @@
 <link rel="import" href="./../components/search-behavior.html">
 <dom-module id="page-notifyparty">
   <style is="custom-style" include="iron-flex iron-flex-factors iron-flex-alignment gl-table page-style">
-    * {
-      font-family: 'CSChatThaiUI', sans-serif;
-      -webkit-font-smoothing: antialiased;
-      font-size: var(--font-size-h5);
-    }
-    
-    .button-top {
-      margin: 20px;
-    }
-    
-    .text-center {
-      text-align: center;
-    }
-    
-    .text-head {
-      text-align: center;
-      padding: 10px 0px 10px 10px;
-      background-color: var(--paper-grey-100);
-      color: var(--paper-grey-600);
-      font-size: var(--font-size-h3);
-      /*font-family: 'rsuregular', sans-serif;
-        -webkit-font-smoothing: antialiased;*/
-    }
-    
+   
     .table-head>tr>th:nth-child(1) {
       width: 5%;
     }
@@ -49,24 +26,18 @@
     .table-head>tr>th:nth-child(4) {
       width: 35%;
     }
-    
-    .elevation {
-      border-radius: 5px;
-      margin: 10px;
-      padding: 5px;
-      background-color: white;
+    .table-head>tr>th:nth-child(5) {
+      width: 10%;
     }
-    
-    .labelSearch {
-      font-size: var(--font-size-h5);
-      margin: 10px 10px 10px 10px;
+    .table-head>tr>th:nth-child(6) {
+      width: 10%;
     }
   </style>
   <template>
 
     <paper-material elevation="1" class="elevation">
 
-      <paper-button class="gl-btn-primary" style="margin:10px" raised on-tap="_back">
+      <paper-button class="gl-btn" style="margin:10px" raised on-tap="_back">
         <iron-icon icon="icons:chevron-left"></iron-icon>back</paper-button>
 
       <div class="text-head">ที่อยู่ผู้รับสินค้า</div>
@@ -136,11 +107,11 @@
                 <paper-icon-button data="{{item}}" icon="delete" on-tap="_delete"></paper-icon-button>
               </td>
             </tr>
-            
+
           </tbody>
         </template>
         <!-- </template> -->
-<template is="dom-if" if="{{searchInArrayState(searchInput,'notify_address',data)}}">
+        <template is="dom-if" if="{{searchInArrayState(searchInput,'notify_address',data)}}">
           <tr>
             <td colspan="6">
               <div class="text-center no-data">ไม่มีข้อมูล</div>
@@ -157,29 +128,29 @@
   <script>
     Polymer({
       is: "page-notifyparty",
-      behaviors: [nylonBehavior, ReduxBehavior, notifypartyAction,buyerAction,portAction,commonStateAction,SearchBehavior],
+      behaviors: [nylonBehavior, ReduxBehavior, notifypartyAction, buyerAction, portAction, commonStateAction, SearchBehavior],
       properties: {
         data: {
           statePath: 'notifyparty.list'
         }
       },
-       listeners: {
+      listeners: {
         'edit-input': 'editInput',
         'delete-input': '_delete'
       },
-      editInput(){
-        this.dispatchAction('BTN_SET_STATE',false);
+      editInput() {
+        this.dispatchAction('BTN_SET_STATE', false);
       },
       nylonPageActive: function () {
         this.dispatchAction('NOTIFY_PARTY_GET_DATA');
         this.dispatchAction('BUYER_GET_DATA');
-        this.dispatchAction('BTN_SET_STATE',true);
+        this.dispatchAction('BTN_SET_STATE', true);
         this.dispatchAction('PORT_GET_DATA');
       },
       _toggleDrawer: function (e) {
         this.$$('nylon-panel-right').open();
         this.dispatchAction('CLEAR_DATA');
-        this.dispatchAction('BTN_SET_STATE',false);
+        this.dispatchAction('BTN_SET_STATE', false);
         this.title = "เพิ่มข้อมูล";
       },
       _count: function (val) {
@@ -190,7 +161,7 @@
       },
       _edit: function (e) {
         this.$$('nylon-panel-right').open();
-        this.dispatchAction('BTN_SET_STATE',true);
+        this.dispatchAction('BTN_SET_STATE', true);
         this.dispatchAction('NOTIFY_PARTY_GET_ID', e.target.data.notify_id);
         this.title = "แก้ไขข้อมูล";
       },
