@@ -2,7 +2,7 @@
 <link rel="import" href="./../../../../bower_components/gl-grid/gl-grid-row.html">
 <link rel="import" href="./../../../../bower_components/gl-grid/gl-grid-col.html">
 <link rel="import" href="./../../../../bower_components/gl-form/gl-combo-box.html">
-
+<link rel="import" href="./../../components/validateFormBehaviors.html">
 <dom-module id="manage-country">
     <style include="iron-flex iron-flex-alignment gl-color gl-size">
         * {
@@ -30,13 +30,13 @@
     </style>
     <template>
         <div class="text-center">ข้อมูลประเทศ</div>
-         <template is="dom-if" if={{_checkStatus(data.continent_id)}}>
+         <template is="dom-if" if={{_checkStatus(data.country_id)}}>
             <icon-button-management btn-state="[[!btnState]]"></icon-button-management>
         </template>
         <gl-grid-row width="{{getWidth}}">
             <gl-grid-col width="[[getWidth]]" grid="[[300,12],[500,4]]"></gl-grid-col>
             <gl-grid-col width="[[getWidth]]" grid="[[300,12],[500,5]]">
-                <gl-combo-box class="checkData" items="{{continents}}" item-label-path="continent_name_en" label="Continent (ทวีป)" item-value-path="continent_id"
+                <gl-combo-box class=" required" required  items="{{continents}}" item-label-path="continent_name_en" label="Continent (ทวีป)" item-value-path="continent_id"
                     value="{{data.continent_id}}" error-message="กรุณาเลือกประเทศ" required disabled="[[btnState]]"></gl-combo-box>
             </gl-grid-col>
         </gl-grid-row>
@@ -44,7 +44,7 @@
         <gl-grid-row>
             <gl-grid-col width="[[getWidth]]" grid="[[300,12],[500,4]]"></gl-grid-col>
             <gl-grid-col width="[[getWidth]]" grid="[[300,12],[500,5]]">
-                <gl-form-input class="margin-top checkData" error-message="กรุณากรอกรหัสประเทศ" required label="Country Code (รหัสประเทศ) :"
+                <gl-form-input class="margin-top  required" required  error-message="กรุณากรอกรหัสประเทศ" required label="Country Code (รหัสประเทศ) :"
                     placeholder="ใส่รหัสประเทศ" value="{{data.country_id}}" disabled="[[_checkStatus(data.creater)]]"></gl-form-input>
             </gl-grid-col>
         </gl-grid-row>
@@ -52,7 +52,7 @@
         <gl-grid-row>
             <gl-grid-col width="[[getWidth]]" grid="[[300,12],[500,4]]"></gl-grid-col>
             <gl-grid-col width="[[getWidth]]" grid="[[300,12],[500,5]]">
-                <gl-form-input class="margin-top checkData" error-message="กรุณากรอกชื่อประเทศ" required label="Country name (ชื่อประเทศภาษาไทย) :"
+                <gl-form-input class="margin-top  required" required  error-message="กรุณากรอกชื่อประเทศ" required label="Country name (ชื่อประเทศภาษาไทย) :"
                     placeholder="กรอกชื่อประเทศ" value="{{data.country_name_th}}" disabled="[[btnState]]"></gl-form-input>
             </gl-grid-col>
         </gl-grid-row>
@@ -60,7 +60,7 @@
         <gl-grid-row>
             <gl-grid-col width="[[getWidth]]" grid="[[300,12],[500,4]]"></gl-grid-col>
             <gl-grid-col width="[[getWidth]]" grid="[[300,12],[500,5]]">
-                <gl-form-input class="margin-top checkData" error-message="กรุณากรอกชื่อเต็มประเทศ" required label="Country fullname (ชื่อเต็มประเทศภาษาไทย) :"
+                <gl-form-input class="margin-top  required" required  error-message="กรุณากรอกชื่อเต็มประเทศ" required label="Country fullname (ชื่อเต็มประเทศภาษาไทย) :"
                     placeholder="กรอกชื่อประเทศ" value="{{data.country_fullname_th}}" disabled="[[btnState]]"></gl-form-input>
             </gl-grid-col>
         </gl-grid-row>
@@ -68,7 +68,7 @@
         <gl-grid-row>
             <gl-grid-col width="[[getWidth]]" grid="[[300,12],[500,4]]"></gl-grid-col>
             <gl-grid-col width="[[getWidth]]" grid="[[300,12],[500,5]]">
-                <gl-form-input class="margin-top checkData" error-message="กรุณากรอกชื่อประเทศ" required label="Country name (ชื่อประเทศภาษาอังกฤษ) :"
+                <gl-form-input class="margin-top  required" required  error-message="กรุณากรอกชื่อประเทศ" required label="Country name (ชื่อประเทศภาษาอังกฤษ) :"
                     placeholder="กรอกชื่อประเทศ" value="{{data.country_name_en}}" disabled="[[btnState]]"></gl-form-input>
             </gl-grid-col>
         </gl-grid-row>
@@ -76,7 +76,7 @@
         <gl-grid-row>
             <gl-grid-col width="[[getWidth]]" grid="[[300,12],[500,4]]"></gl-grid-col>
             <gl-grid-col width="[[getWidth]]" grid="[[300,12],[500,5]]">
-                <gl-form-input class="margin-top checkData" error-message="กรุณากรอกชื่อเต็มประเทศ" required label="Country fullname (ชื่อเต็มประเทศภาษาอังกฤษ) :"
+                <gl-form-input class="margin-top  required" required  error-message="กรุณากรอกชื่อเต็มประเทศ" required label="Country fullname (ชื่อเต็มประเทศภาษาอังกฤษ) :"
                     placeholder="กรอกชื่อประเทศ" value="{{data.country_fullname_en}}" disabled="[[btnState]]"></gl-form-input>
             </gl-grid-col>
         </gl-grid-row>
@@ -102,13 +102,15 @@
                     statePath: 'commonState.btnState'
                 }
             },
-            behaviors: [nylonBehavior, ReduxBehavior],
+            behaviors: [nylonBehavior, ReduxBehavior,ValidateFormBehavior],
             _save: function () {
+                if(this.validateForm('.required')){
                 if (this.data.creater == 'admin') {
                     this.dispatchAction('COUNTRY_EDIT', this.data);
                 }
                 else {
                     this.dispatchAction('COUNTRY_INSERT', this.data);
+                }
                 }
             },
             _cancel: function () {

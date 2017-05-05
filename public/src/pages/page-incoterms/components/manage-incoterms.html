@@ -1,7 +1,7 @@
 <link rel="import" href="./../../../../bower_components/gl-form/gl-form-input.html">
 <link rel="import" href="./../../../../bower_components/gl-grid/gl-grid-row.html">
 <link rel="import" href="./../../../../bower_components/gl-grid/gl-grid-col.html">
-
+<link rel="import" href="./../../components/validateFormBehaviors.html">
 <dom-module id="manage-incoterms">
     <style include="iron-flex iron-flex-alignment gl-color gl-size">
         * {
@@ -38,7 +38,7 @@
         <gl-grid-row width="{{getWidth}}">
             <gl-grid-col width="[[getWidth]]" grid="[[300,12],[500,4]]"></gl-grid-col>
             <gl-grid-col width="[[getWidth]]" grid="[[300,12],[500,4]]">
-                <gl-form-input class="margin-top checkData" error-message="กรุณากรอกรหัสข้อกำหนดส่งสินค้า" required label="Incoterms Code (รหัสข้อกำหนดส่งสินค้า) :"
+                <gl-form-input class="margin-top  required" required  error-message="กรุณากรอกรหัสข้อกำหนดส่งสินค้า" required label="Incoterms Code (รหัสข้อกำหนดส่งสินค้า) :"
                     placeholder="กรอกรหัส" value="{{data.inct_id}}" disabled="[[_checkStatus(data.creater)]]"></gl-form-input>
             </gl-grid-col>
             <gl-grid-col width="[[getWidth]]" grid="[[300,12],[500,4]]"></gl-grid-col>
@@ -47,7 +47,7 @@
         <gl-grid-row>
             <gl-grid-col width="[[getWidth]]" grid="[[300,12],[500,4]]"></gl-grid-col>
             <gl-grid-col width="[[getWidth]]" grid="[[300,12],[500,4]]">
-                <gl-form-input class="margin-top checkData" error-message="กรุณากรอกชื่อข้อกำหนดส่งสินค้า" required label="Incoterms Name (ชื่อข้อกำหนดส่งสินค้า) :"
+                <gl-form-input class="margin-top  required" required  error-message="กรุณากรอกชื่อข้อกำหนดส่งสินค้า" required label="Incoterms Name (ชื่อข้อกำหนดส่งสินค้า) :"
                     placeholder="กรอกชื่อข้อกำหนดส่งสินค้า" value="{{data.inct_name}}" disabled="[[btnState]]"></gl-form-input>
             </gl-grid-col>
             <gl-grid-col width="[[getWidth]]" grid="[[300,12],[500,4]]"></gl-grid-col>
@@ -71,13 +71,15 @@
                     statePath: 'commonState.btnState'
                 }
             },
-            behaviors: [nylonBehavior, ReduxBehavior],
+            behaviors: [nylonBehavior, ReduxBehavior,ValidateFormBehavior],
             _save: function () {
+                if(this.validateForm('.required')){
                 if (this.data.creater == 'admin') {
                     this.dispatchAction('INCOTERMS_EDIT', this.data);
                 }
                 else {
                     this.dispatchAction('INCOTERMS_INSERT', this.data);
+                }
                 }
             },
             _cancel: function () {

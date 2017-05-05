@@ -2,7 +2,7 @@
 <link rel="import" href="./../../../../bower_components/gl-grid/gl-grid-row.html">
 <link rel="import" href="./../../../../bower_components/gl-grid/gl-grid-col.html">
 <link rel="import" href="./../../../../bower_components/gl-form/gl-combo-box.html">
-
+<link rel="import" href="./../../components/validateFormBehaviors.html">
 <dom-module id="manage-package">
   <style include="iron-flex iron-flex-alignment gl-color gl-size">
     * {
@@ -39,7 +39,7 @@
     <gl-grid-row width="{{getWidth}}">
       <gl-grid-col width="[[getWidth]]" grid="[[300,12],[500,4]]"></gl-grid-col>
       <gl-grid-col width="[[getWidth]]" grid="[[300,12],[500,4]]">
-        <gl-form-input class="margin-top checkData" error-message="กรุณากรอกรหัสแพ็คเกจ" required label="Package Code (รหัสแพ็คเกจ) :"
+        <gl-form-input class="margin-top  required" required  error-message="กรุณากรอกรหัสแพ็คเกจ" required label="Package Code (รหัสแพ็คเกจ) :"
           placeholder="กรอกรหัสแพ็คเกจ" value="{{data.package_id}}" disabled="[[_checkStatus(data.creater)]]" ></gl-form-input>
       </gl-grid-col>
       <gl-grid-col width="[[getWidth]]" grid="[[300,12],[500,4]]"></gl-grid-col>
@@ -48,7 +48,7 @@
     <gl-grid-row>
       <gl-grid-col width="[[getWidth]]" grid="[[300,12],[500,4]]"></gl-grid-col>
       <gl-grid-col width="[[getWidth]]" grid="[[300,12],[500,4]]">
-        <gl-form-input class="margin-top checkData" error-message="กรุณากรอกน้ำหนักแพ็คเกจ" required label="Package Weight (น้ำหนักแพ็คเกจ กก.) :"
+        <gl-form-input class="margin-top  required" required  error-message="กรุณากรอกน้ำหนักแพ็คเกจ" required label="Package Weight (น้ำหนักแพ็คเกจ กก.) :"
           placeholder="กรอกน้ำหนักแพ็คเกจ" value="{{data.package_kg_per_bag}}" disabled="[[btnState]]"></gl-form-input>
       </gl-grid-col>
       <gl-grid-col width="[[getWidth]]" grid="[[300,12],[500,4]]"></gl-grid-col>
@@ -57,7 +57,7 @@
     <gl-grid-row>
       <gl-grid-col width="[[getWidth]]" grid="[[300,12],[500,4]]"></gl-grid-col>
       <gl-grid-col width="[[getWidth]]" grid="[[300,12],[500,4]]">
-        <gl-form-input class="margin-top checkData" error-message="กรุณากรอกชื่อแพ็คเกจ" required label="Package Name (ชื่อแพ็คเกจ ภาษาอังกฤษ) :"
+        <gl-form-input class="margin-top  required" required  error-message="กรุณากรอกชื่อแพ็คเกจ" required label="Package Name (ชื่อแพ็คเกจ ภาษาอังกฤษ) :"
           placeholder="กรอกชื่อแพ็คเกจ" value="{{data.package_name_en}}" disabled="[[btnState]]"></gl-form-input>
       </gl-grid-col>
       <gl-grid-col width="[[getWidth]]" grid="[[300,12],[500,4]]"></gl-grid-col>
@@ -66,7 +66,7 @@
     <gl-grid-row>
       <gl-grid-col width="[[getWidth]]" grid="[[300,12],[500,4]]"></gl-grid-col>
       <gl-grid-col width="[[getWidth]]" grid="[[300,12],[500,4]]">
-        <gl-form-input class="margin-top checkData" error-message="กรุณากรอกชื่อแพ็คเกจ" required label="Package Name (ชื่อแพ็คเกจ ภาษาไทย) :"
+        <gl-form-input class="margin-top  required" required  error-message="กรุณากรอกชื่อแพ็คเกจ" required label="Package Name (ชื่อแพ็คเกจ ภาษาไทย) :"
           placeholder="กรอกชื่อแพ็คเกจ" value="{{data.package_name_th}}" disabled="[[btnState]]"></gl-form-input>
       </gl-grid-col>
       <gl-grid-col width="[[getWidth]]" grid="[[300,12],[500,4]]"></gl-grid-col>
@@ -75,7 +75,7 @@
     <gl-grid-row>
       <gl-grid-col width="[[getWidth]]" grid="[[300,12],[500,4]]"></gl-grid-col>
       <gl-grid-col width="[[getWidth]]" grid="[[300,12],[500,4]]">
-        <gl-form-input class="margin-top checkData" error-message="กรุณากรอกน้ำหนักกระสอบ" required label="Package Weight_bag (น้ำหนักกระสอบ กรัม.) :"
+        <gl-form-input class="margin-top  required" required  error-message="กรุณากรอกน้ำหนักกระสอบ" required label="Package Weight_bag (น้ำหนักกระสอบ กรัม.) :"
           placeholder="กรอกน้ำหนักกระสอบ" value="{{data.package_weight_bag}}" disabled="[[btnState]]"></gl-form-input>
       </gl-grid-col>
       <gl-grid-col width="[[getWidth]]" grid="[[300,12],[500,4]]"></gl-grid-col>
@@ -99,13 +99,15 @@
                     statePath: 'commonState.btnState'
                 }
       },
-      behaviors: [nylonBehavior, ReduxBehavior],
+      behaviors: [nylonBehavior, ReduxBehavior,ValidateFormBehavior],
       _save: function () {
+        if(this.validateForm('.required')){
         if (this.data.creater == 'admin') {
           this.dispatchAction('PACKAGE_EDIT', this.data);
         }
         else {
           this.dispatchAction('PACKAGE_INSERT', this.data);
+        }
         }
       },
       _cancel: function () {

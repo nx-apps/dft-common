@@ -2,7 +2,7 @@
 <link rel="import" href="./../../../../bower_components/gl-grid/gl-grid-row.html">
 <link rel="import" href="./../../../../bower_components/gl-grid/gl-grid-col.html">
 <link rel="import" href="./../../../../bower_components/gl-form/gl-combo-box.html">
-
+<link rel="import" href="./../../components/validateFormBehaviors.html">
 <dom-module id="manage-surveyor">
     <style include="iron-flex iron-flex-alignment gl-color gl-size">
        *{
@@ -37,14 +37,14 @@
     <gl-grid-row width="{{getWidth}}">
       <gl-grid-col width="[[getWidth]]" grid="[[300,12],[500,4]]"></gl-grid-col>
       <gl-grid-col width="[[getWidth]]" grid="[[300,12],[500,4]]">
-        <gl-form-input class="margin-top checkData" error-message="กรุณากรอกชื่อหน่วยงานตรวจสอบสินค้า" disabled="[[btnState]]" required label="Surveyor Name (ชื่อหน่วยงานตรวจสอบสินค้า) :" placeholder="กรอกชื่อหน่วยงานตรวจสอบสินค้า" value="{{data.surveyor_name}}"></gl-form-input>
+        <gl-form-input class="margin-top  required" required  error-message="กรุณากรอกชื่อหน่วยงานตรวจสอบสินค้า" disabled="[[btnState]]" required label="Surveyor Name (ชื่อหน่วยงานตรวจสอบสินค้า) :" placeholder="กรอกชื่อหน่วยงานตรวจสอบสินค้า" value="{{data.surveyor_name}}"></gl-form-input>
       </gl-grid-col>
       <gl-grid-col width="[[getWidth]]" grid="[[300,12],[500,4]]"></gl-grid-col>
     </gl-grid-row>
 
     <div class="horizontal end-justified layout">
       <div class="button">
-        <paper-button raised on-tap="_cancel" hidden="{{btnState}}">ยกเลิก</paper-button>
+        <paper-button raised on-tap="_cancel" hidden="{{btnState}}">คืนค่าข้อมูล</paper-button>
         <paper-button class="gl-btn-success" raised on-tap="_save" hidden="{{btnState}}">บันทึก</paper-button>
       </div>
     </div>
@@ -60,13 +60,15 @@
                     statePath: 'commonState.btnState'
                 }
             },
-            behaviors: [nylonBehavior, ReduxBehavior],
+            behaviors: [nylonBehavior, ReduxBehavior,ValidateFormBehavior],
             _save: function () {
+                if(this.validateForm('.required')){
                 if (this.data.creater == 'admin') {
                     this.dispatchAction('SURVEYOR_EDIT', this.data);
                 }
                 else {
                     this.dispatchAction('SURVEYOR_INSERT', this.data);
+                }
                 }
             },
             _cancel: function () {

@@ -2,7 +2,7 @@
 <link rel="import" href="./../../../../bower_components/gl-grid/gl-grid-row.html">
 <link rel="import" href="./../../../../bower_components/gl-grid/gl-grid-col.html">
 <link rel="import" href="./../../../../bower_components/gl-form/gl-combo-box.html">
-
+<link rel="import" href="./../../components/validateFormBehaviors.html">
 <dom-module id="manage-carrier">
     <style include="iron-flex iron-flex-alignment gl-color gl-size">
         * {
@@ -36,7 +36,7 @@
     <gl-grid-row width="{{getWidth}}">
       <gl-grid-col width="[[getWidth]]" grid="[[300,12],[500,4]]"></gl-grid-col>
       <gl-grid-col width="[[getWidth]]" grid="[[300,12],[500,5]]">
-        <gl-form-input class="margin-top checkData" error-message="กรุณากรอกชื่อผู้ให้บริการเรือ" required label="Carrier Name (ชื่อผู้ให้บริการเรือ) :" placeholder="กรอกชื่อผู้ให้บริการ" value="{{data.carrier_name}}" disabled="[[btnState]]"></gl-form-input>
+        <gl-form-input class="margin-top  required" required  error-message="กรุณากรอกชื่อผู้ให้บริการเรือ" required label="Carrier Name (ชื่อผู้ให้บริการเรือ) :" placeholder="กรอกชื่อผู้ให้บริการ" value="{{data.carrier_name}}" disabled="[[btnState]]"></gl-form-input>
       </gl-grid-col>
       <gl-grid-col width="[[getWidth]]" grid="[[300,12],[500,4]]"></gl-grid-col>
     </gl-grid-row>
@@ -59,13 +59,15 @@
                     statePath: 'commonState.btnState'
                 }
             },
-            behaviors: [nylonBehavior, ReduxBehavior],
+            behaviors: [nylonBehavior, ReduxBehavior,ValidateFormBehavior],
             _save: function () {
+                if(this.validateForm('.required')){
                 if (this.data.carrier_id != null) {
                     this.dispatchAction('CARRIER_EDIT', this.data);
                 }
                 else {
                     this.dispatchAction('CARRIER_INSERT', this.data);
+                }
                 }
             },
             _cancel: function () {

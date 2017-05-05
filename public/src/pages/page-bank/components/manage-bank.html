@@ -1,6 +1,9 @@
 <link rel="import" href="./../../../../bower_components/gl-form/gl-form-input.html">
 <link rel="import" href="./../../../../bower_components/gl-grid/gl-grid-row.html">
 <link rel="import" href="./../../../../bower_components/gl-grid/gl-grid-col.html">
+
+<link rel="import" href="./../../components/validateFormBehaviors.html">
+
 <dom-module id="manage-bank">
     <style include="iron-flex iron-flex-alignment gl-color gl-size">
         * {
@@ -43,7 +46,7 @@
         <gl-grid-row width="{{getWidth}}">
             <gl-grid-col width="[[getWidth]]" grid="[[300,12],[500,4]]"></gl-grid-col>
             <gl-grid-col width="[[getWidth]]" grid="[[300,12],[500,4]]">
-                <gl-form-input class="margin-top" error-message="กรุณากรอกรหัสธนาคาร" required label="Bank Code (รหัสธนาคาร) :" placeholder="กรอกรหัสธนาคาร"
+                <gl-form-input class="margin-top required" required error-message="กรุณากรอกรหัสธนาคาร" required label="Bank Code (รหัสธนาคาร) :" placeholder="กรอกรหัสธนาคาร"
                     value="{{data.bank_id}}" disabled="{{_checkStatus(data.creater)}}"></gl-form-input>
             </gl-grid-col>
             <gl-grid-col width="[[getWidth]]" grid="[[300,12],[500,4]]"></gl-grid-col>
@@ -52,7 +55,7 @@
         <gl-grid-row>
             <gl-grid-col width="[[getWidth]]" grid="[[300,12],[500,4]]"></gl-grid-col>
             <gl-grid-col width="[[getWidth]]" grid="[[300,12],[500,4]]">
-                <gl-form-input class="margin-top" error-message="กรุณากรอกชื่อธนาคาร" required label="Bank Name (ชื่อธนาคาร ภาษาไทย) :" placeholder="กรอกชื่อธนาคาร (ภาษาไทย)"
+                <gl-form-input class="margin-top required" required error-message="กรุณากรอกชื่อธนาคาร" required label="Bank Name (ชื่อธนาคาร ภาษาไทย) :" placeholder="กรอกชื่อธนาคาร (ภาษาไทย)"
                     value="{{data.bank_name_th}}" disabled="[[btnState]]"></gl-form-input>
             </gl-grid-col>
             <gl-grid-col width="[[getWidth]]" grid="[[300,12],[500,4]]"></gl-grid-col>
@@ -61,7 +64,7 @@
         <gl-grid-row>
             <gl-grid-col width="[[getWidth]]" grid="[[300,12],[500,4]]"></gl-grid-col>
             <gl-grid-col width="[[getWidth]]" grid="[[300,12],[500,4]]">
-                <gl-form-input class="margin-top" error-message="กรุณากรอกชื่อธนาคาร" required label="Bank Name (ชื่อธนาคาร ภาษาอังกฤษ) :"
+                <gl-form-input class="margin-top required" required error-message="กรุณากรอกชื่อธนาคาร" required label="Bank Name (ชื่อธนาคาร ภาษาอังกฤษ) :"
                     placeholder="กรอกชื่อธนาคาร (ภาษาอังกฤษ)" value="{{data.bank_name_en}}" disabled="[[btnState]]"></gl-form-input>
             </gl-grid-col>
             <gl-grid-col width="[[getWidth]]" grid="[[300,12],[500,4]]"></gl-grid-col>
@@ -85,14 +88,17 @@
                     statePath: 'commonState.btnState'
                 }
             },
-            behaviors: [nylonBehavior, ReduxBehavior],
+            behaviors: [nylonBehavior, ReduxBehavior,ValidateFormBehavior],
             _save: function () {
-                if (this.data.creater == 'admin') {
+                if(this.validateForm('.required')){
+                    if (this.data.creater == 'admin') {
                     this.dispatchAction('BANK_EDIT', this.data)
+                    }
+                    else {
+                        this.dispatchAction('BANK_INSERT', this.data);
+                    }
                 }
-                else {
-                    this.dispatchAction('BANK_INSERT', this.data);
-                }
+                
             },
             _cancel: function () {
                 if (this.data.creater == 'admin') {

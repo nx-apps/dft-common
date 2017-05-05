@@ -1,5 +1,5 @@
 {
-    "name": "common.typeRice",
+    "name": "common.harmonize",
     "properties": {
         "id": {
             "type": "string"

@@ -3,7 +3,7 @@
 <link rel="import" href="./../../../../bower_components/gl-grid/gl-grid-row.html">
 <link rel="import" href="./../../../../bower_components/gl-grid/gl-grid-col.html">
 <link rel="import" href="./../../../../bower_components/gl-form/gl-combo-box.html">
-
+<link rel="import" href="./../../components/validateFormBehaviors.html">
 <dom-module id="manage-buyer">
     <style include="iron-flex iron-flex-alignment gl-color gl-size">
         * {
@@ -40,12 +40,12 @@
         <gl-grid-row width="{{getWidth}}">
             <gl-grid-col width="[[getWidth]]" grid="[[300,12],[500,2]]"></gl-grid-col>
             <gl-grid-col width="[[getWidth]]" grid="[[300,12],[500,4]]">
-                <gl-combo-box class="checkData" items="{{countrys}}" item-label-path="country_name_en" label="Country (ประเทศ)" item-value-path="country_id"
+                <gl-combo-box class=" required" required  items="{{countrys}}" item-label-path="country_name_en" label="Country (ประเทศ)" item-value-path="country_id"
                     value="{{data.country_id}}" error-message="กรุณาเลือกประเทศ" required placeholder="กรุณาเลือกประเทศ"
                     style="margin-top:15px;" disabled="[[btnState]]"></gl-combo-box>
             </gl-grid-col>
             <gl-grid-col width="[[getWidth]]" grid="[[300,12],[500,4]]">
-                <gl-form-input class="margin-top checkData" label="Buyer Name (ชื่อผู้ซื้อ) :" placeholder="กรอกชื่อผู้ซื้อ" value="{{data.buyer_name}}"
+                <gl-form-input class="margin-top  required" required  label="Buyer Name (ชื่อผู้ซื้อ) :" placeholder="กรอกชื่อผู้ซื้อ" value="{{data.buyer_name}}"
                     error-message="กรุณากรอกชื่อผู้ซื้อ" required disabled="[[btnState]]"></gl-form-input>
             </gl-grid-col>
         </gl-grid-row>
@@ -53,11 +53,11 @@
         <gl-grid-row>
             <gl-grid-col width="[[getWidth]]" grid="[[300,12],[500,2]]"></gl-grid-col>
             <gl-grid-col width="[[getWidth]]" grid="[[300,12],[500,4]]">
-                <gl-form-input class="margin-top checkData" label="Buyer Masks (นามแฝง) :" placeholder="กรอกนามแฝง" value="{{data.buyer_masks}}"
+                <gl-form-input class="margin-top  required" required  label="Buyer Masks (นามแฝง) :" placeholder="กรอกนามแฝง" value="{{data.buyer_masks}}"
                     error-message="กรุณากรอกนามแฝง" required disabled="[[btnState]]"></gl-form-input>
             </gl-grid-col>
             <gl-grid-col width="[[getWidth]]" grid="[[300,12],[500,4]]">
-                <gl-form-input class="margin-top checkData" label="E-mail :" placeholder="ตัวอย่าง test@gmail.com" value="{{data.buyer_email}}"
+                <gl-form-input class="margin-top  required" required  label="E-mail :" placeholder="ตัวอย่าง test@gmail.com" value="{{data.buyer_email}}"
                     pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$" error-message="กรุณาใส่รูปแบบให้ถูกต้อง" required disabled="[[btnState]]"></gl-form-input>
             </gl-grid-col>
         </gl-grid-row>
@@ -65,11 +65,11 @@
         <gl-grid-row>
             <gl-grid-col width="[[getWidth]]" grid="[[300,12],[500,2]]"></gl-grid-col>
             <gl-grid-col width="[[getWidth]]" grid="[[300,12],[500,4]]">
-                <gl-form-input class="margin-top checkData" label="Fax :" placeholder="กรอกเบอร์แฟกซ์" value="{{data.buyer_fax}}" error-message="กรุณากรอกเบอร์แฟกซ์"
+                <gl-form-input class="margin-top  required" required  label="Fax :" placeholder="กรอกเบอร์แฟกซ์" value="{{data.buyer_fax}}" error-message="กรุณากรอกเบอร์แฟกซ์"
                     required disabled="[[btnState]]"></gl-form-input>
             </gl-grid-col>
             <gl-grid-col width="[[getWidth]]" grid="[[300,12],[500,4]]">
-                <gl-form-input class="margin-top checkData" label="Tel (เบอร์โทรศัพท์) :" placeholder="กรอกเบอร์โทรศัพท์" value="{{data.buyer_tel}}"
+                <gl-form-input class="margin-top  required" required  label="Tel (เบอร์โทรศัพท์) :" placeholder="กรอกเบอร์โทรศัพท์" value="{{data.buyer_tel}}"
                     error-message="กรุณากรอกเบอร์โทรศัพท์" required disabled="[[btnState]]"></gl-form-input>
             </gl-grid-col>
         </gl-grid-row>
@@ -77,7 +77,7 @@
         <gl-grid-row>
             <gl-grid-col width="[[getWidth]]" grid="[[300,12],[500,2]]"></gl-grid-col>
             <gl-grid-col width="[[getWidth]]" grid="[[300,12],[500,8]]">
-                <gl-form-textarea class="margin-top checkData" label="Address (ที่อยู่) :" placeholder="กรอกทีอยู่" value="{{data.buyer_address}}"
+                <gl-form-textarea class="margin-top  required" required  label="Address (ที่อยู่) :" placeholder="กรอกทีอยู่" value="{{data.buyer_address}}"
                     error-message="กรุณากรอกทีอยู่" required disabled="[[btnState]]"></gl-form-textarea>
             </gl-grid-col>
         </gl-grid-row>
@@ -103,13 +103,15 @@
                     statePath: 'commonState.btnState'
                 }
             },
-            behaviors: [nylonBehavior, ReduxBehavior],
+            behaviors: [nylonBehavior, ReduxBehavior,ValidateFormBehavior],
             _save: function () {
+                if(this.validateForm('.required')){
                 if (this.data.creater == 'admin') {
                     this.dispatchAction('BUYER_EDIT', this.data);
                 }
                 else {
                     this.dispatchAction('BUYER_INSERT', this.data);
+                }
                 }
             },
             _cancel: function () {

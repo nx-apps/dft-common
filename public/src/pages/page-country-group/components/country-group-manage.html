@@ -3,6 +3,7 @@
 <link rel="import" href="./../../../../bower_components/gl-form/gl-combo-box.html">
 <link rel="import" href="./../../../../bower_components/gl-form/gl-form-input.html">
 <link rel="import" href="./../../../../bower_components/gl-styles/gl-table.html">
+<link rel="import" href="./../../components/validateFormBehaviors.html">
 <dom-module id="country-group-manage">
     <template>
         <style include="iron-flex iron-flex-alignment gl-color gl-color gl-table">
@@ -78,7 +79,7 @@
                     <tr>
                         <th style="width:30%;text-align: right; font-size: 18px;">Name:</th>
                         <th style="width:50%">
-                            <gl-form-input no-label-float value="{{data.id}}" disabled="[[checkDisabled(data.creater)]]"></gl-form-input>
+                            <gl-form-input no-label-float value="{{data.id}}" class=" required" required  disabled="[[checkDisabled(data.creater)]]"></gl-form-input>
                         </th>
                         <th style="width:20%"></th>
                     </tr>
@@ -89,7 +90,7 @@
                     <tr>
                         <th style="width:30%;text-align: right; font-size: 18px;">Country:</th>
                         <th style="width:50%">
-                            <gl-combo-box always-float-label placeholder="เลือกประเทศ" items="{{countryList}}" value="{{countrySelect}}" item-value-path="id"
+                            <gl-combo-box always-float-label placeholder="เลือกประเทศ" class=" required" required  items="{{countryList}}" value="{{countrySelect}}" item-value-path="id"
                                 item-label-path="country_name_th"></gl-combo-box>
                         </th>
                         <th style="width:20%">
@@ -129,7 +130,7 @@
     <script>
         Polymer({
             is: 'country-group-manage',
-            behaviors: [ReduxBehavior],
+            behaviors: [ReduxBehavior,ValidateFormBehavior],
             properties: {
                 data: {
                     statePath: 'countryGroup.select'
@@ -167,11 +168,13 @@
                 this.push('countryList', item);
             },
             saveSelect: function () {
+                if(this.validateForm('.required')){
                 this.data.country = this.data.country.map((sc_map) => sc_map.id);
                 if (this.data.creater == "admin") {
                     this.dispatchAction('COUNTRY_GROUP_UPDATE', this.data);
                 } else {
                     this.dispatchAction('COUNTRY_GROUP_INSERT', this.data);
+                }
                 }
             },
             checkDisabled: function (val) {

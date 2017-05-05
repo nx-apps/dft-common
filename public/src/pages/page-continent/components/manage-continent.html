@@ -2,7 +2,7 @@
 <link rel="import" href="./../../../../bower_components/gl-grid/gl-grid-row.html">
 <link rel="import" href="./../../../../bower_components/gl-grid/gl-grid-col.html">
 <link rel="import" href="./../../../../bower_components/gl-form/gl-combo-box.html">
-
+<link rel="import" href="./../../components/validateFormBehaviors.html">
 <dom-module id="manage-continent">
     <style include="iron-flex iron-flex-alignment gl-color gl-size">
         * {
@@ -39,7 +39,7 @@
         <gl-grid-row width="{{getWidth}}">
             <gl-grid-col width="[[getWidth]]" grid="[[300,12],[500,4]]"></gl-grid-col>
             <gl-grid-col width="[[getWidth]]" grid="[[300,12],[500,5]]">
-                <gl-form-input class="margin-top checkData" error-message="กรุณากรอกรหัสทวีป" required label="Country Code (รหัสประเทศ) :"
+                <gl-form-input class="margin-top  required" required  error-message="กรุณากรอกรหัสทวีป" required label="Country Code (รหัสประเทศ) :"
                     placeholder="ใส่รหัสประเทศ" value="{{data.continent_id}}" disabled="{{_obData(data.creater)}}"></gl-form-input>
             </gl-grid-col>
         </gl-grid-row>
@@ -47,7 +47,7 @@
         <gl-grid-row>
             <gl-grid-col width="[[getWidth]]" grid="[[300,12],[500,4]]"></gl-grid-col>
             <gl-grid-col width="[[getWidth]]" grid="[[300,12],[500,5]]">
-                <gl-form-input class="margin-top checkData" error-message="กรุณากรอกชื่อทวีป" required label="Country name (ชื่อประเทศภาษาไทย) :"
+                <gl-form-input class="margin-top  required" required  error-message="กรุณากรอกชื่อทวีป" required label="Country name (ชื่อประเทศภาษาไทย) :"
                     placeholder="กรอกชื่อประเทศ" value="{{data.continent_name_th}}" disabled="[[btnState]]"></gl-form-input>
             </gl-grid-col>
         </gl-grid-row>
@@ -55,7 +55,7 @@
         <gl-grid-row>
             <gl-grid-col width="[[getWidth]]" grid="[[300,12],[500,4]]"></gl-grid-col>
             <gl-grid-col width="[[getWidth]]" grid="[[300,12],[500,5]]">
-                <gl-form-input class="margin-top checkData" error-message="กรุณากรอกชื่อทวีป" required label="Country name (ชื่อประเทศภาษาอังกฤษ) :"
+                <gl-form-input class="margin-top  required" required  error-message="กรุณากรอกชื่อทวีป" required label="Country name (ชื่อประเทศภาษาอังกฤษ) :"
                     placeholder="กรอกชื่อประเทศ" value="{{data.continent_name_en}}" disabled="[[btnState]]"></gl-form-input>
             </gl-grid-col>
         </gl-grid-row>
@@ -78,13 +78,15 @@
                     statePath: 'commonState.btnState'
                 }
             },
-            behaviors: [nylonBehavior, ReduxBehavior],
+            behaviors: [nylonBehavior, ReduxBehavior,ValidateFormBehavior],
             _save: function () {
+                if(this.validateForm('.required')){
                 if (this.data.creater == 'admin') {
                     this.dispatchAction('CONTINENT_EDIT', this.data);
                 }
                 else {
                     this.dispatchAction('CONTINENT_INSERT', this.data);
+                }
                 }
             },
             _cancel: function () {
@@ -97,6 +99,11 @@
             },
             _obData: function(val){
                 if(typeof val != 'undefined' && val != undefined){
+                    return true
+                }
+            },
+            _checkStatus: function (val) {
+                if (typeof val != 'undefined' && val != undefined) {
                     return true
                 }
             }

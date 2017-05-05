@@ -2,7 +2,7 @@
 <link rel="import" href="./../../../../bower_components/gl-grid/gl-grid-row.html">
 <link rel="import" href="./../../../../bower_components/gl-grid/gl-grid-col.html">
 <link rel="import" href="./../../../../bower_components/gl-form/gl-combo-box.html">
-
+<link rel="import" href="./../../components/validateFormBehaviors.html">
 <dom-module id="manage-port">
     <style include="iron-flex iron-flex-alignment gl-color gl-size">
         *{
@@ -36,20 +36,20 @@
     <gl-grid-row width="{{getWidth}}">
       <gl-grid-col width="[[getWidth]]" grid="[[300,12],[500,2]]"></gl-grid-col>
       <gl-grid-col width="[[getWidth]]" grid="[[300,12],[500,4]]">
-        <gl-form-input class="margin-top checkData" error-message="กรุณากรอกเลขประจำตัวท่าเรือ" disabled="[[btnState]]" required label="Port ID (เลขประจำตัวท่าเรือ) :" placeholder="กรอกรหัสท่าเรือ" value="{{data.port_id}}" disabled="[[_checkStatus(data.creater)]]"></gl-form-input>
+        <gl-form-input class="margin-top  required" required  error-message="กรุณากรอกเลขประจำตัวท่าเรือ" disabled="[[btnState]]" required label="Port ID (เลขประจำตัวท่าเรือ) :" placeholder="กรอกรหัสท่าเรือ" value="{{data.port_id}}" disabled="[[_checkStatus(data.creater)]]"></gl-form-input>
       </gl-grid-col>
       <gl-grid-col width="[[getWidth]]" grid="[[300,12],[500,4]]">
-        <gl-form-input class="margin-top checkData" error-message="กรุณากรอกรหัสท่าเรือ" disabled="[[btnState]]" required label="Port Code (รหัสท่าเรือ) :" placeholder="port_code" value="{{data.port_code}}"></gl-form-input>
+        <gl-form-input class="margin-top  required" required  error-message="กรุณากรอกรหัสท่าเรือ" disabled="[[btnState]]" required label="Port Code (รหัสท่าเรือ) :" placeholder="port_code" value="{{data.port_code}}"></gl-form-input>
       </gl-grid-col>
     </gl-grid-row>
 
     <gl-grid-row>
       <gl-grid-col width="[[getWidth]]" grid="[[300,12],[500,2]]"></gl-grid-col>
       <gl-grid-col width="[[getWidth]]" grid="[[300,12],[500,4]]">
-        <gl-form-input class="margin-top checkData" error-message="กรุณากรอกชื่อท่าเรือ" disabled="[[btnState]]" required label="Port Name (ชื่อท่าเรือ) :" placeholder="กรอกชื่อท่าเรือ" value="{{data.port_name}}"></gl-form-input>
+        <gl-form-input class="margin-top  required" required  error-message="กรุณากรอกชื่อท่าเรือ" disabled="[[btnState]]" required label="Port Name (ชื่อท่าเรือ) :" placeholder="กรอกชื่อท่าเรือ" value="{{data.port_name}}"></gl-form-input>
       </gl-grid-col>
       <gl-grid-col width="[[getWidth]]" grid="[[300,12],[500,4]]">
-        <gl-combo-box class="margin-top checkData" error-message="กรุณาเลือกประเทศ" required style="margin-top:15px" items="{{countrys}}" label="Country (ประเทศ)" item-label-path="country_name_en"
+        <gl-combo-box class="margin-top  required" required  error-message="กรุณาเลือกประเทศ" required style="margin-top:15px" items="{{countrys}}" label="Country (ประเทศ)" item-label-path="country_name_en"
             item-value-path="country_id" value="{{data.country_id}}"disabled="[[btnState]]" ></gl-combo-box>
       </gl-grid-col>
     </gl-grid-row>
@@ -75,13 +75,15 @@
                     statePath: 'commonState.btnState'
                 }
             },
-            behaviors: [nylonBehavior, ReduxBehavior],
+            behaviors: [nylonBehavior, ReduxBehavior,ValidateFormBehavior],
             _save: function () {
+                if(this.validateForm('.required')){
                 if (this.data.creater == 'admin') {
                     this.dispatchAction('PORT_EDIT', this.data);
                 }
                 else {
                     this.dispatchAction('PORT_INSERT', this.data);
+                }
                 }
             },
             _cancel: function () {

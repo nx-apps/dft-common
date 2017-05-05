@@ -2,7 +2,7 @@
 <link rel="import" href="./../../../../bower_components/gl-grid/gl-grid-row.html">
 <link rel="import" href="./../../../../bower_components/gl-grid/gl-grid-col.html">
 <link rel="import" href="./../../../../bower_components/gl-form/gl-combo-box.html">
-
+<link rel="import" href="./../../components/validateFormBehaviors.html">
 <dom-module id="manage-ship">
     <style include="iron-flex iron-flex-alignment gl-color gl-size">
         * {
@@ -40,7 +40,7 @@
         <gl-grid-row width="{{getWidth}}">
             <gl-grid-col width="[[getWidth]]" grid="[[300,12],[500,4]]"></gl-grid-col>
             <gl-grid-col width="[[getWidth]]" grid="[[300,12],[500,4]]">
-                <gl-combo-box class="margin-top checkData" error-message="กรุณาเลือกสายเรือ" disabled="[[btnState]]" required style="margin-top:15px" items="{{shiplines}}"
+                <gl-combo-box class="margin-top  required" required  error-message="กรุณาเลือกสายเรือ" disabled="[[btnState]]" required style="margin-top:15px" items="{{shiplines}}"
                     label="Shipline Name (สายเรือ)" item-label-path="shipline_name" item-value-path="shipline_id" value="{{data.shipline_id}}"></gl-combo-box>
             </gl-grid-col>
         </gl-grid-row>
@@ -48,7 +48,7 @@
         <gl-grid-row>
             <gl-grid-col width="[[getWidth]]" grid="[[300,12],[500,4]]"></gl-grid-col>
             <gl-grid-col width="[[getWidth]]" grid="[[300,12],[500,4]]">
-                <gl-form-input class="margin-top checkData" error-message="กรุณากรอกชื่อเรือ" disabled="[[btnState]]" required label="Ship Name (ชื่อเรือ) :" placeholder="กรอกชื่อเรือ"
+                <gl-form-input class="margin-top  required" required  error-message="กรุณากรอกชื่อเรือ" disabled="[[btnState]]" required label="Ship Name (ชื่อเรือ) :" placeholder="กรอกชื่อเรือ"
                     value="{{data.ship_name}}"></gl-form-input>
             </gl-grid-col>
         </gl-grid-row>
@@ -74,13 +74,15 @@
                     statePath: 'commonState.btnState'
                 }
             },
-            behaviors: [nylonBehavior, ReduxBehavior],
+            behaviors: [nylonBehavior, ReduxBehavior,ValidateFormBehavior],
             _save: function () {
+                if(this.validateForm('.required')){
                 if (this.data.creater == 'admin') {
                     this.dispatchAction('SHIP_EDIT', this.data);
                 }
                 else {
                     this.dispatchAction('SHIP_INSERT', this.data);
+                }
                 }
             },
             _cancel: function () {

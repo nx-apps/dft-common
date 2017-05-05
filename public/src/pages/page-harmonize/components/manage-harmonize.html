@@ -2,7 +2,7 @@
 <link rel="import" href="./../../../../bower_components/gl-grid/gl-grid-row.html">
 <link rel="import" href="./../../../../bower_components/gl-grid/gl-grid-col.html">
 <link rel="import" href="./../../../../bower_components/gl-form/gl-combo-box.html">
-
+<link rel="import" href="./../../components/validateFormBehaviors.html">
 <dom-module id="manage-harmonize">
     <style include="iron-flex iron-flex-alignment gl-color gl-size">
         * {
@@ -39,7 +39,7 @@
     <gl-grid-row width="{{getWidth}}">
       <gl-grid-col width="[[getWidth]]" grid="[[300,12],[500,4]]"></gl-grid-col>
       <gl-grid-col width="[[getWidth]]" grid="[[300,12],[500,4]]">
-        <gl-form-input class="margin-top checkData" error-message="กรุณากรอกพิกัดข้าว" disabled="[[btnState]]" required label="Harmonized Code (พิกัดข้าว) :" placeholder="ใส่เลขพิกัดข้าว 11 หลัก" maxlength="11" allowed-pattern="[0-9]" value="{{data.type_rice_id}}" disabled="[[_checkStatus(data.creater)]]"></gl-form-input>
+        <gl-form-input class="margin-top  required" required  error-message="กรุณากรอกพิกัดข้าว" disabled="[[btnState]]" required label="Harmonized Code (พิกัดข้าว) :" placeholder="ใส่เลขพิกัดข้าว 11 หลัก" maxlength="11" allowed-pattern="[0-9]" value="{{data.type_rice_id}}" disabled="[[_checkStatus(data.creater)]]"></gl-form-input>
       </gl-grid-col>
       <gl-grid-col width="[[getWidth]]" grid="[[300,12],[500,4]]"></gl-grid-col>
     </gl-grid-row>
@@ -47,7 +47,7 @@
     <gl-grid-row width="{{getWidth}}">
       <gl-grid-col width="[[getWidth]]" grid="[[300,12],[500,4]]"></gl-grid-col>
       <gl-grid-col width="[[getWidth]]" grid="[[300,12],[500,4]]">
-        <gl-form-input class="margin-top checkData" error-message="กรุณากรอกชื่อข้าวภาษาไทย" disabled="[[btnState]]" required label="Rice Name (ชื่อข้าวภาษาไทย) :" placeholder="กรอกชื่อข้าว" value="{{data.type_rice_name_th}}"></gl-form-input>
+        <gl-form-input class="margin-top  required" required  error-message="กรุณากรอกชื่อข้าวภาษาไทย" disabled="[[btnState]]" required label="Rice Name (ชื่อข้าวภาษาไทย) :" placeholder="กรอกชื่อข้าว" value="{{data.type_rice_name_th}}"></gl-form-input>
       </gl-grid-col>
       <gl-grid-col width="[[getWidth]]" grid="[[300,12],[500,4]]"></gl-grid-col>
     </gl-grid-row>
@@ -55,7 +55,7 @@
     <gl-grid-row width="{{getWidth}}">
       <gl-grid-col width="[[getWidth]]" grid="[[300,12],[500,4]]"></gl-grid-col>
       <gl-grid-col width="[[getWidth]]" grid="[[300,12],[500,4]]">
-        <gl-form-input class="margin-top checkData" error-message="กรุณากรอกชื่อข้าวภาษาอังกฤษ" disabled="[[btnState]]" required label="Rice Name (ชื่อข้าวภาษาอังกฤษ) :" placeholder="กรอกชื่อข้าว" value="{{data.type_rice_name_en}}"></gl-form-input>
+        <gl-form-input class="margin-top  required" required  error-message="กรุณากรอกชื่อข้าวภาษาอังกฤษ" disabled="[[btnState]]" required label="Rice Name (ชื่อข้าวภาษาอังกฤษ) :" placeholder="กรอกชื่อข้าว" value="{{data.type_rice_name_en}}"></gl-form-input>
       </gl-grid-col>
       <gl-grid-col width="[[getWidth]]" grid="[[300,12],[500,4]]"></gl-grid-col>
     </gl-grid-row>
@@ -78,13 +78,15 @@
                     statePath: 'commonState.btnState'
                 }
             },
-            behaviors: [nylonBehavior, ReduxBehavior, harmonizeAction],
+            behaviors: [nylonBehavior, ReduxBehavior, harmonizeAction,ValidateFormBehavior],
             _save: function () {
+                if(this.validateForm('.required')){
                 if (this.data.creater == 'admin') {
                     this.dispatchAction('HARMONIZE_EDIT', this.data);
                 }
                 else {
                     this.dispatchAction('HARMONIZE_INSERT', this.data);
+                }
                 }
             },
             _cancel: function () {
