@@ -63,7 +63,8 @@ exports.insert = function (req, res) {
     var r = req.r;
     req.body = Object.assign(req.body, {
         creater: 'admin',
-        date_created: new Date().toISOString()
+        date_created: new Date().toISOString(),
+        date_updated : new Date().toISOString(),
     });
     r.db('common').table('country_group')
         .insert(req.body)

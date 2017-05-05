@@ -38,13 +38,14 @@ exports.getById = function (req, res) {
         })
 }
 exports.insert = function (req, res) {
-    // var valid = req.ajv.validate('common.type_rice', req.body);
+    // var valid = req.ajv.validate('common.typerice', req.body);
     var r = req.r;
     var result = { result: false, message: null, id: null };
     // if (valid) {
         req.body = Object.assign(req.body, { 
             creater : 'admin',
-            date_created : new Date().toISOString()
+            date_created : new Date().toISOString(),
+            date_updated : new Date().toISOString(),
         });
         r.db("common").table("type_rice")
             .insert(req.body)
