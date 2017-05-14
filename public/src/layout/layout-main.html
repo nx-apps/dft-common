@@ -10,14 +10,24 @@
 <link rel="import" href="../../bower_components/paper-icon-button/paper-icon-button.html">
 <link rel="import" href="../../bower_components/paper-item/paper-icon-item.html">
 
+<link rel="import" href="./../../bower_components/plutonium-breadcrumbs/plutonium-breadcrumbs.html">
+
+<link rel="import" href="./../../bower_components/iron-flex-layout/iron-flex-layout-classes.html">
+
 <link rel="import" href="./layout-main-toolbar.html">
 <link rel="import" href="./layout-main-drawer.html">
 <link rel="import" href="./nylon-toast.html">
+<link rel="import" href="../nylon-param.html">
 
 <link rel="import" href="./flexbox-grid.html">
+<style media="screen">
+   body{
+     background-color: #C7F2FC;
+   }
+</style>
 <dom-module id="layout-main">
 	<template>
-		<style include="flexbox-grid">
+		<style include="flexbox-grid iron-flex iron-flex-alignment">
 			#drawer {
 				z-index: 2;
 				--app-drawer-width: 400px;
@@ -67,7 +77,6 @@
 					width:80%;
 				}
 			}*/
-			
 			/*.main-container {
 				margin-right: auto;
 				margin-left: auto;
@@ -92,19 +101,25 @@
 					width: 1170px;
 				}
 			}*/
-
-			.container{
+			
+			.container {
 				padding-left: 0.5em;
 				padding-right: 0.5em;
 			}
-
-			.test-main{
+			
+			.test-main {
 				background-color: #DD22DD
+			}
+
+			#crumbs iron-selector li {
+				font-size: 50px !important;
 			}
 		</style>
 		<div blur$="{{offline}}">
 			<app-drawer id="drawer">
-				<layout-main-drawer path="{{path}}" on-toggle-drawer="_toggleDrawer" on-open-drawer="_openDrawer" on-close-drawer="_closeDrawer"></layout-main-drawer>
+				<div style="height: 100%; overflow: auto;">
+					<layout-main-drawer path="{{path}}" on-toggle-drawer="_toggleDrawer" on-open-drawer="_openDrawer" on-close-drawer="_closeDrawer"></layout-main-drawer>
+				</div>
 			</app-drawer>
 
 			<app-header-layout style="z-index:1;">
@@ -113,8 +128,16 @@
 				</app-header>
 			</app-header-layout>
 
+			<nylon-param params="{{getParam}}" pattern="pageName/img"></nylon-param>
+
 			<nylon-toast>
 				<div class="container">
+					<div style="padding: 25px; background-color:#FFF ;margin: 10px;" class="layout horizontal center">
+						<iron-image style="width:30px; height:30px;margin-right:5px" sizing="contain" src="{{pageIcon}}"></iron-image>
+						<plutonium-breadcrumbs crumbs="{{crumbs}}" selected-crumb="{{crumb}}"></plutonium-breadcrumbs>
+						<hr>
+					</div>
+
 					<content></content>
 				</div>
 			</nylon-toast>
@@ -132,6 +155,37 @@
 	<script>
 		Polymer({
 			is: 'layout-main',
+			behaviors: [],
+			observers: ['obGetParam(getParam)'],
+			properties: {
+				pageIcon:{
+					type:String,
+					value:"../../images/manifest/icon-32x32.png"
+				},
+				crumbs: {
+					type: Array,
+					value: [
+						{
+							label: 'หน้าหลัก',
+							href: '/main'
+						}
+					]
+				}
+			},
+			obGetParam: function (param) {
+				console.log(param);
+				var herf = "/" + param.page + "/" + param.pageName+"/"+param.img;
+				var currrent_page = { label: param.pageName, href: herf };
+				if (this.crumbs.length > 1) {
+					this.pop('crumbs', 1)
+					this.set('pageIcon','../../images/manifest/icon-32x32.png')
+				}
+				if (param.page != "main") {
+					this.push('crumbs', currrent_page);
+					this.set('pageIcon','../../images/'+param.img+'/32.png')
+					console.log(this.pageIcon);
+				}
+			},
 			ready: function () {
 				this.offline = navigator.onLine === false;
 				window.addEventListener('online', function () {
@@ -141,6 +195,17 @@
 				window.addEventListener('offline', function () {
 					this.offline = true;
 				}.bind(this))
+
+				/*this.crumbs = [
+					{
+						label: 'Main',
+						href: '/main'
+					},
+					{
+						label: 'ship',
+						href: '/ship'
+					},
+				]*/
 			},
 			_toggleDrawer: function () {
 				this.$.drawer.toggle();

@@ -1,5 +1,6 @@
 <link rel="import" href="./../../bower_components/app-layout/app-toolbar/app-toolbar.html">
 <link rel="import" href="./../../bower_components/paper-item/paper-icon-item.html">
+<link rel="import" href="./../../bower_components/paper-item/paper-item.html">
 <link rel="import" href="./../../bower_components/iron-icon/iron-icon.html">
 <link rel="import" href="./shared-styles.html">
 
@@ -8,57 +9,61 @@
         <style>
             app-toolbar {
                 color: white;
-                background-color: orange;
+                background-color: #FF5000;
                 font-size: 22px;
                 font-family: CSChatThaiUI, sans-serif;
                 -webkit-font-smoothing: antialiased;
             }
-
+            
             iron-image,
             iron-icon {
                 padding-right: 10px;
             }
-
-            paper-icon-item {
+            
+            paper-item {
                 font-family: 'CSChatThaiUI', sans-serif;
             }
-
-            paper-icon-item:hover {
+            
+            paper-item:hover {
                 background-color: #F1F1F1;
                 cursor: pointer;
                 font-weight: bold;
             }
-
-            paper-icon-item>div {
+            
+            paper-item>div {
                 position: absolute;
                 top: 4px;
                 right: 10px;
             }
-            paper-icon-item[selected] {
+            
+            paper-item[selected] {
                 background-color: #DDD;
             }
         </style>
-        <div class="menu">
+        <div class="menu" >
 
             <paper-material elevation="1">
                 <app-toolbar>
 
-                    <iron-image src="../../images/manifest/icon-32x32.png">
+                    <iron-image style="width:30px; height:30px;" sizing="contain" src="../../images/manifest/icon-32x32.png">
                     </iron-image>
                     <!--<iron-icon icon="home" item-icon></iron-icon>-->
                     Menu
                 </app-toolbar>
             </paper-material>
-            <div role="listbox">
+            
+            <div role="listbox" style="overflow:auto ;" >
 
                 <template is="dom-repeat" items="{{listMenu}}">
-                    <paper-icon-item on-tap="selectPage" path$="{{item.path}}" focused index="{{index}}" selected$="{{_checkSelect(path,item.path)}}">
-                        <iron-icon icon="chevron-right" item-icon></iron-icon>
+                    <paper-item on-tap="selectPage" path$="{{item.path}}" focused index="{{index}}" selected$="{{_checkSelect(path,item.path)}}">
+                        <!--<iron-icon icon="chevron-right" item-icon></iron-icon>-->
+                        <iron-image style="width:25px; height:25px;" sizing="contain" src="[[item.img]]">
+                        </iron-image>
                         [[item.name]]
                         <div hidden$="{{!item.loading}}">
                             <paper-spinner active></paper-spinner>
                         </div>
-                    </paper-icon-item>
+                    </paper-item>
                 </template>
             </div>
         </div>
@@ -77,13 +82,107 @@
                         {
                             name: 'เมนูหลัก',
                             path: '/main',
-                            role: ''
+                            role: '',
+                            img:'../../images/manifest/icon-32x32.png'
                         },
                         {
-                            name: 'การคำนวณส่วนจัดสรร',
-                            path: '/calculate',
-                            role: ''
+                            id: 0,
+                            name: 'ธนาคาร',
+                            path: '/bank/ธนาคาร/01',
+                            role: '',
+                            img: '../../images/01/72.png'
                         },
+                        {
+                            id: 1,
+                            name: 'ผู้ซื้อ',
+                            path: '/buyer/ผู้ซื้อ/02',
+                            role: '',
+                            img: '../../images/02/72.png'
+                        },
+                        {
+                            id: 2,
+                            name: 'ผู้ให้บริการเรือ',
+                            path: '/carrier/ผู้ให้บริการเรือ/03',
+                            role: '',
+                            img: '../../images/03/72.png'
+                        },
+                        {
+                            id: 3,
+                            name: 'ประเทศ',
+                            path: '/country/ประเทศ/04',
+                            role: '',
+                            img: '../../images/04/72.png'
+                        },
+                        {
+                            id: 3,
+                            name: 'กลุ่มประเทศ',
+                            path: '/country-group/กลุ่มประเทศ/04',
+                            role: '',
+                            img: '../../images/04/72.png'
+                        },
+                        {
+                            id: 4,
+                            name: 'ข้อกำหนดการส่งสินค้า',
+                            path: '/incoterms/ข้อกำหนดการส่งสินค้า/05',
+                            role: '',
+                            img: '../../images/05/72.png'
+                        },
+                        {
+                            id: 5,
+                            name: 'แพ็คเกจ',
+                            path: '/package/แพ็คเกจ/06',
+                            role: '',
+                            img: '../../images/06/72.png'
+                        },
+                        {
+                            id: 6,
+                            name: 'ท่าเรือ',
+                            path: '/port/ท่าเรือ/07',
+                            role: '',
+                            img: '../../images/07/72.png'
+                        },
+                        {
+                            id: 7,
+                            name: 'เรือ',
+                            path: '/ship/เรือ/08',
+                            role: '',
+                            img: '../../images/08/72.png'
+                        },
+                        {
+                            id: 8,
+                            name: 'สายเรือ',
+                            path: '/shipline/สายเรือ/09',
+                            role: '',
+                            img: '../../images/09/72.png'
+                        },
+                        {
+                            id: 9,
+                            name: 'หน่วยงานตรวจสอบสินค้า',
+                            path: '/surveyor/หน่วยงานตรวจสอบสินค้า/10',
+                            role: '',
+                            img: '../../images/10/72.png'
+                        },
+                        {
+                            id: 10,
+                            name: 'พิกัดข้าว',
+                            path: '/harmonize/พิกัดข้าว/11',
+                            role: '',
+                            img: '../../images/11/72.png'
+                        },
+                        {
+                            id: 11,
+                            name: 'ที่อยู่ผู้รับสินค้า',
+                            path: '/notifyparty/ที่อยู่ผู้รับสินค้า/12',
+                            role: '',
+                            img: '../../images/12/72.png'
+                        },
+                        {
+                            id: 12,
+                            name: 'ทวีป',
+                            path: '/continent/ทวีป/13',
+                            role: '',
+                            img: '../../images/13/72.png'
+                        }
                     ]
                 },
                 sendElement: {
@@ -123,7 +222,7 @@
                 }
 
                 this.async(
-                    function() {
+                    function () {
                         this.fire('close-drawer');
                         this._loaded();
                     }
@@ -131,8 +230,8 @@
 
             },
             _loaded: function () {
-                this.async(function(){
-                    this.listMenu.map(function(item, i){
+                this.async(function () {
+                    this.listMenu.map(function (item, i) {
                         this.set('listMenu.' + i + '.loading', false);
                     }.bind(this));
                     this.fire('close-drawer');

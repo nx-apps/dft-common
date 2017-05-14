@@ -7,7 +7,7 @@
 	<template>
 		<style is="custom-style" include="shared-styles">
 			app-toolbar {
-				background-color: #f7941e;
+				background-color: #FF5000;
 				color: white;
 				font-family: CSChatThaiUI, sans-serif;
 				-webkit-font-smoothing: antialiased;
@@ -47,7 +47,7 @@
 		</style>
 		<app-toolbar>
 			<paper-icon-button icon="menu" on-tap="toggleDrawer"></paper-icon-button>
-			<iron-image src="../../images/manifest/icon-48x48.png"></iron-image>
+			<iron-image style="width:30px; height:30px;" sizing="contain"src="../../images/manifest/icon-48x48.png"></iron-image>
 			<div main-title>ระบบจัดการข้อมูลพื้นฐาน</div>
 			<!--[[user.name]]-->
 			<div style="cursor: pointer" hidden="{{hidden}}">

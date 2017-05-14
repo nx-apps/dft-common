@@ -94,7 +94,7 @@ export function countryGroupAction(store) {
                         status: 'success', text: 'บันทึกสำเร็จ',
                         callback: () => {
                             this.$$('nylon-panel-right').close();
-                            this.dispatchAction('BTN_SET_STATE',true);
+                            this.dispatchAction('BTN_SET_STATE', true);
                         }
                     });
                 })
@@ -103,20 +103,29 @@ export function countryGroupAction(store) {
                 })
         },
         COUNTRY_GROUP_DELETE: function (id) {
-            this.fire('toast', { status: 'load' });
-            axios.delete(`/countryGroup/group/${id}`)
-                .then(res => {
-                    this.COUNTRY_GROUP_LIST();
-                    this.fire('toast', {
-                        status: 'success', text: 'ลบข้อมูลสำเร็จ',
-                        callback: () => {
-                            this.$$('nylon-panel-right').close();
-                        }
-                    });
-                })
-                .catch(err => {
-                    console.log(err);
-                })
+            this.fire('toast', {
+                status: 'openDialog',
+                text: 'ต้องการลบข้อมูลใช่หรือไม่ ?',
+                confirmed: (result) => {
+                    if (result == true) {
+                        this.fire('toast', { status: 'load' });
+                        axios.delete(`/countryGroup/group/${id}`)
+                            .then(res => {
+                                this.COUNTRY_GROUP_LIST();
+                                this.fire('toast', {
+                                    status: 'success', text: 'ลบข้อมูลสำเร็จ',
+                                    callback: () => {
+                                        this.$$('nylon-panel-right').close();
+                                    }
+                                });
+                            })
+                            .catch(err => {
+                                console.log(err);
+                            })
+                    }
+                }
+            })
+
         }
     }
     ]
