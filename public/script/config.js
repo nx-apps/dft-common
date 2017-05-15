@@ -55,4 +55,4 @@ export function dispatchActionBehavior(){
 }
 
 //export const baseURL = `https://${window.location.hostname}:${location.port}`;
-export const baseURL = `https://${window.location.hostname}`;
+export const baseURL = `https://${window.location.hostname}:${location.port}`;
