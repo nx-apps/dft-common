@@ -77,16 +77,16 @@
             behaviors: [nylonBehavior, ReduxBehavior,ValidateFormBehavior],
             _save: function () {
                 if(this.validateForm('.required')){
-                if (this.data.creater == 'admin') {
-                    this.dispatchAction('SHIP_EDIT', this.data);
-                }
-                else {
-                    this.dispatchAction('SHIP_INSERT', this.data);
-                }
+                    if (typeof this.data.ship_id !== 'undefined') {
+                        this.dispatchAction('SHIP_EDIT', this.data);
+                    }
+                    else {
+                        this.dispatchAction('SHIP_INSERT', this.data);
+                    }
                 }
             },
             _cancel: function () {
-                if (this.data.creater == 'admin') {
+                if (typeof this.data.ship_id !== 'undefined') {
                     this.dispatchAction('SHIP_GET_ID', this.data.ship_id);
                 }
                 else {

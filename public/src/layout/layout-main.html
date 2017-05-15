@@ -173,7 +173,7 @@
 				}
 			},
 			obGetParam: function (param) {
-				console.log(param);
+				// console.log(param);
 				var herf = "/" + param.page + "/" + param.pageName+"/"+param.img;
 				var currrent_page = { label: param.pageName, href: herf };
 				if (this.crumbs.length > 1) {
@@ -183,7 +183,7 @@
 				if (param.page != "main") {
 					this.push('crumbs', currrent_page);
 					this.set('pageIcon','../../images/'+param.img+'/32.png')
-					console.log(this.pageIcon);
+					// console.log(this.pageIcon);
 				}
 			},
 			ready: function () {

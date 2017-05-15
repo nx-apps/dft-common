@@ -58,7 +58,7 @@
             </gl-grid-col>
             <gl-grid-col width="[[getWidth]]" grid="[[300,12],[500,4]]">
                 <gl-form-input class="margin-top  required" required  label="E-mail :" placeholder="ตัวอย่าง test@gmail.com" value="{{data.buyer_email}}"
-                    pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$" error-message="กรุณาใส่รูปแบบให้ถูกต้อง" required disabled="[[btnState]]"></gl-form-input>
+                    pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-z]{2,3}$" error-message="กรุณาใส่รูปแบบให้ถูกต้อง" required disabled="[[btnState]]"></gl-form-input>
             </gl-grid-col>
         </gl-grid-row>
 
@@ -106,16 +106,16 @@
             behaviors: [nylonBehavior, ReduxBehavior,ValidateFormBehavior],
             _save: function () {
                 if(this.validateForm('.required')){
-                if (this.data.creater == 'admin') {
-                    this.dispatchAction('BUYER_EDIT', this.data);
-                }
-                else {
-                    this.dispatchAction('BUYER_INSERT', this.data);
-                }
+                    if (typeof this.data.buyer_id !== 'undefined') {
+                        this.dispatchAction('BUYER_EDIT', this.data);
+                    }
+                    else {
+                        this.dispatchAction('BUYER_INSERT', this.data);
+                    }
                 }
             },
             _cancel: function () {
-                if (this.data.creater == 'admin') {
+                if (typeof this.data.buyer_id !== 'undefined') {
                     this.dispatchAction('BUYER_GET_ID', this.data.buyer_id);
                 }
                 else {

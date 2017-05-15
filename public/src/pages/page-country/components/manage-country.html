@@ -105,12 +105,12 @@
             behaviors: [nylonBehavior, ReduxBehavior,ValidateFormBehavior],
             _save: function () {
                 if(this.validateForm('.required')){
-                if (this.data.creater == 'admin') {
-                    this.dispatchAction('COUNTRY_EDIT', this.data);
-                }
-                else {
-                    this.dispatchAction('COUNTRY_INSERT', this.data);
-                }
+                    if (this.data.creater == 'admin') {
+                        this.dispatchAction('COUNTRY_EDIT', this.data);
+                    }
+                    else {
+                        this.dispatchAction('COUNTRY_INSERT', this.data);
+                    }
                 }
             },
             _cancel: function () {
