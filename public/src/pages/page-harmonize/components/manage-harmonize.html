@@ -27,45 +27,59 @@
             margin-top: 20px;
             margin-bottom: 20px;
         }
-        icon-button-management{
+        
+        icon-button-management {
             margin: 10px 10px;
         }
     </style>
     <template>
-       <div class="text-center">{{title}}พิกัดข้าว</div>
-       <template is="dom-if" if={{_checkStatus(statusAction)}}>
+        <div class="text-center">{{title}}พิกัดข้าว</div>
+        <template is="dom-if" if={{_checkStatus(statusAction)}}>
             <icon-button-management btn-state="[[!btnState]]"></icon-button-management>
         </template>
-    <gl-grid-row width="{{getWidth}}">
-      <gl-grid-col width="[[getWidth]]" grid="[[300,12],[500,4]]"></gl-grid-col>
-      <gl-grid-col width="[[getWidth]]" grid="[[300,12],[500,4]]">
-        <gl-form-input class="margin-top  required" required  error-message="กรุณากรอกพิกัดข้าว" label="Harmonized Code (พิกัดข้าว) :" placeholder="ใส่เลขพิกัดข้าว 11 หลัก" maxlength="11" allowed-pattern="[0-9]" value="{{data.type_rice_id}}" disabled="[[_checkStatus(statusAction)]]"></gl-form-input>
-      </gl-grid-col>
-      <gl-grid-col width="[[getWidth]]" grid="[[300,12],[500,4]]"></gl-grid-col>
-    </gl-grid-row>
+        <gl-grid-row width="{{getWidth}}">
+            <gl-grid-col width="[[getWidth]]" grid="[[300,12],[500,4]]"></gl-grid-col>
+            <gl-grid-col width="[[getWidth]]" grid="[[300,12],[500,4]]">
+                <gl-form-input class="margin-top  required" required error-message="กรุณากรอกพิกัดข้าว" label="Harmonized Code (พิกัดข้าว) :"
+                    placeholder="ใส่เลขพิกัดข้าว 11 หลัก" maxlength="11" allowed-pattern="[0-9]" value="{{data.type_rice_id}}"
+                    disabled="[[_checkStatus(statusAction)]]"></gl-form-input>
+            </gl-grid-col>
+            <gl-grid-col width="[[getWidth]]" grid="[[300,12],[500,4]]"></gl-grid-col>
+        </gl-grid-row>
 
-    <gl-grid-row width="{{getWidth}}">
-      <gl-grid-col width="[[getWidth]]" grid="[[300,12],[500,4]]"></gl-grid-col>
-      <gl-grid-col width="[[getWidth]]" grid="[[300,12],[500,4]]">
-        <gl-form-input class="margin-top  required" required  error-message="กรุณากรอกชื่อข้าวภาษาไทย" disabled="[[btnState]]" required label="Rice Name (ชื่อข้าวภาษาไทย) :" placeholder="กรอกชื่อข้าว" value="{{data.type_rice_name_th}}"></gl-form-input>
-      </gl-grid-col>
-      <gl-grid-col width="[[getWidth]]" grid="[[300,12],[500,4]]"></gl-grid-col>
-    </gl-grid-row>
+        <gl-grid-row width="{{getWidth}}">
+            <gl-grid-col width="[[getWidth]]" grid="[[300,12],[500,4]]"></gl-grid-col>
+            <gl-grid-col width="[[getWidth]]" grid="[[300,12],[500,4]]">
+                <gl-form-input class="margin-top  required" required error-message="กรุณากรอกชื่อข้าวภาษาไทย" disabled="[[btnState]]" required
+                    label="Rice Name (ชื่อข้าวภาษาไทย) :" placeholder="กรอกชื่อข้าว" value="{{data.type_rice_name_th}}"></gl-form-input>
+            </gl-grid-col>
+            <gl-grid-col width="[[getWidth]]" grid="[[300,12],[500,4]]"></gl-grid-col>
+        </gl-grid-row>
 
-    <gl-grid-row width="{{getWidth}}">
-      <gl-grid-col width="[[getWidth]]" grid="[[300,12],[500,4]]"></gl-grid-col>
-      <gl-grid-col width="[[getWidth]]" grid="[[300,12],[500,4]]">
-        <gl-form-input class="margin-top  required" required  error-message="กรุณากรอกชื่อข้าวภาษาอังกฤษ" disabled="[[btnState]]" required label="Rice Name (ชื่อข้าวภาษาอังกฤษ) :" placeholder="กรอกชื่อข้าว" value="{{data.type_rice_name_en}}"></gl-form-input>
-      </gl-grid-col>
-      <gl-grid-col width="[[getWidth]]" grid="[[300,12],[500,4]]"></gl-grid-col>
-    </gl-grid-row>
+        <gl-grid-row width="{{getWidth}}">
+            <gl-grid-col width="[[getWidth]]" grid="[[300,12],[500,4]]"></gl-grid-col>
+            <gl-grid-col width="[[getWidth]]" grid="[[300,12],[500,4]]">
+                <gl-form-input class="margin-top  required" required error-message="กรุณากรอกชื่อข้าวภาษาอังกฤษ" disabled="[[btnState]]"
+                    required label="Rice Name (ชื่อข้าวภาษาอังกฤษ) :" placeholder="กรอกชื่อข้าว" value="{{data.type_rice_name_en}}"></gl-form-input>
+            </gl-grid-col>
+            <gl-grid-col width="[[getWidth]]" grid="[[300,12],[500,4]]"></gl-grid-col>
+        </gl-grid-row>
 
-    <div class="horizontal end-justified layout">
-      <div class="button">
-        <paper-button raised on-tap="_cancel" hidden="{{btnState}}">คืนค่าข้อมูล</paper-button>
-        <paper-button class="gl-btn-success" raised on-tap="_save" hidden="{{btnState}}">บันทึก</paper-button>
-      </div>
-    </div>
+        <gl-grid-row width="{{getWidth}}">
+            <gl-grid-col width="[[getWidth]]" grid="[[300,12],[500,4]]"></gl-grid-col>
+            <gl-grid-col width="[[getWidth]]" grid="[[300,12],[500,4]]">
+                <gl-form-input class="margin-top  required" required error-message="กรุณากรอกชื่อข้าวภาษาอังกฤษตัวย่อ" disabled="[[btnState]]"
+                    required label="Rice Name (ชื่อข้าวภาษาอังกฤษตัวย่อ) :" placeholder="ภาษาอังกฤษตัวย่อ" value="{{data.type_rice_name_en_sub}}"></gl-form-input>
+            </gl-grid-col>
+            <gl-grid-col width="[[getWidth]]" grid="[[300,12],[500,4]]"></gl-grid-col>
+        </gl-grid-row>
+
+        <div class="horizontal end-justified layout">
+            <div class="button">
+                <paper-button raised on-tap="_cancel" hidden="{{btnState}}">คืนค่าข้อมูล</paper-button>
+                <paper-button class="gl-btn-success" raised on-tap="_save" hidden="{{btnState}}">บันทึก</paper-button>
+            </div>
+        </div>
     </template>
     <script>
         Polymer({
@@ -74,19 +88,19 @@
                 data: {
                     statePath: 'harmonize.data'
                 },
-                btnState:{
+                btnState: {
                     statePath: 'commonState.btnState'
                 }
             },
-            behaviors: [nylonBehavior, ReduxBehavior, harmonizeAction,ValidateFormBehavior],
+            behaviors: [nylonBehavior, ReduxBehavior, harmonizeAction, ValidateFormBehavior],
             _save: function () {
-                if(this.validateForm('.required')){
-                if (this.statusAction == 'edit') {
-                    this.dispatchAction('HARMONIZE_EDIT', this.data);
-                }
-                else {
-                    this.dispatchAction('HARMONIZE_INSERT', this.data);
-                }
+                if (this.validateForm('.required')) {
+                    if (this.statusAction == 'edit') {
+                        this.dispatchAction('HARMONIZE_EDIT', this.data);
+                    }
+                    else {
+                        this.dispatchAction('HARMONIZE_INSERT', this.data);
+                    }
                 }
             },
             _cancel: function () {

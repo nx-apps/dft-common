@@ -3,15 +3,15 @@
 <link rel="import" href="./../../../bower_components/gl-styles/gl-table.html">
 <link rel="import" href="./../../../bower_components/paper-input/paper-input.html">
 <link rel="import" href="../../nylon-behavior.html">
-<link rel="import" href="components/manage-harmonize.html">
+<link rel="import" href="components/harmonize-group-manage.html">
 <link rel="import" href="./../../../bower_components/paper-tooltip/paper-tooltip.html">
 <link rel="import" href="./../components/icon-button-management.html">
 <link rel="import" href="./../../layout/page-style.html">
 <link rel="import" href="./../components/search-behavior.html">
-<dom-module id="page-harmonize">
+<dom-module id="page-harmonize-group">
   <style is="custom-style" include="iron-flex iron-flex-factors iron-flex-alignment gl-table page-style">
     .table-head>tr>th:nth-child(1) {
-      width: 10%;
+      width: 5%;
     }
     
     .table-head>tr>th:nth-child(2) {
@@ -23,13 +23,12 @@
     }
     
     .table-head>tr>th:nth-child(4) {
-      width: 35%;
+      width: 25%;
     }
     
     .table-head>tr>th:nth-child(5) {
-      width: 10%;
+      width: 15%;
     }
-    
     .table-head>tr>th:nth-child(6) {
       width: 10%;
     }
@@ -38,22 +37,22 @@
 
     <paper-material elevation="1" class="elevation">
 
-      <!--<paper-button style="margin:10px" raised on-tap="_back">
+      <!--<paper-button class="gl-btn" style="margin:10px" raised on-tap="_back">
         <iron-icon icon="icons:chevron-left"></iron-icon>back</paper-button>
 
       <div class="text-head"><div class="img-center">
-          <iron-image src="../../../images/11/72.png"></iron-image>
-        </div>พิกัดข้าว</div>-->
+          <iron-image src="../../../images/13/72.png"></iron-image>
+        </div>ทวีป</div>-->
 
       <div class="horizontal justified layout">
         <div class="horizontal layout" style="margin-top:25px;">
-          <div class="labelSearch">พิกัดข้าว</div>
+          <div class="labelSearch">รหัสทวีป</div>
           <paper-input label=" " no-label-float value="{{searchInput}}"></paper-input>
           <iron-icon icon="search" style="margin-top:10px;"></iron-icon>
         </div>
         <div>
-          <paper-button class="gl-btn-primary button-top" title="เพิ่มพิกัดข้าว" raised on-tap="_toggleDrawer">
-            <iron-icon icon="add"></iron-icon>เพิ่มพิกัดข้าว</paper-button>
+          <paper-button class="gl-btn-primary button-top" title="กลุ่มชนิดข้าว" raised on-tap="_toggleDrawer">
+            <iron-icon icon="add"></iron-icon>กลุ่มชนิดข้าว</paper-button>
         </div>
       </div>
 
@@ -61,48 +60,39 @@
         <thead class="table-head">
           <tr>
             <th>
-              <div class="text-center">Harmonized Code
-                <p>(พิกัดข้าว)</div>
+              <div class="text-center">No
+                <p>(ลำดับ)</div>
             </th>
             <th>
-              <div class="text-center">Rice Name
-                <p>(ชื่อย่อข้าว ภาษาอังกฤษ)</div>
+              <div class="text-center">Continent Code
+                <p>(ชื่อกลุ่มข้าว)</div>
             </th>
             <th>
-              <div class="text-center">Rice Name
-                <p>(ชื่อข้าว ภาษาไทย)</div>
-            </th>
-
-            <th>
-              <div class="text-center">Rice Name
-                <p>(ชื่อข้าว ภาษาอังกฤษ)</div>
+              <div class="text-center">Continent Name
+                <p>(กลุ่มประเทศ)</div>
             </th>
             <th>
               <div class="text-center">Date Update
                 <p>(วันที่อัพเดทล่าสุด)</div>
             </th>
             <th style="text-align:right;">
-              <!-- <paper-button class="gl-btn-primary button-top" title="เพิ่มพิกัดข้าว" raised on-tap="_toggleDrawer"><iron-icon icon="add"></iron-icon>เพิ่มพิกัดข้าว</paper-button> -->
+              <!-- <paper-button class="gl-btn-primary button-top" title="เพิ่มประเทศ" raised on-tap="_toggleDrawer"><iron-icon icon="add"></iron-icon>เพิ่มประเทศ</paper-button> -->
             </th>
           </tr>
         </thead>
 
-        <!-- <template is="dom-repeat" items="{{dataRice}}"> -->
-        <template is="dom-repeat" items="{{searchInArray(searchInput,'type_rice_id',data)}}">
+        <!-- <template is="dom-repeat" items="{{dataCountry}}"> -->
+        <template is="dom-repeat" items="{{searchInArray(searchInput,'continent_id',data)}}">
           <tbody>
             <tr>
               <td>
-                <div class="text-center">{{item.type_rice_id}}</div>
+                <div class="text-center">{{_count(index)}}</div>
               </td>
               <td>
-                <div>{{item.type_rice_name_en_sub}}</div>
+                <div class="text-center">{{item.continent_id}}</div>
               </td>
               <td>
-                <div>{{item.type_rice_name_th}}</div>
-              </td>
-
-              <td>
-                <div>{{item.type_rice_name_en}}</div>
+                <div>{{item.continent_name_th}}</div>
               </td>
               <td>
                 <div class="text-center">{{item.date_updated}}</div>
@@ -116,7 +106,7 @@
           </tbody>
         </template>
         <!-- </template> -->
-        <template is="dom-if" if="{{searchInArrayState(searchInput,'type_rice_id',data)}}">
+        <template is="dom-if" if="{{searchInArrayState(searchInput,'continent_id',data)}}">
           <tr>
             <td colspan="6">
               <div class="text-center no-data">ไม่มีข้อมูล</div>
@@ -127,16 +117,16 @@
     </paper-material>
 
     <nylon-panel-right title="{{title}}">
-      <manage-harmonize status-action="[[statusAction]]" title="{{title}}"></manage-harmonize>
+      <harmonize-group-manage title="{{title}}"></harmonize-group-manage>
     </nylon-panel-right>
   </template>
   <script>
     Polymer({
-      is: "page-harmonize",
-      behaviors: [nylonBehavior, ReduxBehavior, harmonizeAction, commonStateAction, SearchBehavior],
+      is: "page-harmonize-group",
+      behaviors: [nylonBehavior, ReduxBehavior, continentAction, commonStateAction, SearchBehavior],
       properties: {
         data: {
-          statePath: 'harmonize.list'
+          statePath: 'continent.list'
         }
       },
       listeners: {
@@ -147,11 +137,10 @@
         this.dispatchAction('BTN_SET_STATE', false);
       },
       nylonPageActive: function () {
-        this.dispatchAction('HARMONIZE_GET_DATA');
+        this.dispatchAction('CONTINENT_GET_DATA');
         this.dispatchAction('BTN_SET_STATE', true);
       },
       _toggleDrawer: function (e) {
-        this.statusAction = 'add';
         this.$$('nylon-panel-right').open();
         this.dispatchAction('CLEAR_DATA');
         this.dispatchAction('BTN_SET_STATE', false);
@@ -161,13 +150,12 @@
         return val + 1
       },
       _delete: function (e) {
-        this.dispatchAction('HARMONIZE_DELETE', e.target.data.type_rice_id);
+        this.dispatchAction('CONTINENT_DELETE', e.target.data.continent_id);
       },
       _edit: function (e) {
-        this.statusAction = 'edit';
         this.$$('nylon-panel-right').open();
         this.dispatchAction('BTN_SET_STATE', true);
-        this.dispatchAction('HARMONIZE_GET_ID', e.target.data.type_rice_id);
+        this.dispatchAction('CONTINENT_GET_ID', e.target.data.continent_id);
         this.title = "แก้ไขข้อมูล";
       },
       _back: function () {

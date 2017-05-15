@@ -9,11 +9,15 @@
         },
         "type_rice_name_en": {
             "type": "string"
+        },
+        "type_rice_name_en_sub": {
+            "type": "string"
         }
     },
     "required": [
         "id",
         "type_rice_name_th",
-        "type_rice_name_en"
+        "type_rice_name_en",
+        "type_rice_name_en_sub"
     ]
 }
