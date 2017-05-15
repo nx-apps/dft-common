@@ -2,9 +2,10 @@
 <link rel="import" href="./../../../../bower_components/gl-grid/gl-grid-row.html">
 <link rel="import" href="./../../../../bower_components/gl-grid/gl-grid-col.html">
 <link rel="import" href="./../../../../bower_components/gl-form/gl-combo-box.html">
+<link rel="import" href="./../../../../bower_components/gl-styles/gl-table.html">
 <link rel="import" href="./../../components/validateFormBehaviors.html">
 <dom-module id="manage-harmonize">
-    <style include="iron-flex iron-flex-alignment gl-color gl-size">
+    <style include="iron-flex iron-flex-alignment gl-color gl-color gl-table">
         * {
             font-family: 'CSChatThaiUI', sans-serif;
             -webkit-font-smoothing: antialiased;
@@ -69,11 +70,55 @@
             <gl-grid-col width="[[getWidth]]" grid="[[300,12],[500,4]]"></gl-grid-col>
             <gl-grid-col width="[[getWidth]]" grid="[[300,12],[500,4]]">
                 <gl-form-input class="margin-top  required" required error-message="กรุณากรอกชื่อข้าวภาษาอังกฤษตัวย่อ" disabled="[[btnState]]"
-                    required label="Rice Name (ชื่อข้าวภาษาอังกฤษตัวย่อ) :" placeholder="ภาษาอังกฤษตัวย่อ" value="{{data.type_rice_name_en_sub}}"></gl-form-input>
+                    required label="Rice Name (ชื่อข้าวภาษาอังกฤษตัวย่อ) :" placeholder="ภาษาอังกฤษตัวย่อ" value="{{data.type_rice_name_sub_en}}"></gl-form-input>
             </gl-grid-col>
             <gl-grid-col width="[[getWidth]]" grid="[[300,12],[500,4]]"></gl-grid-col>
         </gl-grid-row>
+        <!--<gl-grid-row width="{{getWidth}}">
+            <gl-grid-col width="[[getWidth]]" grid="[[300,12],[500,4]]"></gl-grid-col>
+            <gl-grid-col width="[[getWidth]]" grid="[[300,12],[500,4]]">
+                <gl-combo-box always-float-label placeholder="เลือกประเทศ" items="{{countryList}}" value="{{countrySelect}}" item-value-path="id"
+                    item-label-path="country_name_th"></gl-combo-box>
+            </gl-grid-col>
+            <gl-grid-col width="[[getWidth]]" grid="[[300,12],[500,4]]">
+                <paper-button class="gl-btn-primary" on-tap="addCountry" raised hidden="[[btnState]]">เพิ่ม</paper-button>
 
+            </gl-grid-col>
+        </gl-grid-row>
+        <table class="gl-table-default" hidden="[[btnState]]">
+            <thead>
+                <tr>
+                    <th style="width:30%;text-align: right; font-size: 18px;">Country:</th>
+                    <th style="width:50%">
+                        <gl-combo-box always-float-label placeholder="เลือกประเทศ" items="{{countryList}}" value="{{countrySelect}}" item-value-path="id"
+                            item-label-path="country_name_th"></gl-combo-box>
+                    </th>
+                    <th style="width:20%">
+                        <paper-button class="gl-btn-primary" on-tap="addCountry" raised hidden="[[btnState]]">เพิ่ม</paper-button>
+                    </th>
+                </tr>
+            </thead>
+        </table>
+        <table class="gl-table-default">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Country</th>
+                    <th style="width:10%"></th>
+                </tr>
+            </thead>
+            <tbody>
+                <template is="dom-repeat" items="[[data.country]]">
+                    <tr>
+                        <td>[[toIndex(index)]]</td>
+                        <td>[[item.country_name_th]]</td>
+                        <td>
+                            <paper-button class="gl-btn-warning" on-tap="delCountry" item="[[item]]" raised hidden="[[btnState]]">ลบ</paper-button>
+                        </td>
+                    </tr>
+                </template>
+            </tbody>
+        </table>-->
         <div class="horizontal end-justified layout">
             <div class="button">
                 <paper-button raised on-tap="_cancel" hidden="{{btnState}}">คืนค่าข้อมูล</paper-button>

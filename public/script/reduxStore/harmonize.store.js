@@ -49,7 +49,7 @@ export function harmonizeAction(store) {
                             id: data.type_rice_id,
                             type_rice_name_th: data.type_rice_name_th,
                             type_rice_name_en: data.type_rice_name_en,
-                            type_rice_name_en_sub:data.type_rice_name_en_sub
+                            type_rice_name_sub_en:data.type_rice_name_sub_en
                         }
                         this.fire('toast', { status: 'load', text: 'กำลังบันทึกข้อมูล...' })
                         axios.post('./harmonize/insert', newData)
@@ -75,7 +75,7 @@ export function harmonizeAction(store) {
                             id: data.type_rice_id,
                             type_rice_name_th: data.type_rice_name_th,
                             type_rice_name_en: data.type_rice_name_en,
-                            type_rice_name_en_sub:data.type_rice_name_en_sub
+                            type_rice_name_sub_en:data.type_rice_name_sub_en
                         }
                         this.fire('toast', { status: 'load', text: 'กำลังบันทึกข้อมูล...' })
                         axios.put('./harmonize/update', newData)
