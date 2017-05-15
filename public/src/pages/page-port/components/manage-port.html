@@ -29,14 +29,14 @@
         }
     </style>
     <template>
-     <div class="text-center">เพิ่มข้อมูลท่าเรือ</div>
-     <template is="dom-if" if={{_checkStatus(data.date_created)}}>
-            <icon-button-management btn-state="[[!btnState]]"></icon-button-management>
-        </template>
+     <div class="text-center">{{title}}ท่าเรือ</div>
+     <template is="dom-if" if={{_checkStatus(statusAction)}}>
+        <icon-button-management btn-state="[[!btnState]]"></icon-button-management>
+    </template>
     <gl-grid-row width="{{getWidth}}">
       <gl-grid-col width="[[getWidth]]" grid="[[300,12],[500,2]]"></gl-grid-col>
       <gl-grid-col width="[[getWidth]]" grid="[[300,12],[500,4]]">
-        <gl-form-input class="margin-top  required" required  error-message="กรุณากรอกเลขประจำตัวท่าเรือ" disabled="[[btnState]]" required label="Port ID (เลขประจำตัวท่าเรือ) :" placeholder="กรอกรหัสท่าเรือ" value="{{data.port_id}}" disabled="[[_checkStatus(data.creater)]]"></gl-form-input>
+        <gl-form-input class="margin-top  required" required  error-message="กรุณากรอกเลขประจำตัวท่าเรือ" disabled="[[btnState]]" required label="Port ID (เลขประจำตัวท่าเรือ) :" placeholder="กรอกรหัสท่าเรือ" value="{{data.port_id}}" disabled="[[_checkStatus(statusAction)]]"></gl-form-input>
       </gl-grid-col>
       <gl-grid-col width="[[getWidth]]" grid="[[300,12],[500,4]]">
         <gl-form-input class="margin-top  required" required  error-message="กรุณากรอกรหัสท่าเรือ" disabled="[[btnState]]" required label="Port Code (รหัสท่าเรือ) :" placeholder="port_code" value="{{data.port_code}}"></gl-form-input>
@@ -78,7 +78,7 @@
             behaviors: [nylonBehavior, ReduxBehavior,ValidateFormBehavior],
             _save: function () {
                 if(this.validateForm('.required')){
-                if (this.data.creater == 'admin') {
+                if (this.statusAction == 'edit') {
                     this.dispatchAction('PORT_EDIT', this.data);
                 }
                 else {
@@ -87,7 +87,7 @@
                 }
             },
             _cancel: function () {
-                if (this.data.creater == 'admin') {
+                if (this.statusAction == 'edit') {
                     this.dispatchAction('PORT_GET_ID', this.data.id);
                 }
                 else {
@@ -95,7 +95,7 @@
                 }
             },
             _checkStatus: function (val) {
-                if (typeof val != 'undefined' && val != undefined) {
+                if (val != 'add') {
                     return true
                 }
             }

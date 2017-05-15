@@ -32,7 +32,7 @@
         }
     </style>
     <template>
-        <div class="text-center">ข้อมูลทวีป</div>
+        <div class="text-center">{{title}}ทวีป</div>
          <template is="dom-if" if={{_checkStatus(data.continent_id)}}>
             <icon-button-management btn-state="[[!btnState]]"></icon-button-management>
         </template>

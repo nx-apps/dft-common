@@ -85,7 +85,7 @@
     </paper-material>
 
     <nylon-panel-right title="{{title}}">
-      <manage-surveyor></manage-surveyor>
+      <manage-surveyor status-action="[[statusAction]]" title="{{title}}"></manage-surveyor>
     </nylon-panel-right>
   </template>
   <script>
@@ -109,6 +109,7 @@
         this.dispatchAction('BTN_SET_STATE',true);
       },
       _toggleDrawer: function (e) {
+        this.statusAction = 'add';
         this.$$('nylon-panel-right').open();
         this.dispatchAction('CLEAR_DATA');
         this.dispatchAction('BTN_SET_STATE',false);
@@ -121,6 +122,7 @@
         this.dispatchAction('SURVEYOR_DELETE', e.target.data.surveyor_id);
       },
       _edit: function (e) {
+        this.statusAction = 'edit';
         this.dispatchAction('BTN_SET_STATE',true);
         this.$$('nylon-panel-right').open();
         this.dispatchAction('SURVEYOR_GET_ID', e.target.data.surveyor_id);

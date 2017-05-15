@@ -70,8 +70,8 @@
             }
         </style>
         <div class="container">
-            <div class="text-center">ข้อมูลกลุ่มประเทศประเทศ</div>
-            <template is="dom-if" if={{_checkStatus(data.date_create)}}>
+            <div class="text-center">{{title}}กลุ่มประเทศ</div>
+            <template is="dom-if" if={{_checkStatus(statusAction)}}>
                 <icon-button-management btn-state="[[!btnState]]"></icon-button-management>
             </template>
             <table class="gl-table-default">
@@ -79,7 +79,7 @@
                     <tr>
                         <th style="width:30%;text-align: right; font-size: 18px;">Name:</th>
                         <th style="width:50%">
-                            <gl-form-input no-label-float value="{{data.id}}" class=" required" required  disabled="[[checkDisabled(data.creater)]]"></gl-form-input>
+                            <gl-form-input no-label-float value="{{data.id}}" class=" required" required  disabled="[[_checkStatus(statusAction)]]"></gl-form-input>
                         </th>
                         <th style="width:20%"></th>
                     </tr>
@@ -170,7 +170,7 @@
             saveSelect: function () {
                 if(this.validateForm('.required')){
                 this.data.country = this.data.country.map((sc_map) => sc_map.id);
-                if (this.data.creater == "admin") {
+                if (this.statusAction == "edit") {
                     this.dispatchAction('COUNTRY_GROUP_UPDATE', this.data);
                 } else {
                     this.dispatchAction('COUNTRY_GROUP_INSERT', this.data);
@@ -188,7 +188,7 @@
                 }
             },
             _checkStatus: function (val) {
-                if (typeof val != 'undefined' && val != undefined) {
+                if (val != 'add') {
                     return true
                 }
             }

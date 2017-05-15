@@ -33,7 +33,7 @@
         }
     </style>
     <template>
-        <div class="text-center">ข้อมูลผู้ซื้อ</div>
+        <div class="text-center">{{title}}ผู้ซื้อ</div>
         <template is="dom-if" if={{_checkStatus(data.buyer_id)}}>
             <icon-button-management btn-state="[[!btnState]]"></icon-button-management>
         </template>

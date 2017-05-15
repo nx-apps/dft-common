@@ -101,7 +101,7 @@
     </paper-material>
 
     <nylon-panel-right title="{{title}}">
-      <manage-country></manage-country>
+      <manage-country status-action="[[statusAction]]" title="{{title}}"></manage-country>
     </nylon-panel-right>
   </template>
   <script>
@@ -125,6 +125,7 @@
         this.dispatchAction('BTN_SET_STATE',true);
       },
       _toggleDrawer: function (e) {
+        this.statusAction = 'add';
         this.$$('nylon-panel-right').open();
         this.dispatchAction('CONTINENT_GET_DATA');
         this.dispatchAction('CLEAR_DATA');
@@ -138,6 +139,7 @@
         this.dispatchAction('COUNTRY_DELETE', e.target.data.country_id);
       },
       _edit: function (e) {
+        this.statusAction = 'edit';
         this.$$('nylon-panel-right').open();
         this.dispatchAction('CONTINENT_GET_DATA');
         this.dispatchAction('BTN_SET_STATE',true);

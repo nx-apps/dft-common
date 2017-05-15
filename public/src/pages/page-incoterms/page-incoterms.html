@@ -10,17 +10,20 @@
 <link rel="import" href="./../components/search-behavior.html">
 <dom-module id="page-incoterms">
   <style is="custom-style" include="iron-flex iron-flex-factors iron-flex-alignment gl-table page-style">
-   *{
+    * {
       font-family: 'CSChatThaiUI', sans-serif;
       -webkit-font-smoothing: antialiased;
       font-size: var(--font-size-h5);
     }
-    .button-top{
+
+    .button-top {
       margin: 20px;
     }
+
     .text-center {
       text-align: center;
     }
+
     .text-head {
       text-align: center;
       padding: 10px 0px 10px 10px;
@@ -30,28 +33,35 @@
       /*font-family: 'rsuregular', sans-serif;
         -webkit-font-smoothing: antialiased;*/
     }
-    .table-head > tr > th:nth-child(1) {
+
+    .table-head>tr>th:nth-child(1) {
       width: 5%;
     }
-    .table-head > tr > th:nth-child(2) {
+
+    .table-head>tr>th:nth-child(2) {
       width: 25%;
     }
-    .table-head > tr > th:nth-child(3) {
+
+    .table-head>tr>th:nth-child(3) {
       width: 45%;
     }
-    .table-head > tr > th:nth-child(4) {
+
+    .table-head>tr>th:nth-child(4) {
       width: 10%;
     }
-    .table-head > tr > th:nth-child(4) {
+
+    .table-head>tr>th:nth-child(4) {
       width: 10%;
     }
-    .elevation{
+
+    .elevation {
       border-radius: 5px;
       margin: 10px;
       padding: 5px;
       background-color: white;
     }
-    .labelSearch{
+
+    .labelSearch {
       font-size: var(--font-size-h5);
       margin: 10px 10px 10px 10px;
     }
@@ -66,90 +76,112 @@
           <iron-image src="../../../images/05/72.png"></iron-image>
         </div>ข้อกำหนดการส่งสินค้า</div>-->
 
-          <div class="horizontal justified layout">
-            <div class="horizontal layout" style="margin-top:25px;">
-              <div class="labelSearch">รหัสข้อกำหนดส่งสินค้า</div>
-              <paper-input label=" " no-label-float value="{{searchInput}}"></paper-input>
-              <iron-icon icon="search" style="margin-top:10px;"></iron-icon>
-            </div>
-            <div>
-              <paper-button class="gl-btn-primary button-top" title="เพิ่มข้อกำหนดการส่งสินค้า" raised on-tap="_toggleDrawer"><iron-icon icon="add"></iron-icon>เพิ่มข้อกำหนดการส่งสินค้า</paper-button>
-            </div>
-          </div>
+      <div class="horizontal justified layout">
+        <div class="horizontal layout" style="margin-top:25px;">
+          <div class="labelSearch">รหัสข้อกำหนดส่งสินค้า</div>
+          <paper-input label=" " no-label-float value="{{searchInput}}"></paper-input>
+          <iron-icon icon="search" style="margin-top:10px;"></iron-icon>
+        </div>
+        <div>
+          <paper-button class="gl-btn-primary button-top" title="เพิ่มข้อกำหนดการส่งสินค้า" raised on-tap="_toggleDrawer">
+            <iron-icon icon="add"></iron-icon>เพิ่มข้อกำหนดการส่งสินค้า</paper-button>
+        </div>
+      </div>
 
-          <table class="gl-table-default">
-            <thead class="table-head">
-              <tr>
-                <th><div class="text-center">No<p>(ลำดับ)</div></th>
-                <th><div class="text-center">Incoterms Code<p>(รหัสข้อกำหนดส่งสินค้า)</div></th>
-                <th><div class="text-center">Incoterms Name<p>(ชื่อข้อกำหนดส่งสินค้า)</div></th>
-                <th><div class="text-center">Date Update<p>(วันที่อัพเดทล่าสุด)</div></th>
-                <th style="text-align:right;">
-                  <!-- <paper-button class="gl-btn-primary button-top" title="เพิ่มพิกัดข้าว" raised on-tap="_toggleDrawer"><iron-icon icon="add"></iron-icon>เพิ่มพิกัดข้าว</paper-button> -->
-                </th>
-              </tr>
-            </thead>
+      <table class="gl-table-default">
+        <thead class="table-head">
+          <tr>
+            <th>
+              <div class="text-center">No
+                <p>(ลำดับ)</div>
+            </th>
+            <th>
+              <div class="text-center">Incoterms Code
+                <p>(รหัสข้อกำหนดส่งสินค้า)</div>
+            </th>
+            <th>
+              <div class="text-center">Incoterms Name
+                <p>(ชื่อข้อกำหนดส่งสินค้า)</div>
+            </th>
+            <th>
+              <div class="text-center">Date Update
+                <p>(วันที่อัพเดทล่าสุด)</div>
+            </th>
+            <th style="text-align:right;">
+              <!-- <paper-button class="gl-btn-primary button-top" title="เพิ่มพิกัดข้าว" raised on-tap="_toggleDrawer"><iron-icon icon="add"></iron-icon>เพิ่มพิกัดข้าว</paper-button> -->
+            </th>
+          </tr>
+        </thead>
 
-            <!-- <template is="dom-repeat" items="{{dataIncoterms}}"> -->
-            <template is="dom-repeat" items="{{searchInArray(searchInput,'inct_id',data)}}">
-              <tbody>
-                <tr>
-                  <td><div class="text-center">{{_count(index)}}</div></td>
-                  <td><div class="text-center">{{item.inct_id}}</div></td>
-                  <td><div>{{item.inct_name}}</div></td>
-                  <td><div class="text-center">{{item.date_updated}}</div></td>
-                  <td style="text-align:right;">
-                    <paper-icon-button data="{{item}}" on-tap="_edit" icon="icons:create"></paper-icon-button>
-                    <paper-icon-button data="{{item}}" icon="delete" on-tap="_delete"></paper-icon-button>
-                  </td>
-                </tr>
-                
-              </tbody>
-            </template>
-            <template is="dom-if" if="{{searchInArrayState(searchInput,'inct_id',data)}}">
+        <!-- <template is="dom-repeat" items="{{dataIncoterms}}"> -->
+        <template is="dom-repeat" items="{{searchInArray(searchInput,'inct_id',data)}}">
+          <tbody>
+            <tr>
+              <td>
+                <div class="text-center">{{_count(index)}}</div>
+              </td>
+              <td>
+                <div class="text-center">{{item.inct_id}}</div>
+              </td>
+              <td>
+                <div>{{item.inct_name}}</div>
+              </td>
+              <td>
+                <div class="text-center">{{item.date_updated}}</div>
+              </td>
+              <td style="text-align:right;">
+                <paper-icon-button data="{{item}}" on-tap="_edit" icon="icons:create"></paper-icon-button>
+                <paper-icon-button data="{{item}}" icon="delete" on-tap="_delete"></paper-icon-button>
+              </td>
+            </tr>
+
+          </tbody>
+        </template>
+        <template is="dom-if" if="{{searchInArrayState(searchInput,'inct_id',data)}}">
           <tr>
             <td colspan="6">
               <div class="text-center no-data">ไม่มีข้อมูล</div>
             </td>
           </tr>
         </template>
-            <!-- </template> -->
+        <!-- </template> -->
 
-          </table>
+      </table>
     </paper-material>
 
     <nylon-panel-right title="{{title}}">
-      <manage-incoterms></manage-incoterms>
+      <manage-incoterms status-action="[[statusAction]]" title="{{title}}"></manage-incoterms>
     </nylon-panel-right>
   </template>
   <script>
     Polymer({
       is: "page-incoterms",
-      behaviors: [nylonBehavior, ReduxBehavior, incotermsAction,commonStateAction,SearchBehavior],
+      behaviors: [nylonBehavior, ReduxBehavior, incotermsAction, commonStateAction, SearchBehavior],
       properties: {
         data: {
           statePath: 'incoterms.list',
           observer: 'setNo'
         }
       },
-       listeners: {
+      listeners: {
         'edit-input': 'editInput',
         'delete-input': '_delete'
       },
-      editInput(){
-        this.dispatchAction('BTN_SET_STATE',false);
+      editInput() {
+        this.dispatchAction('BTN_SET_STATE', false);
       },
       nylonPageActive: function () {
         this.dispatchAction('INCOTERMS_GET_DATA');
-        this.dispatchAction('BTN_SET_STATE',true);
+        this.dispatchAction('BTN_SET_STATE', true);
       },
-      setNo(data){
-        return data.map((mkNo,index)=> mkNo.no = index+1)
+      setNo(data) {
+        return data.map((mkNo, index) => mkNo.no = index + 1)
       },
       _toggleDrawer: function (e) {
+        this.statusAction = 'add';
         this.$$('nylon-panel-right').open();
         this.dispatchAction('CLEAR_DATA');
-        this.dispatchAction('BTN_SET_STATE',false);
+        this.dispatchAction('BTN_SET_STATE', false);
         this.title = "เพิ่มข้อมูล";
       },
       _count: function (val) {
@@ -159,8 +191,9 @@
         this.dispatchAction('INCOTERMS_DELETE', e.target.data.inct_id);
       },
       _edit: function (e) {
+        this.statusAction = 'edit';
         this.$$('nylon-panel-right').open();
-        this.dispatchAction('BTN_SET_STATE',true);
+        this.dispatchAction('BTN_SET_STATE', true);
         this.dispatchAction('INCOTERMS_GET_ID', e.target.data.inct_id);
         this.title = "แก้ไขข้อมูล";
       },

@@ -8,6 +8,8 @@
 <link rel="import" href="./../components/icon-button-management.html">
 <link rel="import" href="./../../layout/page-style.html">
 <link rel="import" href="./../components/search-behavior.html">
+<link rel="import" href="./../components/format-number-behavior.html">
+
 <dom-module id="page-package">
   <style is="custom-style" include="iron-flex iron-flex-factors iron-flex-alignment gl-table page-style">
     .table-head>tr>th:nth-child(1) {
@@ -138,13 +140,13 @@
     </paper-material>
 
     <nylon-panel-right title="{{title}}">
-      <manage-package></manage-package>
+      <manage-package status-action="[[statusAction]]" title="{{title}}"></manage-package>
     </nylon-panel-right>
   </template>
   <script>
     Polymer({
       is: "page-package",
-      behaviors: [nylonBehavior, ReduxBehavior, packageAction, commonStateAction, SearchBehavior],
+      behaviors: [nylonBehavior, ReduxBehavior, packageAction, commonStateAction, SearchBehavior, FormatNumberBehavior],
       properties: {
         data: {
           statePath: 'package.list'
@@ -162,6 +164,7 @@
         this.dispatchAction('BTN_SET_STATE', true);
       },
       _toggleDrawer: function (e) {
+        this.statusAction = 'add';
         this.$$('nylon-panel-right').open();
         this.dispatchAction('CLEAR_DATA');
         this.dispatchAction('BTN_SET_STATE', false);
@@ -174,6 +177,7 @@
         this.dispatchAction('PACKAGE_DELETE', e.target.data.package_id);
       },
       _edit: function (e) {
+        this.statusAction = 'edit';
         this.$$('nylon-panel-right').open();
         this.dispatchAction('BTN_SET_STATE', true);
         this.dispatchAction('PACKAGE_GET_ID', e.target.data.package_id);

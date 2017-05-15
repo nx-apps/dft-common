@@ -48,11 +48,12 @@ export function packageAction(store) {
                     if (result == true) {
                         var newData = {
                             id: data.package_id,
-                            package_kg_per_bag: Number(data.package_kg_per_bag),
+                            package_kg_per_bag: parseFloat(data.package_kg_per_bag),
                             package_name_en: data.package_name_en,
                             package_name_th: data.package_name_th,
-                            package_weight_bag: Number(data.package_weight_bag)
+                            package_weight_bag: parseFloat(data.package_weight_bag)
                         }
+                        // console.log(newData);
                         this.fire('toast', { status: 'load', text: 'กำลังบันทึกข้อมูล...' })
                         axios.post('./package/insert', newData)
                             .then((response) => {

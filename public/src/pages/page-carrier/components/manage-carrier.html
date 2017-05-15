@@ -29,7 +29,7 @@
         }
     </style>
     <template>
-        <div class="text-center">ข้อมูลผู้ให้บริการเรือ</div>
+        <div class="text-center">{{title}}ผู้ให้บริการเรือ</div>
 <template is="dom-if" if={{_checkStatus(data.carrier_id)}}>
             <icon-button-management btn-state="[[!btnState]]"></icon-button-management>
         </template>

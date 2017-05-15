@@ -113,7 +113,7 @@
     </paper-material>
 
     <nylon-panel-right title="{{title}}">
-      <manage-shipline></manage-shipline>
+      <manage-shipline status-action="[[statusAction]]" title="{{title}}"></manage-shipline>
     </nylon-panel-right>
   </template>
   <script>
@@ -137,6 +137,7 @@
         this.dispatchAction('BTN_SET_STATE', true);
       },
       _toggleDrawer: function (e) {
+        this.statusAction = 'add';
         this.$$('nylon-panel-right').open();
         this.dispatchAction('CLEAR_DATA');
         this.dispatchAction('BTN_SET_STATE', false);
@@ -149,6 +150,7 @@
         this.dispatchAction('SHIPLINE_DELETE', e.target.data.shipline_id);
       },
       _edit: function (e) {
+        this.statusAction = 'edit';
         this.dispatchAction('BTN_SET_STATE', true);
         this.$$('nylon-panel-right').open();
         this.dispatchAction('SHIPLINE_GET_ID', e.target.data.shipline_id);

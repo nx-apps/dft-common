@@ -3,6 +3,7 @@
 <link rel="import" href="./../../../../bower_components/gl-grid/gl-grid-col.html">
 <link rel="import" href="./../../../../bower_components/gl-form/gl-combo-box.html">
 <link rel="import" href="./../../components/validateFormBehaviors.html">
+<link rel="import" href="./../../components/format-number-behavior.html">
 <dom-module id="manage-package">
   <style include="iron-flex iron-flex-alignment gl-color gl-size">
     * {
@@ -32,24 +33,24 @@
         }
   </style>
   <template>
-    <div class="text-center">เพิ่มข้อมูลแพ็คเกจ</div>
-    <template is="dom-if" if={{_checkStatus(data.date_created)}}>
+    <div class="text-center">{{title}}แพ็คเกจ</div>
+    <template is="dom-if" if={{_checkStatus(statusAction)}}>
             <icon-button-management btn-state="[[!btnState]]"></icon-button-management>
         </template>
     <gl-grid-row width="{{getWidth}}">
       <gl-grid-col width="[[getWidth]]" grid="[[300,12],[500,4]]"></gl-grid-col>
       <gl-grid-col width="[[getWidth]]" grid="[[300,12],[500,4]]">
         <gl-form-input class="margin-top  required" required  error-message="กรุณากรอกรหัสแพ็คเกจ" required label="Package Code (รหัสแพ็คเกจ) :"
-          placeholder="กรอกรหัสแพ็คเกจ" value="{{data.package_id}}" disabled="[[_checkStatus(data.creater)]]" ></gl-form-input>
+          placeholder="กรอกรหัสแพ็คเกจ" value="{{data.package_id}}" disabled="[[_checkStatus(statusAction)]]" ></gl-form-input>
       </gl-grid-col>
       <gl-grid-col width="[[getWidth]]" grid="[[300,12],[500,4]]"></gl-grid-col>
     </gl-grid-row>
 
     <gl-grid-row>
       <gl-grid-col width="[[getWidth]]" grid="[[300,12],[500,4]]"></gl-grid-col>
-      <gl-grid-col width="[[getWidth]]" grid="[[300,12],[500,4]]">
+      <gl-grid-col width="[[getWidth]]" grid="[[300,12],[500,4]]">[[changeString2Num(data.*,'package_kg_per_bag')]]
         <gl-form-input class="margin-top  required" required  error-message="กรุณากรอกน้ำหนักแพ็คเกจ" required label="Package Weight (น้ำหนักแพ็คเกจ กก.) :"
-          placeholder="กรอกน้ำหนักแพ็คเกจ" value="{{data.package_kg_per_bag}}" disabled="[[btnState]]"></gl-form-input>
+          placeholder="กรอกน้ำหนักแพ็คเกจ" format-number="on" value="{{data.package_kg_per_bag}}" disabled="[[btnState]]" allowed-pattern="[0-9,.]"></gl-form-input>
       </gl-grid-col>
       <gl-grid-col width="[[getWidth]]" grid="[[300,12],[500,4]]"></gl-grid-col>
     </gl-grid-row>
@@ -74,9 +75,9 @@
 
     <gl-grid-row>
       <gl-grid-col width="[[getWidth]]" grid="[[300,12],[500,4]]"></gl-grid-col>
-      <gl-grid-col width="[[getWidth]]" grid="[[300,12],[500,4]]">
+      <gl-grid-col width="[[getWidth]]" grid="[[300,12],[500,4]]">[[changeString2Num(data.*,'package_weight_bag')]]
         <gl-form-input class="margin-top  required" required  error-message="กรุณากรอกน้ำหนักกระสอบ" required label="Package Weight_bag (น้ำหนักกระสอบ กรัม.) :"
-          placeholder="กรอกน้ำหนักกระสอบ" value="{{data.package_weight_bag}}" disabled="[[btnState]]"></gl-form-input>
+          placeholder="กรอกน้ำหนักกระสอบ" value="{{data.package_weight_bag}}" disabled="[[btnState]]" allowed-pattern="[0-9,.]" format-number="on"></gl-form-input>
       </gl-grid-col>
       <gl-grid-col width="[[getWidth]]" grid="[[300,12],[500,4]]"></gl-grid-col>
     </gl-grid-row>
@@ -99,19 +100,19 @@
                     statePath: 'commonState.btnState'
                 }
       },
-      behaviors: [nylonBehavior, ReduxBehavior,ValidateFormBehavior],
+      behaviors: [nylonBehavior, ReduxBehavior,ValidateFormBehavior, FormatNumberBehavior],
       _save: function () {
         if(this.validateForm('.required')){
-        if (this.data.creater == 'admin') {
-          this.dispatchAction('PACKAGE_EDIT', this.data);
-        }
-        else {
-          this.dispatchAction('PACKAGE_INSERT', this.data);
-        }
+          if (this.statusAction == 'edit') {
+            this.dispatchAction('PACKAGE_EDIT', this.data);
+          }
+          else {
+            this.dispatchAction('PACKAGE_INSERT', this.data);
+          }
         }
       },
       _cancel: function () {
-        if (this.data.creater == 'admin') {
+        if (this.statusAction == 'edit') {
           this.dispatchAction('PACKAGE_GET_ID', this.data.id);
         }
         else {
@@ -119,10 +120,22 @@
         }
       },
       _checkStatus: function (val) {
-        if (typeof val != 'undefined' && val != undefined) {
+        if (val != 'add') {
           return true
         }
+      },
+      changeString2Num: function (ob, param) {
+      if (typeof ob.value == "string") {
+        var pathChange = ob.path.split(".");
+        // undefined
+        if (pathChange.length == 2) {
+          if (pathChange[1] == param) {
+            ob.base[param] = numeral().unformat(ob.value);
+            // console.log(ob.base[param]);
+          }
+        }
       }
+    }
     });
   </script>
 </dom-module>

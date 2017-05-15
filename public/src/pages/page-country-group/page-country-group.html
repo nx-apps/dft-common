@@ -116,7 +116,7 @@
         </paper-material>
 
         <nylon-panel-right title="{{title}}">
-            <country-group-manage></country-group-manage>
+            <country-group-manage status-action="[[statusAction]]" title="{{title}}"></country-group-manage>
         </nylon-panel-right>
     </template>
     <script>
@@ -140,6 +140,7 @@
                 this.dispatchAction('BTN_SET_STATE', true);
             },
             _toggleDrawer: function (e) {
+                this.statusAction = 'add';
                 this.dispatchAction('COUNTRY_GROUP_CLEAR_SELECT');
                 this.$$('nylon-panel-right').open();
                 this.dispatchAction('BTN_SET_STATE', false);
@@ -149,6 +150,7 @@
                 this.dispatchAction('COUNTRY_GROUP_DELETE', e.target.data.id);
             },
             _edit: function (e) {
+                this.statusAction = 'edit';
                 this.$$('nylon-panel-right').open();
                 this.dispatchAction('BTN_SET_STATE', true);
                 this.dispatchAction('COUNTRY_LIST');

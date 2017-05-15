@@ -32,8 +32,8 @@
         }
     </style>
     <template>
-        <div class="text-center">ข้อมูลเรือ</div>
-        <template is="dom-if" if={{_checkStatus(data.date_created)}}>
+        <div class="text-center">{{title}}เรือ</div>
+        <template is="dom-if" if={{_checkStatus(statusAction)}}>
             <icon-button-management btn-state="[[!btnState]]"></icon-button-management>
         </template>
 
@@ -94,7 +94,7 @@
                 }
             },
             _checkStatus: function (val) {
-                if (typeof val != 'undefined' && val != undefined) {
+                if (val != 'add') {
                     return true
                 }
             }

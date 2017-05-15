@@ -31,15 +31,15 @@
         }
     </style>
     <template>
-        <div class="text-center">ข้อมูลข้อกำหนดการส่งสินค้า</div>
-        <template is="dom-if" if={{_checkStatus(data.date_created)}}>
+        <div class="text-center">{{title}}ข้อกำหนดการส่งสินค้า</div>
+        <template is="dom-if" if="{{_checkStatus(statusAction)}}">
             <icon-button-management btn-state="[[!btnState]]"></icon-button-management>
         </template>
         <gl-grid-row width="{{getWidth}}">
             <gl-grid-col width="[[getWidth]]" grid="[[300,12],[500,4]]"></gl-grid-col>
             <gl-grid-col width="[[getWidth]]" grid="[[300,12],[500,4]]">
                 <gl-form-input class="margin-top  required" required  error-message="กรุณากรอกรหัสข้อกำหนดส่งสินค้า" required label="Incoterms Code (รหัสข้อกำหนดส่งสินค้า) :"
-                    placeholder="กรอกรหัส" value="{{data.inct_id}}" disabled="[[_checkStatus(data.creater)]]"></gl-form-input>
+                    placeholder="กรอกรหัส" value="{{data.inct_id}}" disabled="[[_checkStatus(statusAction)]]"></gl-form-input>
             </gl-grid-col>
             <gl-grid-col width="[[getWidth]]" grid="[[300,12],[500,4]]"></gl-grid-col>
         </gl-grid-row>
@@ -69,12 +69,16 @@
                 },
                 btnState:{
                     statePath: 'commonState.btnState'
-                }
+                },
+                // statusAction:{
+                //     type:String
+                //     value:''
+                // }
             },
             behaviors: [nylonBehavior, ReduxBehavior,ValidateFormBehavior],
             _save: function () {
                 if(this.validateForm('.required')){
-                if (this.data.creater == 'admin') {
+                if (this.statusAction == 'edit') {
                     this.dispatchAction('INCOTERMS_EDIT', this.data);
                 }
                 else {
@@ -83,7 +87,7 @@
                 }
             },
             _cancel: function () {
-                if (this.data.creater == 'admin') {
+                if (this.statusAction == 'edit') {
                     this.dispatchAction('INCOTERMS_GET_ID', this.data.id);
                 }
                 else {
@@ -91,7 +95,7 @@
                 }
             },
             _checkStatus: function (val) {
-                if (typeof val != 'undefined' && val != undefined) {
+                if (val != 'add') {
                     return true
                 }
             }

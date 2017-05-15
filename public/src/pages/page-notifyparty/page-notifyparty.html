@@ -124,7 +124,7 @@
     </paper-material>
 
     <nylon-panel-right title="{{title}}">
-      <manage-notifyparty></manage-notifyparty>
+      <manage-notifyparty status-action="[[statusAction]]" title="{{title}}"></manage-notifyparty>
     </nylon-panel-right>
   </template>
   <script>
@@ -150,6 +150,7 @@
         this.dispatchAction('PORT_GET_DATA');
       },
       _toggleDrawer: function (e) {
+        this.statusAction = 'add';
         this.$$('nylon-panel-right').open();
         this.dispatchAction('CLEAR_DATA');
         this.dispatchAction('BTN_SET_STATE', false);
@@ -162,6 +163,7 @@
         this.dispatchAction('NOTIFY_PARTY_DELETE', e.target.data.notify_id);
       },
       _edit: function (e) {
+        this.statusAction = 'edit';
         this.$$('nylon-panel-right').open();
         this.dispatchAction('BTN_SET_STATE', true);
         this.dispatchAction('NOTIFY_PARTY_GET_ID', e.target.data.notify_id);

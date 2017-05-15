@@ -98,7 +98,7 @@
     </paper-material>
 
     <nylon-panel-right title="{{title}}">
-      <manage-ship></manage-ship>
+      <manage-ship status-action="[[statusAction]]" title="{{title}}"></manage-ship>
     </nylon-panel-right>
   </template>
   <script>
@@ -123,6 +123,7 @@
         this.dispatchAction('BTN_SET_STATE',true);
       },
       _toggleDrawer: function (e) {
+        this.statusAction = 'add';
         this.$$('nylon-panel-right').open();
         this.dispatchAction('CLEAR_DATA');
         this.dispatchAction('BTN_SET_STATE',false);
@@ -136,6 +137,7 @@
         this.dispatchAction('SHIP_DELETE', e.target.data.ship_id);
       },
       _edit: function (e) {
+        this.statusAction = 'edit';
         this.$$('nylon-panel-right').open();
         this.dispatchAction('BTN_SET_STATE',true);
         // console.log(e.target.data);
