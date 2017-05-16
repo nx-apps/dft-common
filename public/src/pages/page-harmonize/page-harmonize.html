@@ -11,26 +11,29 @@
 <dom-module id="page-harmonize">
   <style is="custom-style" include="iron-flex iron-flex-factors iron-flex-alignment gl-table page-style">
     .table-head>tr>th:nth-child(1) {
-      width: 10%;
+      width: 5%;
     }
-    
     .table-head>tr>th:nth-child(2) {
       width: 10%;
     }
     
     .table-head>tr>th:nth-child(3) {
-      width: 25%;
-    }
-    
-    .table-head>tr>th:nth-child(4) {
-      width: 35%;
-    }
-    
-    .table-head>tr>th:nth-child(5) {
       width: 10%;
     }
     
+    .table-head>tr>th:nth-child(4) {
+      width: 25%;
+    }
+    
+    .table-head>tr>th:nth-child(5) {
+      width: 25%;
+    }
+    
     .table-head>tr>th:nth-child(6) {
+      width: 10%;
+    }
+    
+    .table-head>tr>th:nth-child(7) {
       width: 10%;
     }
   </style>
@@ -47,7 +50,7 @@
 
       <div class="horizontal justified layout">
         <div class="horizontal layout" style="margin-top:25px;">
-          <div class="labelSearch">พิกัดข้าว</div>
+          <div class="labelSearch">ค้นหา</div>
           <paper-input label=" " no-label-float value="{{searchInput}}"></paper-input>
           <iron-icon icon="search" style="margin-top:10px;"></iron-icon>
         </div>
@@ -60,6 +63,7 @@
       <table class="gl-table-default">
         <thead class="table-head">
           <tr>
+            <th><div class="text-center">No<p>(ลำดับ)</div></th>
             <th>
               <div class="text-center">Harmonized Code
                 <p>(พิกัดข้าว)</div>
@@ -88,9 +92,11 @@
         </thead>
 
         <!-- <template is="dom-repeat" items="{{dataRice}}"> -->
-        <template is="dom-repeat" items="{{searchInArray(searchInput,'type_rice_id',data)}}">
+          {{searchData(searchInput,data,'type_rice_id','type_rice_name_sub_en','type_rice_name_th','type_rice_name_en')}}
+        <template is="dom-repeat" items="[[searchResult]]">
           <tbody>
             <tr>
+              <td><div class="text-center">{{_count(index)}}</div></td>
               <td>
                 <div class="text-center">{{item.type_rice_id}}</div>
               </td>
@@ -105,7 +111,7 @@
                 <div>{{item.type_rice_name_en}}</div>
               </td>
               <td>
-                <div class="text-center">{{item.date_updated}}</div>
+                <div class="text-center">{{changeDateCC(item.date_updated)}}</div>
               </td>
               <td style="text-align:right;">
                 <paper-icon-button data="{{item}}" on-tap="_edit" icon="icons:create"></paper-icon-button>
@@ -116,7 +122,7 @@
           </tbody>
         </template>
         <!-- </template> -->
-        <template is="dom-if" if="{{searchInArrayState(searchInput,'type_rice_id',data)}}">
+        <template is="dom-if" if="{{_isHave(searchResult)}}">
           <tr>
             <td colspan="6">
               <div class="text-center no-data">ไม่มีข้อมูล</div>
@@ -133,7 +139,7 @@
   <script>
     Polymer({
       is: "page-harmonize",
-      behaviors: [nylonBehavior, ReduxBehavior, harmonizeAction, commonStateAction, SearchBehavior],
+      behaviors: [nylonBehavior, ReduxBehavior, harmonizeAction,countryGroupAction, commonStateAction, SearchBehavior],
       properties: {
         data: {
           statePath: 'harmonize.list'
@@ -147,6 +153,7 @@
         this.dispatchAction('BTN_SET_STATE', false);
       },
       nylonPageActive: function () {
+        this.dispatchAction('COUNTRY_GROUP_LIST');
         this.dispatchAction('HARMONIZE_GET_DATA');
         this.dispatchAction('BTN_SET_STATE', true);
       },

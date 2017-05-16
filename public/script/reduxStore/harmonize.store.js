@@ -11,7 +11,7 @@ export function harmonizeReducer(state = initialState, action) {
         case 'HARMONIZE_GET_ID':
             return Object.assign({}, state, { data: action.payload });
         case 'CLEAR_DATA':
-            return Object.assign({}, state, { data: {} });
+            return Object.assign({}, state, { data: { country_group:[]} });
         default:
             return state
     }
@@ -49,7 +49,8 @@ export function harmonizeAction(store) {
                             id: data.type_rice_id,
                             type_rice_name_th: data.type_rice_name_th,
                             type_rice_name_en: data.type_rice_name_en,
-                            type_rice_name_sub_en:data.type_rice_name_sub_en
+                            type_rice_name_sub_en:data.type_rice_name_sub_en,
+                            country_group:data.country_group
                         }
                         this.fire('toast', { status: 'load', text: 'กำลังบันทึกข้อมูล...' })
                         axios.post('./harmonize/insert', newData)
@@ -75,7 +76,8 @@ export function harmonizeAction(store) {
                             id: data.type_rice_id,
                             type_rice_name_th: data.type_rice_name_th,
                             type_rice_name_en: data.type_rice_name_en,
-                            type_rice_name_sub_en:data.type_rice_name_sub_en
+                            type_rice_name_sub_en:data.type_rice_name_sub_en,
+                            country_group:data.country_group
                         }
                         this.fire('toast', { status: 'load', text: 'กำลังบันทึกข้อมูล...' })
                         axios.put('./harmonize/update', newData)

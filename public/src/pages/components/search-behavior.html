@@ -23,7 +23,72 @@
             } else {
                 return false
             }
-        }
+        },
+        searchData: function (data = '', array = [], ...fied) {
+            // console.log(fied);
+            // console.log(data,array,fied);
+            // this.searchData(data, this.prop1, ['name', 'value'])
+            // ค่าแรก ค่าที่ต้องค้นหา ค่าที่ สอง อาเรย์  ค่าที่สาม ป็อปปอตี้ที่ต้องหา
+            // {{searchData(searchInput,data,'bank_id','bank_name_th','bank_name_en')}}"
+            let newData = []
+            try {
+                for (var i = 0; i < array.length; i++) {
+                    // console.log(array[i]);
+                    for (var j = 0; j < fied.length; j++) {
+                        // ถ้าเจอคำที่ต้องการค้นหาจะคืนค่าอย่างน้อยก็เท่า 0
+                        // ถ้าเจอค่า undefined หรือ ว่าง ให้ข้ามไปเลย 
+                        if (array[i][fied[j]] === undefined)
+                            array[i][fied[j]] = ''
+                        if (typeof array[i][fied[j]] == 'number') {
+                            if (String(array[i][fied[j]]).search(String(data)) > -1 &&
+                                String(array[i][fied[j]]) !== undefined) {
+                                newData.push(array[i])
+                                // ให้หลุดจาก for j กลับไป for i
+                                break;
+                            }
+                        } else {
+                            if (String(array[i][fied[j]].toLocaleLowerCase()).search(String(data.toLocaleLowerCase())) > -1 &&
+                                String(array[i][fied[j]]) !== undefined) {
+                                // console.log(array[i][fied[j]].indexOf(data) > -1);
+                                newData.push(array[i])
+                                // ให้หลุดจาก for j กลับไป for i
+                                break;
+                            }
+                            // }
+
+                            // console.log(999);
+                        }
+                        // console.log('====');
+                    }
+                    // console.log('****');
+                }
+                // console.log(newData);
+                this.set('searchResult', newData)
+                // return newData
+            } catch (error) {
+                // console.log(error);
+            }
+        },
+        _isHave: function (data) {
+            try {
+                // data 
+                if (data === undefined || data.length === 0)
+                    return true
+            } catch (e) {
+                // console.log(e);
+            }
+        },
+        changeDateCC: function (date) {
+            // let date = '2016-12-20';
+            let day, mouth, year;
+            day = date.split("-")[2];
+            mouth = date.split("-")[1];
+            year = Number(date.split("-")[0]) + 543;
+            return day + '/' + mouth + '/' + String(year);
+        },
+        _count: function (val) {
+        return val + 1
+      },
     }
 
 </script>

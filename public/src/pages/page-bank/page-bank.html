@@ -43,7 +43,7 @@
         ธนาคาร</div>-->
       <div class="horizontal justified layout">
         <div class="horizontal layout" style="margin-top:25px;">
-          <div class="labelSearch">รหัสธนาคาร</div>
+          <div class="labelSearch">ค้นหา</div>
           <paper-input label=" " no-label-float value="{{searchInput}}"></paper-input>
           <iron-icon icon="search" style="margin-top:10px;"></iron-icon>
         </div>
@@ -82,7 +82,9 @@
           </tr>
         </thead>
 
-        <template is="dom-repeat" items="{{searchInArray(searchInput,'bank_id',data)}}">
+        <!--<template is="dom-repeat" items="{{searchInArray(searchInput,'bank_id',data)}}">-->
+          {{searchData(searchInput,data,'bank_id','bank_name_th','bank_name_en')}}
+          <template is="dom-repeat" items="[[searchResult]]">
           <tbody>
             <tr>
               <td>
@@ -98,7 +100,7 @@
                 <div>{{item.bank_name_en}}</div>
               </td>
               <td>
-                <div class="text-center">{{item.date_updated}}</div>
+                <div class="text-center">{{changeDateCC(item.date_updated)}}</div>
               </td>
               <td style="text-align:right;">
                 <paper-icon-button data="{{item}}" on-tap="_edit" icon="icons:create"></paper-icon-button>
@@ -108,7 +110,7 @@
           </tbody>
         </template>
 
-        <template is="dom-if" if="{{searchInArrayState(searchInput,'bank_id',data)}}">
+        <template is="dom-if" if="{{_isHave(searchResult)}}">
           <tr>
             <td colspan="6">
               <div class="text-center no-data">ไม่มีข้อมูล</div>

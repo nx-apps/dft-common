@@ -44,7 +44,7 @@
 
       <div class="horizontal justified layout">
         <div class="horizontal layout" style="margin-top:25px;">
-          <div class="labelSearch">ชื่อเรือ</div>
+          <div class="labelSearch">ค้นหา</div>
           <paper-input label=" " no-label-float value="{{searchInput}}"></paper-input>
           <iron-icon icon="search" style="margin-top:10px;"></iron-icon>
         </div>
@@ -69,14 +69,16 @@
         </thead>
 
         <!-- <template is="dom-repeat" items="{{dataShip}}"> -->
-        <template is="dom-repeat" items="{{searchInArray(searchInput,'ship_name',data)}}">
+        {{searchData(searchInput,data,'shipline_name','ship_name')}}
+          
+        <template is="dom-repeat" items="[[searchResult]]">
           <tbody>
             <tr>
               <!-- <td><div class="text-center">{{item.ship_id}}</div></td> -->
               <td><div class="text-center">{{_count(index)}}</div></td>
               <td><div>{{item.shipline_name}}</div></td>
               <td><div>{{item.ship_name}}</div></td>
-              <td><div class="text-center">{{item.date_updated}}</div></td>
+              <td><div class="text-center">{{changeDateCC(item.date_updated)}}</div></td>
               <td style="text-align:right;">
                 <paper-icon-button data="{{item}}" on-tap="_edit" icon="icons:create"></paper-icon-button>
                 <paper-icon-button data="{{item}}" icon="delete" on-tap="_delete"></paper-icon-button>
@@ -85,7 +87,7 @@
             
           </tbody>
         </template>
-        <template is="dom-if" if="{{searchInArrayState(searchInput,'ship_name',data)}}">
+        <template is="dom-if" if="{{_isHave(searchResult)}}">
           <tr>
             <td colspan="6">
               <div class="text-center no-data">ไม่มีข้อมูล</div>

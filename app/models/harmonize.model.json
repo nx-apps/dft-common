@@ -10,14 +10,17 @@
         "type_rice_name_en": {
             "type": "string"
         },
-        "type_rice_name_en_sub": {
+        "type_rice_name_sub_en": {
             "type": "string"
+        },
+        "country_group": {
+             "type": "array"
         }
     },
     "required": [
         "id",
         "type_rice_name_th",
         "type_rice_name_en",
-        "type_rice_name_en_sub"
+        "type_rice_name_sub_en"
     ]
 }

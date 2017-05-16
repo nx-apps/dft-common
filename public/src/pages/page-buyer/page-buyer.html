@@ -42,7 +42,7 @@
 
       <div class="horizontal justified layout">
         <div class="horizontal layout" style="margin-top:25px;">
-          <div class="labelSearch">ชื่อผู้ซื้อ</div>
+          <div class="labelSearch">ค้นหา</div>
           <paper-input label=" " no-label-float value="{{searchInput}}"></paper-input>
           <iron-icon icon="search" style="margin-top:10px;"></iron-icon>
         </div>
@@ -82,7 +82,8 @@
         </thead>
 
         <!-- <template is="dom-repeat" items="{{dataBuyer}}"> -->
-        <template is="dom-repeat" items="{{searchInArray(searchInput,'buyer_name',data)}}">
+          {{searchData(searchInput,data,'country_name_en','buyer_name','buyer_masks')}}
+        <template is="dom-repeat" items="[[searchResult]]">
           <tbody>
             <tr>
               <td>
@@ -98,7 +99,7 @@
                 <div class="text-center">{{item.buyer_masks}}</div>
               </td>
               <td>
-                <div class="text-center">{{item.date_updated}}</div>
+                <div class="text-center">{{changeDateCC(item.date_updated)}}</div>
               </td>
               <td style="text-align:right;">
                 <paper-icon-button data="{{item}}" on-tap="_edit" icon="icons:create"></paper-icon-button>
@@ -108,7 +109,7 @@
             
           </tbody>
         </template>
-        <template is="dom-if" if="{{searchInArrayState(searchInput,'buyer_name',data)}}">
+       <template is="dom-if" if="{{_isHave(searchResult)}}">
           <tr>
             <td colspan="6">
               <div class="text-center no-data">ไม่มีข้อมูล</div>

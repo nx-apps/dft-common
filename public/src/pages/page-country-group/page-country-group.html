@@ -67,7 +67,7 @@
 
             <div class="horizontal justified layout">
                 <div class="horizontal layout" style="margin-top:25px;">
-                    <div class="labelSearch">รหัสกลุ่ม</div>
+                    <div class="labelSearch">ค้นหา</div>
                     <paper-input label=" " no-label-float value="{{searchInput}}"></paper-input>
                     <iron-icon icon="search" style="margin-top:10px;"></iron-icon>
                 </div>
@@ -82,15 +82,18 @@
                 <thead class="table-head">
                     <tr>
                         <th>
-                            <div class="text-center">ลำดับ</div>
+                            <div class="text-center">No
+                                <p>(ลำดับ)</div>
                         </th>
                         <th>
-                            <div class="text-center">กลุ่มประเทศ</div>
+                            <div class="text-center">Country group
+                                <p>(กลุ่มประเทศ)</div>
                         </th>
                         <th></th>
                     </tr>
                 </thead>
-                <template is="dom-repeat" items="{{searchInArray(searchInput,'id',data)}}">
+                {{searchData(searchInput,data,'id')}}
+                <template is="dom-repeat" items="[[searchResult]]">
                     <tbody>
                         <tr>
                             <td>
@@ -105,7 +108,7 @@
 
                     </tbody>
                 </template>
-                <template is="dom-if" if="{{searchInArrayState(searchInput,'id',data)}}">
+                <template is="dom-if" if="{{_isHave(searchResult)}}">
                     <tr>
                         <td colspan="6">
                             <div class="text-center no-data">ไม่มีข้อมูล</div>
