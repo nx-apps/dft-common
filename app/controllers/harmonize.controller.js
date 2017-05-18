@@ -1,18 +1,26 @@
 exports.list = function (req, res) {
     var r = req.r;
     var orderby = req.query.orderby;
-    r.db('common').table("type_rice")
-        .merge(function (row) {
-            return {
-                type_rice_id: row('id'),
-                date_created: row('date_created').split('T')(0),
-                date_updated: row('date_updated').split('T')(0)
-            }
-        })
+    var countryGroup = req.query.group;
+    if (typeof countryGroup === 'undefined') {
+        countryGroup = r.db('common').table("type_rice")
+    } else {
+        countryGroup = r.db('common').table("type_rice")
+            .getAll(countryGroup.toUpperCase(), { index: 'country_group' })
+    }
+
+    countryGroup.merge(function (row) {
+        return {
+            type_rice_id: row('id'),
+            date_created: row('date_created').split('T')(0),
+            date_updated: row('date_updated').split('T')(0)
+        }
+    })
         .without('id')
         .orderBy('type_rice_id')
         .run()
         .then(function (result) {
+            res.setHeader('Access-Control-Allow-Origin', 'https://localhost:3001');
             res.json(result)
         })
         .error(function (err) {
@@ -42,10 +50,10 @@ exports.insert = function (req, res) {
     var r = req.r;
     var result = { result: false, message: null, id: null };
     if (valid) {
-        req.body = Object.assign(req.body, { 
-            creater : 'admin',
-            date_created : new Date().toISOString(),
-            date_updated : new Date().toISOString(),
+        req.body = Object.assign(req.body, {
+            creater: 'admin',
+            date_created: new Date().toISOString(),
+            date_updated: new Date().toISOString(),
         });
         r.db("common").table("type_rice")
             .insert(req.body)
@@ -72,9 +80,9 @@ exports.update = function (req, res) {
     var result = { result: false, message: null, id: null };
     if (req.body.id != '' && req.body.id != null && typeof req.body.id != 'undefined') {
         result.id = req.body.id;
-        req.body = Object.assign(req.body, { 
-            updater : 'admin',
-            date_updated : new Date().toISOString()
+        req.body = Object.assign(req.body, {
+            updater: 'admin',
+            date_updated: new Date().toISOString()
         });
         r.db("common").table("type_rice")
             .get(req.body.id)
