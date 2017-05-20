@@ -65,7 +65,7 @@
           <tr>
             <th><div class="text-center">No<p>(ลำดับ)</div></th>
             <th>
-              <div class="text-center">Harmonized Code
+              <div class="text-center">Hamonized Code
                 <p>(พิกัดข้าว)</div>
             </th>
             <th>
@@ -139,7 +139,7 @@
   <script>
     Polymer({
       is: "page-hamonize",
-      behaviors: [nylonBehavior, ReduxBehavior, harmonizeAction,countryGroupAction, commonStateAction, SearchBehavior],
+      behaviors: [nylonBehavior, ReduxBehavior, hamonizeAction,countryGroupAction, commonStateAction, SearchBehavior],
       properties: {
         data: {
           statePath: 'hamonize.list'
@@ -154,7 +154,7 @@
       },
       nylonPageActive: function () {
         this.dispatchAction('COUNTRY_GROUP_LIST');
-        this.dispatchAction('HARMONIZE_GET_DATA');
+        this.dispatchAction('HAMONIZE_GET_DATA');
         this.dispatchAction('BTN_SET_STATE', true);
       },
       _toggleDrawer: function (e) {
@@ -168,13 +168,13 @@
         return val + 1
       },
       _delete: function (e) {
-        this.dispatchAction('HARMONIZE_DELETE', e.target.data.type_rice_id);
+        this.dispatchAction('HAMONIZE_DELETE', e.target.data.type_rice_id);
       },
       _edit: function (e) {
         this.statusAction = 'edit';
         this.$$('nylon-panel-right').open();
         this.dispatchAction('BTN_SET_STATE', true);
-        this.dispatchAction('HARMONIZE_GET_ID', e.target.data.type_rice_id);
+        this.dispatchAction('HAMONIZE_GET_ID', e.target.data.type_rice_id);
         this.title = "แก้ไขข้อมูล";
       },
       _back: function () {

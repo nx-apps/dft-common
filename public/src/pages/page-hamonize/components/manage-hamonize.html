@@ -173,14 +173,14 @@
                 // 'cutList(countryGroup,data.country_group.*)',
                 'cutList(data.*)'
             ],
-            behaviors: [nylonBehavior, ReduxBehavior, harmonizeAction, ValidateFormBehavior],
+            behaviors: [nylonBehavior, ReduxBehavior, hamonizeAction, ValidateFormBehavior],
             _save: function () {
                 if (this.validateForm('.required')) {
                     if (this.statusAction == 'edit') {
-                        this.dispatchAction('HARMONIZE_EDIT', this.data);
+                        this.dispatchAction('HAMONIZE_EDIT', this.data);
                     }
                     else {
-                        this.dispatchAction('HARMONIZE_INSERT', this.data);
+                        this.dispatchAction('HAMONIZE_INSERT', this.data);
                     }
                 }
             },
@@ -189,7 +189,7 @@
             },
             _cancel: function () {
                 if (this.statusAction == 'edit') {
-                    this.dispatchAction('HARMONIZE_GET_ID', this.data.type_rice_id);
+                    this.dispatchAction('HAMONIZE_GET_ID', this.data.type_rice_id);
                 }
                 else {
                     this.dispatchAction('CLEAR_DATA');
