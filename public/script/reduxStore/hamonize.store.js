@@ -20,7 +20,7 @@ export function harmonizeAction(store) {
     return [commonAction(),
     {
         HARMONIZE_GET_DATA: function () {
-            axios.get('./harmonize')
+            axios.get('./hamonize')
                 .then(function (response) {
                     store.dispatch({ type: 'HARMONIZE_GET_DATA', payload: response.data })
                 })
@@ -30,7 +30,7 @@ export function harmonizeAction(store) {
                 });
         },
         HARMONIZE_GET_ID: function (id) {
-            axios.get('./harmonize/id/' + id)
+            axios.get('./hamonize/id/' + id)
                 .then(function (response) {
                     store.dispatch({ type: 'HARMONIZE_GET_ID', payload: response.data })
                 })
@@ -53,7 +53,7 @@ export function harmonizeAction(store) {
                             country_group:data.country_group
                         }
                         this.fire('toast', { status: 'load', text: 'กำลังบันทึกข้อมูล...' })
-                        axios.post('./harmonize/insert', newData)
+                        axios.post('./hamonize/insert', newData)
                             .then((response) => {
                                 this.fire('toast', {
                                     status: 'success', text: 'บันทึกสำเร็จ', callback: () => {
@@ -80,7 +80,7 @@ export function harmonizeAction(store) {
                             country_group:data.country_group
                         }
                         this.fire('toast', { status: 'load', text: 'กำลังบันทึกข้อมูล...' })
-                        axios.put('./harmonize/update', newData)
+                        axios.put('./hamonize/update', newData)
                             .then((response) => {
                                 if (response.data.result == true) {
                                     this.fire('toast', {
@@ -110,7 +110,7 @@ export function harmonizeAction(store) {
                 confirmed: (result) => {
                     if (result == true) {
                         this.fire('toast', { status: 'load' });
-                        axios.delete('./harmonize/delete/id/' + data)
+                        axios.delete('./hamonize/delete/id/' + data)
                             .then((response) => {
                                 if (response.data.result == true) {
                                     this.fire('toast', {

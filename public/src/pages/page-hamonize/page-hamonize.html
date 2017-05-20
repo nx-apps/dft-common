@@ -3,12 +3,12 @@
 <link rel="import" href="./../../../bower_components/gl-styles/gl-table.html">
 <link rel="import" href="./../../../bower_components/paper-input/paper-input.html">
 <link rel="import" href="../../nylon-behavior.html">
-<link rel="import" href="components/manage-harmonize.html">
+<link rel="import" href="components/manage-hamonize.html">
 <link rel="import" href="./../../../bower_components/paper-tooltip/paper-tooltip.html">
 <link rel="import" href="./../components/icon-button-management.html">
 <link rel="import" href="./../../layout/page-style.html">
 <link rel="import" href="./../components/search-behavior.html">
-<dom-module id="page-harmonize">
+<dom-module id="page-hamonize">
   <style is="custom-style" include="iron-flex iron-flex-factors iron-flex-alignment gl-table page-style">
     .table-head>tr>th:nth-child(1) {
       width: 5%;
@@ -133,16 +133,16 @@
     </paper-material>
 
     <nylon-panel-right title="{{title}}">
-      <manage-harmonize status-action="[[statusAction]]" title="{{title}}"></manage-harmonize>
+      <manage-hamonize status-action="[[statusAction]]" title="{{title}}"></manage-hamonize>
     </nylon-panel-right>
   </template>
   <script>
     Polymer({
-      is: "page-harmonize",
+      is: "page-hamonize",
       behaviors: [nylonBehavior, ReduxBehavior, harmonizeAction,countryGroupAction, commonStateAction, SearchBehavior],
       properties: {
         data: {
-          statePath: 'harmonize.list'
+          statePath: 'hamonize.list'
         }
       },
       listeners: {
