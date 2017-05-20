@@ -34,7 +34,7 @@ Country
 >   [Get] |  api/port/ 
 
 Country Group
-> >  Type  |  url       
+>   Type  |  url       
 >  --- | ---
 >   [Get] |  api/countryGroup/ 
 >   [Get] |  api/countryGroup/group/:id 
