@@ -1,5 +1,5 @@
 module.exports = function (app) {
-    var controller = require('../controllers/harmonize.controller');
+    var controller = require('../controllers/hamonize.controller');
     app.get(['/', '/list'], controller.list);
     app.get('/id/:type_rice_id', controller.getById);
     app.post('/insert', controller.insert);

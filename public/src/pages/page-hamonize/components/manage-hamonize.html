@@ -4,7 +4,7 @@
 <link rel="import" href="./../../../../bower_components/gl-form/gl-combo-box.html">
 <link rel="import" href="./../../../../bower_components/gl-styles/gl-table.html">
 <link rel="import" href="./../../components/validateFormBehaviors.html">
-<dom-module id="manage-harmonize">
+<dom-module id="manage-hamonize">
     <style include="iron-flex iron-flex-alignment gl-color gl-color gl-table">
         * {
             font-family: 'CSChatThaiUI', sans-serif;
@@ -145,14 +145,14 @@
     </template>
     <script>
         Polymer({
-            is: "manage-harmonize",
+            is: "manage-hamonize",
             properties: {
                 dataForSeleted: {
                     type: Object,
                     val: { country_group: '1' }
                 },
                 data: {
-                    statePath: 'harmonize.data',
+                    statePath: 'hamonize.data',
                 },
                 btnState: {
                     statePath: 'commonState.btnState'
@@ -173,14 +173,14 @@
                 // 'cutList(countryGroup,data.country_group.*)',
                 'cutList(data.*)'
             ],
-            behaviors: [nylonBehavior, ReduxBehavior, harmonizeAction, ValidateFormBehavior],
+            behaviors: [nylonBehavior, ReduxBehavior, hamonizeAction, ValidateFormBehavior],
             _save: function () {
                 if (this.validateForm('.required')) {
                     if (this.statusAction == 'edit') {
-                        this.dispatchAction('HARMONIZE_EDIT', this.data);
+                        this.dispatchAction('HAMONIZE_EDIT', this.data);
                     }
                     else {
-                        this.dispatchAction('HARMONIZE_INSERT', this.data);
+                        this.dispatchAction('HAMONIZE_INSERT', this.data);
                     }
                 }
             },
@@ -189,7 +189,7 @@
             },
             _cancel: function () {
                 if (this.statusAction == 'edit') {
-                    this.dispatchAction('HARMONIZE_GET_ID', this.data.type_rice_id);
+                    this.dispatchAction('HAMONIZE_GET_ID', this.data.type_rice_id);
                 }
                 else {
                     this.dispatchAction('CLEAR_DATA');

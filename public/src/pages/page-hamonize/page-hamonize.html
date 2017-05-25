@@ -3,12 +3,12 @@
 <link rel="import" href="./../../../bower_components/gl-styles/gl-table.html">
 <link rel="import" href="./../../../bower_components/paper-input/paper-input.html">
 <link rel="import" href="../../nylon-behavior.html">
-<link rel="import" href="components/manage-harmonize.html">
+<link rel="import" href="components/manage-hamonize.html">
 <link rel="import" href="./../../../bower_components/paper-tooltip/paper-tooltip.html">
 <link rel="import" href="./../components/icon-button-management.html">
 <link rel="import" href="./../../layout/page-style.html">
 <link rel="import" href="./../components/search-behavior.html">
-<dom-module id="page-harmonize">
+<dom-module id="page-hamonize">
   <style is="custom-style" include="iron-flex iron-flex-factors iron-flex-alignment gl-table page-style">
     .table-head>tr>th:nth-child(1) {
       width: 5%;
@@ -65,7 +65,7 @@
           <tr>
             <th><div class="text-center">No<p>(ลำดับ)</div></th>
             <th>
-              <div class="text-center">Harmonized Code
+              <div class="text-center">Hamonized Code
                 <p>(พิกัดข้าว)</div>
             </th>
             <th>
@@ -133,16 +133,16 @@
     </paper-material>
 
     <nylon-panel-right title="{{title}}">
-      <manage-harmonize status-action="[[statusAction]]" title="{{title}}"></manage-harmonize>
+      <manage-hamonize status-action="[[statusAction]]" title="{{title}}"></manage-hamonize>
     </nylon-panel-right>
   </template>
   <script>
     Polymer({
-      is: "page-harmonize",
-      behaviors: [nylonBehavior, ReduxBehavior, harmonizeAction,countryGroupAction, commonStateAction, SearchBehavior],
+      is: "page-hamonize",
+      behaviors: [nylonBehavior, ReduxBehavior, hamonizeAction,countryGroupAction, commonStateAction, SearchBehavior],
       properties: {
         data: {
-          statePath: 'harmonize.list'
+          statePath: 'hamonize.list'
         }
       },
       listeners: {
@@ -154,7 +154,7 @@
       },
       nylonPageActive: function () {
         this.dispatchAction('COUNTRY_GROUP_LIST');
-        this.dispatchAction('HARMONIZE_GET_DATA');
+        this.dispatchAction('HAMONIZE_GET_DATA');
         this.dispatchAction('BTN_SET_STATE', true);
       },
       _toggleDrawer: function (e) {
@@ -168,13 +168,13 @@
         return val + 1
       },
       _delete: function (e) {
-        this.dispatchAction('HARMONIZE_DELETE', e.target.data.type_rice_id);
+        this.dispatchAction('HAMONIZE_DELETE', e.target.data.type_rice_id);
       },
       _edit: function (e) {
         this.statusAction = 'edit';
         this.$$('nylon-panel-right').open();
         this.dispatchAction('BTN_SET_STATE', true);
-        this.dispatchAction('HARMONIZE_GET_ID', e.target.data.type_rice_id);
+        this.dispatchAction('HAMONIZE_GET_ID', e.target.data.type_rice_id);
         this.title = "แก้ไขข้อมูล";
       },
       _back: function () {

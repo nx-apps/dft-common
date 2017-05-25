@@ -4,11 +4,11 @@ const initialState = {
     list: [],
     data: {}
 }
-export function harmonizeReducer(state = initialState, action) {
+export function hamonizeReducer(state = initialState, action) {
     switch (action.type) {
-        case 'HARMONIZE_GET_DATA':
+        case 'HAMONIZE_GET_DATA':
             return Object.assign({}, state, { list: action.payload });
-        case 'HARMONIZE_GET_ID':
+        case 'HAMONIZE_GET_ID':
             return Object.assign({}, state, { data: action.payload });
         case 'CLEAR_DATA':
             return Object.assign({}, state, { data: { country_group:[]} });
@@ -16,30 +16,30 @@ export function harmonizeReducer(state = initialState, action) {
             return state
     }
 }
-export function harmonizeAction(store) {
+export function hamonizeAction(store) {
     return [commonAction(),
     {
-        HARMONIZE_GET_DATA: function () {
-            axios.get('./harmonize')
+        HAMONIZE_GET_DATA: function () {
+            axios.get('./hamonize')
                 .then(function (response) {
-                    store.dispatch({ type: 'HARMONIZE_GET_DATA', payload: response.data })
+                    store.dispatch({ type: 'HAMONIZE_GET_DATA', payload: response.data })
                 })
                 .catch(function (error) {
                     console.log('error');
                     console.log(error);
                 });
         },
-        HARMONIZE_GET_ID: function (id) {
-            axios.get('./harmonize/id/' + id)
+        HAMONIZE_GET_ID: function (id) {
+            axios.get('./hamonize/id/' + id)
                 .then(function (response) {
-                    store.dispatch({ type: 'HARMONIZE_GET_ID', payload: response.data })
+                    store.dispatch({ type: 'HAMONIZE_GET_ID', payload: response.data })
                 })
                 .catch(function (error) {
                     console.log('error');
                     console.log(error);
                 });
         },
-        HARMONIZE_INSERT: function (data) {
+        HAMONIZE_INSERT: function (data) {
             this.fire('toast', {
                 status: 'openDialog',
                 text: 'ต้องการเพิ่มข้อมูลใช่หรือไม่ ?',
@@ -53,11 +53,11 @@ export function harmonizeAction(store) {
                             country_group:data.country_group
                         }
                         this.fire('toast', { status: 'load', text: 'กำลังบันทึกข้อมูล...' })
-                        axios.post('./harmonize/insert', newData)
+                        axios.post('./hamonize/insert', newData)
                             .then((response) => {
                                 this.fire('toast', {
                                     status: 'success', text: 'บันทึกสำเร็จ', callback: () => {
-                                        this.HARMONIZE_GET_DATA();
+                                        this.HAMONIZE_GET_DATA();
                                         this.CLEAR_DATA();
                                     }
                                 });
@@ -66,7 +66,7 @@ export function harmonizeAction(store) {
                 }
             })
         },
-        HARMONIZE_EDIT: function (data) {
+        HAMONIZE_EDIT: function (data) {
             this.fire('toast', {
                 status: 'openDialog',
                 text: 'ต้องการแก้ไขข้อมูลใช่หรือไม่ ?',
@@ -80,13 +80,13 @@ export function harmonizeAction(store) {
                             country_group:data.country_group
                         }
                         this.fire('toast', { status: 'load', text: 'กำลังบันทึกข้อมูล...' })
-                        axios.put('./harmonize/update', newData)
+                        axios.put('./hamonize/update', newData)
                             .then((response) => {
                                 if (response.data.result == true) {
                                     this.fire('toast', {
                                         status: 'success', text: 'บันทึกสำเร็จ', callback: () => {
-                                            this.HARMONIZE_GET_DATA();
-                                            this.HARMONIZE_GET_ID(newData.id);
+                                            this.HAMONIZE_GET_DATA();
+                                            this.HAMONIZE_GET_ID(newData.id);
                                             this.dispatchAction('BTN_SET_STATE',true);
                                         }
                                     });
@@ -103,19 +103,19 @@ export function harmonizeAction(store) {
                 }
             })
         },
-        HARMONIZE_DELETE: function (data) {
+        HAMONIZE_DELETE: function (data) {
             this.fire('toast', {
                 status: 'openDialog',
                 text: 'ต้องการลบข้อมูลใช่หรือไม่ ?',
                 confirmed: (result) => {
                     if (result == true) {
                         this.fire('toast', { status: 'load' });
-                        axios.delete('./harmonize/delete/id/' + data)
+                        axios.delete('./hamonize/delete/id/' + data)
                             .then((response) => {
                                 if (response.data.result == true) {
                                     this.fire('toast', {
                                         status: 'success', text: 'ลบข้อมูลสำเร็จ', callback: () => {
-                                            this.HARMONIZE_GET_DATA();
+                                            this.HAMONIZE_GET_DATA();
                                         }
                                     });
                                 }

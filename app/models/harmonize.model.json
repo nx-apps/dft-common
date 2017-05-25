@@ -1,5 +1,5 @@
 {
-    "name": "common.harmonize",
+    "name": "common.hamonize",
     "properties": {
         "id": {
             "type": "string"
