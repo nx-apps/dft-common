@@ -89,5 +89,4 @@ var config = {
   }
 
 };
-
 module.exports = config[process.env.NODE_ENV || 'development'];

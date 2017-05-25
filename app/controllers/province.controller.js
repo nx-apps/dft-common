@@ -13,9 +13,11 @@ exports.list = function (req, res) {
         .orderBy('province_name_th')
         .run()
         .then(function (result) {
+            res.setHeader('Access-Control-Allow-Origin', 'https://localhost:3001');
             res.json(result)
         })
         .error(function (err) {
+            res.setHeader('Access-Control-Allow-Origin', 'https://localhost:3001');
             res.json(err)
         })
 }
@@ -31,9 +33,11 @@ exports.getById = function (req, res) {
             .without('id')
         .run()
         .then(function (result) {
+            res.setHeader('Access-Control-Allow-Origin', 'https://localhost:3001');
             res.json(result)
         })
         .error(function (err) {
+            res.setHeader('Access-Control-Allow-Origin', 'https://localhost:3001');
             res.json(err)
         })
 }
@@ -46,6 +50,7 @@ exports.insert = function (req, res) {
             creater : 'admin',
             date_created : new Date().toISOString(),
         date_updated : new Date().toISOString(),
+        res.setHeader('Access-Control-Allow-Origin', 'https://localhost:3001');
         });
         r.db("common").table("province")
             .insert(req.body)
