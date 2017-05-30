@@ -160,3 +160,23 @@ exports.delete = function (req, res) {
         res.json(result);
     }
 }
+exports.mssql = function (req, res) {
+    var r = req.r;
+    var j = req.jdbc;
+
+    r.db('common').table('country')
+        .without('creater', 'date_created', 'date_updated', 'id')
+        .orderBy('country_code2')
+        .run()
+        .then(function (data) {
+            var sql = 'insert into country (continent_id,country_code2,country_code3,country_fullname_en,country_fullname_th,country_name_en,country_name_th) ';
+            sql += '<br> values ';
+            for (var i = 0; i < data.length; i++) {
+                sql += "<br>('" + data[i].continent_id + "','" + data[i].country_code2 + "','" + data[i].country_code3 + "','" + data[i].country_fullname_en + "','" + data[i].country_fullname_th + "','" + data[i].country_name_en + "','" + data[i].country_name_th + "')";
+                if (i < data.length - 1) {
+                    sql += ',';
+                }
+            }
+            res.send(sql);
+        })
+}
