@@ -1,6 +1,13 @@
 exports.list = function (req, res) {
     var r = req.r;
     r.db('common').table('country_group')
+        // .merge(function (row) {
+        //     return {
+        //         country_group_id: row('id'),
+        //         // date_created: row('date_created').toISO8601().split('T')(0),
+        //         // date_updated: row('date_updated').toISO8601().split('T')(0)
+        //     }
+        // })
         .without('country')
         .run()
         .then(function (result) {
@@ -14,6 +21,13 @@ exports.getById = function (req, res) {
     var r = req.r;
     r.db('common').table('country_group')
         .get(req.params.id)
+        // .merge(function (row) {
+        //     return {
+        //         country_group_id: row('id'),
+        //         date_created: row('date_created').toISO8601().split('T')(0),
+        //         date_updated: row('date_updated').toISO8601().split('T')(0)
+        //     }
+        // })
         .merge(function (m) {
             return {
                 country: m('country').map(function (c_map) {
@@ -32,7 +46,13 @@ exports.getById = function (req, res) {
 exports.country = function (req, res) {
     var r = req.r;
     r.db('common').table('country')
-        .without('date_created', 'date_updated')
+        // .merge(function (row) {
+        //     return {
+        //         country_group_id: row('id'),
+        //         date_created: row('date_created').toISO8601().split('T')(0),
+        //         date_updated: row('date_updated').toISO8601().split('T')(0)
+        //     }
+        // })
         .filter(function (f) {
             return r.expr(
                 r.db('common').table('country_group').get(req.params.id).getField('country')
@@ -52,7 +72,13 @@ exports.country = function (req, res) {
 exports.countries = function (req, res) {
     var r = req.r;
     r.db('common').table('country')
-        .without('date_created', 'date_updated')
+        // .merge(function (row) {
+        //     return {
+        //         country_group_id: row('id'),
+        //         date_created: row('date_created').toISO8601().split('T')(0),
+        //         date_updated: row('date_updated').toISO8601().split('T')(0)
+        //     }
+        // })
         .run()
         .then(function (result) {
             res.setHeader('Access-Control-Allow-Origin', 'https://localhost:3001');
@@ -67,8 +93,8 @@ exports.insert = function (req, res) {
     var r = req.r;
     req.body = Object.assign(req.body, {
         creater: 'admin',
-        date_created: new Date().toISOString(),
-        date_updated : new Date().toISOString(),
+        date_created: r.now().inTimezone('+07'),
+        date_updated: r.now().inTimezone('+07'),
     });
     r.db('common').table('country_group')
         .insert(req.body)
@@ -84,7 +110,7 @@ exports.update = function (req, res) {
     var r = req.r;
     req.body = Object.assign(req.body, {
         updater: 'admin',
-        date_updated: new Date().toISOString()
+        date_updated: r.now().inTimezone('+07')
     });
     r.db('common').table('country_group')
         .get(req.body.id)

@@ -47,7 +47,7 @@ export function packageAction(store) {
                 confirmed: (result) => {
                     if (result == true) {
                         var newData = {
-                            id: data.package_id,
+                            // id: data.package_id,
                             package_kg_per_bag: parseFloat(data.package_kg_per_bag),
                             package_name_en: data.package_name_en,
                             package_name_th: data.package_name_th,

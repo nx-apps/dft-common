@@ -37,16 +37,16 @@
     <template is="dom-if" if={{_checkStatus(statusAction)}}>
             <icon-button-management btn-state="[[!btnState]]"></icon-button-management>
         </template>
-    <gl-grid-row width="{{getWidth}}">
+    <!--<gl-grid-row width="{{getWidth}}">
       <gl-grid-col width="[[getWidth]]" grid="[[300,12],[500,4]]"></gl-grid-col>
       <gl-grid-col width="[[getWidth]]" grid="[[300,12],[500,4]]">
-        <gl-form-input class="margin-top  required" required  error-message="กรุณากรอกรหัสแพ็คเกจ" required label="Package Code (รหัสแพ็คเกจ) :"
+        <gl-form-input class="margin-top  "   error-message="กรุณากรอกรหัสแพ็คเกจ" required label="Package Code (รหัสแพ็คเกจ) :"
           placeholder="กรอกรหัสแพ็คเกจ" value="{{data.package_id}}" disabled="[[_checkStatus(statusAction)]]" ></gl-form-input>
       </gl-grid-col>
       <gl-grid-col width="[[getWidth]]" grid="[[300,12],[500,4]]"></gl-grid-col>
-    </gl-grid-row>
+    </gl-grid-row>-->
 
-    <gl-grid-row>
+    <gl-grid-row width="{{getWidth}}">
       <gl-grid-col width="[[getWidth]]" grid="[[300,12],[500,4]]"></gl-grid-col>
       <gl-grid-col width="[[getWidth]]" grid="[[300,12],[500,4]]">[[changeString2Num(data.*,'package_kg_per_bag')]]
         <gl-form-input class="margin-top  required" required  error-message="กรุณากรอกน้ำหนักแพ็คเกจ" required label="Package Weight (น้ำหนักแพ็คเกจ กก.) :"

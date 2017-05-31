@@ -5,8 +5,8 @@ exports.list = function (req, res) {
         .merge(function (row) {
             return {
                 package_id: row('id'),
-                date_created: row('date_created').split('T')(0),
-                date_updated: row('date_updated').split('T')(0)
+                date_created: row('date_created').toISO8601().split('T')(0),
+                date_updated: row('date_updated').toISO8601().split('T')(0)
             }
         })
         .without('id')
@@ -25,10 +25,12 @@ exports.getById = function (req, res) {
     var r = req.r;
     r.db('common').table("package")
         .get(req.params.id)
-        .merge({
-            package_id: r.row('id'),
-            date_created: r.row('date_created').split('T')(0),
-            date_updated: r.row('date_updated').split('T')(0)
+        .merge(function (row) {
+            return {
+                package_id: row('id'),
+                date_created: row('date_created').toISO8601().split('T')(0),
+                date_updated: row('date_updated').toISO8601().split('T')(0)
+            }
         })
         .without('id')
         .run()
@@ -42,14 +44,16 @@ exports.getById = function (req, res) {
         })
 }
 exports.insert = function (req, res) {
-    var valid = req.ajv.validate('common.package', req.body);
+    var valid = true//req.ajv.validate('common.package', req.body);
     var r = req.r;
     var result = { result: false, message: null, id: null };
+
+    // console.log(req.body);
     if (valid) {
-        req.body = Object.assign(req.body, { 
-            creater : 'admin',
-            date_created : new Date().toISOString(),
-        date_updated : new Date().toISOString(),
+        req.body = Object.assign(req.body, {
+            creater: 'admin',
+            date_created: r.now().inTimezone('+07'),
+            date_updated: r.now().inTimezone('+07')
         });
         r.db("common").table("package")
             .insert(req.body)
@@ -76,9 +80,9 @@ exports.update = function (req, res) {
     var result = { result: false, message: null, id: null };
     if (req.body.id != '' && req.body.id != null && typeof req.body.id != 'undefined') {
         result.id = req.body.id;
-        req.body = Object.assign(req.body, { 
-            updater : 'admin',
-            date_updated : new Date().toISOString()
+        req.body = Object.assign(req.body, {
+            updater: 'admin',
+            date_updated: r.now().inTimezone('+07')
         });
         r.db("common").table("package")
             .get(req.body.id)

@@ -5,8 +5,8 @@ exports.list = function (req, res) {
         .merge(function (row) {
             return {
                 country_id: row('id'),
-                date_created: row('date_created').split('T')(0),
-                date_updated: row('date_updated').split('T')(0)
+                date_created: row('date_created').toISO8601().split('T')(0),
+                date_updated: row('date_updated').toISO8601().split('T')(0)
             }
         })
         .eqJoin('continent_id', r.db('common').table('continent')).pluck('left', { right: ['continent_name_en', 'continent_name_th'] }).zip()
@@ -28,8 +28,8 @@ exports.getById = function (req, res) {
         .get(req.params.id)
         .merge({
             country_id: r.row('id'),
-            date_created: r.row('date_created').split('T')(0),
-            date_updated: r.row('date_updated').split('T')(0)
+            date_created: r.row('date_created').toISO8601().split('T')(0),
+            date_updated: r.row('date_updated').toISO8601().split('T')(0)
         })
         .without('id')
         .run()
@@ -48,8 +48,8 @@ exports.ports = function (req, res) {
         .merge(function (row) {
             return {
                 country_id: row('id'),
-                date_created: row('date_created').split('T')(0),
-                date_updated: row('date_updated').split('T')(0)
+                date_created: row('date_created').toISO8601().split('T')(0),
+                date_updated: row('date_updated').toISO8601().split('T')(0)
             }
         })
         .map(function (m) {
@@ -83,8 +83,8 @@ exports.insert = function (req, res) {
     if (valid) {
         req.body = Object.assign(req.body, {
             creater: 'admin',
-            date_created: new Date().toISOString(),
-            date_updated: new Date().toISOString(),
+            date_created: r.now().inTimezone('+07'),
+            date_updated: r.now().inTimezone('+07'),
         });
         r.db("common").table("country")
             .insert(req.body)
@@ -113,7 +113,7 @@ exports.update = function (req, res) {
         result.id = req.body.id;
         req.body = Object.assign(req.body, {
             updater: 'admin',
-            date_updated: new Date().toISOString()
+            date_updated: r.now().inTimezone('+07')
         });
         r.db("common").table("country")
             .get(req.body.id)
