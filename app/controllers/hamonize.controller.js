@@ -136,3 +136,13 @@ exports.delete = function (req, res) {
         res.json(result);
     }
 }
+exports.toRethink = function (req, res) {
+    var r = req.r;
+    req.jdbc.query('mssql', 'select * from hamonize', []
+        , function (err, data) {
+            r.db('common').table('hamonize').insert(r.json(data))
+                .run().then(function (data) {
+                    res.json(data);
+                })
+        });
+}

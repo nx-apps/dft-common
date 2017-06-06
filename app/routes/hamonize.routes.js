@@ -5,4 +5,5 @@ module.exports = function (app) {
     app.post('/insert', controller.insert);
     app.put('/update', controller.update);
     app.delete('/delete/id/:id', controller.delete);
+    app.get('/toRethink', controller.toRethink);
 }
