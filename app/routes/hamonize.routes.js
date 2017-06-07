@@ -6,4 +6,5 @@ module.exports = function (app) {
     app.put('/update', controller.update);
     app.delete('/delete/id/:id', controller.delete);
     app.get('/toRethink', controller.toRethink);
+    app.get('/toMssql',controller.toMssql);
 }
