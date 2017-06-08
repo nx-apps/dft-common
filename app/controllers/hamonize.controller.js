@@ -138,3 +138,28 @@ exports.delete = function (req, res) {
         res.json(result);
     }
 }
+exports.toRethink = function (req, res) {
+    var r = req.r;
+    req.jdbc.query('mssql', 'select * from hamonize', []
+        , function (err, data) {
+            r.db('common').table('hamonize').insert(r.json(data))
+                .run().then(function (data) {
+                    res.json(data);
+                })
+        });
+}
+exports.toMssql = function (req, res) {
+    var r = req.r;
+    r.db('common').table('hamonize').filter({ digits: 14 })
+        .run().then(function (data) {
+            var sql = 'insert into hamonize (hamonize_code,hamonize_year,hamonize_th,digits) ';
+            sql += '<br> values ';
+            for (var i = 0; i < data.length; i++) {
+                sql += "<br>('" + data[i].hamonize_code + "'," + data[i].hamonize_year + ",'" + data[i].hamonize_th + "'," + data[i].digits + ")";
+                if (i < data.length - 1) {
+                    sql += ',';
+                }
+            }
+            res.send(sql);
+        })
+}
