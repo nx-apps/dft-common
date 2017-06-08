@@ -4,23 +4,35 @@
         "id": {
             "type": "string"
         },
-        "type_rice_name_th": {
+        "hamonize_code": {
             "type": "string"
         },
-        "type_rice_name_en": {
+        "hamonize_en": {
             "type": "string"
         },
-        "type_rice_name_sub_en": {
+        "hamonize_en2": {
             "type": "string"
         },
-        "country_group": {
-             "type": "array"
+        "hamonize_th": {
+            "type": "string"
+        },
+        "hamonize_th2": {
+            "type": "string"
+        },
+        "hamonize_year": {
+            "type": "string"
+        },
+        "digits": {
+            "type": "string"
         }
     },
     "required": [
         "id",
-        "type_rice_name_th",
-        "type_rice_name_en",
-        "type_rice_name_sub_en"
+        "hamonize_code",
+        "hamonize_en",
+        "hamonize_en2",
+        "hamonize_th",
+        "hamonize_th2",
+        "hamonize_year"
     ]
 }

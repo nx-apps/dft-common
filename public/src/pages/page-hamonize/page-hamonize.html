@@ -13,27 +13,34 @@
     .table-head>tr>th:nth-child(1) {
       width: 5%;
     }
+
     .table-head>tr>th:nth-child(2) {
       width: 10%;
     }
-    
+
     .table-head>tr>th:nth-child(3) {
       width: 10%;
     }
-    
+
     .table-head>tr>th:nth-child(4) {
-      width: 25%;
+      width: 15%;
     }
-    
+
     .table-head>tr>th:nth-child(5) {
-      width: 25%;
+      width: 15%;
     }
-    
+
     .table-head>tr>th:nth-child(6) {
-      width: 10%;
+      width: 15%;
     }
-    
+
     .table-head>tr>th:nth-child(7) {
+      width: 15%;
+    }
+    .table-head>tr>th:nth-child(8) {
+      width: 15%;
+    }
+    .table-head>tr>th:nth-child(9) {
       width: 10%;
     }
   </style>
@@ -63,23 +70,33 @@
       <table class="gl-table-default">
         <thead class="table-head">
           <tr>
-            <th><div class="text-center">No<p>(ลำดับ)</div></th>
+            <th>
+              <div class="text-center">No
+                <p>(ลำดับ)</div>
+            </th>
             <th>
               <div class="text-center">Hamonized Code
                 <p>(พิกัดข้าว)</div>
             </th>
             <th>
               <div class="text-center">Rice Name
-                <p>(ชื่อย่อข้าว ภาษาอังกฤษ)</div>
+                <p>(ปี)</div>
             </th>
             <th>
               <div class="text-center">Rice Name
                 <p>(ชื่อข้าว ภาษาไทย)</div>
             </th>
-
+            <th>
+              <div class="text-center">Rice Name
+                <p>(ชื่อข้าว ภาษาไทยย่อ)</div>
+            </th>
             <th>
               <div class="text-center">Rice Name
                 <p>(ชื่อข้าว ภาษาอังกฤษ)</div>
+            </th>
+            <th>
+              <div class="text-center">Rice Name
+                <p>(ชื่อย่อข้าว ภาษาอังกฤษย่อ)</div>
             </th>
             <th>
               <div class="text-center">Date Update
@@ -90,26 +107,33 @@
             </th>
           </tr>
         </thead>
-
         <!-- <template is="dom-repeat" items="{{dataRice}}"> -->
-          {{searchData(searchInput,data,'type_rice_id','type_rice_name_sub_en','type_rice_name_th','type_rice_name_en')}}
+        {{searchData(searchInput,data,'hamonize_code','type_rice_name_sub_en','type_rice_name_th','type_rice_name_en')}}
         <template is="dom-repeat" items="[[searchResult]]">
           <tbody>
             <tr>
-              <td><div class="text-center">{{_count(index)}}</div></td>
               <td>
-                <div class="text-center">{{item.type_rice_id}}</div>
+                <div class="text-center">{{_count(index)}}</div>
               </td>
               <td>
-                <div>{{item.type_rice_name_sub_en}}</div>
+                <div class="text-center">{{item.hamonize_code}}</div>
               </td>
               <td>
-                <div>{{item.type_rice_name_th}}</div>
+                <div>{{item.hamonize_year}}</div>
+              </td>
+              <td>
+                <div>{{item.hamonize_th}}</div>
+              </td>
+              <td>
+                <div>{{item.hamonize_th2}}</div>
+              </td>
+              <td>
+                <div>{{item.hamonize_en}}</div>
+              </td>
+              <td>
+                <div>{{item.hamonize_en2}}</div>
               </td>
 
-              <td>
-                <div>{{item.type_rice_name_en}}</div>
-              </td>
               <td>
                 <div class="text-center">{{changeDateCC(item.date_updated)}}</div>
               </td>
@@ -139,7 +163,7 @@
   <script>
     Polymer({
       is: "page-hamonize",
-      behaviors: [nylonBehavior, ReduxBehavior, hamonizeAction,countryGroupAction, commonStateAction, SearchBehavior],
+      behaviors: [nylonBehavior, ReduxBehavior, hamonizeAction, countryGroupAction, commonStateAction, SearchBehavior],
       properties: {
         data: {
           statePath: 'hamonize.list'
@@ -153,7 +177,7 @@
         this.dispatchAction('BTN_SET_STATE', false);
       },
       nylonPageActive: function () {
-        this.dispatchAction('COUNTRY_GROUP_LIST');
+        // this.dispatchAction('COUNTRY_GROUP_LIST');
         this.dispatchAction('HAMONIZE_GET_DATA');
         this.dispatchAction('BTN_SET_STATE', true);
       },
@@ -168,13 +192,13 @@
         return val + 1
       },
       _delete: function (e) {
-        this.dispatchAction('HAMONIZE_DELETE', e.target.data.type_rice_id);
+        this.dispatchAction('HAMONIZE_DELETE', e.target.data.hamonize_id);
       },
       _edit: function (e) {
         this.statusAction = 'edit';
         this.$$('nylon-panel-right').open();
         this.dispatchAction('BTN_SET_STATE', true);
-        this.dispatchAction('HAMONIZE_GET_ID', e.target.data.type_rice_id);
+        this.dispatchAction('HAMONIZE_GET_ID', e.target.data.hamonize_id);
         this.title = "แก้ไขข้อมูล";
       },
       _back: function () {

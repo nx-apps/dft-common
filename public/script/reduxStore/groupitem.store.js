@@ -2,108 +2,66 @@ import axios from '../axios'
 import { commonAction } from '../config'
 const initialState = {
     list: [],
-    data: { hamonize_year: new Date().getFullYear() }
+    data: {  }
 }
-export function hamonizeReducer(state = initialState, action) {
+export function groupItemReducer(state = initialState, action) {
     switch (action.type) {
-        case 'HAMONIZE_GET_DATA':
+        case 'GROUP_ITEM_GET_DATA':
             return Object.assign({}, state, { list: action.payload });
-        case 'HAMONIZE_GET_ID':
+        case 'GROUP_ITEM_GET_ID':
             return Object.assign({}, state, { data: action.payload });
-        case 'CLEAR_DATA':
-            return Object.assign({}, state, { data: { hamonize_year: new Date().getFullYear() } });
+        case 'GROUP_ITEM_CLEAR_SELECT':
+            return Object.assign({}, state, { data: { } });
         default:
             return state
     }
 }
-export function hamonizeAction(store) {
+export function groupItemAction(store) {
     return [commonAction(),
     {
-        HAMONIZE_GET_DATA: function () {
-            axios.get('./hamonize')
+        GROUP_ITEM_GET_DATA: function (data) {
+            axios.get('./groupItem?table=' + data)
                 .then(function (response) {
-                    // response.data.map((item) => {
-                    //     item.use = false,
-                    //         item.check = false
-                    //     return item
-                    // })
-                    store.dispatch({ type: 'HAMONIZE_GET_DATA', payload: response.data })
+                    store.dispatch({ type: 'GROUP_ITEM_GET_DATA', payload: response.data })
                 })
                 .catch(function (error) {
                     console.log('error');
                     console.log(error);
                 });
         },
-        HAMONIZE_GET_ID: function (id) {
-            axios.get('./hamonize/id/' + id)
+        GROUP_ITEM_GET_ID: function (id) {
+            axios.get('./groupItem/id/' + id)
                 .then(function (response) {
-                    store.dispatch({ type: 'HAMONIZE_GET_ID', payload: response.data })
+                    store.dispatch({ type: 'GROUP_ITEM_GET_ID', payload: response.data })
                 })
                 .catch(function (error) {
                     console.log('error');
                     console.log(error);
                 });
         },
-        HAMONIZE_INSERT: function (data) {
+        GROUP_ITEM_INSERT: function (data) {
             this.fire('toast', {
                 status: 'openDialog',
                 text: 'ต้องการเพิ่มข้อมูลใช่หรือไม่ ?',
                 confirmed: (result) => {
                     if (result == true) {
-                        var newData = {
-                            // id: data.hamonize_id,
-                            hamonize_code: data.hamonize_code,
-                            hamonize_en: data.hamonize_en,
-                            hamonize_en2: data.hamonize_en2,
-                            hamonize_th: data.hamonize_th,
-                            hamonize_th2: data.hamonize_th2,
-                            hamonize_year: Number(data.hamonize_year)
-                        }
-                        // console.log(newData);
+                        // console.log(data);
                         this.fire('toast', { status: 'load', text: 'กำลังบันทึกข้อมูล...' })
-                        axios.post('./hamonize/insert', newData)
+                        axios.post('./groupItem/insert', data)
                             .then((response) => {
-                                this.fire('toast', {
-                                    status: 'success', text: 'บันทึกสำเร็จ', callback: () => {
-                                        this.HAMONIZE_GET_DATA();
-                                        this.CLEAR_DATA();
-                                    }
-                                });
-                            })
-                    }
-                }
-            })
-        },
-        HAMONIZE_EDIT: function (data) {
-            this.fire('toast', {
-                status: 'openDialog',
-                text: 'ต้องการแก้ไขข้อมูลใช่หรือไม่ ?',
-                confirmed: (result) => {
-                    if (result == true) {
-                        var newData = {
-                            id: data.hamonize_id,
-                            hamonize_code: data.hamonize_code,
-                            hamonize_en: data.hamonize_en,
-                            hamonize_en2: data.hamonize_en2,
-                            hamonize_th: data.hamonize_th,
-                            hamonize_th2: data.hamonize_th2,
-                            hamonize_year: Number(data.hamonize_year)
-                        }
-                        this.fire('toast', { status: 'load', text: 'กำลังบันทึกข้อมูล...' })
-                        axios.put('./hamonize/update', newData)
-                            .then((response) => {
+                                // console.log("success");
+                                // console.log(response);
                                 if (response.data.result == true) {
                                     this.fire('toast', {
                                         status: 'success', text: 'บันทึกสำเร็จ', callback: () => {
-                                            this.HAMONIZE_GET_DATA();
-                                            this.HAMONIZE_GET_ID(newData.id);
-                                            this.dispatchAction('BTN_SET_STATE', true);
+                                            this.GROUP_ITEM_GET_DATA(data.table);
+                                            this.GROUP_ITEM_CLEAR_SELECT();
                                         }
                                     });
                                 }
                                 else {
                                     this.fire('toast', {
-                                        status: 'connectError', text: 'ข้าวชนิดนี้มีอยู่แล้ว',
+                                        status: 'connectError', text: 'กลุ่มนี้มีอยู่แล้ว',
                                         callback: function () {
                                         }
                                     })
@@ -113,29 +71,74 @@ export function hamonizeAction(store) {
                 }
             })
         },
-        HAMONIZE_DELETE: function (data) {
+        GROUP_ITEM_EDIT: function (data, dataseleted) {
             this.fire('toast', {
                 status: 'openDialog',
-                text: 'ต้องการลบข้อมูลใช่หรือไม่ ?',
+                text: 'ต้องการแก้ไขข้อมูลใช่หรือไม่ ?',
                 confirmed: (result) => {
                     if (result == true) {
-                        this.fire('toast', { status: 'load' });
-                        axios.delete('./hamonize/delete/id/' + data)
+                        var newData = {
+                            id: data.sub_group_id,
+                            code:data.code,
+                            group_id: data.group_id,
+                            name_th: data.name_th,
+                            name_en: data.name_en,
+                            table: data.table,
+                            sub: data.sub
+                        }
+                        this.fire('toast', { status: 'load', text: 'กำลังบันทึกข้อมูล...' })
+                        axios.put('./groupItem/update', newData)
                             .then((response) => {
                                 if (response.data.result == true) {
                                     this.fire('toast', {
-                                        status: 'success', text: 'ลบข้อมูลสำเร็จ', callback: () => {
-                                            this.HAMONIZE_GET_DATA();
+                                        status: 'success', text: 'บันทึกสำเร็จ', callback: () => {
+                                            this.GROUP_ITEM_GET_DATA(dataseleted.table);
+                                            this.GROUP_ITEM_GET_ID(newData.id);
+                                            this.dispatchAction('BTN_SET_STATE', true);
                                         }
                                     });
+                                }
+                                else {
+                                    this.fire('toast', {
+                                        status: 'connectError', text: 'มีอยู่แล้ว',
+                                        callback: function () {
+                                        }
+                                    })
                                 }
                             })
                     }
                 }
             })
         },
-        CLEAR_DATA: function () {
-            store.dispatch({ type: 'CLEAR_DATA' })
+        GROUP_ITEM_DELETE: function (data, dataseleted) {
+            this.fire('toast', {
+                status: 'openDialog',
+                text: 'ต้องการลบข้อมูลใช่หรือไม่ ?',
+                confirmed: (result) => {
+                    if (result == true) {
+                        this.fire('toast', { status: 'load' });
+                        axios.delete('./groupItem/delete/id/' + data)
+                            .then((response) => {
+                                if (response.data.result == true) {
+                                    this.fire('toast', {
+                                        status: 'success', text: 'ลบข้อมูลสำเร็จ', callback: () => {
+                                            this.GROUP_ITEM_GET_DATA(dataseleted.table);
+                                        }
+                                    });
+                                } else {
+                                    this.fire('toast', {
+                                        status: 'connectError', text: 'ไม่สามารถลบได้',
+                                        callback: function () {
+                                        }
+                                    })
+                                }
+                            })
+                    }
+                }
+            })
+        },
+        GROUP_ITEM_CLEAR_SELECT: function () {
+            store.dispatch({ type: 'GROUP_ITEM_CLEAR_SELECT' })
         }
     }
     ]

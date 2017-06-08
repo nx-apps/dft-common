@@ -1,0 +1,263 @@
+<link rel="import" href="../../nylon-behavior.html">
+<link rel="import" href="../../layout/page-style.html">
+<link rel="import" href="./../../../bower_components/nylon-panel/nylon-panel-right.html">
+<link rel="import" href="./../../../bower_components/gl-form/gl-form-panel.html">
+<link rel="import" href="./../../../bower_components/gl-form/gl-form-input.html">
+<link rel="import" href="./../../../bower_components/gl-styles/gl-table.html">
+<link rel="import" href="./../../../bower_components/paper-input/paper-input.html">
+
+<link rel="import" href="./../../../bower_components/paper-tooltip/paper-tooltip.html">
+<link rel="import" href="./../components/search-behavior.html">
+
+<link rel="import" href="./../../../bower_components/paper-dropdown-menu/paper-dropdown-menu.html">
+<link rel="import" href="./../../../bower_components/paper-listbox/paper-listbox.html">
+<link rel="import" href="./../../../bower_components/paper-item/paper-item.html">
+
+<link rel="import" href="./components/manage-group-item.html">
+<link rel="import" href="./../components/search-behavior.html">
+
+<link rel="import" href="./../components/icon-button-management.html">
+<link rel="import" href="./../../../bower_components/vaadin-grid/vaadin-grid.html">
+<link rel="import" href="./../../../bower_components/vaadin-grid/vaadin-grid-filter.html">
+<link rel="import" href="./../../../bower_components/vaadin-grid/vaadin-grid-filter-behavior.html">
+<dom-module id="page-group-item">
+    <template>
+        <style is="custom-style" include="iron-flex iron-flex-factors iron-flex-alignment gl-table page-style">
+            * {
+                font-family: 'CSChatThaiUI', sans-serif;
+                -webkit-font-smoothing: antialiased;
+                font-size: var(--font-size-h5);
+            }
+
+            .button-top {
+                margin: 20px;
+            }
+
+            .text-center {
+                text-align: center;
+            }
+
+            .text-head {
+                text-align: center;
+                padding: 10px 0px 10px 10px;
+                background-color: var(--paper-grey-100);
+                color: var(--paper-grey-600);
+                font-size: var(--font-size-h3);
+            }
+
+            .table-head>tr>th:nth-child(1) {
+                width: 1%;
+            }
+
+            .table-head>tr>th:nth-child(2) {
+                width: 10%;
+            }
+
+            .table-head>tr>th:nth-child(3) {
+                width: 20%;
+            }
+
+            .elevation {
+                border-radius: 5px;
+                margin: 10px;
+                padding: 5px;
+                background-color: white;
+            }
+
+            .labelSearch {
+                font-size: var(--font-size-h5);
+                margin: 10px 10px 10px 10px;
+            }
+        </style>
+        <paper-material elevation="1" class="elevation">
+            <!--<paper-button style="margin:10px" raised on-tap="_back">
+                <iron-icon icon="icons:chevron-left"></iron-icon>back</paper-button>
+            <div class="text-head"><div class="img-center">
+          <iron-image src="../../../images/04/72.png"></iron-image>
+        </div>กลุ่ม</div>-->
+            {{dataSeleted.group_name_th}}
+            <div class="horizontal justified layout">
+                <div class="horizontal layout" style="margin-top:25px;">
+                    <div class="labelSearch">ค้นหา</div>
+                    <paper-input label=" " no-label-float value="{{searchInput}}"></paper-input>
+                    <iron-icon icon="search" style="margin-top:10px;"></iron-icon>
+                </div>
+                <div>
+                    <paper-button class="gl-btn-primary button-top" title="เพิ่มกลุ่ม" raised on-tap="_toggleDrawer">
+                        <iron-icon icon="add"></iron-icon>เพิ่มกลุ่มย่อย</paper-button>
+                </div>
+
+            </div>
+
+            <table class="gl-table-default">
+                <thead class="table-head">
+                    <tr>
+                        <th>
+                            <div class="text-center">No
+                                <p>(ลำดับ)</div>
+                        </th>
+                        <th>
+                            <div class="text-center">Group
+                                <p>(กลุ่ม ไทย)</div>
+                        </th>
+                        <th>
+                            <div class="text-center">Group
+                                <p>(กลุ่ม อังกฤษ)</div>
+                        </th>
+                        <!--<th>
+                            <div class="text-center">Table
+                                <p>(ตาราง)</div>
+                        </th>-->
+                        <th></th>
+                    </tr>
+                </thead>
+                {{searchData(searchInput,data,'name_th','name_en')}}
+                <template is="dom-repeat" items="[[searchResult]]">
+                    <tbody>
+                        <tr>
+                            <td>
+                                <div class="text-center">[[toIndex(index)]]</div>
+                            </td>
+                            <td>{{item.name_th}}</td>
+                            <td>{{item.name_en}}</td>
+                            <!--<td>{{item.table}}</td>-->
+                            <td style="text-align:right;">
+                                <paper-icon-button data="{{item}}" on-tap="_edit" icon="icons:create"></paper-icon-button>
+                                <paper-icon-button data="{{item}}" icon="delete" on-tap="_delete"></paper-icon-button>
+                            </td>
+                        </tr>
+
+                    </tbody>
+                </template>
+                <template is="dom-if" if="{{_isHave(searchResult)}}">
+                    <tr>
+                        <td colspan="6">
+                            <div class="text-center no-data">ไม่มีข้อมูล</div>
+                        </td>
+                    </tr>
+                </template>
+            </table>
+        </paper-material>
+        <nylon-panel-right title="{{title}}" set-width="95%">
+            <manage-group-item status-action="[[statusAction]]" title="{{title}}" name="[[dataSeleted]]"></manage-group-item>
+        </nylon-panel-right>
+    </template>
+    <script>
+        Polymer({
+            is: 'page-group-item',
+            behaviors: [nylonBehavior, ReduxBehavior, groupItemAction, groupAction, bankAction, buyerAction, carrierAction, continentAction,
+                countryAction, hamonizeAction, incotermsAction, notifypartyAction, packageAction, portAction, shipAction, shiplineAction, surveyorAction,
+                commonStateAction, SearchBehavior],
+            properties: {
+                data: {
+                    statePath: 'groupItem.list',
+                    // observer:'getData'
+                },
+                dataSeleted: {
+                    statePath: 'commonState.data',
+                    observer: 'getData'
+                },
+                statusAction: {
+                    type: String,
+                    // value: 'add'
+                }
+            },
+
+            listeners: {
+                'edit-input': 'editInput',
+                'delete-input': '_delete'
+            },
+            editInput: function () {
+                this.dispatchAction('BTN_SET_STATE', false);
+            },
+            getData(data) {
+                // console.log(111111111111);
+                // console.log(data.table);
+                this.dispatchAction('GROUP_ITEM_GET_DATA', data.table);
+                switch (data.table) {
+                    case 'bank':
+                        this.dispatchAction('BANK_GET_DATA');
+                        break;
+                    case 'buyer':
+                        this.dispatchAction('BUYER_GET_DATA');
+                        break;
+                    case 'carrier':
+                        this.dispatchAction('CARRIER_GET_DATA');
+                        break;
+                    case 'continent':
+                        this.dispatchAction('CONTINENT_GET_DATA');
+                        break;
+                    case 'country':
+                        this.dispatchAction('COUNTRY_GET_DATA');
+                        break;
+                    case 'hamonize':
+                        this.dispatchAction('HAMONIZE_GET_DATA');
+                        break;
+                    case 'incoterms':
+                        this.dispatchAction('INCOTERMS_GET_DATA');
+                        break;
+                    case 'notify_party':
+                        this.dispatchAction('NOTIFY_PARTY_GET_DATA');
+                        break;
+                    case 'package':
+                        this.dispatchAction('PACKAGE_GET_DATA');
+                        break;
+                    case 'port':
+                        this.dispatchAction('PORT_GET_DATA');
+                        break;
+                    case 'ship':
+                        this.dispatchAction('SHIP_GET_DATA');
+                        break;
+                    case 'shipline':
+                        this.dispatchAction('SHIPLINE_GET_DATA');
+                        break;
+                    case 'surveyor':
+                        this.dispatchAction('SURVEYOR_GET_DATA');
+                        break;
+                    default:
+                        console.log('NOT FOUND');
+                         this.fire('nylon-change-page',{path:`/group/กลุ่ม/17`})
+                        break;
+                }
+            },
+            nylonPageActive: function () {
+                // this.dispatchAction('GROUP_GET_DATA');
+                // console.log(this.dataSeleted);
+                // this.dispatchAction('COUNTRY_GET_DATA');
+                // this.dispatchAction('GROUP_GET_DATA');
+                // console.log(this.data);
+                this.dispatchAction('BTN_SET_STATE', true);
+            },
+            _toggleDrawer: function (e) {
+                this.statusAction = 'add';
+                this.dispatchAction('GROUP_ITEM_CLEAR_SELECT');
+                this.$$('nylon-panel-right').open();
+                this.dispatchAction('BTN_SET_STATE', false);
+                this.title = "เพิ่มข้อมูล";
+            },
+            _back: function () {
+                window.history.back();
+            },
+            toIndex: function (index) {
+                return index + 1
+            },
+            _delete: function (e) {
+                this.dispatchAction('GROUP_ITEM_DELETE', e.target.data.sub_group_id, this.dataSeleted);
+            },
+            _edit: function (e) {
+                this.fire('toast', { status: 'load' })
+                this.statusAction = 'edit';
+                this.dispatchAction('BTN_SET_STATE', true);
+                this.dispatchAction('GROUP_ITEM_GET_ID', e.target.data.sub_group_id, this.dataSeleted);
+                this.title = "แก้ไขข้อมูล";
+                this.async(() => {
+                    this.fire('toast', {
+                        status: 'success', text: 'โหลดสำเร็จ', callback: () => {
+                        }
+                    });
+                    this.$$('nylon-panel-right').open();
+                }, 1000);
+            },
+        });
+    </script>
+</dom-module>

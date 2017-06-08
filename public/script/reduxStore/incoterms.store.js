@@ -2,7 +2,7 @@ import axios from '../axios'
 import { commonAction } from '../config'
 const initialState = {
     list: [],
-    seleted:{},
+    seleted: {},
     data: {}
 }
 export function incotermsReducer(state = initialState, action) {
@@ -23,6 +23,8 @@ export function incotermsAction(store) {
         INCOTERMS_GET_DATA: function () {
             axios.get('./incoterms')
                 .then(function (response) {
+
+                    
                     store.dispatch({ type: 'INCOTERMS_GET_DATA', payload: response.data })
                 })
                 .catch(function (error) {
@@ -31,9 +33,9 @@ export function incotermsAction(store) {
                 });
         },
         INCOTERMS_GET_ID: function (id) {
-            axios.get('./incoterms/id/'+id)
+            axios.get('./incoterms/id/' + id)
                 .then(function (response) {
-                // console.log(data);
+                    // console.log(data);
                     store.dispatch({ type: 'INCOTERMS_GET_ID', payload: response.data })
                 })
                 .catch(function (error) {
@@ -95,7 +97,7 @@ export function incotermsAction(store) {
                                         status: 'success', text: 'บันทึกสำเร็จ', callback: () => {
                                             this.INCOTERMS_GET_DATA();
                                             this.INCOTERMS_GET_ID(newData.id);
-                                            this.dispatchAction('BTN_SET_STATE',true);
+                                            this.dispatchAction('BTN_SET_STATE', true);
                                         }
                                     });
                                 }

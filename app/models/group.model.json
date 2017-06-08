@@ -1,0 +1,39 @@
+{
+    "name": "common.group",
+    "properties": {
+        "id": {
+            "type": "string"
+        },
+        "group_name_th": {
+            "type": "string"
+        },
+        "group_name_en": {
+            "type": "string"
+        },
+        "table": {
+            "type": "string"
+        },
+        "field_id": {
+            "type": "string"
+        },
+        "name": {
+            "type": "array",
+            "items": {
+                "type": "object",
+                "properties": {
+                    "field": {
+                        "type": "string"
+                    }
+                }
+            }
+        }
+    },
+    "required": [
+        "id",
+        "group_name_th",
+        "group_name_en",
+        "table",
+        "field_id",
+        "name"
+    ]
+}

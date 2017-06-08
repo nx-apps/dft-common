@@ -47,8 +47,8 @@
             <gl-grid-col width="[[getWidth]]" grid="[[300,12],[500,4]]"></gl-grid-col>
             <gl-grid-col width="[[getWidth]]" grid="[[300,12],[500,4]]">
                 <gl-form-input class="margin-top  required" required error-message="กรุณากรอกพิกัดข้าว" label="Harmonized Code (พิกัดข้าว) :"
-                    placeholder="ใส่เลขพิกัดข้าว 11 หลัก" maxlength="11" allowed-pattern="[0-9]" value="{{data.type_rice_id}}"
-                    disabled="[[_checkStatus(statusAction)]]"></gl-form-input>
+                    placeholder="ใส่เลขพิกัดข้าว" maxlength="14" allowed-pattern="[0-9]" value="{{data.hamonize_code}}"
+                    disabled="[[btnState]]"></gl-form-input>
             </gl-grid-col>
             <gl-grid-col width="[[getWidth]]" grid="[[300,12],[500,4]]"></gl-grid-col>
         </gl-grid-row>
@@ -57,7 +57,16 @@
             <gl-grid-col width="[[getWidth]]" grid="[[300,12],[500,4]]"></gl-grid-col>
             <gl-grid-col width="[[getWidth]]" grid="[[300,12],[500,4]]">
                 <gl-form-input class="margin-top  required" required error-message="กรุณากรอกชื่อข้าวภาษาไทย" disabled="[[btnState]]" required
-                    label="Rice Name (ชื่อข้าวภาษาไทย) :" placeholder="กรอกชื่อข้าว" value="{{data.type_rice_name_th}}"></gl-form-input>
+                    label="Rice Name (ชื่อข้าวภาษาไทย) :" placeholder="กรอกชื่อข้าว" value="{{data.hamonize_th}}"></gl-form-input>
+            </gl-grid-col>
+            <gl-grid-col width="[[getWidth]]" grid="[[300,12],[500,4]]"></gl-grid-col>
+        </gl-grid-row>
+
+        <gl-grid-row width="{{getWidth}}">
+            <gl-grid-col width="[[getWidth]]" grid="[[300,12],[500,4]]"></gl-grid-col>
+            <gl-grid-col width="[[getWidth]]" grid="[[300,12],[500,4]]">
+                <gl-form-input class="margin-top  required" required error-message="กรุณากรอกชื่อข้าวภาษาไทยตัวย่อ" disabled="[[btnState]]" required
+                    label="Rice Name (ชื่อข้าวภาษาไทยตัวย่อ) :" placeholder="กรอกชื่อข้าว" value="{{data.hamonize_th2}}"></gl-form-input>
             </gl-grid-col>
             <gl-grid-col width="[[getWidth]]" grid="[[300,12],[500,4]]"></gl-grid-col>
         </gl-grid-row>
@@ -66,7 +75,7 @@
             <gl-grid-col width="[[getWidth]]" grid="[[300,12],[500,4]]"></gl-grid-col>
             <gl-grid-col width="[[getWidth]]" grid="[[300,12],[500,4]]">
                 <gl-form-input class="margin-top  required" required error-message="กรุณากรอกชื่อข้าวภาษาอังกฤษ" disabled="[[btnState]]"
-                    required label="Rice Name (ชื่อข้าวภาษาอังกฤษ) :" placeholder="กรอกชื่อข้าว" value="{{data.type_rice_name_en}}"></gl-form-input>
+                    required label="Rice Name (ชื่อข้าวภาษาอังกฤษ) :" placeholder="กรอกชื่อข้าว" value="{{data.hamonize_en}}"></gl-form-input>
             </gl-grid-col>
             <gl-grid-col width="[[getWidth]]" grid="[[300,12],[500,4]]"></gl-grid-col>
         </gl-grid-row>
@@ -75,67 +84,19 @@
             <gl-grid-col width="[[getWidth]]" grid="[[300,12],[500,4]]"></gl-grid-col>
             <gl-grid-col width="[[getWidth]]" grid="[[300,12],[500,4]]">
                 <gl-form-input class="margin-top  required" required error-message="กรุณากรอกชื่อข้าวภาษาอังกฤษตัวย่อ" disabled="[[btnState]]"
-                    required label="Rice Name (ชื่อข้าวภาษาอังกฤษตัวย่อ) :" placeholder="ภาษาอังกฤษตัวย่อ" value="{{data.type_rice_name_sub_en}}"></gl-form-input>
+                    required label="Rice Name (ชื่อข้าวภาษาอังกฤษตัวย่อ) :" placeholder="ภาษาอังกฤษตัวย่อ" value="{{data.hamonize_en2}}"></gl-form-input>
             </gl-grid-col>
             <gl-grid-col width="[[getWidth]]" grid="[[300,12],[500,4]]"></gl-grid-col>
         </gl-grid-row>
-        <!--<gl-grid-row width="{{getWidth}}">
+        
+         <gl-grid-row width="{{getWidth}}">
             <gl-grid-col width="[[getWidth]]" grid="[[300,12],[500,4]]"></gl-grid-col>
             <gl-grid-col width="[[getWidth]]" grid="[[300,12],[500,4]]">
-                <gl-combo-box always-float-label placeholder="เลือกประเทศ" items="{{countryList}}" value="{{countrySelect}}" item-value-path="id"
-                    item-label-path="country_name_th"></gl-combo-box>
+                <gl-form-input class="margin-top  required" required error-message="กรุณากรอกปีใช้รหัสข้าว" disabled="[[btnState]]"
+                    required label="ปีใช้รหัสข้าว" placeholder="ปีใช้รหัสข้าว" value="{{data.hamonize_year}}"></gl-form-input>
             </gl-grid-col>
-            <gl-grid-col width="[[getWidth]]" grid="[[300,12],[500,4]]">
-                <paper-button class="gl-btn-primary" on-tap="addCountry" raised hidden="[[btnState]]">เพิ่ม</paper-button>
-            </gl-grid-col>
-        </gl-grid-row>-->
-        <div class="horizontal center-justified layout">
-            <table class="gl-table-default" hidden="[[btnState]]">
-                <thead>
-                    <tr>
-                        <th style="width:30%;text-align: right; font-size: 18px;">Country Group:</th>
-                        <th style="width:50%">
-                            <gl-combo-box always-float-label placeholder="เลือกประเทศ" items="{{dataForSeleted.country_group}}" value="{{countrySelect}}"
-                                item-value-path="id" item-label-path="id">
-                                <template>
-                                    [[item.id]]
-                                </template>
-                            </gl-combo-box>
-                        </th>
-                        <th style="width:20%">
-                            <paper-button class="gl-btn-primary" on-tap="addCountry" raised hidden="[[btnState]]">เพิ่ม</paper-button>
-                        </th>
-                    </tr>
-                </thead>
-            </table>
-        </div>
-        <div class="horizontal center-justified layout">
-            <table class="gl-table-default">
-                <thead>
-                    <tr>
-                        <th>#</th>
-                        <th>Country Group</th>
-                        <th style="width:10%"></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <template is="dom-repeat" items="{{data.country_group}}">
-                        <tr>
-                            <td>[[toIndex(index)]]</td>
-                            <td>[[item]]</td>
-                            <td>
-                                <paper-button class="gl-btn-warning" on-tap="delCountry" item="[[item]]" raised hidden="[[btnState]]">ลบ</paper-button>
-                            </td>
-                        </tr>
-                    </template>
-                    <template is="dom-if" if="{{_isHave(data.country_group.*)}}">
-                        <tr>
-                            <td style="text-align: center;" colspan="4">ไม่มีข้อมูล</td>
-                        </tr>
-                    </template>
-                </tbody>
-            </table>
-        </div>
+            <gl-grid-col width="[[getWidth]]" grid="[[300,12],[500,4]]"></gl-grid-col>
+        </gl-grid-row>
         <div class="horizontal end-justified layout">
             <div class="button">
                 <paper-button raised on-tap="_cancel" hidden="{{btnState}}">คืนค่าข้อมูล</paper-button>
@@ -149,30 +110,17 @@
             properties: {
                 dataForSeleted: {
                     type: Object,
-                    val: { country_group: '1' }
+                    val: {}
                 },
                 data: {
                     statePath: 'hamonize.data',
+                    observer:'setYear'
                 },
                 btnState: {
                     statePath: 'commonState.btnState'
                 },
-                countryGroup: {
-                    statePath: 'countryGroup.list'
-                },
-                countrySelect: {
-                    type: Object
-                },
 
             },
-            // observers: [
-            //     'cutList(countryGroup,data.country_group.*)'
-            // ],
-            observers: [
-                // 'userListChanged(data.*)'
-                // 'cutList(countryGroup,data.country_group.*)',
-                'cutList(data.*)'
-            ],
             behaviors: [nylonBehavior, ReduxBehavior, hamonizeAction, ValidateFormBehavior],
             _save: function () {
                 if (this.validateForm('.required')) {
@@ -195,61 +143,10 @@
                     this.dispatchAction('CLEAR_DATA');
                 }
             },
-            addCountry: function (e) {
-                var c = this.countrySelect;
-                var item = this.countryGroup.find((f) => f.id == c);
-                var index = this.countryGroup.indexOf(item);
-                if (item) {
-                    if (this.data.country_group === undefined)
-                        this.set('data.country_group', [])
-                    // console.log(this.data.country_group === undefined);
-                    this.push('data.country_group', item.id);
-                    // this.splice('countryGroup', index, 1);
-                }
-                this.countrySelect = "";
-            },
-            delCountry: function (e) {
-                var item = e.currentTarget.item;
-                var index = this.data.country_group.indexOf(item)
-                this.splice('data.country_group', index, 1);
-                // this.push('countryGroup', item);
-            },
             _checkStatus: function (val) {
                 if (val != 'add') {
                     return true
                 }
-            },
-            cutList: function (data) {
-                try {
-                    let country_group = this.data.country_group
-                    let countryGroup = this.countryGroup
-                    if (country_group === undefined)
-                        country_group = []
-                    let index = 0
-                    let arrForItem = JSON.parse(JSON.stringify(countryGroup));
-                    for (var i = 0; i < country_group.length; i++) {
-                        index = arrForItem.findIndex((country) => country.id === country_group[i])
-                        // console.log(index);
-                        arrForItem.splice(index, 1)
-                    }
-                    if (country_group.length === 0)
-                        this.set('dataForSeleted', { country_group: countryGroup })
-                    if (arrForItem.length > 0 || countryGroup.length >= country_group.length)
-                        this.set('dataForSeleted', { country_group: arrForItem })
-                } catch (e) {
-
-                } finally {
-
-                }
-            },
-            _isHave: function (data) {
-                try {
-                    data = this.data.country_group
-                    if(data === undefined || data.length === 0)
-                        return true
-                } catch (e) {
-                    // console.log(e);
-                } 
             },
         });
     </script>

@@ -1,0 +1,395 @@
+<link rel="import" href="./../../../../bower_components/gl-grid/gl-grid-row.html">
+<link rel="import" href="./../../../../bower_components/gl-grid/gl-grid-col.html">
+<link rel="import" href="./../../components/validateFormBehaviors.html">
+
+<link rel="import" href="./../../../../bower_components/paper-checkbox/paper-checkbox.html">
+
+<dom-module id="manage-group-item">
+    <template>
+        <style include="iron-flex iron-flex-factors iron-flex-alignment gl-table page-style">
+            * {
+                font-family: 'CSChatThaiUI', sans-serif;
+                -webkit-font-smoothing: antialiased;
+                font-size: var(--font-size-h5);
+                text-align: left;
+            }
+
+            .text-center {
+                text-align: center;
+                font-size: var(--font-size-h3);
+                background-color: var(--paper-grey-100);
+                margin-top: 20px;
+            }
+
+            paper-dropdown-menu,
+            paper-listbox,
+            paper-item {
+                width: 100%;
+            }
+        </style>
+        <div class="text-center">{{title}}กลุ่ม</div>
+        <template is="dom-if" if={{_checkStatus(statusAction)}}>
+            <icon-button-management btn-state="[[!btnState]]"></icon-button-management>
+        </template>
+        <!--{{statusAction}}///[[_checkStatus(statusAction)]]-->
+        <gl-grid-row width="{{getWidth}}">
+            <gl-grid-col width="[[getWidth]]" grid="[[300,12],[500,3]]"></gl-grid-col>
+            <gl-grid-col width="[[getWidth]]" grid="[[300,12],[500,6]]">
+                <gl-form-input class="margin-top  required" required error-message="ชื่อ (ไทย)" label="ชื่อ (ไทย) :" placeholder="ชื่อ (ไทย)"
+                    value="{{data.name_th}}" disabled="[[btnState]]"></gl-form-input>
+            </gl-grid-col>
+            <gl-grid-col width="[[getWidth]]" grid="[[300,12],[500,3]]"></gl-grid-col>
+        </gl-grid-row>
+        <gl-grid-row>
+            <gl-grid-col width="[[getWidth]]" grid="[[300,12],[500,3]]"></gl-grid-col>
+            <gl-grid-col width="[[getWidth]]" grid="[[300,12],[500,6]]">
+                <gl-form-input class="margin-top  required" required error-message="ชื่อ (อังกฤษ)" label="ชื่อ (อังกฤษ) :" placeholder="ชื่อ(อังกฤษ)"
+                    value="{{data.name_en}}" disabled="[[btnState]]"></gl-form-input>
+            </gl-grid-col>
+            <gl-grid-col width="[[getWidth]]" grid="[[300,12],[500,3]]"></gl-grid-col>
+        </gl-grid-row>
+
+        <gl-grid-row>
+            <gl-grid-col width="[[getWidth]]" grid="[[300,12],[500,3]]"></gl-grid-col>
+            <gl-grid-col width="[[getWidth]]" grid="[[300,12],[500,6]]">
+                <gl-form-input class="margin-top  required" required error-message="Code " label="Code :" placeholder="Code" value="{{data.code}}"
+                    disabled="[[btnState]]" on-blur="setLowper"></gl-form-input>
+            </gl-grid-col>
+            <gl-grid-col width="[[getWidth]]" grid="[[300,12],[500,3]]"></gl-grid-col>
+        </gl-grid-row>
+
+        <gl-grid-row>
+            <gl-grid-col width="[[getWidth]]" grid="[[300,12],[500,1]]"></gl-grid-col>
+            <gl-grid-col width="[[getWidth]]" grid="[[300,12],[500,10]]">
+                <vaadin-grid aria-label="ข้อมูล" items="{{dataUse}}">
+
+                    <vaadin-grid-column width="50px" flex-grow="0">
+                        <template class="header">
+                            <paper-checkbox on-tap="selectAll" checked="{{statusCheck}}" disabled="[[btnState]]"></paper-checkbox>
+                        </template>
+                        <template>
+                            <paper-checkbox checked="{{item.check}}" disabled="[[btnState]]"></paper-checkbox>
+                        </template>
+                    </vaadin-grid-column>
+
+                    <vaadin-grid-column>
+                        <template class="header">Code
+                            <vaadin-grid-filter aria-label="Code" path="sub_code">
+                            </vaadin-grid-filter>
+                        </template>
+                        <template>[[item.sub_code]]</template>
+                    </vaadin-grid-column>
+
+                    <vaadin-grid-column>
+                        <template class="header">Name
+                            <vaadin-grid-filter aria-label="Name" path="name">
+                            </vaadin-grid-filter>
+                        </template>
+                        <template>[[item.name]]</template>
+                    </vaadin-grid-column>
+
+                </vaadin-grid>
+                <gl-grid-col width="[[getWidth]]" grid="[[300,12],[500,1]]"></gl-grid-col>
+            </gl-grid-col>
+        </gl-grid-row>
+        <div class="horizontal end-justified layout">
+            <div class="button">
+                <paper-button raised on-tap="_cancel" hidden="{{btnState}}">คืนค่าข้อมูล</paper-button>
+                <paper-button class="gl-btn-success" raised on-tap="_save" hidden="{{btnState}}">บันทึก</paper-button>
+            </div>
+        </div>
+    </template>
+    <script>
+        Polymer({
+            is: 'manage-group-item',
+            behaviors: [nylonBehavior, ReduxBehavior, ValidateFormBehavior, SearchBehavior],
+            properties: {
+                data: {
+                    statePath: 'groupItem.data',
+                    val: {}
+                },
+                btnState: {
+                    statePath: 'commonState.btnState'
+                },
+                hamonize_list: {
+                    statePath: 'hamonize.list',
+                    observer: 'setCheckBox'
+                },
+                country_list: {
+                    statePath: 'country.list',
+                    observer: 'setCheckBox'
+                },
+                bank_list: {
+                    statePath: 'bank.list',
+                    observer: 'setCheckBox'
+                },
+                buyer_list: {
+                    statePath: 'buyer.list',
+                    observer: 'setCheckBox'
+                },
+                carrier_list: {
+                    statePath: 'carrier.list',
+                    observer: 'setCheckBox'
+                },
+                continent_list: {
+                    statePath: 'continent.list',
+                    observer: 'setCheckBox'
+                },
+                incoterms_list: {
+                    statePath: 'incoterms.list',
+                    observer: 'setCheckBox'
+                },
+                notify_party_list: {
+                    statePath: 'notify_party.list',
+                    observer: 'setCheckBox'
+                },
+                package_list: {
+                    statePath: 'package.list',
+                    observer: 'setCheckBox'
+                },
+                port_list: {
+                    statePath: 'port.list',
+                    observer: 'setCheckBox'
+                },
+                ship_list: {
+                    statePath: 'ship.list',
+                    observer: 'setCheckBox'
+                },
+                shipline_list: {
+                    statePath: 'shipline.list',
+                    observer: 'setCheckBox'
+                },
+                surveyor_list: {
+                    statePath: 'surveyor.list',
+                    observer: 'setCheckBox'
+                },
+                dataList: {
+                    type: Array
+                },
+                dataUSe: {
+                    type: Array
+                },
+                name: {
+                    type: Object
+                }
+            },
+            observers: [
+                'setName(dataList,name,data)',
+            ],
+            setCheckBox(data) {
+                try {
+                    // console.log(this.name);
+                    if (this.name !== undefined) {
+                        // switch (this.name.table) {
+                        //     case 'hamonize':
+                        //         this.set('dataList', this.hamonize_list)
+                        //         break;
+                        //     case 'country':
+                        //         this.set('dataList', this.country_list)
+                        //         break;
+
+                        //     default:
+                        //         break;
+                        // }
+                        switch (this.name.table) {
+                            case 'bank':
+                                this.set('dataList', this.bank_list)
+                                break;
+                            case 'buyer':
+                                this.set('dataList', this.buyer_list)
+                                break;
+                            case 'carrier':
+                                this.set('dataList', this.carrier_list)
+                                break;
+                            case 'continent':
+                                this.set('dataList', this.continent_list)
+                                break;
+                            case 'country':
+                                this.set('dataList', this.country_list)
+                                break;
+                            case 'hamonize':
+                                this.set('dataList', this.hamonize_list)
+                                break;
+                            case 'incoterms':
+                                this.set('dataList', this.incoterms_list)
+                                break;
+                            case 'notify_party':
+                                this.set('dataList', this.notify_party_list)
+                                break;
+                            case 'package':
+                                this.set('dataList', this.package_list)
+                                break;
+                            case 'port':
+                                this.set('dataList', this.port_list)
+                                break;
+                            case 'ship':
+                                this.set('dataList', this.ship_list)
+                                break;
+                            case 'shipline':
+                                this.set('dataList', this.shipline_list)
+                                break;
+                            case 'surveyor':
+                                this.set('dataList', this.surveyor_list)
+                                break;
+                            default:
+                                console.log('NOT FOUND');
+                                break;
+                        }
+                        return data
+                    }
+                } catch (e) {
+                    // console.log(e);
+                }
+
+
+            },
+            setName(data, name, dataOld) {
+                try {
+                    if (data.length > 0) {
+                        // console.log(dataOld);
+                        let arr = [],
+                            obj = { name: '', sub_code: '' },
+                            havecode = false,
+                            name_id = ''
+                        for (var index = 0; index < data.length; index++) {
+                            for (var index2 = 0; index2 < name.name.length; index2++) {
+                                obj.name = obj.name + ' ' + data[index][name.name[index2].id]
+                                // console.log(data[index]);
+                                // console.log(name.name[index2].id === 'id');
+                            }
+                            name_id = name.field_id
+                            if (name_id === "id") {
+                                switch (name.table) {
+                                    case 'bank':
+                                        name_id = "bank_" + name.field_id
+                                        break;
+                                    case 'buyer':
+                                        name_id = "buyer_" + name.field_id
+                                        break;
+                                    case 'carrier':
+                                        name_id = "carrier_" + name.field_id
+                                        break;
+                                    case 'continent':
+                                        name_id = "continent_" + name.field_id
+                                        break;
+                                    case 'country':
+                                        name_id = "country_" + name.field_id
+                                        break;
+                                    case 'hamonize':
+                                        name_id = "hamonize_" + name.field_id
+                                        break;
+                                    case 'incoterms':
+                                        name_id = "incoterms_" + name.field_id
+                                        break;
+                                    case 'notify_party':
+                                        name_id = "notify_party_" + name.field_id
+                                        break;
+                                    case 'package':
+                                        name_id = "package_" + name.field_id
+                                        break;
+                                    case 'port':
+                                        name_id = "port_" + name.field_id
+                                        break;
+                                    case 'ship':
+                                        name_id = "ship_" + name.field_id
+                                        break;
+                                    case 'shipline':
+                                        name_id = "shipline_" + name.field_id
+                                        break;
+                                    case 'surveyor':
+                                        name_id = "surveyor_" + name.field_id
+                                        break;
+                                    default:
+                                        console.log('NOT FOUND');
+                                        break;
+                                }
+                            }
+
+                            obj.sub_code = data[index][name_id]
+                            if (dataOld.sub !== undefined) {
+                                for (var index3 = 0; index3 < dataOld.sub.length; index3++) {
+                                    // console.log(data[index][name.field_id],dataOld.sub[index3].sub_code);
+                                    if (data[index][name_id] === dataOld.sub[index3].sub_code) {
+                                        obj.check = true
+                                        break;
+                                    } else {
+                                        obj.check = false
+                                    }
+                                }
+                            } else {
+                                obj.check = false
+                            }
+                            arr.push(obj)
+                            obj = { name: '', sub_code: '' }
+                        }
+                        console.log(arr);
+                        this.set('dataUse', arr)
+                    }
+                } catch (e) {
+                    // console.log(e);
+                }
+
+            },
+            setLowper() {
+                this.set('data.code', this.data.code.toLowerCase())
+                // console.log(this.data.code);
+            },
+            _save: function () {
+                // console.log(this.data);
+                let codeListTrue = this.dataUse.filter((check) => check.check === true)
+                let newList = codeListTrue.map((item) => {
+                    return {
+                        sub_code: item.sub_code
+                    }
+                })
+                this.data.sub = newList
+                this.data.table = this.name.table
+                this.data.group_id = this.name.group_id
+                if (this.validateForm('.required')) {
+                    if (this.statusAction == 'edit') {
+                        // console.log(this.data);
+                        this.dispatchAction('GROUP_ITEM_EDIT', this.data);
+                        this.dispatchAction('BTN_SET_STATE', true);
+                    }
+                    else {
+                        // console.log(this.data);
+                        this.dispatchAction('GROUP_ITEM_INSERT', this.data);
+                    }
+                }
+            },
+            _checkStatus: function (val) {
+                // console.log();
+                if (val != 'add') {
+                    return true
+                }
+            },
+            _cancel: function () {
+                if (this.statusAction == 'edit') {
+                    this.fire('toast', {
+                        status: 'openDialog',
+                        text: 'ต้องการยกเลิกการแก้ไขข้อมูลใช่หรือไม่ ?',
+                        confirmed: (result) => {
+                            if (result == true) {
+                                this.dispatchAction('GROUP_ITEM_GET_ID', this.data.sub_group_id, this.name);
+                                this.dispatchAction('BTN_SET_STATE', true);
+                            }
+                        }
+                    })
+                    // this.dispatchAction('HAMONIZE_GET_ID', this.group_id);
+                }
+                else {
+                    this.dispatchAction('CLEAR_DATA');
+                    this.statusCheck = false
+                    this.dataUse.map((set, index) => {
+                        this.set('dataUse.' + index + '.check', this.statusCheck)
+                    })
+                }
+            },
+            selectAll(e) {
+                this.dataUse.map((set, index) => {
+                    this.set('dataUse.' + index + '.check', this.statusCheck)
+                })
+            },
+        });
+    </script>
+</dom-module>
