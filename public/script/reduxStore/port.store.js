@@ -32,6 +32,7 @@ export function portAction(store) {
         PORT_GET_ID: function (id) {
             axios.get('./port/id/' + id)
                 .then(function (response) {
+                    console.log(response.data);
                     store.dispatch({ type: 'PORT_GET_ID', payload: response.data })
                 })
                 .catch(function (error) {
@@ -122,6 +123,9 @@ export function portAction(store) {
                             port_name: data.port_name,
                             country_id: data.country_id
                         }
+
+                        console.log(data);
+                        console.log(this.data);
                         this.fire('toast', { status: 'load', text: 'กำลังบันทึกข้อมูล...' })
                         axios.put('./port/update', newData)
                             .then((response) => {

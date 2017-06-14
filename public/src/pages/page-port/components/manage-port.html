@@ -36,7 +36,7 @@
     <gl-grid-row width="{{getWidth}}">
       <gl-grid-col width="[[getWidth]]" grid="[[300,12],[500,2]]"></gl-grid-col>
       <gl-grid-col width="[[getWidth]]" grid="[[300,12],[500,4]]">
-        <gl-form-input class="margin-top  required" required  error-message="กรุณากรอกเลขประจำตัวท่าเรือ" disabled="[[btnState]]" required label="Port ID (เลขประจำตัวท่าเรือ) :" placeholder="กรอกรหัสท่าเรือ" value="{{data.port_id}}" disabled="[[_checkStatus(statusAction)]]"></gl-form-input>
+        <gl-form-input class="margin-top  required" required  error-message="กรุณากรอกเลขประจำตัวท่าเรือ"  required label="Port ID (เลขประจำตัวท่าเรือ) :" placeholder="กรอกรหัสท่าเรือ" value="{{data.port_id}}" disabled="[[_checkStatus(statusAction)]]"></gl-form-input>
       </gl-grid-col>
       <gl-grid-col width="[[getWidth]]" grid="[[300,12],[500,4]]">
         <gl-form-input class="margin-top  required" required  error-message="กรุณากรอกรหัสท่าเรือ" disabled="[[btnState]]" required label="Port Code (รหัสท่าเรือ) :" placeholder="port_code" value="{{data.port_code}}"></gl-form-input>
