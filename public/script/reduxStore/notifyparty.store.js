@@ -46,9 +46,9 @@ export function notifypartyAction(store) {
                 text: 'ต้องการเพิ่มข้อมูลใช่หรือไม่ ?',
                 confirmed: (result) => {
                     if (result == true) {
-                        axios.get('./check/duplicate?table=notify_party&field=notify_name&value=' + data.notify_name)
-                            .then((response) => {
-                                if (response.data == 0) {
+                        // axios.get('./check/duplicate?table=notify_party&field=notify_name&value=' + data.notify_name)
+                        //     .then((response) => {
+                        //         if (response.data == 0) {
                                     this.fire('toast', { status: 'load', text: 'กำลังบันทึกข้อมูล...' })
                                     axios.post('./notify_party/insert', data)
                                         .then((response) => {
@@ -59,15 +59,15 @@ export function notifypartyAction(store) {
                                                 }
                                             });
                                         })
-                                }
-                                else {
-                                    this.fire('toast', {
-                                        status: 'connectError', text: 'ที่อยู่ผู้รับสินค้านี้มีอยู่แล้ว',
-                                        callback: function () {
-                                        }
-                                    })
-                                }
-                            })
+                        //         }
+                        //         else {
+                        //             this.fire('toast', {
+                        //                 status: 'connectError', text: 'ที่อยู่ผู้รับสินค้านี้มีอยู่แล้ว',
+                        //                 callback: function () {
+                        //                 }
+                        //             })
+                        //         }
+                        //     })
                     }
                 }
             })
@@ -81,10 +81,10 @@ export function notifypartyAction(store) {
                         let{notify_id,notify_name,notify_tel,notify_fax,notify_address,port_id,buyer_id} = data;
                         let newData = {notify_name,notify_tel,notify_fax,notify_address,port_id,buyer_id};
                         newData.id = data.notify_id;
-                        axios.get('./check/duplicate?table=notify_party&field=notify_name&value=' + newData.notify_name)
-                            .then((response) => {
-                                if (response.data == 0) {
-                                    this.fire('toast', { status: 'load', text: 'กำลังบันทึกข้อมูล...' })
+                        // axios.get('./check/duplicate?table=notify_party&field=notify_name&value=' + newData.notify_name)
+                        //     .then((response) => {
+                        //         if (response.data == 0) {
+                        //             this.fire('toast', { status: 'load', text: 'กำลังบันทึกข้อมูล...' })
                                     axios.put('./notify_party/update', newData)
                                         .then((response) => {
                                             this.fire('toast', {
@@ -95,33 +95,33 @@ export function notifypartyAction(store) {
                                                 }
                                             });
                                         })
-                                }
-                                else {
-                                    axios.get('./check/myowner?table=notify_party&id=' + newData.id + '&field=notify_name&value=' + newData.notify_name)
-                                        .then((response) => {
-                                            if (response.data == 1) {
-                                                this.fire('toast', { status: 'load', text: 'กำลังบันทึกข้อมูล...' })
-                                                axios.put('./notify_party/update', newData)
-                                                    .then((response) => {
-                                                        this.fire('toast', {
-                                                            status: 'success', text: 'บันทึกสำเร็จ', callback: () => {
-                                                                this.NOTIFY_PARTY_GET_DATA();
-                                                                this.NOTIFY_PARTY_GET_ID(newData.id);
-                                                                this.dispatchAction('BTN_SET_STATE',true);
-                                                            }
-                                                        });
-                                                    })
-                                            }
-                                            else {
-                                                this.fire('toast', {
-                                                    status: 'connectError', text: 'ที่อยู่ผู้รับสินค้านี้มีอยู่แล้ว',
-                                                    callback: function () {
-                                                    }
-                                                })
-                                            }
-                                        })
-                                }
-                            })
+                        //         }
+                        //         else {
+                        //             axios.get('./check/myowner?table=notify_party&id=' + newData.id + '&field=notify_name&value=' + newData.notify_name)
+                        //                 .then((response) => {
+                        //                     if (response.data == 1) {
+                        //                         this.fire('toast', { status: 'load', text: 'กำลังบันทึกข้อมูล...' })
+                        //                         axios.put('./notify_party/update', newData)
+                        //                             .then((response) => {
+                        //                                 this.fire('toast', {
+                        //                                     status: 'success', text: 'บันทึกสำเร็จ', callback: () => {
+                        //                                         this.NOTIFY_PARTY_GET_DATA();
+                        //                                         this.NOTIFY_PARTY_GET_ID(newData.id);
+                        //                                         this.dispatchAction('BTN_SET_STATE',true);
+                        //                                     }
+                        //                                 });
+                        //                             })
+                        //                     }
+                        //                     else {
+                        //                         this.fire('toast', {
+                        //                             status: 'connectError', text: 'ที่อยู่ผู้รับสินค้านี้มีอยู่แล้ว',
+                        //                             callback: function () {
+                        //                             }
+                        //                         })
+                        //                     }
+                        //                 })
+                        //         }
+                        //     })
                     }
                 }
             })

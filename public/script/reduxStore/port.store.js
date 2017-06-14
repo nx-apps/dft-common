@@ -52,17 +52,30 @@ export function portAction(store) {
                             country_id: data.country_id
                         }
                         this.fire('toast', { status: 'load', text: 'กำลังบันทึกข้อมูล...' })
-                        axios.post('./port/insert', newData)
+                        axios.get('./check/duplicate?table=port&field=id&value=' + data.port_id)
                             .then((response) => {
-                                // console.log("success");
-                                // console.log(response);
-                                if (response.data.result == true) {
-                                    this.fire('toast', {
-                                        status: 'success', text: 'บันทึกสำเร็จ', callback: () => {
-                                            this.PORT_GET_DATA();
-                                            this.CLEAR_DATA();
-                                        }
-                                    });
+                                if (response.data == 0) {
+                                    this.fire('toast', { status: 'load', text: 'กำลังบันทึกข้อมูล...' })
+                                    axios.post('./port/insert', newData)
+                                        .then((response) => {
+                                            // console.log("success");
+                                            // console.log(response);
+                                            if (response.data.result == true) {
+                                                this.fire('toast', {
+                                                    status: 'success', text: 'บันทึกสำเร็จ', callback: () => {
+                                                        this.PORT_GET_DATA();
+                                                        this.CLEAR_DATA();
+                                                    }
+                                                });
+                                            }
+                                            else {
+                                                this.fire('toast', {
+                                                    status: 'connectError', text: 'ท่าเรือนี้มีอยู่แล้ว',
+                                                    callback: function () {
+                                                    }
+                                                })
+                                            }
+                                        })
                                 }
                                 else {
                                     this.fire('toast', {
@@ -72,6 +85,27 @@ export function portAction(store) {
                                     })
                                 }
                             })
+
+                        // axios.post('./port/insert', newData)
+                        //     .then((response) => {
+                        //         // console.log("success");
+                        //         // console.log(response);
+                        //         if (response.data.result == true) {
+                        //             this.fire('toast', {
+                        //                 status: 'success', text: 'บันทึกสำเร็จ', callback: () => {
+                        //                     this.PORT_GET_DATA();
+                        //                     this.CLEAR_DATA();
+                        //                 }
+                        //             });
+                        //         }
+                        //         else {
+                        //             this.fire('toast', {
+                        //                 status: 'connectError', text: 'ท่าเรือนี้มีอยู่แล้ว',
+                        //                 callback: function () {
+                        //                 }
+                        //             })
+                        //         }
+                        //     })
                     }
                 }
             })
@@ -96,7 +130,7 @@ export function portAction(store) {
                                         status: 'success', text: 'บันทึกสำเร็จ', callback: () => {
                                             this.PORT_GET_DATA();
                                             this.PORT_GET_ID(newData.id);
-                                            this.dispatchAction('BTN_SET_STATE',true);
+                                            this.dispatchAction('BTN_SET_STATE', true);
                                         }
                                     });
                                 }
