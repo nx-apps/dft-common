@@ -32,7 +32,7 @@ export function portAction(store) {
         PORT_GET_ID: function (id) {
             axios.get('./port/id/' + id)
                 .then(function (response) {
-                    console.log(response.data);
+                    // console.log(response.data);
                     store.dispatch({ type: 'PORT_GET_ID', payload: response.data })
                 })
                 .catch(function (error) {
