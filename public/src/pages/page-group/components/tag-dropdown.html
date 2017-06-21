@@ -1,0 +1,150 @@
+<link rel="import" href="../../../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../../../bower_components/gl-form/gl-combo-box.html">
+<link rel="import" href="../../../../bower_components/nylon-tag/nylon-tag.html">
+<dom-module id="tag-dropdown">
+    <template>
+        <style>
+            tag-module {
+                cursor: pointer;
+            }
+
+            .label {
+                font-size: var(--tag-module-form-label-font-size);
+                color: #737373;
+                font-weight: bold;
+                margin-bottom: 5px;
+            }
+
+            .item {
+                float: left;
+                margin: 5px;
+            }
+
+            .comBobox {
+                clear: both;
+            }
+        </style>
+        <div class="label">
+            [[label]]
+        </div>
+        <template is="dom-repeat" items="{{value.name}}">
+            <div class="item">
+                <nylon-tag on-tap="deleteTag" item="[[item]]" label="[[mergeDel(item.id)]]" color="[[setColor(item.color)]]"></nylon-tag>
+            </div>
+        </template>
+        <div class="comBobox">
+            <gl-combo-box id="comBox" disabled="[[disabled]]" no-label-float item-label-path="id" item-value-path="id" items="[[items]]" on-value-changed="selectTag">
+                <template>
+                    [[item.id]]
+                </template>
+            </gl-combo-box>
+        </div>
+    </template>
+    <script>
+        Polymer({
+            is: 'tag-dropdown',
+            properties: {
+                value: {
+                    value: [],
+                    notify: true
+                },
+                label: {
+                    type: String,
+                    value: 'label'
+                },
+                // items: {
+                //     observer: 'obItems'
+                // }
+            },
+            // observers: ['obValue(value.*)'],
+            // obValue: function (n) {
+            //     if (typeof n == "undefined") {
+            //         this.value = [];
+            //     } else {
+            //         //console.log(this.myItems);
+            //         if (this.myItems) {
+            //             this.myItems = this.items.filter((row) => {
+            //                 var b = true;
+            //                 if (n.base) {
+            //                     n.base.map((row2) => {
+            //                         if (row.id == row2.id)
+            //                             b = false;
+            //                     })
+            //                 }
+            //                 return b
+            //             })
+            //         }
+            //     }
+            // },
+            // obItems: function (ob) {
+            //     this.myItems = [].concat(ob);
+            // },
+            mergeDel: function (val) {
+                return val + ' x'
+            },
+            selectTag: function (e) {
+                try {
+                    let data = e.detail.value
+                    let val = this.value.name
+                    let cheDup = val.length - 1
+                    if (data !== undefined && data !== '') {
+                        let ex = { id: data }
+                        // console.log(val);
+                        // console.log(cheDup);
+                        // console.log(data);
+                        if (val.length === 0) {
+                            this.push('value.name',ex);
+                        }else {
+                            if (val[cheDup].id === data) {
+                                // console.log(1);
+                            }else {
+                                this.push('value.name',ex);
+                                // console.log(2);
+                            }
+                        }
+                        // console.log(val[cheDup][id]);
+                        // if (data !== val[cheDup] ) {
+                            // this.push('value.name',ex);
+                        // }
+                        // val.map((item)=>{
+                        //     console.log(item.id !== data);
+                        //     if (item.id !== data) {
+                        //         this.push('value.name',ex);
+                        //     }
+                        //     // console.log(item.id);
+                        // })
+                        // console.log(this.value.name);
+                        this.$$('#comBox').value = ''
+                    }
+                } catch (e) {
+
+                }
+
+                // if (e.detail.value) {
+                //     var index = -1;
+                //     this.myItems.map(function (row, i) {
+                //         if (row.id == e.detail.value)
+                //             index = i;
+                //     })
+                //     console.log(this.value);
+                //     console.log(this.myItems[index]);
+                //     this.push('value.name', this.myItems[index]);
+                //     console.log(e.detail.value);
+                //     e.currentTarget.value = "";
+                // }
+            },
+            setColor: function (value) {
+                if (typeof value == 'undefined') {
+                    return '#7B7D7D';
+                }
+                else {
+                    return value;
+                }
+            },
+            deleteTag: function (e) {
+                var index = this.value.name.indexOf(e.currentTarget.item);
+                this.splice('value.name', index, 1);
+            }
+        });
+    </script>
+</dom-module>

@@ -3,7 +3,7 @@ import { commonAction } from '../config'
 const initialState = {
     list: [],
     listtable:[],
-    data: {}
+    data: {name:[]}
 }
 export function groupReducer(state = initialState, action) {
     switch (action.type) {
@@ -14,7 +14,7 @@ export function groupReducer(state = initialState, action) {
         case 'GROUP_GET_LIST_TABLE':
             return Object.assign({}, state, { listtable: action.payload });
         case 'GROUP_CLEAR_SELECT':
-            return Object.assign({}, state, { data: {} });
+            return Object.assign({}, state, { data: {name:[]} });
         default:
             return state
     }

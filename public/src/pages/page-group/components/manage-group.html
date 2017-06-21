@@ -1,6 +1,9 @@
 <link rel="import" href="./../../../../bower_components/gl-grid/gl-grid-row.html">
 <link rel="import" href="./../../../../bower_components/gl-grid/gl-grid-col.html">
 <link rel="import" href="./../../components/validateFormBehaviors.html">
+
+<link rel="import" href="./tag-dropdown.html">
+
 <dom-module id="manage-group">
     <template>
         <style include="iron-flex iron-flex-factors iron-flex-alignment gl-table page-style">
@@ -65,8 +68,8 @@
         <gl-grid-row>
             {{getKey(data.table)}}
             <gl-grid-col width="[[getWidth]]" grid="[[300,12],[500,3]]"></gl-grid-col>
-            <gl-grid-col width="[[getWidth]]" grid="[[300,12],[500,6]]">{{data.field_id}}
-                <gl-combo-box id="sub-item" label="ฟิลด์รหัส" placeholder="ฟิลด์รหัส" item-label-path="id" item-value-path="id" items="{{field}}"
+            <gl-grid-col width="[[getWidth]]" grid="[[300,12],[500,6]]">
+                <gl-combo-box id="sub-item" label="ฟิลด์รหัส" placeholder="ฟิลด์รหัส" disabled="[[btnState]]" item-label-path="id" item-value-path="id" items="{{field}}"
                     value="{{data.field_id}}">
                     <template>
                         [[item.id]]
@@ -80,7 +83,8 @@
         <gl-grid-row>
             <gl-grid-col width="[[getWidth]]" grid="[[300,12],[500,3]]"></gl-grid-col>
             <gl-grid-col width="[[getWidth]]" grid="[[300,12],[500,6]]">
-                <nylon-tag-dropdown id="tests" label="ชื่อที่ต้องการแสดง" items="{{field}}"></nylon-tag-dropdown>
+                <tag-dropdown id="tagValue" label="ชื่อที่ต้องการแสดง" items="{{field}}" value="{{data}}" disabled="[[btnState]]"></tag-dropdown>
+                <!--<nylon-tag-dropdown id="tagValue" label="ชื่อที่ต้องการแสดง" items="{{field}}"></nylon-tag-dropdown>-->
             </gl-grid-col>
             <gl-grid-col width="[[getWidth]]" grid="[[300,12],[500,3]]"></gl-grid-col>
 
@@ -145,11 +149,11 @@
             },
             _save: function () {
                 // console.log(this.data);
-                // console.log(this.$$('#tests').value);
-                // let name = this.$$('#tests').value.map((name)=> name.id)
+                // console.log(this.$$('#tagValue').value);
+                // let name = this.$$('#tagValue').value.map((name)=> name.id)
                 // console.log(name);
-                this.data.name = this.$$('#tests').value
-                // console.log(this.data);
+                // this.data.name = this.$$('#tagValue').value
+                console.log(this.data);
                 if (this.validateForm('.required')) {
                     if (this.statusAction == 'edit') {
                         // console.log(this.data);
@@ -169,16 +173,18 @@
             },
             getKey: function (table) {
                 // console.log(table);
-                this.async(() => {
+                // this.async(() => {
                     if (table !== '' && table !== undefined) {
                         let data = this.keydata.find((id) => id.table === table)
                         // console.log(data);
                         // console.log(this.keydata);
                         this.set('field', data.sub)
-                        console.log(this.field);
-                        this.$$('#sub-item').value = ''
+                        // console.log(this.field);
+                        // this.$$('#sub-item').value = ''
+                    }else {
+                        // this.$$('#sub-item').value = ''
                     }
-                }, 2000);
+                // }, 500);
 
             },
             _cancel: function () {
@@ -189,8 +195,9 @@
                     this.dispatchAction('CLEAR_DATA');
                 }
             },
-            test() {
-                // console.log(1111);
+            test(e) {
+                if(e.detail.value === '' || e.detail.value === undefined)
+                    this.$$('#sub-item').value = ''
             }
         });
     </script>
