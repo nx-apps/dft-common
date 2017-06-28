@@ -186,7 +186,8 @@
             getItem(e){
                 // console.log(e.currentTarget.data);
                 let group_name_th = e.currentTarget.data.group_name_th
-                
+                let group_id = e.model.__data__.item.group_id
+                // console.log(e.model.__data__.item.group_id);
                 this.dispatchAction('COMMON_DATA_SELECTED', e.currentTarget.data);
                  this.fire('nylon-change-page',{path:`/group-item/กลุ่ม${group_name_th}/17`})
             },

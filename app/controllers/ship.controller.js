@@ -10,8 +10,8 @@ exports.list = function (req, res) {
             }
         })
         .without('id')
-        .eqJoin("shipline_id", r.db('common').table("shipline")).without({ right: ["id", "date_created", "date_updated", "creater", "updater"] }).zip()
-        .orderBy('shipline_name', 'ship_name')
+        // .eqJoin("shipline_id", r.db('common').table("shipline")).without({ right: ["id", "date_created", "date_updated", "creater", "updater"] }).zip()
+        .orderBy('ship_name')
         .run()
         .then(function (result) {
             res.setHeader('Access-Control-Allow-Origin', 'https://localhost:3001');

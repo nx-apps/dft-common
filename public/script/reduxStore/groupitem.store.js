@@ -20,7 +20,7 @@ export function groupItemAction(store) {
     return [commonAction(),
     {
         GROUP_ITEM_GET_DATA: function (data) {
-            axios.get('./groupItem?table=' + data)
+            axios.get('./groupItem?group_id=' + data)
                 .then(function (response) {
                     store.dispatch({ type: 'GROUP_ITEM_GET_DATA', payload: response.data })
                 })

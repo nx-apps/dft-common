@@ -87,7 +87,6 @@
                         </template>
                         <template>[[item.name]]</template>
                     </vaadin-grid-column>
-
                 </vaadin-grid>
                 <gl-grid-col width="[[getWidth]]" grid="[[300,12],[500,1]]"></gl-grid-col>
             </gl-grid-col>
@@ -235,6 +234,7 @@
                                 console.log('NOT FOUND');
                                 break;
                         }
+                        console.log(this.dataList);
                         return data
                     }
                 } catch (e) {
@@ -258,58 +258,63 @@
                                 // console.log(name.name[index2].id === 'id');
                             }
                             name_id = name.field_id
+                            
                             if (name_id === "id") {
-                                switch (name.table) {
-                                    case 'bank':
-                                        name_id = "bank_" + name.field_id
-                                        break;
-                                    case 'buyer':
-                                        name_id = "buyer_" + name.field_id
-                                        break;
-                                    case 'carrier':
-                                        name_id = "carrier_" + name.field_id
-                                        break;
-                                    case 'continent':
-                                        name_id = "continent_" + name.field_id
-                                        break;
-                                    case 'country':
-                                        name_id = "country_" + name.field_id
-                                        break;
-                                    case 'hamonize':
-                                        name_id = "hamonize_" + name.field_id
-                                        break;
-                                    case 'incoterms':
-                                        name_id = "incoterms_" + name.field_id
-                                        break;
-                                    case 'notify_party':
-                                        name_id = "notify_party_" + name.field_id
-                                        break;
-                                    case 'package':
-                                        name_id = "package_" + name.field_id
-                                        break;
-                                    case 'port':
-                                        name_id = "port_" + name.field_id
-                                        break;
-                                    case 'ship':
-                                        name_id = "ship_" + name.field_id
-                                        break;
-                                    case 'shipline':
-                                        name_id = "shipline_" + name.field_id
-                                        break;
-                                    case 'surveyor':
-                                        name_id = "surveyor_" + name.field_id
-                                        break;
-                                    default:
-                                        console.log('NOT FOUND');
-                                        break;
-                                }
+                                name_id =  name.table+'_'+name.field_id
+                                // switch (name.table) {
+                                //     case 'bank':
+                                //         name_id = "bank_" + name.field_id
+                                //         break;
+                                //     case 'buyer':
+                                //         name_id = "buyer_" + name.field_id
+                                //         break;
+                                //     case 'carrier':
+                                //         name_id = "carrier_" + name.field_id
+                                //         break;
+                                //     case 'continent':
+                                //         name_id = "continent_" + name.field_id
+                                //         break;
+                                //     case 'country':
+                                //         name_id = "country_" + name.field_id
+                                //         break;
+                                //     case 'hamonize':
+                                //         name_id = "hamonize_" + name.field_id
+                                //         break;
+                                //     case 'incoterms':
+                                //         name_id = "incoterms_" + name.field_id
+                                //         break;
+                                //     case 'notify_party':
+                                //         name_id = "notify_party_" + name.field_id
+                                //         break;
+                                //     case 'package':
+                                //         name_id = "package_" + name.field_id
+                                //         break;
+                                //     case 'port':
+                                //         name_id = "port_" + name.field_id
+                                //         break;
+                                //     case 'ship':
+                                //         name_id = "ship_" + name.field_id
+                                //         break;
+                                //     case 'shipline':
+                                //         name_id = "shipline_" + name.field_id
+                                //         break;
+                                //     case 'surveyor':
+                                //         name_id = "surveyor_" + name.field_id
+                                //         break;
+                                //     default:
+                                //         console.log('NOT FOUND');
+                                //         break;
+                                // }
                             }
 
                             obj.sub_code = data[index][name_id]
+                            obj.sub_id = data[index][name.table+'_id']
+                            // console.log(data[index][name.table+'_id']);
+                            // console.log(name.table+'_id');
                             if (dataOld.sub !== undefined) {
                                 for (var index3 = 0; index3 < dataOld.sub.length; index3++) {
-                                    // console.log(data[index][name.field_id],dataOld.sub[index3].sub_code);
-                                    if (data[index][name_id] === dataOld.sub[index3].sub_code) {
+                                    // console.log(data[index][name.table+'_id'],dataOld.sub[index3].sub_id);
+                                    if (obj.sub_id === dataOld.sub[index3].sub_id) {
                                         obj.check = true
                                         break;
                                     } else {
@@ -320,9 +325,9 @@
                                 obj.check = false
                             }
                             arr.push(obj)
-                            obj = { name: '', sub_code: '' }
+                            obj = { name: '', sub_code: '',sub_id:'' }
                         }
-                        console.log(arr);
+                        // console.log(arr);
                         this.set('dataUse', arr)
                     }
                 } catch (e) {
@@ -338,13 +343,15 @@
                 // console.log(this.data);
                 let codeListTrue = this.dataUse.filter((check) => check.check === true)
                 let newList = codeListTrue.map((item) => {
+                    // console.log(item);
                     return {
-                        sub_code: item.sub_code
+                        sub_id: item.sub_id
                     }
                 })
                 this.data.sub = newList
                 this.data.table = this.name.table
                 this.data.group_id = this.name.group_id
+                // console.log(this.data);
                 if (this.validateForm('.required')) {
                     if (this.statusAction == 'edit') {
                         // console.log(this.data);

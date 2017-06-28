@@ -1,8 +1,9 @@
 exports.list = function (req, res) {
     var r = req.r;
     var orderby = req.query.orderby;
-    r.db('common').table("groupitem")
-        .filter({ table: req.query.table, code: req.query.code })
+    console.log();
+    r.db('common').table("groupitem").getAll(req.query.group_id,{index:"group_id"})
+        // .filter({ table: req.query.table, code: req.query.code })
         .eqJoin('group_id', r.db('common').table('group'))
         .pluck('left', { right: ['field_id'] })
         .zip()
@@ -12,7 +13,7 @@ exports.list = function (req, res) {
                 date_created: row('date_created').toISO8601().split('T')(0),
                 date_updated: row('date_updated').toISO8601().split('T')(0),
                 sub: row('sub').merge((item) => {
-                    return r.db('common').table(row('table')).getAll(item('sub_code'), { index: row('field_id') }).coerceTo('Array')(0)
+                    return r.db('common').table(row('table')).get(item('sub_id'))
 
                 })
             }

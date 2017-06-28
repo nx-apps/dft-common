@@ -68,6 +68,12 @@
                 font-size: var(--font-size-h5);
                 margin: 10px 10px 10px 10px;
             }
+
+            .header-title {
+                font-size: 20px;
+                margin-top: 15px;
+                margin-left: 25px;
+            }
         </style>
         <paper-material elevation="1" class="elevation">
             <!--<paper-button style="margin:10px" raised on-tap="_back">
@@ -75,7 +81,8 @@
             <div class="text-head"><div class="img-center">
           <iron-image src="../../../images/04/72.png"></iron-image>
         </div>กลุ่ม</div>-->
-            {{dataSeleted.group_name_th}}
+            <div class="header-title">
+                กลุ่ม {{dataSeleted.group_name_th}}</div>
             <div class="horizontal justified layout">
                 <div class="horizontal layout" style="margin-top:25px;">
                     <div class="labelSearch">ค้นหา</div>
@@ -172,8 +179,8 @@
             },
             getData(data) {
                 // console.log(111111111111);
-                // console.log(data.table);
-                this.dispatchAction('GROUP_ITEM_GET_DATA', data.table);
+                console.log(data);
+                this.dispatchAction('GROUP_ITEM_GET_DATA', data.group_id);
                 switch (data.table) {
                     case 'bank':
                         this.dispatchAction('BANK_GET_DATA');
@@ -216,7 +223,7 @@
                         break;
                     default:
                         console.log('NOT FOUND');
-                         this.fire('nylon-change-page',{path:`/group/กลุ่ม/17`})
+                        this.fire('nylon-change-page', { path: `/group/กลุ่ม/17` })
                         break;
                 }
             },
