@@ -37,15 +37,15 @@
             <icon-button-management btn-state="[[!btnState]]"></icon-button-management>
         </template>
 
-        <gl-grid-row width="{{getWidth}}">
+        <!--<gl-grid-row width="{{getWidth}}">
             <gl-grid-col width="[[getWidth]]" grid="[[300,12],[500,4]]"></gl-grid-col>
             <gl-grid-col width="[[getWidth]]" grid="[[300,12],[500,4]]">
                 <gl-combo-box class="margin-top  required" required  error-message="กรุณาเลือกสายเรือ" disabled="[[btnState]]" required style="margin-top:15px" items="{{shiplines}}"
                     label="Shipline Name (สายเรือ)" item-label-path="shipline_name" item-value-path="shipline_id" value="{{data.shipline_id}}"></gl-combo-box>
             </gl-grid-col>
-        </gl-grid-row>
+        </gl-grid-row>-->
 
-        <gl-grid-row>
+        <gl-grid-row width="{{getWidth}}">
             <gl-grid-col width="[[getWidth]]" grid="[[300,12],[500,4]]"></gl-grid-col>
             <gl-grid-col width="[[getWidth]]" grid="[[300,12],[500,4]]">
                 <gl-form-input class="margin-top  required" required  error-message="กรุณากรอกชื่อเรือ" disabled="[[btnState]]" required label="Ship Name (ชื่อเรือ) :" placeholder="กรอกชื่อเรือ"

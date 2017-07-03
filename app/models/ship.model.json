@@ -6,13 +6,9 @@
         },
         "ship_name": {
             "type": "string"
-        },
-        "shipline_id": {
-            "type": "string"
         }
     },
     "required": [
-        "ship_name",
-        "shipline_id"
+        "ship_name"
     ]
 }

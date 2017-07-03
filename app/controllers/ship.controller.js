@@ -32,8 +32,8 @@ exports.getById = function (req, res) {
                 date_created: row('date_created').toISO8601().split('T')(0),
                 date_updated: row('date_updated').toISO8601().split('T')(0)
             }
-        },
-        r.db('common').table("shipline").get(r.row("shipline_id"))
+        }
+        //r.db('common').table("shipline").get(r.row("shipline_id"))
         )
         .without('id')
         .run()
