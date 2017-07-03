@@ -25,10 +25,12 @@ exports.getById = function (req, res) {
     var r = req.r;
     r.db('common').table("bank")
         .get(req.params.bank_id)
-        .merge({
-            bank_id: row('id'),
-            date_created: row('date_created').toISO8601().split('T')(0),
-            date_updated: row('date_updated').toISO8601().split('T')(0)
+        .merge(function (row) {
+            return {
+                bank_id: row('id'),
+                date_created: row('date_created').toISO8601().split('T')(0),
+                date_updated: row('date_updated').toISO8601().split('T')(0)
+            }
         })
         .without('id')
         .run()

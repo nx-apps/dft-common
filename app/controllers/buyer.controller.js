@@ -26,14 +26,19 @@ exports.getById = function (req, res) {
     var r = req.r;
     r.db('common').table("buyer")
         .get(req.params.id)
-        .merge(
-        {
-            buyer_id: r.row('id'),
-            date_created: r.row('date_created').toISO8601().split('T')(0),
-            date_updated: r.row('date_updated').toISO8601().split('T')(0)
-        },
-        r.db('common').table("country").get(r.row("country_id")).without('id', 'date_created', 'date_updated', 'creater', 'updater')
-        )
+        .merge(function (row) {
+            return {
+                // buyer_id: row('id'),
+                date_created: row('date_created').toISO8601().split('T')(0),
+                date_updated: row('date_updated').toISO8601().split('T')(0)
+            },
+            r.db('common').table("country").get(row("country_id")).without('id', 'date_created', 'date_updated', 'creater', 'updater')
+        })
+        .merge(function (row) {
+            return {
+                buyer_id: row('id')
+            }
+        })
         .without('id')
         .run()
         .then(function (result) {
