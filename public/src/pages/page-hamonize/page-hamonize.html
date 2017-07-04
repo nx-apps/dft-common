@@ -108,7 +108,8 @@
           </tr>
         </thead>
         <!-- <template is="dom-repeat" items="{{dataRice}}"> -->
-        {{searchData(searchInput,data,'hamonize_code','type_rice_name_sub_en','type_rice_name_th','type_rice_name_en')}}
+        <!--{{searchData(searchInput,data,'hamonize_code','hamonize_year','hamonize_th','hamonize_th2','hamonize_en','hamonize_en2')}}-->
+        {{searchData(searchInput,data,'hamonize_code','hamonize_year')}}
         <template is="dom-repeat" items="[[searchResult]]">
           <tbody>
             <tr>
