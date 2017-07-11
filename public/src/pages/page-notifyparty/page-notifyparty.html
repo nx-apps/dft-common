@@ -46,9 +46,9 @@
 
       <div class="horizontal justified layout">
         <div class="horizontal layout" style="margin-top:25px;">
-          <div class="labelSearch">ค้นหา</div><!--{{searchInArray(searchInput)}}-->
+          <!--<div class="labelSearch">ค้นหา</div><!--{{searchInArray(searchInput)}}-->
           <paper-input label=" " no-label-float value="{{searchInput}}"></paper-input>
-          <iron-icon icon="search" style="margin-top:10px;"></iron-icon>
+          <iron-icon icon="search" style="margin-top:10px;"></iron-icon>-->
         </div>
         <div>
           <paper-button class="gl-btn-primary button-top" title="เพิ่มหน่วยงานตรวจสอบสินค้า" raised on-tap="_toggleDrawer">
@@ -56,7 +56,7 @@
         </div>
       </div>
 
-      <table class="gl-table-default">
+      <!--<table class="gl-table-default">
         <thead class="table-head">
           <tr>
             <th>
@@ -80,13 +80,11 @@
                 <p>(วันที่อัพเดทล่าสุด)</div>
             </th>
             <th style="text-align:right;">
-              <!-- <paper-button class="gl-btn-primary button-top" title="เพิ่มพิกัดข้าว" raised on-tap="_toggleDrawer"><iron-icon icon="add"></iron-icon>เพิ่มพิกัดข้าว</paper-button> -->
             </th>
           </tr>
         </thead>
 
-        <!-- <template is="dom-repeat" items="{{dataSurveyor}}"> -->
-          {{searchData(searchInput,data,'port_name','buyer_name','notify_name')}}
+        {{searchData(searchInput,data,'port_name','buyer_name','notify_name')}}
         <template is="dom-repeat" items="[[searchResult]]">
           <tbody>
             <tr>
@@ -113,7 +111,6 @@
 
           </tbody>
         </template>
-        <!-- </template> -->
         <template is="dom-if" if="{{_isHave(searchResult)}}">
           <tr>
             <td colspan="6">
@@ -121,7 +118,7 @@
             </td>
           </tr>
         </template>
-      </table>
+      </table>-->
     </paper-material>
 
     <nylon-panel-right title="{{title}}">

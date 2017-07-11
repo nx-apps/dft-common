@@ -2,6 +2,9 @@
 <link rel="import" href="./../../../bower_components/gl-form/gl-form-panel.html">
 <link rel="import" href="./../../../bower_components/gl-styles/gl-table.html">
 <link rel="import" href="./../../../bower_components/paper-input/paper-input.html">
+<link rel="import" href="./../../../bower_components/vaadin-grid/vaadin-grid.html">
+<link rel="import" href="./../../../bower_components/vaadin-grid/vaadin-grid-sorter.html">
+<link rel="import" href="./../components/vaadin-gird-filter-common.html">
 <link rel="import" href="../../nylon-behavior.html">
 <link rel="import" href="components/manage-surveyor.html">
 <link rel="import" href="./../../../bower_components/paper-tooltip/paper-tooltip.html">
@@ -11,7 +14,7 @@
 <dom-module id="page-surveyor">
   <style is="custom-style" include="iron-flex iron-flex-factors iron-flex-alignment gl-table page-style">
      
-    .table-head > tr > th:nth-child(1) {
+    /*.table-head > tr > th:nth-child(1) {
       width: 5%;
     }
     .table-head > tr > th:nth-child(2) {
@@ -19,7 +22,7 @@
     }
     .table-head > tr > th:nth-child(3) {
       width: 20%;
-    }
+    }*/
   </style>
   <template>
 
@@ -33,28 +36,25 @@
 
           <div class="horizontal justified layout">
             <div class="horizontal layout" style="margin-top:25px;">
-              <div class="labelSearch">ค้นหา</div>
+              <!--<div class="labelSearch">ค้นหา</div>
               <paper-input label=" " no-label-float value="{{searchInput}}"></paper-input>
-              <iron-icon icon="search" style="margin-top:10px;"></iron-icon>
+              <iron-icon icon="search" style="margin-top:10px;"></iron-icon>-->
             </div>
             <div>
               <paper-button class="gl-btn-primary button-top" title="เพิ่มหน่วยงานตรวจสอบสินค้า" raised on-tap="_toggleDrawer"><iron-icon icon="add"></iron-icon>เพิ่มหน่วยงาน</paper-button>
             </div>
           </div>
 
-          <table class="gl-table-default">
+          <!--<table class="gl-table-default">
             <thead class="table-head">
               <tr>
                 <th><div class="text-center">No<p>(ลำดับ)</div></th>
                 <th><div class="text-center">Surveyor Name<p>(ชื่อหน่วยงานตรวจสอบสินค้า)</div></th>
                 <th><div class="text-center">Date Update<p>(วันที่อัพเดทล่าสุด)</div></th>
                 <th style="text-align:right;">
-                  <!-- <paper-button class="gl-btn-primary button-top" title="เพิ่มพิกัดข้าว" raised on-tap="_toggleDrawer"><iron-icon icon="add"></iron-icon>เพิ่มพิกัดข้าว</paper-button> -->
                 </th>
               </tr>
             </thead>
-
-            <!-- <template is="dom-repeat" items="{{dataSurveyor}}"> -->
                       {{searchData(searchInput,data,'surveyor_name')}}
 
             <template is="dom-repeat" items="[[searchResult]]">
@@ -78,9 +78,58 @@
             </td>
           </tr>
         </template>
-            <!-- </template> -->
+          </table>-->
+          <vaadin-grid id="material" aria-label="Basic Binding Example" items="[[data]]" multi-sort="true">
 
-          </table>
+        <vaadin-grid-column width="100px" flex-grow="0" flex-grow="0" resizable>
+          <template class="header">
+            <div class="text-center">No
+              <p>(ลำดับ)</div>
+          </template>
+          <template>
+            <div class="text-center">{{_count(index)}}</div>
+          </template>
+        </vaadin-grid-column>
+
+        <vaadin-grid-column  resizable>
+          <template class="header">
+            <vaadin-grid-sorter path="surveyor_name">
+              <div class="text-center">Surveyor Name<p>(ชื่อหน่วยงานตรวจสอบสินค้า)</div>
+            </vaadin-grid-sorter>
+            <vaadin-gird-filter-common aria-label="Surveyor Name" path="surveyor_name" value="[[_surveyor_name]]">
+            </vaadin-gird-filter-common>
+          </template>
+          <template>
+            <div class="text-center"> [[item.surveyor_name]]</div>
+          </template>
+        </vaadin-grid-column>
+
+        <vaadin-grid-column width="200px" flex-grow="0" resizable>
+          <template class="header">
+            <vaadin-grid-sorter path="date_updated">
+            <div class="text-center">Date Update
+              <p>(วันที่อัพเดทล่าสุด)</div>
+              </vaadin-grid-sorter>
+          </template>
+          <template>
+            <p style="white-space: normal">{{item.date_updated}}</p>
+          </template>
+        </vaadin-grid-column>
+
+        <vaadin-grid-column width="150px" flex-grow="0" resizable>
+          <template class="header">
+            <div class="text-center">Tool
+              <p>(เครื่องมือ)</div>
+          </template>
+          <template>
+            <div class="text-center">
+              <span><paper-icon-button data="{{item}}" on-tap="_edit" icon="icons:create"></paper-icon-button>
+            <paper-icon-button data="{{item}}" icon="delete" on-tap="_delete"></paper-icon-button></span>
+            </div>
+          </template>
+        </vaadin-grid-column>
+
+      </vaadin-grid>
     </paper-material>
 
     <nylon-panel-right title="{{title}}">

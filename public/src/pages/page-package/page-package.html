@@ -2,6 +2,9 @@
 <link rel="import" href="./../../../bower_components/gl-form/gl-form-panel.html">
 <link rel="import" href="./../../../bower_components/gl-styles/gl-table.html">
 <link rel="import" href="./../../../bower_components/paper-input/paper-input.html">
+<link rel="import" href="./../../../bower_components/vaadin-grid/vaadin-grid.html">
+<link rel="import" href="./../../../bower_components/vaadin-grid/vaadin-grid-sorter.html">
+<link rel="import" href="./../components/vaadin-gird-filter-common.html">
 <link rel="import" href="../../nylon-behavior.html">
 <link rel="import" href="components/manage-package.html">
 <link rel="import" href="./../../../bower_components/paper-tooltip/paper-tooltip.html">
@@ -12,36 +15,35 @@
 
 <dom-module id="page-package">
   <style is="custom-style" include="iron-flex iron-flex-factors iron-flex-alignment gl-table page-style">
-    .table-head>tr>th:nth-child(1) {
+    /*.table-head>tr>th:nth-child(1) {
       width: 5%;
-    }
+    }*/
     /*.table-head>tr>th:nth-child(2) {
       width: 10%;
     }*/
-    
-    .table-head>tr>th:nth-child(2) {
+    /*.table-head>tr>th:nth-child(2) {
       width: 15%;
     }
-    
+
     .table-head>tr>th:nth-child(3) {
       width: 30%;
     }
-    
+
     .table-head>tr>th:nth-child(4) {
       width: 15%;
     }
-    
+
     .table-head>tr>th:nth-child(5) {
       width: 15%;
     }
-    
+
     .table-head>tr>th:nth-child(6) {
       width: 10%;
     }
-    
+
     .table-head>tr>th:nth-child(7) {
       width: 10%;
-    }
+    }*/
   </style>
   <template>
 
@@ -56,9 +58,9 @@
 
       <div class="horizontal justified layout">
         <div class="horizontal layout" style="margin-top:25px;">
-          <div class="labelSearch">ค้นหา</div>
+          <!--<div class="labelSearch">ค้นหา</div>
           <paper-input label=" " no-label-float value="{{searchInput}}"></paper-input>
-          <iron-icon icon="search" style="margin-top:10px;"></iron-icon>
+          <iron-icon icon="search" style="margin-top:10px;"></iron-icon>-->
         </div>
         <div>
           <paper-button class="gl-btn-primary button-top" title="เพิ่มแพ็คเกจ" raised on-tap="_toggleDrawer">
@@ -66,15 +68,10 @@
         </div>
       </div>
 
-      <table class="gl-table-default">
+      <!--<table class="gl-table-default">
         <thead class="table-head">
           <tr>
-            <!-- <th><div class="text-center">No<p>(ลำดับ)</div></th> -->
             <th><div class="text-center">No<p>(ลำดับ)</div></th>
-            <!--<th>
-              <div class="text-center">Package Code
-                <p>(รหัสแพ็คเกจ)</div>
-            </th>-->
             <th>
               <div class="text-center">Package Weight (kg)
                 <p>(น้ำหนักแพ็คเกจ กก.)</div>
@@ -96,23 +93,17 @@
                 <p>(วันที่อัพเดทล่าสุด)</div>
             </th>
             <th style="text-align:right;">
-              <!-- <paper-button class="gl-btn-primary button-top" title="เพิ่มพิกัดข้าว" raised on-tap="_toggleDrawer"><iron-icon icon="add"></iron-icon>เพิ่มพิกัดข้าว</paper-button> -->
             </th>
           </tr>
         </thead>
 
-        <!-- <template is="dom-repeat" items="{{dataPackage}}"> -->
           {{searchData(searchInput,data,'package_kg_per_bag','package_name_en','package_name_th','package_weight_bag')}}
         <template is="dom-repeat" items="[[searchResult]]">
           <tbody>
             <tr>
-              <!-- <td><div class="text-center">{{item.no}}</div></td> -->
               <td>
                 <div class="text-center">{{_count(index)}}</div>
               </td>
-              <!--<td>
-                <div class="text-center">{{item.package_id}}</div>
-              </td>-->
               <td>
                 <div class="text-center">{{item.package_kg_per_bag}}</div>
               </td>
@@ -136,7 +127,6 @@
 
           </tbody>
         </template>
-        <!-- </template> -->
         <template is="dom-if" if="{{_isHave(searchResult)}}">
           <tr>
             <td colspan="6">
@@ -144,7 +134,105 @@
             </td>
           </tr>
         </template>
-      </table>
+      </table>-->
+      <vaadin-grid id="material" aria-label="Basic Binding Example" items="[[data]]" multi-sort="true">
+
+        <vaadin-grid-column width="100px" flex-grow="0" flex-grow="0" resizable>
+          <template class="header">
+            <div class="text-center">No
+              <p>(ลำดับ)</div>
+          </template>
+          <template>
+            <div class="text-center">{{_count(index)}}</div>
+          </template>
+        </vaadin-grid-column>
+
+        <vaadin-grid-column width="150px" flex-grow="0" resizable>
+          <template class="header">
+            <vaadin-grid-sorter path="package_kg_per_bag">
+              <div class="text-center">Package Weight (kg)
+                <p>(น้ำหนักแพ็คเกจ กก.)</div>
+            </vaadin-grid-sorter>
+            <vaadin-gird-filter-common aria-label="Package Weight" path="package_kg_per_bag" value="[[_package_kg_per_bag]]">
+            </vaadin-gird-filter-common>
+          </template>
+          <template>
+            <div class="text-center"> [[item.package_kg_per_bag]]</div>
+          </template>
+        </vaadin-grid-column>
+
+        <vaadin-grid-column width="400px" flex-grow="0" resizable>
+          <template class="header">
+            <vaadin-grid-sorter path="package_name_en">
+              <div class="text-center">Package Name
+                <p>(ชื่อแพ็คเกจ ภาษาอังกฤษ)</div>
+            </vaadin-grid-sorter>
+            <vaadin-gird-filter-common aria-label="Package Name" path="package_name_en" value="[[_package_name_en]]">
+            </vaadin-gird-filter-common>
+          </template>
+          <template>
+            <div class="text-center"> [[item.package_name_en]]</div>
+          </template>
+        </vaadin-grid-column>
+
+        <vaadin-grid-column width="350px" flex-grow="0" resizable>
+          <template class="header">
+            <vaadin-grid-sorter path="package_name_th">
+              <div class="text-center">Package Name
+                <p>(ชื่อแพ็คเกจ ภาษาไทย)</div>
+            </vaadin-grid-sorter>
+            <vaadin-gird-filter-common aria-label="Package Name" path="package_name_th" value="[[_package_name_th]]">
+            </vaadin-gird-filter-common>
+          </template>
+          <template>
+            <p style="white-space: normal">[[item.package_name_th]]</p>
+          </template>
+        </vaadin-grid-column>
+
+        <vaadin-grid-column width="350px" flex-grow="0" resizable>
+          <template class="header">
+            <vaadin-grid-sorter path="package_weight_bag">
+              <div class="text-center">Package Weight_bag (g)
+                <p>(น้ำหนักกระสอบ กรัม.)</div>
+            </vaadin-grid-sorter>
+            <vaadin-gird-filter-common aria-label="Package Weight_bag" path="package_weight_bag" value="[[_package_weight_bag]]">
+            </vaadin-gird-filter-common>
+          </template>
+          <template>
+            <div class="text-center">
+              <p style="white-space: normal">[[item.package_weight_bag]]</p>
+            </div>
+          </template>
+        </vaadin-grid-column>
+
+        <vaadin-grid-column width="200px" flex-grow="0" resizable>
+          <template class="header">
+            <vaadin-grid-sorter path="date_updated">
+              <div class="text-center">Date Update
+                <p>(วันที่อัพเดทล่าสุด)</div>
+            </vaadin-grid-sorter>
+          </template>
+          <template>
+            <div class="text-center">
+              <p style="white-space: normal">{{item.date_updated}}</p>
+            </div>
+          </template>
+        </vaadin-grid-column>
+
+        <vaadin-grid-column width="150px" flex-grow="0" resizable>
+          <template class="header">
+            <div class="text-center">Tool
+              <p>(เครื่องมือ)</div>
+          </template>
+          <template>
+            <div class="text-center">
+              <span><paper-icon-button data="{{item}}" on-tap="_edit" icon="icons:create"></paper-icon-button>
+            <paper-icon-button data="{{item}}" icon="delete" on-tap="_delete"></paper-icon-button></span>
+            </div>
+          </template>
+        </vaadin-grid-column>
+
+      </vaadin-grid>
     </paper-material>
 
     <nylon-panel-right title="{{title}}">
@@ -164,7 +252,7 @@
         'edit-input': 'editInput',
         'delete-input': '_delete'
       },
-      editInput:function () {
+      editInput: function () {
         this.dispatchAction('BTN_SET_STATE', false);
       },
       nylonPageActive: function () {
