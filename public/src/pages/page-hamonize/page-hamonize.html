@@ -8,40 +8,59 @@
 <link rel="import" href="./../components/icon-button-management.html">
 <link rel="import" href="./../../layout/page-style.html">
 <link rel="import" href="./../components/search-behavior.html">
+
+<link rel="import" href="./../../../bower_components/vaadin-grid/vaadin-grid.html">
+<link rel="import" href="./../../../bower_components/vaadin-grid/vaadin-grid-sorter.html">
+<link rel="import" href="./../components/vaadin-gird-filter-common.html">
 <dom-module id="page-hamonize">
   <style is="custom-style" include="iron-flex iron-flex-factors iron-flex-alignment gl-table page-style">
+    /*.tableMaxHeight {
+      height: 400px;
+    }
+
     .table-head>tr>th:nth-child(1) {
-      width: 5%;
+      width: 50px;
     }
 
     .table-head>tr>th:nth-child(2) {
-      width: 10%;
+      width: 200px;
     }
 
     .table-head>tr>th:nth-child(3) {
-      width: 10%;
+      width: 150px;
     }
 
     .table-head>tr>th:nth-child(4) {
-      width: 15%;
+      width: 350px;
     }
 
     .table-head>tr>th:nth-child(5) {
-      width: 15%;
+      width: 350px;
     }
 
     .table-head>tr>th:nth-child(6) {
-      width: 15%;
+      width: 350px;
     }
 
     .table-head>tr>th:nth-child(7) {
-      width: 10%;
+      width: 350px;
     }
+
     .table-head>tr>th:nth-child(8) {
-      width: 10%;
+      width: 350px;
     }
+
     .table-head>tr>th:nth-child(9) {
-      width: 5%;
+      width: 100px;
+    }
+
+    th,
+    td {
+      min-width: 200px;
+    }*/
+
+    vaadin-grid {
+      height: 550px;
     }
   </style>
   <template>
@@ -57,104 +76,223 @@
 
       <div class="horizontal justified layout">
         <div class="horizontal layout" style="margin-top:25px;">
-          <div class="labelSearch">ค้นหา</div>
+          <!--<div class="labelSearch">ค้นหา</div>
           <paper-input label=" " no-label-float value="{{searchInput}}"></paper-input>
-          <iron-icon icon="search" style="margin-top:10px;"></iron-icon>
+          <iron-icon icon="search" style="margin-top:10px;"></iron-icon>-->
         </div>
         <div>
           <paper-button class="gl-btn-primary button-top" title="เพิ่มพิกัดข้าว" raised on-tap="_toggleDrawer">
             <iron-icon icon="add"></iron-icon>เพิ่มพิกัดข้าว</paper-button>
         </div>
       </div>
-
-      <table class="gl-table-default">
-        <thead class="table-head">
-          <tr>
-            <th>
-              <div class="text-center">No
-                <p>(ลำดับ)</div>
-            </th>
-            <th>
-              <div class="text-center">Hamonized Code
-                <p>(พิกัดข้าว)</div>
-            </th>
-            <th>
-              <div class="text-center">Rice Name
-                <p>(ปี)</div>
-            </th>
-            <th>
-              <div class="text-center">Rice Name
-                <p>(ชื่อข้าว ภาษาไทย)</div>
-            </th>
-            <th>
-              <div class="text-center">Rice Name
-                <p>(ชื่อข้าว ภาษาไทยย่อ)</div>
-            </th>
-            <th>
-              <div class="text-center">Rice Name
-                <p>(ชื่อข้าว ภาษาอังกฤษ)</div>
-            </th>
-            <th>
-              <div class="text-center">Rice Name
-                <p>(ชื่อย่อข้าว ภาษาอังกฤษย่อ)</div>
-            </th>
-            <th>
-              <div class="text-center">Date Update
-                <p>(วันที่อัพเดทล่าสุด)</div>
-            </th>
-            <th style="text-align:right;">
-              <!-- <paper-button class="gl-btn-primary button-top" title="เพิ่มพิกัดข้าว" raised on-tap="_toggleDrawer"><iron-icon icon="add"></iron-icon>เพิ่มพิกัดข้าว</paper-button> -->
-            </th>
-          </tr>
-        </thead>
-        <!-- <template is="dom-repeat" items="{{dataRice}}"> -->
-        <!--{{searchData(searchInput,data,'hamonize_code','hamonize_year','hamonize_th','hamonize_th2','hamonize_en','hamonize_en2')}}-->
-        {{searchData(searchInput,data,'hamonize_code','hamonize_year')}}
-        <template is="dom-repeat" items="[[searchResult]]">
-          <tbody>
+      <!--<div class="tableMaxHeight" style="overflow-x: scroll;">
+        <table class="gl-table-default">
+          <thead class="table-head">
             <tr>
-              <td>
-                <div class="text-center">{{_count(index)}}</div>
-              </td>
-              <td>
-                <div class="text-center">{{item.hamonize_code}}</div>
-              </td>
-              <td>
-                <div>{{item.hamonize_year}}</div>
-              </td>
-              <td>
-                <div>{{item.hamonize_th}}</div>
-              </td>
-              <td>
-                <div>{{item.hamonize_th2}}</div>
-              </td>
-              <td>
-                <div>{{item.hamonize_en}}</div>
-              </td>
-              <td>
-                <div>{{item.hamonize_en2}}</div>
-              </td>
+              <th>
+                <div class="text-center">No
+                  <p>(ลำดับ)</div>
+              </th>
+              <th>
+                <div class="text-center">Hamonized Code
+                  <p>(พิกัดข้าว)</div>
+              </th>
+              <th>
+                <div class="text-center">Rice Name
+                  <p>(ปี)</div>
+              </th>
+              <th>
+                <div class="text-center">Rice Name
+                  <p>(ชื่อข้าว ภาษาไทย)</div>
+              </th>
+              <th>
+                <div class="text-center">Rice Name
+                  <p>(ชื่อข้าว ภาษาไทยย่อ)</div>
+              </th>
+              <th>
+                <div class="text-center">Rice Name
+                  <p>(ชื่อข้าว ภาษาอังกฤษ)</div>
+              </th>
+              <th>
+                <div class="text-center">Rice Name
+                  <p>(ชื่อย่อข้าว ภาษาอังกฤษย่อ)</div>
+              </th>
+              <th>
+                <div class="text-center">Date Update
+                  <p>(วันที่อัพเดทล่าสุด)</div>
+              </th>
+              <th style="text-align:right;">
+               </th>
+            </tr>
+          </thead>
+         {{searchData(searchInput,data,'hamonize_code','hamonize_year')}}
+          <template is="dom-repeat" items="[[searchResult]]">
+            <tbody>
+              <tr>
+                <td>
+                  <div class="text-center">{{_count(index)}}</div>
+                </td>
+                <td>
+                  <div class="text-center">{{item.hamonize_code}}</div>
+                </td>
+                <td>
+                  <div>{{item.hamonize_year}}</div>
+                </td>
+                <td>
+                  <div>{{item.hamonize_th}}</div>
+                </td>
+                <td>
+                  <div>{{item.hamonize_th2}}</div>
+                </td>
+                <td>
+                  <div>{{item.hamonize_en}}</div>
+                </td>
+                <td>
+                  <div>{{item.hamonize_en2}}</div>
+                </td>
 
-              <td>
-                <div class="text-center">{{changeDateCC(item.date_updated)}}</div>
-              </td>
-              <td style="text-align:right;">
-                <paper-icon-button data="{{item}}" on-tap="_edit" icon="icons:create"></paper-icon-button>
-                <paper-icon-button data="{{item}}" icon="delete" on-tap="_delete"></paper-icon-button>
+                <td>
+                  <div class="text-center">{{changeDateCC(item.date_updated)}}</div>
+                </td>
+                <td style="text-align:right;">
+                  <paper-icon-button data="{{item}}" on-tap="_edit" icon="icons:create"></paper-icon-button>
+                  <paper-icon-button data="{{item}}" icon="delete" on-tap="_delete"></paper-icon-button>
+                </td>
+              </tr>
+
+            </tbody>
+          </template>
+          <template is="dom-if" if="{{_isHave(searchResult)}}">
+            <tr>
+              <td colspan="6">
+                <div class="text-center no-data">ไม่มีข้อมูล</div>
               </td>
             </tr>
+          </template>
+        </table>
+      </div>-->
+      <vaadin-grid id="material" aria-label="Basic Binding Example" items="[[data]]" multi-sort="true">
 
-          </tbody>
-        </template>
-        <!-- </template> -->
-        <template is="dom-if" if="{{_isHave(searchResult)}}">
-          <tr>
-            <td colspan="6">
-              <div class="text-center no-data">ไม่มีข้อมูล</div>
-            </td>
-          </tr>
-        </template>
-      </table>
+        <vaadin-grid-column width="100px" flex-grow="0" flex-grow="0" resizable>
+          <template class="header">
+            <div class="text-center">No
+              <p>(ลำดับ)</div>
+          </template>
+          <template>
+            <div class="text-center">{{_count(index)}}</div>
+          </template>
+        </vaadin-grid-column>
+
+        <vaadin-grid-column width="150px" flex-grow="0" resizable>
+          <template class="header">
+            <vaadin-grid-sorter path="hamonize_code">
+              <div class="text-center">Hamonized Code
+                <p>(พิกัดข้าว)</div>
+            </vaadin-grid-sorter>
+            <vaadin-gird-filter-common aria-label="Hamonized Code" path="hamonize_code" value="[[_hamonizeCode]]">
+            </vaadin-gird-filter-common>
+          </template>
+          <template>
+            <div class="text-center"> [[item.hamonize_code]]</div>
+          </template>
+        </vaadin-grid-column>
+
+        <vaadin-grid-column flex-grow="0" resizable>
+          <template class="header">
+            <vaadin-grid-sorter path="hamonize_year">
+            <div class="text-center">Year
+              <p>(ปี)</div>
+              </vaadin-grid-sorter>
+            <vaadin-gird-filter-common aria-label="Hamonized Code" path="hamonize_year" value="[[_hamonizeYear]]">
+            </vaadin-gird-filter-common>
+          </template>
+          <template>
+            <div class="text-center"> [[item.hamonize_year]]</div>
+          </template>
+        </vaadin-grid-column>
+
+        <vaadin-grid-column width="350px" flex-grow="0" resizable>
+          <template class="header">
+            <vaadin-grid-sorter path="hamonize_th">
+            <div class="text-center">Rice Name
+              <p>(ชื่อข้าว ภาษาไทย)</div>
+              </vaadin-grid-sorter>
+            <vaadin-gird-filter-common aria-label="Rice Name" path="hamonize_th" value="[[_hamonizeTh]]">
+            </vaadin-gird-filter-common>
+          </template>
+          <template>
+            <p style="white-space: normal">[[item.hamonize_th]]</p>
+          </template>
+        </vaadin-grid-column>
+
+        <vaadin-grid-column width="350px" flex-grow="0" resizable>
+          <template class="header">
+            <vaadin-grid-sorter path="hamonize_th2">
+            <div class="text-center">Rice Name 2
+              <p>(ชื่อข้าว ภาษาไทยที่ 2)</div>
+              </vaadin-grid-sorter>
+            <vaadin-gird-filter-common aria-label="Rice Name" path="hamonize_th2" value="[[_hamonizeTh2]]">
+            </vaadin-gird-filter-common>
+          </template>
+          <template>
+            <p style="white-space: normal">[[item.hamonize_th2]]</p>
+          </template>
+        </vaadin-grid-column>
+
+        <vaadin-grid-column width="350px" flex-grow="0" resizable>
+          <template class="header">
+            <vaadin-grid-sorter path="hamonize_en">
+            <div class="text-center">Rice Name
+              <p>(ชื่อข้าว ภาษาอังกฤษ)</div>
+              </vaadin-grid-sorter>
+            <vaadin-gird-filter-common aria-label="Rice Name" path="hamonize_en" value="[[_hamonizeEn]]">
+            </vaadin-gird-filter-common>
+          </template>
+          <template>
+            <p style="white-space: normal">[[item.hamonize_en]]</p>
+          </template>
+        </vaadin-grid-column>
+
+        <vaadin-grid-column width="350px" flex-grow="0" resizable>
+          <template class="header">
+            <vaadin-grid-sorter path="hamonize_en2">
+            <div class="text-center">Rice Name 2
+              <p>(ชื่อข้าว ภาษาอังกฤษที่ 2)</div>
+              </vaadin-grid-sorter>
+            <vaadin-gird-filter-common aria-label="Rice Name" path="hamonize_en2" value="[[_hamonizeEn2]]">
+            </vaadin-gird-filter-common>
+          </template>
+          <template>
+            <p style="white-space: normal">[[item.hamonize_en2]]</p>
+          </template>
+        </vaadin-grid-column>
+
+        <vaadin-grid-column width="200px" flex-grow="0" resizable>
+          <template class="header">
+            <vaadin-grid-sorter path="date_updated">
+            <div class="text-center">Date Update
+              <p>(วันที่อัพเดทล่าสุด)</div>
+              </vaadin-grid-sorter>
+          </template>
+          <template>
+            <p style="white-space: normal">{{item.date_updated}}</p>
+          </template>
+        </vaadin-grid-column>
+
+        <vaadin-grid-column width="150px" flex-grow="0" resizable>
+          <template class="header">
+            <div class="text-center">Tool
+              <p>(เครื่องมือ)</div>
+          </template>
+          <template>
+            <div class="text-center">
+              <span><paper-icon-button data="{{item}}" on-tap="_edit" icon="icons:create"></paper-icon-button>
+            <paper-icon-button data="{{item}}" icon="delete" on-tap="_delete"></paper-icon-button></span>
+            </div>
+          </template>
+        </vaadin-grid-column>
+
+      </vaadin-grid>
     </paper-material>
 
     <nylon-panel-right title="{{title}}">
@@ -164,7 +302,7 @@
   <script>
     Polymer({
       is: "page-hamonize",
-      behaviors: [nylonBehavior, ReduxBehavior, hamonizeAction, countryGroupAction, commonStateAction, SearchBehavior],
+      behaviors: [nylonBehavior, ReduxBehavior, hamonizeAction, countryGroupAction, commonStateAction ,SearchBehavior],
       properties: {
         data: {
           statePath: 'hamonize.list'
