@@ -2,6 +2,9 @@
 <link rel="import" href="./../../../bower_components/gl-form/gl-form-panel.html">
 <link rel="import" href="./../../../bower_components/gl-styles/gl-table.html">
 <link rel="import" href="./../../../bower_components/paper-input/paper-input.html">
+<link rel="import" href="./../../../bower_components/vaadin-grid/vaadin-grid.html">
+<link rel="import" href="./../../../bower_components/vaadin-grid/vaadin-grid-sorter.html">
+<link rel="import" href="./../components/vaadin-gird-filter-common.html">
 <link rel="import" href="../../nylon-behavior.html">
 <link rel="import" href="components/manage-notifyparty.html">
 <link rel="import" href="./../../../bower_components/paper-tooltip/paper-tooltip.html">
@@ -10,25 +13,26 @@
 <link rel="import" href="./../components/search-behavior.html">
 <dom-module id="page-notifyparty">
   <style is="custom-style" include="iron-flex iron-flex-factors iron-flex-alignment gl-table page-style">
-   
     .table-head>tr>th:nth-child(1) {
       width: 5%;
     }
-    
+
     .table-head>tr>th:nth-child(2) {
       width: 5%;
     }
-    
+
     .table-head>tr>th:nth-child(3) {
       width: 25%;
     }
-    
+
     .table-head>tr>th:nth-child(4) {
       width: 35%;
     }
+
     .table-head>tr>th:nth-child(5) {
       width: 10%;
     }
+
     .table-head>tr>th:nth-child(6) {
       width: 10%;
     }
@@ -46,7 +50,7 @@
 
       <div class="horizontal justified layout">
         <div class="horizontal layout" style="margin-top:25px;">
-          <!--<div class="labelSearch">ค้นหา</div><!--{{searchInArray(searchInput)}}-->
+          <!--<div class="labelSearch">ค้นหา</div>{{searchInArray(searchInput)}}
           <paper-input label=" " no-label-float value="{{searchInput}}"></paper-input>
           <iron-icon icon="search" style="margin-top:10px;"></iron-icon>-->
         </div>
@@ -119,6 +123,86 @@
           </tr>
         </template>
       </table>-->
+      <vaadin-grid id="material" aria-label="Basic Binding Example" items="[[data]]" multi-sort="true">
+
+        <vaadin-grid-column width="100px" flex-grow="0" flex-grow="0" resizable>
+          <template class="header">
+            <div class="text-center">No
+              <p>(ลำดับ)</div>
+          </template>
+          <template>
+            <div class="text-center">{{_count(index)}}</div>
+          </template>
+        </vaadin-grid-column>
+
+        <vaadin-grid-column width="150px" flex-grow="0" resizable>
+          <template class="header">
+            <vaadin-grid-sorter path="port_name">
+              <div class="text-center">Port Name
+                <p>(ชื่อท่าเรือ)</div>
+            </vaadin-grid-sorter>
+            <vaadin-gird-filter-common aria-label="Port Name" path="port_name" value="[[_port_name]]">
+            </vaadin-gird-filter-common>
+          </template>
+          <template>
+            <div class="text-center"> [[item.port_name]]</div>
+          </template>
+        </vaadin-grid-column>
+
+        <vaadin-grid-column resizable>
+          <template class="header">
+            <vaadin-grid-sorter path="buyer_name">
+              <div class="text-center">Buyer Name
+                <p>(ชื่อผู้ซื้อ)</div>
+            </vaadin-grid-sorter>
+            <vaadin-gird-filter-common aria-label="Buyer Name" path="buyer_name" value="[[_buyer_name]]">
+            </vaadin-gird-filter-common>
+          </template>
+          <template>
+            <div class="text-center"> [[item.buyer_name]]</div>
+          </template>
+        </vaadin-grid-column>
+
+        <vaadin-grid-column width="350px" flex-grow="0" resizable>
+          <template class="header">
+            <vaadin-grid-sorter path="notify_name">
+              <div class="text-center">Notify Name
+                <p>(ชื่อที่อยู่ผู้รับสินค้า)</div>
+            </vaadin-grid-sorter>
+            <vaadin-gird-filter-common aria-label="Notify Name" path="notify_name" value="[[_notify_name]]">
+            </vaadin-gird-filter-common>
+          </template>
+          <template>
+            <p style="white-space: normal">[[item.notify_name]]</p>
+          </template>
+        </vaadin-grid-column>
+
+        <vaadin-grid-column width="200px" flex-grow="0" resizable>
+          <template class="header">
+            <vaadin-grid-sorter path="date_updated">
+              <div class="text-center">Date Update
+                <p>(วันที่อัพเดทล่าสุด)</div>
+            </vaadin-grid-sorter>
+          </template>
+          <template>
+            <p style="white-space: normal">{{item.date_updated}}</p>
+          </template>
+        </vaadin-grid-column>
+
+        <vaadin-grid-column width="150px" flex-grow="0" resizable>
+          <template class="header">
+            <div class="text-center">Tool
+              <p>(เครื่องมือ)</div>
+          </template>
+          <template>
+            <div class="text-center">
+              <span><paper-icon-button data="{{item}}" on-tap="_edit" icon="icons:create"></paper-icon-button>
+            <paper-icon-button data="{{item}}" icon="delete" on-tap="_delete"></paper-icon-button></span>
+            </div>
+          </template>
+        </vaadin-grid-column>
+
+      </vaadin-grid>
     </paper-material>
 
     <nylon-panel-right title="{{title}}">
