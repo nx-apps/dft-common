@@ -5,7 +5,9 @@
 <link rel="import" href="./../../../bower_components/gl-form/gl-form-input.html">
 <link rel="import" href="./../../../bower_components/gl-styles/gl-table.html">
 <link rel="import" href="./../../../bower_components/paper-input/paper-input.html">
-
+<link rel="import" href="./../../../bower_components/vaadin-grid/vaadin-grid.html">
+<link rel="import" href="./../../../bower_components/vaadin-grid/vaadin-grid-sorter.html">
+<link rel="import" href="./../components/vaadin-gird-filter-common.html">
 <link rel="import" href="./../../../bower_components/paper-tooltip/paper-tooltip.html">
 <link rel="import" href="./../components/search-behavior.html">
 
@@ -18,8 +20,7 @@
 
 <link rel="import" href="./../components/icon-button-management.html">
 
-<link rel="import" href="./../../../bower_components/nylon-tag/nylon-tag-dropdown.html">
-้
+<link rel="import" href="./../../../bower_components/nylon-tag/nylon-tag-dropdown.html"> ้
 
 <link rel="import" href="./../../../bower_components/vaadin-grid/vaadin-grid.html">
 
@@ -48,8 +49,7 @@
                 color: var(--paper-grey-600);
                 font-size: var(--font-size-h3);
             }
-
-            .table-head>tr>th:nth-child(1) {
+            /*.table-head>tr>th:nth-child(1) {
                 width: 1%;
             }
 
@@ -59,7 +59,7 @@
 
             .table-head>tr>th:nth-child(3) {
                 width: 20%;
-            }
+            }*/
 
             .elevation {
                 border-radius: 5px;
@@ -92,7 +92,7 @@
                 </div>
 
             </div>
-
+            <!--
             <table class="gl-table-default">
                 <thead class="table-head">
                     <tr>
@@ -146,7 +146,104 @@
                         </td>
                     </tr>
                 </template>
-            </table>
+            </table>-->
+            <vaadin-grid id="material" aria-label="Basic Binding Example" items="[[data]]" multi-sort="true">
+
+                <vaadin-grid-column width="100px" flex-grow="0" flex-grow="0" resizable>
+                    <template class="header">
+                        <div class="text-center">No
+                            <p>(ลำดับ)</div>
+                    </template>
+                    <template>
+                        <div class="text-center">{{_count(index)}}</div>
+                    </template>
+                </vaadin-grid-column>
+
+                <vaadin-grid-column width="250px" flex-grow="0" resizable>
+                    <template class="header">
+                        <vaadin-grid-sorter path="group_name_th">
+                            <div class="text-center">Group
+                                <p>(กลุ่ม ไทย)</div>
+                        </vaadin-grid-sorter>
+                        <vaadin-gird-filter-common aria-label="Group" path="group_name_th" value="[[_group_name_th]]">
+                        </vaadin-gird-filter-common>
+                    </template>
+                    <template>
+                        <div class="text-center"> [[item.group_name_th]]</div>
+                    </template>
+                </vaadin-grid-column>
+
+                <vaadin-grid-column  width="250px" flex-grow="0" resizable>
+                    <template class="header">
+                        <vaadin-grid-sorter path="group_name_en">
+                            <div class="text-center">Group
+                                <p>(กลุ่ม อังกฤษ)</div>
+                        </vaadin-grid-sorter>
+                        <vaadin-gird-filter-common aria-label="Group" path="group_name_en" value="[[_group_name_en]]">
+                        </vaadin-gird-filter-common>
+                    </template>
+                    <template>
+                        <div class="text-center"> [[item.group_name_en]]</div>
+                    </template>
+                </vaadin-grid-column>
+
+                <vaadin-grid-column resizable>
+                    <template class="header">
+                        <vaadin-grid-sorter path="table">
+                            <div class="text-center">Table
+                                <p>(ตาราง)</div>
+                        </vaadin-grid-sorter>
+                        <vaadin-gird-filter-common aria-label="Table" path="table" value="[[_table]]">
+                        </vaadin-gird-filter-common>
+                    </template>
+                    <template>
+                        <p style="white-space: normal"> [[item.table]]</p>
+                    </template>
+                </vaadin-grid-column>
+
+                <vaadin-grid-column  resizable>
+                    <template class="header">
+                        <vaadin-grid-sorter path="hamonize_th2">
+                            <div class="text-center">See
+                                <p>(ดูข้อมูล)</div>
+                        </vaadin-grid-sorter>
+                        <!--<vaadin-gird-filter-common aria-label="Rice Name" path="hamonize_th2" value="[[_hamonizeTh2]]">
+                        </vaadin-gird-filter-common>-->
+                    </template>
+                    <template>
+                        
+                        <paper-button raised on-tap="getItem" data="[[item]]"> ดูข้อมูลเพิ่มเติม </paper-button>
+                        
+                        <!--<p style="white-space: normal" on-tap="getItem" data="[[item]]">ดูข้อมูลเพิ่มเติม</p>-->
+                    </template>
+                </vaadin-grid-column>
+
+                <vaadin-grid-column width="200px" flex-grow="0" resizable>
+                    <template class="header">
+                        <vaadin-grid-sorter path="date_updated">
+                            <div class="text-center">Date Update
+                                <p>(วันที่อัพเดทล่าสุด)</div>
+                        </vaadin-grid-sorter>
+                    </template>
+                    <template>
+                        <p style="white-space: normal">{{item.date_updated}}</p>
+                    </template>
+                </vaadin-grid-column>
+
+                <vaadin-grid-column width="150px" flex-grow="0" resizable>
+                    <template class="header">
+                        <div class="text-center">Tool
+                            <p>(เครื่องมือ)</div>
+                    </template>
+                    <template>
+                        <div class="text-center">
+                            <span><paper-icon-button data="{{item}}" on-tap="_edit" icon="icons:create"></paper-icon-button>
+            <paper-icon-button data="{{item}}" icon="delete" on-tap="_delete"></paper-icon-button></span>
+                        </div>
+                    </template>
+                </vaadin-grid-column>
+
+            </vaadin-grid>
         </paper-material>
 
         <nylon-panel-right title="{{title}}" set-width="95%">
@@ -170,7 +267,7 @@
                 'edit-input': 'editInput',
                 'delete-input': '_delete'
             },
-            editInput: function() {
+            editInput: function () {
                 this.dispatchAction('BTN_SET_STATE', false);
             },
             _delete: function (e) {
@@ -183,13 +280,13 @@
 
                 this.dispatchAction('BTN_SET_STATE', true);
             },
-            getItem(e){
+            getItem(e) {
                 // console.log(e.currentTarget.data);
                 let group_name_th = e.currentTarget.data.group_name_th
                 let group_id = e.model.__data__.item.group_id
                 // console.log(e.model.__data__.item.group_id);
                 this.dispatchAction('COMMON_DATA_SELECTED', e.currentTarget.data);
-                 this.fire('nylon-change-page',{path:`/group-item/กลุ่ม${group_name_th}/17`})
+                this.fire('nylon-change-page', { path: `/group-item/กลุ่ม${group_name_th}/17` })
             },
             _toggleDrawer: function (e) {
                 this.statusAction = 'add';

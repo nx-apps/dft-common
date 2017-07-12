@@ -1,8 +1,12 @@
 <link rel="import" href="./../../../../bower_components/gl-grid/gl-grid-row.html">
 <link rel="import" href="./../../../../bower_components/gl-grid/gl-grid-col.html">
 <link rel="import" href="./../../components/validateFormBehaviors.html">
-
+<link rel="import" href="./../../../../bower_components/vaadin-grid/vaadin-grid.html">
+<link rel="import" href="./../../../../bower_components/vaadin-grid/vaadin-grid-sorter.html">
+<link rel="import" href="./../../components/vaadin-gird-filter-common.html">
 <link rel="import" href="./../../../../bower_components/paper-checkbox/paper-checkbox.html">
+
+<link rel="import" href="./../../../../bower_components/vaadin-grid/vaadin-grid-column.html">
 
 <dom-module id="manage-group-item">
     <template>
@@ -13,13 +17,13 @@
                 font-size: var(--font-size-h5);
                 text-align: left;
             }
-
+            /*
             .text-center {
                 text-align: center;
                 font-size: var(--font-size-h3);
                 background-color: var(--paper-grey-100);
                 margin-top: 20px;
-            }
+            }*/
 
             paper-dropdown-menu,
             paper-listbox,
@@ -61,7 +65,31 @@
         <gl-grid-row>
             <gl-grid-col width="[[getWidth]]" grid="[[300,12],[500,1]]"></gl-grid-col>
             <gl-grid-col width="[[getWidth]]" grid="[[300,12],[500,10]]">
-                <vaadin-grid aria-label="ข้อมูล" items="{{dataUse}}">
+                <vaadin-grid aria-label="Dynamic Columns Example" id="material" inverted$="[[inverted]]" items="{{dataUse}}">
+                    <vaadin-grid-column width="150px" flex-grow="0">
+                        <template class="header">
+                            <paper-checkbox on-click="_invert" checked="[[_isChecked(inverted, indeterminate)]]" indeterminate="[[indeterminate]]" disabled="[[btnState]]"></paper-checkbox>
+
+                        </template>
+                        <template>
+                            <span style="padding-left:20px">
+                                <paper-checkbox on-change="_selectItem" checked="[[_isSelected(inverted, selected,item.check,index)]]" disabled="[[btnState]]"></paper-checkbox>
+                            </span>
+                        </template>
+                    </vaadin-grid-column>
+                    <template is="dom-repeat" items="[[columns]]" as="column">
+
+                        <vaadin-grid-column resizable>
+                            <template class="header">[[column]]
+                                <vaadin-gird-filter-common aria-label="[[column]]" path="[[column]]" value="[[_name]]">
+                                </vaadin-gird-filter-common>
+                            </template>
+                            <template>[[get(column, item)]]</template>
+                        </vaadin-grid-column>
+                    </template>
+
+                </vaadin-grid>
+                <!--<vaadin-grid aria-label="ข้อมูล" id="material" items="{{dataUse}}" multi-sort="true">
 
                     <vaadin-grid-column width="50px" flex-grow="0">
                         <template class="header">
@@ -72,22 +100,28 @@
                         </template>
                     </vaadin-grid-column>
 
-                    <vaadin-grid-column>
-                        <template class="header">Code
-                            <vaadin-grid-filter aria-label="Code" path="sub_code">
-                            </vaadin-grid-filter>
+                    <vaadin-grid-column resizable>
+                        <template class="header">
+                            <vaadin-grid-sorter path="name_th">
+                                <div class="text-center">Code</div>
+                            </vaadin-grid-sorter>
+                            <vaadin-gird-filter-common aria-label="Code" path="sub_code" value="[[_sub_code]]">
+                            </vaadin-gird-filter-common>
                         </template>
                         <template>[[item.sub_code]]</template>
                     </vaadin-grid-column>
 
-                    <vaadin-grid-column>
-                        <template class="header">Name
-                            <vaadin-grid-filter aria-label="Name" path="name">
-                            </vaadin-grid-filter>
+                    <vaadin-grid-column resizable>
+                        <template class="header">
+                            <vaadin-grid-sorter path="name_th">
+                                <div class="text-center">Name</div>
+                            </vaadin-grid-sorter>
+                            <vaadin-gird-filter-common aria-label="Code" path="name" value="[[_name]]">
+                            </vaadin-gird-filter-common>
                         </template>
                         <template>[[item.name]]</template>
                     </vaadin-grid-column>
-                </vaadin-grid>
+                </vaadin-grid>-->
                 <gl-grid-col width="[[getWidth]]" grid="[[300,12],[500,1]]"></gl-grid-col>
             </gl-grid-col>
         </gl-grid-row>
@@ -170,11 +204,62 @@
                 },
                 name: {
                     type: Object
+                },
+                columns: Array,
+                inverted: {
+                    type: Boolean,
+                    value: false
+                },
+                indeterminate: {
+                    type: Boolean,
+                    value: false
                 }
             },
             observers: [
                 'setName(dataList,name,data)',
+                '_resetSelection(inverted)'
             ],
+            // observers: ['_resetSelection(inverted)'],
+
+            _resetSelection: function (inverted) {
+                this.$.material.selectedItems = [];
+                this.updateStyles();
+                this.indeterminate = false;
+            },
+
+            _invert: function (e) {
+                this.inverted = !this.inverted;
+            },
+
+            // iOS needs indeterminated + checked at the same time
+            _isChecked: function (inverted, indeterminate) {
+                return indeterminate || inverted;
+            },
+
+            _selectItem: function (e) {
+                if (e.target.checked === this.inverted) {
+                    this.$.material.deselectItem(e.model.item);
+                } else {
+                    this.$.material.selectItem(e.model.item);
+                }
+                this.indeterminate = this.$.material.selectedItems.length > 0;
+            },
+
+            _isSelected: function (inverted, selected,check,index) {
+                console.log(inverted,selected);
+                // if(check)return check
+                // return inverted != selected 
+                try {
+                    if(check)return check
+                    let checker = inverted != selected
+                    console.log(checker);
+                    this.dataUse[index].check = inverted != selected
+                    return check
+                } catch (e) {
+
+                }
+
+            },
             setCheckBox(data) {
                 try {
                     // console.log(this.name);
@@ -234,7 +319,7 @@
                                 console.log('NOT FOUND');
                                 break;
                         }
-                        console.log(this.dataList);
+                        // console.log(this.dataList);
                         return data
                     }
                 } catch (e) {
@@ -246,76 +331,35 @@
             setName(data, name, dataOld) {
                 try {
                     if (data.length > 0) {
+                        // var t0 = performance.now();
+                        // console.log(data);
+                        // console.log(name);
                         // console.log(dataOld);
                         let arr = [],
-                            obj = { name: '', sub_code: '' },
+                            obj = {},
                             havecode = false,
-                            name_id = ''
-                        for (var index = 0; index < data.length; index++) {
-                            for (var index2 = 0; index2 < name.name.length; index2++) {
-                                obj.name = obj.name + ' ' + data[index][name.name[index2].id]
-                                // console.log(data[index]);
-                                // console.log(name.name[index2].id === 'id');
+                            name_id = '',
+                            columns = ['sub_code']
+                        for (let index = 0; index < data.length; index++) {
+                            for (let index2 = 0; index2 < name.name.length; index2++) {
+                                // console.log(data[index][name.name[index2].id]);
+                                // obj.name = obj.name + ' ' + data[index][name.name[index2].id]
+                                obj[name.name[index2].id] = data[index][name.name[index2].id]
                             }
                             name_id = name.field_id
-                            
+
                             if (name_id === "id") {
-                                name_id =  name.table+'_'+name.field_id
-                                // switch (name.table) {
-                                //     case 'bank':
-                                //         name_id = "bank_" + name.field_id
-                                //         break;
-                                //     case 'buyer':
-                                //         name_id = "buyer_" + name.field_id
-                                //         break;
-                                //     case 'carrier':
-                                //         name_id = "carrier_" + name.field_id
-                                //         break;
-                                //     case 'continent':
-                                //         name_id = "continent_" + name.field_id
-                                //         break;
-                                //     case 'country':
-                                //         name_id = "country_" + name.field_id
-                                //         break;
-                                //     case 'hamonize':
-                                //         name_id = "hamonize_" + name.field_id
-                                //         break;
-                                //     case 'incoterms':
-                                //         name_id = "incoterms_" + name.field_id
-                                //         break;
-                                //     case 'notify_party':
-                                //         name_id = "notify_party_" + name.field_id
-                                //         break;
-                                //     case 'package':
-                                //         name_id = "package_" + name.field_id
-                                //         break;
-                                //     case 'port':
-                                //         name_id = "port_" + name.field_id
-                                //         break;
-                                //     case 'ship':
-                                //         name_id = "ship_" + name.field_id
-                                //         break;
-                                //     case 'shipline':
-                                //         name_id = "shipline_" + name.field_id
-                                //         break;
-                                //     case 'surveyor':
-                                //         name_id = "surveyor_" + name.field_id
-                                //         break;
-                                //     default:
-                                //         console.log('NOT FOUND');
-                                //         break;
-                                // }
+                                name_id = name.table + '_' + name.field_id
                             }
 
                             obj.sub_code = data[index][name_id]
-                            obj.sub_id = data[index][name.table+'_id']
-                            // console.log(data[index][name.table+'_id']);
-                            // console.log(name.table+'_id');
+                            obj.sub_id = data[index][name.table + '_id']
+
                             if (dataOld.sub !== undefined) {
-                                for (var index3 = 0; index3 < dataOld.sub.length; index3++) {
-                                    // console.log(data[index][name.table+'_id'],dataOld.sub[index3].sub_id);
+                                for (let index3 = 0; index3 < dataOld.sub.length; index3++) {
                                     if (obj.sub_id === dataOld.sub[index3].sub_id) {
                                         obj.check = true
+                                        console.log(1);
                                         break;
                                     } else {
                                         obj.check = false
@@ -325,9 +369,41 @@
                                 obj.check = false
                             }
                             arr.push(obj)
-                            obj = { name: '', sub_code: '',sub_id:'' }
+                            obj = { }
                         }
+
+                        name.name.map((item) => {
+                            columns.push(item.id)
+                        })
+                        // for (var index = 0; index < data.length; index++) {
+                        //     for (var index2 = 0; index2 < name.name.length; index2++) {
+                        //         obj[name.name[index2].id] = data[index][name.name[index2].id]
+                        //         console.log(name.name[index2].id)
+                        //     }
+                        //     name_id = name.field_id
+                        //     if (name_id === "id") {
+                        //         name_id = name.table + '_' + name.field_id
+                        //     }
+                        //     obj.sub_code = data[index][name_id]
+                        //     obj.sub_id = data[index][name.table + '_id']
+                        //     obj.check = false
+                        //     console.log(2222222);
+                        //     // if (dataOld !== '' && dataOld.sub.find((item) => obj.sub_id === item.sub_id) !== undefined){
+                        //     //     obj.check = true
+                        //     // }
+                        //     console.log(3333333);
+                        //     // console.log(name.name);
+                        //     console.log(obj);
+                        //     arr.push(obj)
+                        //     obj = {}
+                        // }
+                        // console.log(121212);
+                        // var t1 = performance.now();
+                        // console.log("Call to doSomething took " + (t1 - t0) + " milliseconds.");
                         // console.log(arr);
+
+                        this.set('columns', columns)
+                        // console.log(columns);
                         this.set('dataUse', arr)
                     }
                 } catch (e) {
@@ -340,8 +416,9 @@
                 // console.log(this.data.code);
             },
             _save: function () {
-                // console.log(this.data);
-                let codeListTrue = this.dataUse.filter((check) => check.check === true)
+                console.log(this.$.material.selectedItems);
+                let codeListTrue = this.$.material.selectedItems
+                console.log(codeListTrue);
                 let newList = codeListTrue.map((item) => {
                     // console.log(item);
                     return {

@@ -18,8 +18,8 @@
 
 <link rel="import" href="./../components/icon-button-management.html">
 <link rel="import" href="./../../../bower_components/vaadin-grid/vaadin-grid.html">
-<link rel="import" href="./../../../bower_components/vaadin-grid/vaadin-grid-filter.html">
-<link rel="import" href="./../../../bower_components/vaadin-grid/vaadin-grid-filter-behavior.html">
+<link rel="import" href="./../../../bower_components/vaadin-grid/vaadin-grid-sorter.html">
+<link rel="import" href="./../components/vaadin-gird-filter-common.html">
 <dom-module id="page-group-item">
     <template>
         <style is="custom-style" include="iron-flex iron-flex-factors iron-flex-alignment gl-table page-style">
@@ -44,8 +44,7 @@
                 color: var(--paper-grey-600);
                 font-size: var(--font-size-h3);
             }
-
-            .table-head>tr>th:nth-child(1) {
+            /*.table-head>tr>th:nth-child(1) {
                 width: 1%;
             }
 
@@ -55,7 +54,7 @@
 
             .table-head>tr>th:nth-child(3) {
                 width: 20%;
-            }
+            }*/
 
             .elevation {
                 border-radius: 5px;
@@ -85,9 +84,9 @@
                 กลุ่ม {{dataSeleted.group_name_th}}</div>
             <div class="horizontal justified layout">
                 <div class="horizontal layout" style="margin-top:25px;">
-                    <div class="labelSearch">ค้นหา</div>
+                    <!--<div class="labelSearch">ค้นหา</div>
                     <paper-input label=" " no-label-float value="{{searchInput}}"></paper-input>
-                    <iron-icon icon="search" style="margin-top:10px;"></iron-icon>
+                    <iron-icon icon="search" style="margin-top:10px;"></iron-icon>-->
                 </div>
                 <div>
                     <paper-button class="gl-btn-primary button-top" title="เพิ่มกลุ่ม" raised on-tap="_toggleDrawer">
@@ -96,7 +95,7 @@
 
             </div>
 
-            <table class="gl-table-default">
+            <!--<table class="gl-table-default">
                 <thead class="table-head">
                     <tr>
                         <th>
@@ -111,10 +110,6 @@
                             <div class="text-center">Group
                                 <p>(กลุ่ม อังกฤษ)</div>
                         </th>
-                        <!--<th>
-                            <div class="text-center">Table
-                                <p>(ตาราง)</div>
-                        </th>-->
                         <th></th>
                     </tr>
                 </thead>
@@ -127,7 +122,6 @@
                             </td>
                             <td>{{item.name_th}}</td>
                             <td>{{item.name_en}}</td>
-                            <!--<td>{{item.table}}</td>-->
                             <td style="text-align:right;">
                                 <paper-icon-button data="{{item}}" on-tap="_edit" icon="icons:create"></paper-icon-button>
                                 <paper-icon-button data="{{item}}" icon="delete" on-tap="_delete"></paper-icon-button>
@@ -143,7 +137,74 @@
                         </td>
                     </tr>
                 </template>
-            </table>
+            </table>-->
+            <vaadin-grid id="material" aria-label="Basic Binding Example" items="[[data]]" multi-sort="true">
+
+                <vaadin-grid-column width="100px" flex-grow="0" flex-grow="0" resizable>
+                    <template class="header">
+                        <div class="text-center">No
+                            <p>(ลำดับ)</div>
+                    </template>
+                    <template>
+                        <div class="text-center">{{_count(index)}}</div>
+                    </template>
+                </vaadin-grid-column>
+
+                <vaadin-grid-column resizable>
+                    <template class="header">
+                        <vaadin-grid-sorter path="name_th">
+                            <div class="text-center">Group
+                                <p>(กลุ่ม ไทย)</div>
+                        </vaadin-grid-sorter>
+                        <vaadin-gird-filter-common aria-label="Group" path="name_th" value="[[_name_th]]">
+                        </vaadin-gird-filter-common>
+                    </template>
+                    <template>
+                        <div class="text-center"> [[item.name_th]]</div>
+                    </template>
+                </vaadin-grid-column>
+
+                <vaadin-grid-column  resizable>
+                    <template class="header">
+                        <vaadin-grid-sorter path="name_en">
+                            <div class="text-center">Group
+                                <p>(กลุ่ม อังกฤษ)</div>
+                        </vaadin-grid-sorter>
+                        <vaadin-gird-filter-common aria-label="Group" path="name_en" value="[[_name_en]]">
+                        </vaadin-gird-filter-common>
+                    </template>
+                    <template>
+                        <div class="text-center"> [[item.name_en]]</div>
+                    </template>
+                </vaadin-grid-column>
+
+                <vaadin-grid-column width="200px" flex-grow="0" resizable>
+                    <template class="header">
+                        <vaadin-grid-sorter path="date_updated">
+                            <div class="text-center">Date Update
+                                <p>(วันที่อัพเดทล่าสุด)</div>
+                        </vaadin-grid-sorter>
+                    </template>
+                    <template>
+                        <p style="white-space: normal">{{item.date_updated}}</p>
+                    </template>
+                </vaadin-grid-column>
+
+                <vaadin-grid-column width="150px" flex-grow="0" resizable>
+                    <template class="header">
+                        <div class="text-center">Tool
+                            <p>(เครื่องมือ)</div>
+                    </template>
+                    <template>
+                        <div class="text-center">
+                            <span>
+                                <paper-icon-button data="{{item}}" on-tap="_edit" icon="icons:create"></paper-icon-button>
+                                <paper-icon-button data="{{item}}" icon="delete" on-tap="_delete"></paper-icon-button></span>
+                        </div>
+                    </template>
+                </vaadin-grid-column>
+
+            </vaadin-grid>
         </paper-material>
         <nylon-panel-right title="{{title}}" set-width="95%">
             <manage-group-item status-action="[[statusAction]]" title="{{title}}" name="[[dataSeleted]]"></manage-group-item>
