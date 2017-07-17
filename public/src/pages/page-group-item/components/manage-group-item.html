@@ -1,13 +1,12 @@
 <link rel="import" href="./../../../../bower_components/gl-grid/gl-grid-row.html">
 <link rel="import" href="./../../../../bower_components/gl-grid/gl-grid-col.html">
-<link rel="import" href="./../../components/validateFormBehaviors.html">
 <link rel="import" href="./../../../../bower_components/vaadin-grid/vaadin-grid.html">
 <link rel="import" href="./../../../../bower_components/vaadin-grid/vaadin-grid-sorter.html">
-<link rel="import" href="./../../components/vaadin-gird-filter-common.html">
 <link rel="import" href="./../../../../bower_components/paper-checkbox/paper-checkbox.html">
-
 <link rel="import" href="./../../../../bower_components/vaadin-grid/vaadin-grid-column.html">
 
+<link rel="import" href="./../../components/validateFormBehaviors.html">
+<link rel="import" href="./../../components/vaadin-gird-filter-common.html">
 <dom-module id="manage-group-item">
     <template>
         <style include="iron-flex iron-flex-factors iron-flex-alignment gl-table page-style">
@@ -65,16 +64,19 @@
         <gl-grid-row>
             <gl-grid-col width="[[getWidth]]" grid="[[300,12],[500,1]]"></gl-grid-col>
             <gl-grid-col width="[[getWidth]]" grid="[[300,12],[500,10]]">
-                <vaadin-grid aria-label="Dynamic Columns Example" id="material" inverted$="[[inverted]]" items="{{dataUse}}">
-                    <vaadin-grid-column width="150px" flex-grow="0">
+                <vaadin-grid aria-label="Dynamic Columns Example" id="material" items="{{dataUse}}">
+                    <vaadin-grid-column width="40px" flex-grow="0">
                         <template class="header">
-                            <paper-checkbox on-click="_invert" checked="[[_isChecked(inverted, indeterminate)]]" indeterminate="[[indeterminate]]" disabled="[[btnState]]"></paper-checkbox>
-
+                            <!--checked="[[_isChecked(inverted, indeterminate)]]"-->
+                            <paper-checkbox on-tap="selectAll" checked="{{statusCheck}}" disabled="[[btnState]]"></paper-checkbox>
+                            <!--<paper-checkbox aria-label="Select All"  on-click="_invert" indeterminate="[[indeterminate]]"></paper-checkbox>-->
                         </template>
                         <template>
-                            <span style="padding-left:20px">
-                                <paper-checkbox on-change="_selectItem" checked="[[_isSelected(inverted, selected,item.check,index)]]" disabled="[[btnState]]"></paper-checkbox>
-                            </span>
+                            <!--{{item.check}}-->
+                            <paper-checkbox checked="{{item.check}}" disabled="[[btnState]]"></paper-checkbox>
+                            <!--<paper-checkbox checked="{{checkItem(statusCheck,item.check,item,index)}}" disabled="[[btnState]]"></paper-checkbox>-->
+                            <!--<paper-checkbox checked="{{statusCheck}}" disabled="[[btnState]]"></paper-checkbox>-->
+                            <!--<paper-checkbox aria-label="Select Row" on-change="_selectItem" checked="[[_isSelected(inverted, selected)]]"></paper-checkbox>-->
                         </template>
                     </vaadin-grid-column>
                     <template is="dom-repeat" items="[[columns]]" as="column">
@@ -135,11 +137,12 @@
     <script>
         Polymer({
             is: 'manage-group-item',
-            behaviors: [nylonBehavior, ReduxBehavior, ValidateFormBehavior, SearchBehavior],
+            behaviors: [nylonBehavior, ReduxBehavior, ValidateFormBehavior],
             properties: {
                 data: {
                     statePath: 'groupItem.data',
-                    val: {}
+                    // val: {}
+                    // observer: 'setData'
                 },
                 btnState: {
                     statePath: 'commonState.btnState'
@@ -200,81 +203,28 @@
                     type: Array
                 },
                 dataUSe: {
-                    type: Array
+                    type: Array,
+                    observer: 'setData'
                 },
                 name: {
                     type: Object
                 },
-                columns: Array,
-                inverted: {
+                checker: {
                     type: Boolean,
                     value: false
                 },
-                indeterminate: {
-                    type: Boolean,
-                    value: false
-                }
+                columns: Array,
             },
             observers: [
                 'setName(dataList,name,data)',
-                '_resetSelection(inverted)'
             ],
-            // observers: ['_resetSelection(inverted)'],
-
-            _resetSelection: function (inverted) {
-                this.$.material.selectedItems = [];
-                this.updateStyles();
-                this.indeterminate = false;
-            },
-
-            _invert: function (e) {
-                this.inverted = !this.inverted;
-            },
-
-            // iOS needs indeterminated + checked at the same time
-            _isChecked: function (inverted, indeterminate) {
-                return indeterminate || inverted;
-            },
-
-            _selectItem: function (e) {
-                if (e.target.checked === this.inverted) {
-                    this.$.material.deselectItem(e.model.item);
-                } else {
-                    this.$.material.selectItem(e.model.item);
-                }
-                this.indeterminate = this.$.material.selectedItems.length > 0;
-            },
-
-            _isSelected: function (inverted, selected,check,index) {
-                console.log(inverted,selected);
-                // if(check)return check
-                // return inverted != selected 
-                try {
-                    if(check)return check
-                    let checker = inverted != selected
-                    console.log(checker);
-                    this.dataUse[index].check = inverted != selected
-                    return check
-                } catch (e) {
-
-                }
-
+            setData(data) {
+                console.log(data)
             },
             setCheckBox(data) {
                 try {
                     // console.log(this.name);
                     if (this.name !== undefined) {
-                        // switch (this.name.table) {
-                        //     case 'hamonize':
-                        //         this.set('dataList', this.hamonize_list)
-                        //         break;
-                        //     case 'country':
-                        //         this.set('dataList', this.country_list)
-                        //         break;
-
-                        //     default:
-                        //         break;
-                        // }
                         switch (this.name.table) {
                             case 'bank':
                                 this.set('dataList', this.bank_list)
@@ -358,8 +308,10 @@
                             if (dataOld.sub !== undefined) {
                                 for (let index3 = 0; index3 < dataOld.sub.length; index3++) {
                                     if (obj.sub_id === dataOld.sub[index3].sub_id) {
+                                        this.$.material.selectItem(obj)
                                         obj.check = true
-                                        console.log(1);
+                                        // console.log(1);
+                                        // console.log(obj)
                                         break;
                                     } else {
                                         obj.check = false
@@ -368,8 +320,9 @@
                             } else {
                                 obj.check = false
                             }
+
                             arr.push(obj)
-                            obj = { }
+                            obj = {}
                         }
 
                         name.name.map((item) => {
@@ -405,6 +358,7 @@
                         this.set('columns', columns)
                         // console.log(columns);
                         this.set('dataUse', arr)
+                        console.log(this.dataUse)
                     }
                 } catch (e) {
                     // console.log(e);
@@ -417,8 +371,10 @@
             },
             _save: function () {
                 console.log(this.$.material.selectedItems);
-                let codeListTrue = this.$.material.selectedItems
+                // let codeListTrue = this.$.material.selectedItems
+                let codeListTrue = this.dataUse.filter((check) => check.check === true)
                 console.log(codeListTrue);
+
                 let newList = codeListTrue.map((item) => {
                     // console.log(item);
                     return {
@@ -433,7 +389,7 @@
                     if (this.statusAction == 'edit') {
                         // console.log(this.data);
                         this.dispatchAction('GROUP_ITEM_EDIT', this.data);
-                        this.dispatchAction('BTN_SET_STATE', true);
+                        // this.dispatchAction('BTN_SET_STATE', true);
                     }
                     else {
                         // console.log(this.data);
@@ -470,10 +426,50 @@
                 }
             },
             selectAll(e) {
-                this.dataUse.map((set, index) => {
-                    this.set('dataUse.' + index + '.check', this.statusCheck)
-                })
+                // this.dataUse.map((set, index) => {
+                //     if (this.statusCheck) {
+                //         this.$.material.selectItem(set)
+                //     } else {
+                //         this.$.material.deselectItem(set)
+                //     }
+                //     // this.set('dataUse.' + index + '.check', this.statusCheck)
+                // })
+                // this.fire('toast', { status: 'load', text: 'กำลังบันทึกข้อมูล...' })
+
+                this.async(() => {
+                    let selectAllItem = new Promise((res, rej) => {
+                        this.dataUse.map((set, index) => {
+                            // if (this.statusCheck) {
+                            //     this.$.material.selectItem(set)
+                            // } else {
+                            //     this.$.material.deselectItem(set)
+                            // }
+                            this.set('dataUse.' + index + '.check', this.statusCheck)
+                        })
+                    })
+                    selectAllItem.then((res) => {
+                        console.log(res)
+                        this.fire('toast', {
+                            status: 'success', text: 'บันทึกสำเร็จ', callback: () => {
+                            }
+                        });
+                    })
+
+                }, 100)
+
             },
+            // checkItem(statusCheck,check,item,index){
+            //     let setDate = statusCheck !== check
+            //     // if (check) {
+            //         // console.log('เจอ');
+            //         // item.check = false
+            //         // this.set('dataUse.' + index + '.check', false)
+            //     // }
+            //     // this.$.material.selectItem(item)
+            //     // console.log(setDate)
+            //     return setDate
+            //     // console.log(statusCheck,check);
+            // }
         });
     </script>
 </dom-module>

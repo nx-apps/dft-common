@@ -72,11 +72,13 @@ export function groupItemAction(store) {
             })
         },
         GROUP_ITEM_EDIT: function (data, dataseleted) {
+            // console.log(data.group_id);
             this.fire('toast', {
                 status: 'openDialog',
                 text: 'ต้องการแก้ไขข้อมูลใช่หรือไม่ ?',
                 confirmed: (result) => {
                     if (result == true) {
+                        this.dispatchAction('BTN_SET_STATE', true);
                         var newData = {
                             id: data.sub_group_id,
                             code:data.code,
@@ -92,7 +94,7 @@ export function groupItemAction(store) {
                                 if (response.data.result == true) {
                                     this.fire('toast', {
                                         status: 'success', text: 'บันทึกสำเร็จ', callback: () => {
-                                            this.GROUP_ITEM_GET_DATA(dataseleted.table);
+                                            this.GROUP_ITEM_GET_DATA(newData.group_id);
                                             this.GROUP_ITEM_GET_ID(newData.id);
                                             this.dispatchAction('BTN_SET_STATE', true);
                                         }
