@@ -73,7 +73,7 @@
                         </template>
                         <template>
                             <!--{{item.check}}-->
-                            <paper-checkbox checked="{{item.check}}" disabled="[[btnState]]"></paper-checkbox>
+                            <paper-checkbox style="padding-left:7px;" checked="{{item.check}}" disabled="[[btnState]]"></paper-checkbox>
                             <!--<paper-checkbox checked="{{checkItem(statusCheck,item.check,item,index)}}" disabled="[[btnState]]"></paper-checkbox>-->
                             <!--<paper-checkbox checked="{{statusCheck}}" disabled="[[btnState]]"></paper-checkbox>-->
                             <!--<paper-checkbox aria-label="Select Row" on-change="_selectItem" checked="[[_isSelected(inverted, selected)]]"></paper-checkbox>-->
@@ -219,7 +219,7 @@
                 'setName(dataList,name,data)',
             ],
             setData(data) {
-                console.log(data)
+                // console.log(data)
             },
             setCheckBox(data) {
                 try {
@@ -358,7 +358,7 @@
                         this.set('columns', columns)
                         // console.log(columns);
                         this.set('dataUse', arr)
-                        console.log(this.dataUse)
+                        // console.log(this.dataUse)
                     }
                 } catch (e) {
                     // console.log(e);
@@ -370,10 +370,10 @@
                 // console.log(this.data.code);
             },
             _save: function () {
-                console.log(this.$.material.selectedItems);
+                // console.log(this.$.material.selectedItems);
                 // let codeListTrue = this.$.material.selectedItems
                 let codeListTrue = this.dataUse.filter((check) => check.check === true)
-                console.log(codeListTrue);
+                // console.log(codeListTrue);
 
                 let newList = codeListTrue.map((item) => {
                     // console.log(item);
@@ -434,7 +434,7 @@
                 //     }
                 //     // this.set('dataUse.' + index + '.check', this.statusCheck)
                 // })
-                // this.fire('toast', { status: 'load', text: 'กำลังบันทึกข้อมูล...' })
+                this.fire('toast', { status: 'load', text: 'กำลังทำงาน...' })
 
                 this.async(() => {
                     let selectAllItem = new Promise((res, rej) => {
@@ -446,13 +446,23 @@
                             // }
                             this.set('dataUse.' + index + '.check', this.statusCheck)
                         })
+                        res("fin")
                     })
                     selectAllItem.then((res) => {
-                        console.log(res)
+                        // console.log(1111);
                         this.fire('toast', {
-                            status: 'success', text: 'บันทึกสำเร็จ', callback: () => {
+                            status: 'success', text: 'ทำงานสำเร็จ', callback: () => {
+                                // console.log(res)
                             }
-                        });
+                        })
+                    })
+                    .catch((err)=>{
+                        this.fire('toast', {
+                            status: 'connectError', text: err, callback: () => {
+                                // console.log(err)
+                            }
+                        })
+                        
                     })
 
                 }, 100)
