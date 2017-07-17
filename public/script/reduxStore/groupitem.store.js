@@ -45,7 +45,7 @@ export function groupItemAction(store) {
                 text: 'ต้องการเพิ่มข้อมูลใช่หรือไม่ ?',
                 confirmed: (result) => {
                     if (result == true) {
-                        // console.log(data);
+                        console.log(data);
                         this.fire('toast', { status: 'load', text: 'กำลังบันทึกข้อมูล...' })
                         axios.post('./groupItem/insert', data)
                             .then((response) => {
@@ -54,7 +54,7 @@ export function groupItemAction(store) {
                                 if (response.data.result == true) {
                                     this.fire('toast', {
                                         status: 'success', text: 'บันทึกสำเร็จ', callback: () => {
-                                            this.GROUP_ITEM_GET_DATA(data.table);
+                                            this.GROUP_ITEM_GET_DATA(data.group_id);
                                             this.GROUP_ITEM_CLEAR_SELECT();
                                         }
                                     });
@@ -113,6 +113,7 @@ export function groupItemAction(store) {
             })
         },
         GROUP_ITEM_DELETE: function (data, dataseleted) {
+            // console.log(dataseleted.group_id);
             this.fire('toast', {
                 status: 'openDialog',
                 text: 'ต้องการลบข้อมูลใช่หรือไม่ ?',
@@ -124,7 +125,7 @@ export function groupItemAction(store) {
                                 if (response.data.result == true) {
                                     this.fire('toast', {
                                         status: 'success', text: 'ลบข้อมูลสำเร็จ', callback: () => {
-                                            this.GROUP_ITEM_GET_DATA(dataseleted.table);
+                                            this.GROUP_ITEM_GET_DATA(dataseleted.group_id);
                                         }
                                     });
                                 } else {

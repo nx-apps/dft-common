@@ -32,6 +32,16 @@
             <icon-button-management btn-state="[[!btnState]]"></icon-button-management>
         </template>
         <!--{{statusAction}}///[[_checkStatus(statusAction)]]-->
+        <template is="dom-if" if={{_checkStatus(statusAction)}}>
+            <gl-grid-row width="{{getWidth}}">
+                <gl-grid-col width="[[getWidth]]" grid="[[300,12],[500,3]]"></gl-grid-col>
+                <gl-grid-col width="[[getWidth]]" grid="[[300,12],[500,6]]">
+                    <gl-form-input class="margin-top  "  label="URL :" placeholder="URL"
+                        value="[[url]][[data.group_id]]" read-only></gl-form-input>
+                </gl-grid-col>
+                <gl-grid-col width="[[getWidth]]" grid="[[300,12],[500,3]]"></gl-grid-col>
+            </gl-grid-row>
+        </template>
         <gl-grid-row width="{{getWidth}}">
             <gl-grid-col width="[[getWidth]]" grid="[[300,12],[500,3]]"></gl-grid-col>
             <gl-grid-col width="[[getWidth]]" grid="[[300,12],[500,6]]">
@@ -69,8 +79,8 @@
             {{getKey(data.table)}}
             <gl-grid-col width="[[getWidth]]" grid="[[300,12],[500,3]]"></gl-grid-col>
             <gl-grid-col width="[[getWidth]]" grid="[[300,12],[500,6]]">
-                <gl-combo-box id="sub-item" label="ฟิลด์รหัส" placeholder="ฟิลด์รหัส" disabled="[[btnState]]" item-label-path="id" item-value-path="id" items="{{field}}"
-                    value="{{data.field_id}}">
+                <gl-combo-box id="sub-item" label="ฟิลด์รหัส" placeholder="ฟิลด์รหัส" disabled="[[btnState]]" item-label-path="id" item-value-path="id"
+                    items="{{field}}" value="{{data.field_id}}">
                     <template>
                         [[item.id]]
                     </template>
@@ -107,6 +117,12 @@
                 },
                 btnState: {
                     statePath: 'commonState.btnState'
+                },
+                url: {
+                    type: Object,
+                    value: function () {
+                        return `${window.location.protocol}//${window.location.hostname}:${window.location.port}/api/groupItem?group_id=`
+                    }
                 },
                 keydata: {
                     statePath: 'group.listtable',
@@ -172,18 +188,19 @@
                 }
             },
             getKey: function (table) {
+                // console.log(window.location.hostname)
                 // console.log(table);
                 // this.async(() => {
-                    if (table !== '' && table !== undefined) {
-                        let data = this.keydata.find((id) => id.table === table)
-                        // console.log(data);
-                        // console.log(this.keydata);
-                        this.set('field', data.sub)
-                        // console.log(this.field);
-                        // this.$$('#sub-item').value = ''
-                    }else {
-                        // this.$$('#sub-item').value = ''
-                    }
+                if (table !== '' && table !== undefined) {
+                    let data = this.keydata.find((id) => id.table === table)
+                    // console.log(data);
+                    // console.log(this.keydata);
+                    this.set('field', data.sub)
+                    // console.log(this.field);
+                    // this.$$('#sub-item').value = ''
+                } else {
+                    // this.$$('#sub-item').value = ''
+                }
                 // }, 500);
 
             },
@@ -196,7 +213,7 @@
                 }
             },
             test(e) {
-                if(e.detail.value === '' || e.detail.value === undefined)
+                if (e.detail.value === '' || e.detail.value === undefined)
                     this.$$('#sub-item').value = ''
             }
         });
