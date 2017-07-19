@@ -223,9 +223,10 @@
             },
             setCheckBox(data) {
                 try {
+                    // console.log(111)
                     // console.log(this.name);
                     if (this.name !== undefined) {
-                        switch (this.name.table) {
+                        switch (this.name.table_name) {
                             case 'bank':
                                 this.set('dataList', this.bank_list)
                                 break;
@@ -280,6 +281,7 @@
             },
             setName(data, name, dataOld) {
                 try {
+                    // console.log(1121212);
                     if (data.length > 0) {
                         // var t0 = performance.now();
                         // console.log(data);
@@ -289,25 +291,24 @@
                             obj = {},
                             havecode = false,
                             name_id = '',
-                            columns = ['sub_code']
+                            columns = []
                         for (let index = 0; index < data.length; index++) {
-                            for (let index2 = 0; index2 < name.name.length; index2++) {
-                                // console.log(data[index][name.name[index2].id]);
+                            for (let index2 = 0; index2 < name.fields.length; index2++) {
+                                // console.log(data[index][name.fields[index2]]);
                                 // obj.name = obj.name + ' ' + data[index][name.name[index2].id]
-                                obj[name.name[index2].id] = data[index][name.name[index2].id]
+                                obj[name.fields[index2].field] = data[index][name.fields[index2].field]
                             }
-                            name_id = name.field_id
+                            // name_id = name.field_id
 
-                            if (name_id === "id") {
-                                name_id = name.table + '_' + name.field_id
-                            }
-
-                            obj.sub_code = data[index][name_id]
-                            obj.sub_id = data[index][name.table + '_id']
+                            // obj.sub_code = data[index][name_id]
+                            obj.id = data[index][name.table_name + '_id']
 
                             if (dataOld.sub !== undefined) {
+                                // console.log(dataOld.sub);
+                                // console.log(dataOld.sub.length );
                                 for (let index3 = 0; index3 < dataOld.sub.length; index3++) {
-                                    if (obj.sub_id === dataOld.sub[index3].sub_id) {
+                                    // console.log();
+                                    if (obj.id === dataOld.sub[index3].sub_id) {
                                         this.$.material.selectItem(obj)
                                         obj.check = true
                                         // console.log(1);
@@ -320,28 +321,31 @@
                             } else {
                                 obj.check = false
                             }
-
+                            // console.log(obj);
                             arr.push(obj)
                             obj = {}
                         }
-
-                        name.name.map((item) => {
-                            columns.push(item.id)
+                        // console.log(arr);
+                        name.fields.map((item) => {
+                            columns.push(item.field)
                         })
+
+                        // console.log(name);
                         // for (var index = 0; index < data.length; index++) {
                         //     for (var index2 = 0; index2 < name.name.length; index2++) {
                         //         obj[name.name[index2].id] = data[index][name.name[index2].id]
                         //         console.log(name.name[index2].id)
                         //     }
                         //     name_id = name.field_id
+                        //     console.log(name_id);
                         //     if (name_id === "id") {
                         //         name_id = name.table + '_' + name.field_id
                         //     }
                         //     obj.sub_code = data[index][name_id]
-                        //     obj.sub_id = data[index][name.table + '_id']
+                        //     obj.id = data[index][name.table + '_id']
                         //     obj.check = false
                         //     console.log(2222222);
-                        //     // if (dataOld !== '' && dataOld.sub.find((item) => obj.sub_id === item.sub_id) !== undefined){
+                        //     // if (dataOld !== '' && dataOld.sub.find((item) => obj.id === item.id) !== undefined){
                         //     //     obj.check = true
                         //     // }
                         //     console.log(3333333);
@@ -354,7 +358,7 @@
                         // var t1 = performance.now();
                         // console.log("Call to doSomething took " + (t1 - t0) + " milliseconds.");
                         // console.log(arr);
-
+                        // console.log(1121);
                         this.set('columns', columns)
                         // console.log(columns);
                         this.set('dataUse', arr)
@@ -378,11 +382,11 @@
                 let newList = codeListTrue.map((item) => {
                     // console.log(item);
                     return {
-                        sub_id: item.sub_id
+                        sub_id: item.id
                     }
                 })
                 this.data.sub = newList
-                this.data.table = this.name.table
+                this.data.table_name = this.name.table_name
                 this.data.group_id = this.name.group_id
                 // console.log(this.data);
                 if (this.validateForm('.required')) {

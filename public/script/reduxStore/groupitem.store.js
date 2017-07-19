@@ -85,9 +85,10 @@ export function groupItemAction(store) {
                             group_id: data.group_id,
                             name_th: data.name_th,
                             name_en: data.name_en,
-                            table: data.table,
+                            table_name: data.table_name,
                             sub: data.sub
                         }
+                        // console.log(1);
                         this.fire('toast', { status: 'load', text: 'กำลังบันทึกข้อมูล...' })
                         axios.put('./groupItem/update', newData)
                             .then((response) => {

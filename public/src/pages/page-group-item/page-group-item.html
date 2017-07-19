@@ -240,9 +240,9 @@
             },
             getData(data) {
                 // console.log(111111111111);
-                console.log(data);
+                // console.log(data);
                 this.dispatchAction('GROUP_ITEM_GET_DATA', data.group_id);
-                switch (data.table) {
+                switch (data.table_name) {
                     case 'bank':
                         this.dispatchAction('BANK_GET_DATA');
                         break;

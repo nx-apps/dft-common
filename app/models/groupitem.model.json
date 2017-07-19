@@ -16,9 +16,6 @@
         "table": {
             "type": "string"
         },
-        "code": {
-            "type": "string"
-        },
         "sub": {
             "type": "array",
             "items": {
@@ -37,7 +34,6 @@
         "group_name_th",
         "group_name_en",
         "name",
-        "table",
-        "code"
+        "table_name"
     ]
 }

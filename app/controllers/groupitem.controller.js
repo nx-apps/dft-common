@@ -1,7 +1,7 @@
 exports.list = function (req, res) {
     var r = req.r;
     var orderby = req.query.orderby;
-    console.log();
+    // console.log();
     r.db('common').table("groupitem").getAll(req.query.group_id,{index:"group_id"})
         // .filter({ table: req.query.table, code: req.query.code })
         .eqJoin('group_id', r.db('common').table('group'))
@@ -13,7 +13,7 @@ exports.list = function (req, res) {
                 date_created: row('date_created').toISO8601().split('T')(0),
                 date_updated: row('date_updated').toISO8601().split('T')(0),
                 sub: row('sub').merge((item) => {
-                    return r.db('common').table(row('table')).get(item('sub_id'))
+                    return r.db('common').table(row('table_name')).get(item('sub_id'))
 
                 })
             }
@@ -28,7 +28,7 @@ exports.list = function (req, res) {
         })
         .error(function (err) {
             res.setHeader('Access-Control-Allow-Origin', 'https://localhost:3001');
-            res.setHeader('Access-Control-Allow-Origin', 'https://localhost:3003');
+            // res.setHeader('Access-Control-Allow-Origin', 'https://localhosyt:3003');
             res.json(err)
         })
 }

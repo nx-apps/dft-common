@@ -10,13 +10,10 @@
         "group_name_en": {
             "type": "string"
         },
-        "table": {
+        "table_name": {
             "type": "string"
         },
-        "field_id": {
-            "type": "string"
-        },
-        "name": {
+        "fields": {
             "type": "array",
             "items": {
                 "type": "object",
@@ -32,8 +29,7 @@
         "id",
         "group_name_th",
         "group_name_en",
-        "table",
-        "field_id",
-        "name"
+        "table_name",
+        "fields"
     ]
 }

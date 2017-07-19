@@ -27,13 +27,14 @@
         <div class="label">
             [[label]]
         </div>
-        <template is="dom-repeat" items="{{value.name}}">
+        <template is="dom-repeat" items="{{value.fields}}">
             <div class="item">
-                <nylon-tag on-tap="deleteTag" item="[[item]]" label="[[mergeDel(item.id)]]" color="[[setColor(item.color)]]"></nylon-tag>
+                <nylon-tag on-tap="deleteTag" item="[[item]]" label="[[mergeDel(item.field)]]" color="[[setColor(item.color)]]"></nylon-tag>
             </div>
         </template>
         <div class="comBobox">
-            <gl-combo-box id="comBox" disabled="[[disabled]]" no-label-float item-label-path="id" item-value-path="id" items="[[items]]" on-value-changed="selectTag">
+            <gl-combo-box id="comBox" disabled="[[disabled]]" no-label-float item-label-path="id" item-value-path="id" items="[[items]]"
+                on-value-changed="selectTag">
                 <template>
                     [[item.id]]
                 </template>
@@ -85,26 +86,31 @@
             selectTag: function (e) {
                 try {
                     let data = e.detail.value
-                    let val = this.value.name
+                    let val = this.value.fields
+                    // console.log(this.value)
+                    // console.log(data, val)
                     let cheDup = val.length - 1
                     if (data !== undefined && data !== '') {
-                        let ex = { id: data }
+                        let ex = {
+                            field: data,
+                            priority : this.value.fields.length + 1
+                        }
                         // console.log(val);
                         // console.log(cheDup);
                         // console.log(data);
                         if (val.length === 0) {
-                            this.push('value.name',ex);
-                        }else {
-                            if (val[cheDup].id === data) {
+                            this.push('value.fields', ex);
+                        } else {
+                            if (val[cheDup].field === data) {
                                 // console.log(1);
-                            }else {
-                                this.push('value.name',ex);
+                            } else {
+                                this.push('value.fields', ex);
                                 // console.log(2);
                             }
                         }
                         // console.log(val[cheDup][id]);
                         // if (data !== val[cheDup] ) {
-                            // this.push('value.name',ex);
+                        // this.push('value.name',ex);
                         // }
                         // val.map((item)=>{
                         //     console.log(item.id !== data);
@@ -142,8 +148,8 @@
                 }
             },
             deleteTag: function (e) {
-                var index = this.value.name.indexOf(e.currentTarget.item);
-                this.splice('value.name', index, 1);
+                var index = this.value.fields.indexOf(e.currentTarget.item);
+                this.splice('value.fields', index, 1);
             }
         });
     </script>

@@ -3,7 +3,7 @@ import { commonAction } from '../config'
 const initialState = {
     list: [],
     listtable:[],
-    data: {name:[]}
+    data: {fields:[]}
 }
 export function groupReducer(state = initialState, action) {
     switch (action.type) {
@@ -14,7 +14,7 @@ export function groupReducer(state = initialState, action) {
         case 'GROUP_GET_LIST_TABLE':
             return Object.assign({}, state, { listtable: action.payload });
         case 'GROUP_CLEAR_SELECT':
-            return Object.assign({}, state, { data: {name:[]} });
+            return Object.assign({}, state, { data: {fields:[]} });
         default:
             return state
     }
@@ -90,14 +90,16 @@ export function groupAction(store) {
                 text: 'ต้องการแก้ไขข้อมูลใช่หรือไม่ ?',
                 confirmed: (result) => {
                     if (result == true) {
+                        // console.log(data);
+                        // console.log(data.fields);
                         var newData = {
                             id: data.group_id,
                             group_name_th: data.group_name_th,
                             group_name_en: data.group_name_en,
-                            table: data.table,
-                            field_id: data.field_id,
-                            name: data.name
+                            table_name: data.table_name,
+                            fields: data.fields
                         }
+                        // console.log(newData);
                         this.fire('toast', { status: 'load', text: 'กำลังบันทึกข้อมูล...' })
                         axios.put('./group/update', newData)
                             .then((response) => {

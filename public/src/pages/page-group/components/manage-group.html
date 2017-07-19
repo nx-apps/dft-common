@@ -36,8 +36,7 @@
             <gl-grid-row width="{{getWidth}}">
                 <gl-grid-col width="[[getWidth]]" grid="[[300,12],[500,3]]"></gl-grid-col>
                 <gl-grid-col width="[[getWidth]]" grid="[[300,12],[500,6]]">
-                    <gl-form-input class="margin-top  "  label="URL :" placeholder="URL"
-                        value="[[url]][[data.group_id]]" read-only></gl-form-input>
+                    <gl-form-input class="margin-top  " label="URL :" placeholder="URL" value="[[url]][[data.group_id]]" read-only></gl-form-input>
                 </gl-grid-col>
                 <gl-grid-col width="[[getWidth]]" grid="[[300,12],[500,3]]"></gl-grid-col>
             </gl-grid-row>
@@ -64,8 +63,7 @@
             <gl-grid-col width="[[getWidth]]" grid="[[300,12],[500,3]]"></gl-grid-col>
             <gl-grid-col width="[[getWidth]]" grid="[[300,12],[500,6]]">
                 <paper-dropdown-menu label="ตาราง" placeholder="ตาราง" disabled="[[btnState]]" on-value-changed="test">
-                    <paper-listbox attr-for-selected="value" selected="{{data.table}}" slot="dropdown-content" class="dropdown-content">
-
+                    <paper-listbox attr-for-selected="value" selected="{{data.table_name}}" slot="dropdown-content" class="dropdown-content">
                         <template is="dom-repeat" items={{keydata}}>
                             <paper-item value="[[item.table]]">[[item.table]]</paper-item>
                         </template>
@@ -75,9 +73,9 @@
             <gl-grid-col width="[[getWidth]]" grid="[[300,12],[500,3]]"></gl-grid-col>
 
         </gl-grid-row>
-        <gl-grid-row>
-            {{getKey(data.table)}}
-            <gl-grid-col width="[[getWidth]]" grid="[[300,12],[500,3]]"></gl-grid-col>
+        <!--<gl-grid-row>-->
+        {{getKey(data.table_name)}}
+        <!--<gl-grid-col width="[[getWidth]]" grid="[[300,12],[500,3]]"></gl-grid-col>
             <gl-grid-col width="[[getWidth]]" grid="[[300,12],[500,6]]">
                 <gl-combo-box id="sub-item" label="ฟิลด์รหัส" placeholder="ฟิลด์รหัส" disabled="[[btnState]]" item-label-path="id" item-value-path="id"
                     items="{{field}}" value="{{data.field_id}}">
@@ -88,7 +86,7 @@
             </gl-grid-col>
             <gl-grid-col width="[[getWidth]]" grid="[[300,12],[500,3]]"></gl-grid-col>
 
-        </gl-grid-row>
+        </gl-grid-row>-->
 
         <gl-grid-row>
             <gl-grid-col width="[[getWidth]]" grid="[[300,12],[500,3]]"></gl-grid-col>
@@ -126,37 +124,6 @@
                 },
                 keydata: {
                     statePath: 'group.listtable',
-                    // value: [
-                    //     {
-                    //         id: 'hamonize',
-                    //         sub: [
-                    //             { id: "digits" },
-                    //             { id: "hamonize_code" },
-                    //             { id: "hamonize_en" },
-                    //             { id: "hamonize_en2" },
-                    //             { id: "hamonize_th" },
-                    //             { id: "hamonize_th2" },
-                    //             { id: "hamonize_year" },
-                    //             { id: "id" }
-                    //         ]
-                    //     },
-                    //     {
-                    //         id: 'country',
-                    //         sub: [
-                    //             { id: "continent_id" },
-                    //             { id: "country_code2" },
-                    //             { id: "country_code3" },
-                    //             { id: "country_fullname_en" },
-                    //             { id: "country_fullname_th" },
-                    //             { id: "country_name_en" },
-                    //             { id: "country_name_th" },
-                    //             { id: "creater" },
-                    //             { id: "date_created" },
-                    //             { id: "date_updated" },
-                    //             { id: "id" }
-                    //         ]
-                    //     },
-                    // ]
                 },
                 field: {
                     type: Array,
@@ -164,7 +131,7 @@
                 }
             },
             _save: function () {
-                // console.log(this.data);
+                console.log(this.data);
                 // console.log(this.$$('#tagValue').value);
                 // let name = this.$$('#tagValue').value.map((name)=> name.id)
                 // console.log(name);
@@ -213,8 +180,13 @@
                 }
             },
             test(e) {
-                if (e.detail.value === '' || e.detail.value === undefined)
-                    this.$$('#sub-item').value = ''
+                try {
+
+                    if (e.detail.value === '' || e.detail.value === undefined)
+                        this.$$('#sub-item').value = ''
+                } catch (e) {
+                    // console.log(e);
+                }
             }
         });
     </script>
