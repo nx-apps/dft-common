@@ -51,10 +51,9 @@
                         },
                         {
                             id: 3,
-                            name: 'จังหวัด',
-                            path: '/province/จังหวัด/03',
-                            role: '',
-                            img: '../../images/03/72.png'
+                            nameMenu: 'จังหวัด',
+                            url: '/province/จังหวัด/03',
+                            img: '../../../images/03/72.png'
                         },
                         {
                             id: 3,
@@ -134,6 +133,7 @@
             behaviors: [nylonBehavior],
             _getUrl:function(e){
                 var url = e.target.getAttribute('url')
+                console.log(url)
                 this.fire('nylon-change-page',{path:url})
             }
         });
