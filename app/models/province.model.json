@@ -1,0 +1,22 @@
+{
+    "name": "common.province",
+    "properties": {
+        "id": {
+            "type": "string"
+        },
+        "province_name_en": {
+            "type": "string"
+        },
+        "province_name_th": {
+            "type": "string"
+        },
+        "zip_code": {
+            "type": "number"
+        }
+    },
+    "required": [
+        "id",
+        "province_name_en",
+        "province_name_th"
+    ]
+}

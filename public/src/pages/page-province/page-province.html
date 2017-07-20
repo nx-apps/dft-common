@@ -1,0 +1,247 @@
+<link rel="import" href="./../../../bower_components/nylon-panel/nylon-panel-right.html">
+<link rel="import" href="./../../../bower_components/gl-form/gl-form-panel.html">
+<link rel="import" href="./../../../bower_components/gl-styles/gl-table.html">
+<link rel="import" href="./../../../bower_components/paper-input/paper-input.html">
+<link rel="import" href="./../../../bower_components/paper-tooltip/paper-tooltip.html">
+<link rel="import" href="./../components/icon-button-management.html">
+
+
+<link rel="import" href="./../../layout/page-style.html">
+<link rel="import" href="./../components/search-behavior.html">
+
+<link rel="import" href="../../nylon-behavior.html">
+<!--<link rel="import" href="components/insert-province.html">
+<link rel="import" href="components/edit-province.html">-->
+<link rel="import" href="./../../../bower_components/vaadin-grid/vaadin-grid.html">
+<link rel="import" href="./../../../bower_components/vaadin-grid/vaadin-grid-sorter.html">
+<link rel="import" href="./../components/vaadin-gird-filter-common.html">
+<link rel="import" href="components/manage-province.html">
+<dom-module id="page-province">
+  <style is="custom-style" include="iron-flex iron-flex-factors iron-flex-alignment gl-table page-style">
+   
+  </style>
+  <template>
+
+    <paper-material elevation="1" class="elevation">
+      <!--<paper-button style="margin:10px" raised on-tap="_back">
+        <iron-icon icon="icons:chevron-left"></iron-icon>back</paper-button>
+      <div class="text-head">
+        <div class="img-center">
+          <iron-image src="../../../images/01/72.png"></iron-image>
+        </div>
+        จังหวัด</div>-->
+      <div class="horizontal justified layout">
+        <div class="horizontal layout" style="margin-top:25px;">
+          <!--<div class="labelSearch">ค้นหา</div>
+          <paper-input label=" " no-label-float value="{{searchInput}}"></paper-input>
+          <iron-icon icon="search" style="margin-top:10px;"></iron-icon>-->
+        </div>
+        <div>
+          <paper-button class="gl-btn-primary button-top" title="เพิ่มจังหวัด" raised on-tap="_toggleDrawer">
+            <iron-icon icon="add"></iron-icon>เพิ่มจังหวัด</paper-button>
+        </div>
+      </div>
+
+      <!--<table class="gl-table-default">
+        <thead class="table-head">
+          <tr>
+            <th>
+              <div class="text-center">No
+                <p>(ลำดับ)</div>
+            </th>
+            <th>
+              <div class="text-center">Province Code
+                <p>(รหัสจังหวัด)</div>
+            </th>
+            <th>
+              <div class="text-center">Province Name
+                <p>(ชื่อจังหวัด ภาษาไทย)</div>
+            </th>
+            <th>
+              <div class="text-center">Province Name
+                <p>(ชื่อจังหวัด ภาษาอังกฤษ)</div>
+            </th>
+            <th>
+              <div class="text-center">Date Update
+                <p>(วันที่อัพเดทล่าสุด)</div>
+            </th>
+            <th style="text-align:right;">
+            </th>
+          </tr>
+        </thead>
+          {{searchData(searchInput,data,'province_id','province_name_th','province_name_en')}}
+          <template is="dom-repeat" items="[[searchResult]]">
+          <tbody>
+            <tr>
+              <td>
+                <div class="text-center">{{_count(index)}}</div>
+              </td>
+              <td>
+                <div class="text-center">{{item.province_id}}</div>
+              </td>
+              <td>
+                <div>{{item.province_name_th}}</div>
+              </td>
+              <td>
+                <div>{{item.province_name_en}}</div>
+              </td>
+              <td>
+                <div class="text-center">{{changeDateCC(item.date_updated)}}</div>
+              </td>
+              <td style="text-align:right;">
+                <paper-icon-button data="{{item}}" on-tap="_edit" icon="icons:create"></paper-icon-button>
+                <paper-icon-button data="{{item}}" icon="delete" on-tap="_delete"></paper-icon-button>
+              </td>
+            </tr>
+          </tbody>
+        </template>
+
+        <template is="dom-if" if="{{_isHave(searchResult)}}">
+          <tr>
+            <td colspan="6">
+              <div class="text-center no-data">ไม่มีข้อมูล</div>
+            </td>
+          </tr>
+        </template>
+
+      </table>-->
+      <vaadin-grid id="material" aria-label="Basic Binding Example" items="[[data]]" multi-sort="true">
+
+        <vaadin-grid-column width="100px" flex-grow="0" flex-grow="0" resizable>
+          <template class="header">
+            <div class="text-center">No
+              <p>(ลำดับ)</div>
+          </template>
+          <template>
+            <div class="text-center">{{_count(index)}}</div>
+          </template>
+        </vaadin-grid-column>
+
+        <vaadin-grid-column width="150px" flex-grow="0" resizable>
+          <template class="header">
+            <vaadin-grid-sorter path="province_id">
+            <div class="text-center">Province Code
+                <p>(รหัสจังหวัด)</div>
+              </vaadin-grid-sorter>
+            <vaadin-gird-filter-common aria-label="Province Code" path="province_id" value="[[_province_id]]">
+            </vaadin-gird-filter-common>
+          </template>
+          <template>
+            <p style="white-space: normal">[[item.province_id]]</p>
+          </template>
+        </vaadin-grid-column>
+
+        <vaadin-grid-column width="350px" flex-grow="0" resizable>
+          <template class="header">
+            <vaadin-grid-sorter path="province_name_th">
+            <div class="text-center">Province Name
+                <p>(ชื่อจังหวัด ภาษาไทย)</div>
+              </vaadin-grid-sorter>
+            <vaadin-gird-filter-common aria-label="Rice Name" path="province_name_th" value="[[_province_name_th]]">
+            </vaadin-gird-filter-common>
+          </template>
+          <template>
+            <p style="white-space: normal">[[item.province_name_th]]</p>
+          </template>
+        </vaadin-grid-column>
+
+        <vaadin-grid-column width="350px" flex-grow="0" resizable>
+          <template class="header">
+            <vaadin-grid-sorter path="province_name_en">
+            <div class="text-center">Province Name
+                <p>(ชื่อจังหวัด ภาษาอังกฤษ)</div>
+              </vaadin-grid-sorter>
+            <vaadin-gird-filter-common aria-label="Rice Name" path="province_name_en" value="[[_province_name_en]]">
+            </vaadin-gird-filter-common>
+          </template>
+          <template>
+            <p style="white-space: normal">[[item.province_name_en]]</p>
+          </template>
+        </vaadin-grid-column>
+
+        <vaadin-grid-column width="200px" flex-grow="0" resizable>
+          <template class="header">
+            <vaadin-grid-sorter path="date_updated">
+            <div class="text-center">Date Update
+              <p>(วันที่อัพเดทล่าสุด)</div>
+              </vaadin-grid-sorter>
+          </template>
+          <template>
+            <p style="white-space: normal">{{item.date_updated}}</p>
+          </template>
+        </vaadin-grid-column>
+
+        <vaadin-grid-column width="150px" flex-grow="0" resizable>
+          <template class="header">
+            <div class="text-center">Tool
+              <p>(เครื่องมือ)</div>
+          </template>
+          <template>
+            <div class="text-center">
+              <span>
+                <paper-icon-button data="{{item}}" on-tap="_edit" icon="icons:create"></paper-icon-button>
+                <paper-icon-button data="{{item}}" icon="delete" on-tap="_delete"></paper-icon-button>
+            </span>
+            </div>
+          </template>
+        </vaadin-grid-column>
+
+      </vaadin-grid>
+    </paper-material>
+
+    <nylon-panel-right title="{{title}}">
+      <manage-province status-action="[[statusAction]]" title="{{title}}"></manage-province>
+    </nylon-panel-right>
+  </template>
+  <script>
+    Polymer({
+      is: "page-province",
+      behaviors: [nylonBehavior, ReduxBehavior, provinceAction, commonStateAction, SearchBehavior],
+      properties: {
+        data: {
+          statePath: 'province.list',
+        },
+        statusAction: {
+          type: String,
+          value: ''
+        }
+      },
+      listeners: {
+        'edit-input': 'editInput',
+        'delete-input': '_delete'
+      },
+      editInput() {
+        this.dispatchAction('BTN_SET_STATE', false);
+      },
+      nylonPageActive: function () {
+        this.dispatchAction('PROVINCE_GET_DATA');
+        this.dispatchAction('BTN_SET_STATE', true);
+
+      },
+      _toggleDrawer: function (e) {
+        this.statusAction = 'add';
+        this.$$('nylon-panel-right').open();
+        this.dispatchAction('CLEAR_DATA');
+        this.dispatchAction('BTN_SET_STATE', false);
+        this.title = "เพิ่มข้อมูล";
+      },
+      _count: function (val) {
+        return val + 1
+      },
+      _delete: function (e) {
+        // console.log(e);
+        this.dispatchAction('PROVINCE_DELETE', e.target.data.province_id);
+      },
+      _edit: function (e) {
+        this.statusAction = 'edit';
+        this.dispatchAction('BTN_SET_STATE', true);
+        this.$$('nylon-panel-right').open();
+        this.dispatchAction('PROVINCE_GET_ID', e.target.data.province_id);
+        this.title = "แก้ไขข้อมูล";
+      },
+      _back: function () {
+        window.history.back();
+      },
+    });
+  </script>
+</dom-module>
