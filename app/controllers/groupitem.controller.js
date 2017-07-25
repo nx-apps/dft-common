@@ -22,12 +22,12 @@ exports.list = function (req, res) {
         .orderBy(orderby || 'group_name_th')
         .run()
         .then(function (result) {
-            res.setHeader('Access-Control-Allow-Origin', 'https://localhost:3001');
+            // res.setHeader('Access-Control-Allow-Origin', 'https://localhost:3001');
             // res.setHeader('Access-Control-Allow-Origin', 'https://localhost:3003');
             res.json(result)
         })
         .error(function (err) {
-            res.setHeader('Access-Control-Allow-Origin', 'https://localhost:3001');
+            // res.setHeader('Access-Control-Allow-Origin', 'https://localhost:3001');
             // res.setHeader('Access-Control-Allow-Origin', 'https://localhosyt:3003');
             res.json(err)
         })
