@@ -23,7 +23,7 @@ exports.list = function (req, res) {
         .run()
         .then(function (result) {
             res.setHeader('Access-Control-Allow-Origin', 'https://localhost:3001');
-            // res.setHeader('Access-Control-Allow-Origin', 'https://localhost:3003');
+            // res.setHeader('Access-Control-Allow-Origin', 'https://192.168.10.19:3003');
             res.json(result)
         })
         .error(function (err) {

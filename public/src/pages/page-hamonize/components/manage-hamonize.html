@@ -97,6 +97,15 @@
             </gl-grid-col>
             <gl-grid-col width="[[getWidth]]" grid="[[300,12],[500,4]]"></gl-grid-col>
         </gl-grid-row>
+
+        <gl-grid-row>
+            <gl-grid-col width="[[getWidth]]" grid="[[300,12],[500,4]]"></gl-grid-col>
+            <gl-grid-col width="[[getWidth]]" grid="[[300,12],[500,4]]">
+                <gl-form-input class="margin-top  "  error-message="กรุณากรอกปีหยุดใช้รหัสข้าว" disabled="[[btnState]]"
+                    required label="ปีที่หยุดใช้รหัสข้าว" placeholder="ปีที่หยุดใช้รหัสข้าว" value="{{data.hamonize_year_end}}"></gl-form-input>
+            </gl-grid-col>
+            <gl-grid-col width="[[getWidth]]" grid="[[300,12],[500,4]]"></gl-grid-col>
+        </gl-grid-row>
         <div class="horizontal end-justified layout">
             <div class="button">
                 <paper-button raised on-tap="_cancel" hidden="{{btnState}}">คืนค่าข้อมูล</paper-button>

@@ -24,15 +24,14 @@
         },
         "digits": {
             "type": "string"
+        },
+        "hamonize_year_end": {
+            "type": "string"
         }
     },
     "required": [
         "id",
         "hamonize_code",
-        "hamonize_en",
-        "hamonize_en2",
-        "hamonize_th",
-        "hamonize_th2",
-        "hamonize_year"
+        "hamonize_th"
     ]
 }
