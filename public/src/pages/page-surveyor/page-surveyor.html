@@ -14,71 +14,25 @@
 <dom-module id="page-surveyor">
   <style is="custom-style" include="iron-flex iron-flex-factors iron-flex-alignment gl-table page-style">
      
-    /*.table-head > tr > th:nth-child(1) {
-      width: 5%;
-    }
-    .table-head > tr > th:nth-child(2) {
-      width: 45%;
-    }
-    .table-head > tr > th:nth-child(3) {
-      width: 20%;
-    }*/
+
+    vaadin-grid {
+        height: 100vh;
+      }
   </style>
   <template>
 
     <paper-material elevation="1" class="elevation">
 
-      <!--<paper-button style="margin:10px" raised on-tap="_back"><iron-icon icon="icons:chevron-left"></iron-icon>back</paper-button>
-
-          <div class="text-head"><div class="img-center">
-          <iron-image src="../../../images/10/72.png"></iron-image>
-        </div>หน่วยงานตรวจสอบสินค้า</div>-->
 
           <div class="horizontal justified layout">
             <div class="horizontal layout" style="margin-top:25px;">
-              <!--<div class="labelSearch">ค้นหา</div>
-              <paper-input label=" " no-label-float value="{{searchInput}}"></paper-input>
-              <iron-icon icon="search" style="margin-top:10px;"></iron-icon>-->
             </div>
             <div>
               <paper-button class="gl-btn-primary button-top" title="เพิ่มหน่วยงานตรวจสอบสินค้า" raised on-tap="_toggleDrawer"><iron-icon icon="add"></iron-icon>เพิ่มหน่วยงาน</paper-button>
             </div>
           </div>
 
-          <!--<table class="gl-table-default">
-            <thead class="table-head">
-              <tr>
-                <th><div class="text-center">No<p>(ลำดับ)</div></th>
-                <th><div class="text-center">Surveyor Name<p>(ชื่อหน่วยงานตรวจสอบสินค้า)</div></th>
-                <th><div class="text-center">Date Update<p>(วันที่อัพเดทล่าสุด)</div></th>
-                <th style="text-align:right;">
-                </th>
-              </tr>
-            </thead>
-                      {{searchData(searchInput,data,'surveyor_name')}}
-
-            <template is="dom-repeat" items="[[searchResult]]">
-              <tbody>
-                <tr>
-                  <td><div class="text-center">{{_count(index)}}</div></td>
-                  <td><div>{{item.surveyor_name}}</div></td>
-                  <td><div class="text-center">{{changeDateCC(item.date_updated)}}</div></td>
-                  <td style="text-align:right;">
-                    <paper-icon-button data="{{item}}" on-tap="_edit" icon="icons:create"></paper-icon-button>
-                    <paper-icon-button data="{{item}}" icon="delete" on-tap="_delete"></paper-icon-button>
-                  </td>
-                </tr>
-                
-              </tbody>
-            </template>
-            <template is="dom-if" if="{{_isHave(searchResult)}}">
-          <tr>
-            <td colspan="6">
-              <div class="text-center no-data">ไม่มีข้อมูล</div>
-            </td>
-          </tr>
-        </template>
-          </table>-->
+      
           <vaadin-grid id="material" aria-label="Basic Binding Example" items="[[data]]" multi-sort="true">
 
         <vaadin-grid-column width="100px" flex-grow="0" flex-grow="0" resizable>

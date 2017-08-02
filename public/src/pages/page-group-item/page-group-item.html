@@ -44,17 +44,6 @@
                 color: var(--paper-grey-600);
                 font-size: var(--font-size-h3);
             }
-            /*.table-head>tr>th:nth-child(1) {
-                width: 1%;
-            }
-
-            .table-head>tr>th:nth-child(2) {
-                width: 10%;
-            }
-
-            .table-head>tr>th:nth-child(3) {
-                width: 20%;
-            }*/
 
             .elevation {
                 border-radius: 5px;
@@ -73,20 +62,15 @@
                 margin-top: 15px;
                 margin-left: 25px;
             }
+            vaadin-grid {
+        height: auto;
+      }
         </style>
         <paper-material elevation="1" class="elevation">
-            <!--<paper-button style="margin:10px" raised on-tap="_back">
-                <iron-icon icon="icons:chevron-left"></iron-icon>back</paper-button>
-            <div class="text-head"><div class="img-center">
-          <iron-image src="../../../images/04/72.png"></iron-image>
-        </div>กลุ่ม</div>-->
             <div class="header-title">
                 กลุ่ม {{dataSeleted.group_name_th}}</div>
             <div class="horizontal justified layout">
                 <div class="horizontal layout" style="margin-top:25px;">
-                    <!--<div class="labelSearch">ค้นหา</div>
-                    <paper-input label=" " no-label-float value="{{searchInput}}"></paper-input>
-                    <iron-icon icon="search" style="margin-top:10px;"></iron-icon>-->
                 </div>
                 <div>
                     <paper-button class="gl-btn-primary button-top" title="เพิ่มกลุ่ม" raised on-tap="_toggleDrawer">
@@ -95,49 +79,6 @@
 
             </div>
 
-            <!--<table class="gl-table-default">
-                <thead class="table-head">
-                    <tr>
-                        <th>
-                            <div class="text-center">No
-                                <p>(ลำดับ)</div>
-                        </th>
-                        <th>
-                            <div class="text-center">Group
-                                <p>(กลุ่ม ไทย)</div>
-                        </th>
-                        <th>
-                            <div class="text-center">Group
-                                <p>(กลุ่ม อังกฤษ)</div>
-                        </th>
-                        <th></th>
-                    </tr>
-                </thead>
-                {{searchData(searchInput,data,'name_th','name_en')}}
-                <template is="dom-repeat" items="[[searchResult]]">
-                    <tbody>
-                        <tr>
-                            <td>
-                                <div class="text-center">[[toIndex(index)]]</div>
-                            </td>
-                            <td>{{item.name_th}}</td>
-                            <td>{{item.name_en}}</td>
-                            <td style="text-align:right;">
-                                <paper-icon-button data="{{item}}" on-tap="_edit" icon="icons:create"></paper-icon-button>
-                                <paper-icon-button data="{{item}}" icon="delete" on-tap="_delete"></paper-icon-button>
-                            </td>
-                        </tr>
-
-                    </tbody>
-                </template>
-                <template is="dom-if" if="{{_isHave(searchResult)}}">
-                    <tr>
-                        <td colspan="6">
-                            <div class="text-center no-data">ไม่มีข้อมูล</div>
-                        </td>
-                    </tr>
-                </template>
-            </table>-->
             <vaadin-grid id="material" aria-label="Basic Binding Example" items="[[data]]" multi-sort="true">
 
                 <vaadin-grid-column width="100px" flex-grow="0" flex-grow="0" resizable>

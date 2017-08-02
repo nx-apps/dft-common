@@ -18,23 +18,16 @@
 <link rel="import" href="components/manage-bank.html">
 <dom-module id="page-bank">
   <style is="custom-style" include="iron-flex iron-flex-factors iron-flex-alignment gl-table page-style">
-   
+   vaadin-grid {
+        height: 100vh;
+      }
   </style>
   <template>
 
     <paper-material elevation="1" class="elevation">
-      <!--<paper-button style="margin:10px" raised on-tap="_back">
-        <iron-icon icon="icons:chevron-left"></iron-icon>back</paper-button>
-      <div class="text-head">
-        <div class="img-center">
-          <iron-image src="../../../images/01/72.png"></iron-image>
-        </div>
-        ธนาคาร</div>-->
+
       <div class="horizontal justified layout">
         <div class="horizontal layout" style="margin-top:25px;">
-          <!--<div class="labelSearch">ค้นหา</div>
-          <paper-input label=" " no-label-float value="{{searchInput}}"></paper-input>
-          <iron-icon icon="search" style="margin-top:10px;"></iron-icon>-->
         </div>
         <div>
           <paper-button class="gl-btn-primary button-top" title="เพิ่มธนาคาร" raised on-tap="_toggleDrawer">
@@ -42,69 +35,7 @@
         </div>
       </div>
 
-      <!--<table class="gl-table-default">
-        <thead class="table-head">
-          <tr>
-            <th>
-              <div class="text-center">No
-                <p>(ลำดับ)</div>
-            </th>
-            <th>
-              <div class="text-center">Bank Code
-                <p>(รหัสธนาคาร)</div>
-            </th>
-            <th>
-              <div class="text-center">Bank Name
-                <p>(ชื่อธนาคาร ภาษาไทย)</div>
-            </th>
-            <th>
-              <div class="text-center">Bank Name
-                <p>(ชื่อธนาคาร ภาษาอังกฤษ)</div>
-            </th>
-            <th>
-              <div class="text-center">Date Update
-                <p>(วันที่อัพเดทล่าสุด)</div>
-            </th>
-            <th style="text-align:right;">
-            </th>
-          </tr>
-        </thead>
-          {{searchData(searchInput,data,'bank_id','bank_name_th','bank_name_en')}}
-          <template is="dom-repeat" items="[[searchResult]]">
-          <tbody>
-            <tr>
-              <td>
-                <div class="text-center">{{_count(index)}}</div>
-              </td>
-              <td>
-                <div class="text-center">{{item.bank_id}}</div>
-              </td>
-              <td>
-                <div>{{item.bank_name_th}}</div>
-              </td>
-              <td>
-                <div>{{item.bank_name_en}}</div>
-              </td>
-              <td>
-                <div class="text-center">{{changeDateCC(item.date_updated)}}</div>
-              </td>
-              <td style="text-align:right;">
-                <paper-icon-button data="{{item}}" on-tap="_edit" icon="icons:create"></paper-icon-button>
-                <paper-icon-button data="{{item}}" icon="delete" on-tap="_delete"></paper-icon-button>
-              </td>
-            </tr>
-          </tbody>
-        </template>
-
-        <template is="dom-if" if="{{_isHave(searchResult)}}">
-          <tr>
-            <td colspan="6">
-              <div class="text-center no-data">ไม่มีข้อมูล</div>
-            </td>
-          </tr>
-        </template>
-
-      </table>-->
+     
       <vaadin-grid id="material" aria-label="Basic Binding Example" items="[[data]]" multi-sort="true">
 
         <vaadin-grid-column width="100px" flex-grow="0" flex-grow="0" resizable>

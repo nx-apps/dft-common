@@ -34,22 +34,6 @@
       color: var(--paper-grey-600);
       font-size: var(--font-size-h3);
     }
-    /*.table-head>tr>th:nth-child(1) {
-      width: 5%;
-    }
-
-    .table-head>tr>th:nth-child(2) {
-      width: 25%;
-    }
-
-    .table-head>tr>th:nth-child(3) {
-      width: 40%;
-    }
-
-    .table-head>tr>th:nth-child(4) {
-      width: 15%;
-    }*/
-
     .elevation {
       border-radius: 5px;
       margin: 10px;
@@ -61,22 +45,17 @@
       font-size: var(--font-size-h5);
       margin: 10px 10px 10px 10px;
     }
+    vaadin-grid {
+        height: 100vh;
+      }
   </style>
   <template>
 
     <paper-material elevation="1" class="elevation">
 
-      <!--<paper-button  style="margin:10px" raised on-tap="_back"><iron-icon icon="icons:chevron-left"></iron-icon>back</paper-button>
-
-          <div class="text-head"><div class="img-center">
-          <iron-image src="../../../images/05/72.png"></iron-image>
-        </div>ข้อกำหนดการส่งสินค้า</div>-->
 
       <div class="horizontal justified layout">
         <div class="horizontal layout" style="margin-top:25px;">
-          <!--<div class="labelSearch">ค้นหา</div>
-          <paper-input label=" " no-label-float value="{{searchInput}}"></paper-input>
-          <iron-icon icon="search" style="margin-top:10px;"></iron-icon>-->
         </div>
         <div>
           <paper-button class="gl-btn-primary button-top" title="เพิ่มข้อกำหนดการส่งสินค้า" raised on-tap="_toggleDrawer">
@@ -84,62 +63,7 @@
         </div>
       </div>
 
-      <!--<table class="gl-table-default">
-        <thead class="table-head">
-          <tr>
-            <th>
-              <div class="text-center">No
-                <p>(ลำดับ)</div>
-            </th>
-            <th>
-              <div class="text-center">Incoterms Code
-                <p>(รหัสข้อกำหนดส่งสินค้า)</div>
-            </th>
-            <th>
-              <div class="text-center">Incoterms Name
-                <p>(ชื่อข้อกำหนดส่งสินค้า)</div>
-            </th>
-            <th>
-              <div class="text-center">Date Update
-                <p>(วันที่อัพเดทล่าสุด)</div>
-            </th>
-            <th style="text-align:right;">
-            </th>
-          </tr>
-        </thead>
-
-          {{searchData(searchInput,data,'inct_id','inct_name')}}
-        <template is="dom-repeat" items="[[searchResult]]">
-          <tbody>
-            <tr>
-              <td>
-                <div class="text-center">{{_count(index)}}</div>
-              </td>
-              <td>
-                <div class="text-center">{{item.inct_id}}</div>
-              </td>
-              <td>
-                <div>{{item.inct_name}}</div>
-              </td>
-              <td>
-                <div class="text-center">{{changeDateCC(item.date_updated)}}</div>
-              </td>
-              <td style="text-align:right;">
-                <paper-icon-button data="{{item}}" on-tap="_edit" icon="icons:create"></paper-icon-button>
-                <paper-icon-button data="{{item}}" icon="delete" on-tap="_delete"></paper-icon-button>
-              </td>
-            </tr>
-
-          </tbody>
-        </template>
-        <template is="dom-if" if="{{_isHave(searchResult)}}">
-          <tr>
-            <td colspan="6">
-              <div class="text-center no-data">ไม่มีข้อมูล</div>
-            </td>
-          </tr>
-        </template>
-      </table>-->
+     
       <vaadin-grid id="material" aria-label="Basic Binding Example" items="[[data]]" multi-sort="true">
 
         <vaadin-grid-column width="100px" flex-grow="0" flex-grow="0" resizable>

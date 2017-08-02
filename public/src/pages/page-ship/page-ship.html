@@ -13,40 +13,19 @@
 <link rel="import" href="./../components/search-behavior.html">
 <dom-module id="page-ship">
   <style is="custom-style" include="iron-flex iron-flex-factors iron-flex-alignment gl-table page-style">
-    /*.table-head>tr>th:nth-child(1) {
-      width: 5%;
-    }
-    
-    .table-head>tr>th:nth-child(2) {
-      width: 30%;
-    }
-    
-    .table-head>tr>th:nth-child(3) {
-      width: 30%;
-    }
-    .table-head>tr>th:nth-child(4) {
-      width: 10%;
-    }
-    .table-head>tr>th:nth-child(5) {
-      width: 10%;
-    }*/
+
+    vaadin-grid {
+        height: 100vh;
+      }
   </style>
   <template>
 
     <paper-material elevation="1" class="elevation">
 
-      <!--<paper-button style="margin:10px" raised on-tap="_back">
-        <iron-icon icon="icons:chevron-left"></iron-icon>back</paper-button>
-
-      <div class="text-head"><div class="img-center">
-          <iron-image src="../../../images/08/72.png"></iron-image>
-        </div>เรือ</div>-->
+    
 
       <div class="horizontal justified layout">
         <div class="horizontal layout" style="margin-top:25px;">
-          <!--<div class="labelSearch">ค้นหา</div>
-          <paper-input label=" " no-label-float value="{{searchInput}}"></paper-input>
-          <iron-icon icon="search" style="margin-top:10px;"></iron-icon>-->
         </div>
         <div>
           <paper-button class="gl-btn-primary button-top" title="เพิ่มเรือ" raised on-tap="_toggleDrawer">
@@ -54,42 +33,7 @@
         </div>
       </div>
 
-      <!--<table class="gl-table-default">
-        <thead class="table-head">
-          <tr>
-            <th><div class="text-center">No<p>(ลำดับ)</div></th>
-            <th><div class="text-center">Ship Name<p>(ชื่อเรือ)</div></th>
-            <th><div class="text-center">Date Update<p>(วันที่อัพเดทล่าสุด)</div></th>
-            <th style="text-align:right;">
-            </th>
-          </tr>
-        </thead>
-
-        {{searchData(searchInput,data,'shipline_name','ship_name')}}
-          
-        <template is="dom-repeat" items="[[searchResult]]">
-          <tbody>
-            <tr>
-              <td><div class="text-center">{{_count(index)}}</div></td>
-              <td><div>{{item.ship_name}}</div></td>
-              <td><div class="text-center">{{changeDateCC(item.date_updated)}}</div></td>
-              <td style="text-align:right;">
-                <paper-icon-button data="{{item}}" on-tap="_edit" icon="icons:create"></paper-icon-button>
-                <paper-icon-button data="{{item}}" icon="delete" on-tap="_delete"></paper-icon-button>
-              </td>
-            </tr>
-            
-          </tbody>
-        </template>
-        <template is="dom-if" if="{{_isHave(searchResult)}}">
-          <tr>
-            <td colspan="6">
-              <div class="text-center no-data">ไม่มีข้อมูล</div>
-            </td>
-          </tr>
-        </template>
-
-      </table>-->
+   
       <vaadin-grid id="material" aria-label="Basic Binding Example" items="[[data]]" multi-sort="true">
 
         <vaadin-grid-column width="100px" flex-grow="0" flex-grow="0" resizable>

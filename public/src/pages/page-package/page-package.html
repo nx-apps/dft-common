@@ -15,52 +15,17 @@
 
 <dom-module id="page-package">
   <style is="custom-style" include="iron-flex iron-flex-factors iron-flex-alignment gl-table page-style">
-    /*.table-head>tr>th:nth-child(1) {
-      width: 5%;
-    }*/
-    /*.table-head>tr>th:nth-child(2) {
-      width: 10%;
-    }*/
-    /*.table-head>tr>th:nth-child(2) {
-      width: 15%;
-    }
-
-    .table-head>tr>th:nth-child(3) {
-      width: 30%;
-    }
-
-    .table-head>tr>th:nth-child(4) {
-      width: 15%;
-    }
-
-    .table-head>tr>th:nth-child(5) {
-      width: 15%;
-    }
-
-    .table-head>tr>th:nth-child(6) {
-      width: 10%;
-    }
-
-    .table-head>tr>th:nth-child(7) {
-      width: 10%;
-    }*/
+  
+    vaadin-grid {
+        height: 100vh;
+      }
   </style>
   <template>
 
     <paper-material elevation="1" class="elevation">
 
-      <!--<paper-button style="margin:10px" raised on-tap="_back">
-        <iron-icon icon="icons:chevron-left"></iron-icon>back</paper-button>
-
-      <div class="text-head"><div class="img-center">
-          <iron-image src="../../../images/06/72.png"></iron-image>
-        </div>แพ็คเกจ</div>-->
-
       <div class="horizontal justified layout">
         <div class="horizontal layout" style="margin-top:25px;">
-          <!--<div class="labelSearch">ค้นหา</div>
-          <paper-input label=" " no-label-float value="{{searchInput}}"></paper-input>
-          <iron-icon icon="search" style="margin-top:10px;"></iron-icon>-->
         </div>
         <div>
           <paper-button class="gl-btn-primary button-top" title="เพิ่มแพ็คเกจ" raised on-tap="_toggleDrawer">
@@ -68,73 +33,7 @@
         </div>
       </div>
 
-      <!--<table class="gl-table-default">
-        <thead class="table-head">
-          <tr>
-            <th><div class="text-center">No<p>(ลำดับ)</div></th>
-            <th>
-              <div class="text-center">Package Weight (kg)
-                <p>(น้ำหนักแพ็คเกจ กก.)</div>
-            </th>
-            <th>
-              <div class="text-center">Package Name
-                <p>(ชื่อแพ็คเกจ ภาษาอังกฤษ)</div>
-            </th>
-            <th>
-              <div class="text-center">Package Name
-                <p>(ชื่อแพ็คเกจ ภาษาไทย)</div>
-            </th>
-            <th>
-              <div class="text-center">Package Weight_bag (g)
-                <p>(น้ำหนักกระสอบ กรัม.)</div>
-            </th>
-            <th>
-              <div class="text-center">Date Update
-                <p>(วันที่อัพเดทล่าสุด)</div>
-            </th>
-            <th style="text-align:right;">
-            </th>
-          </tr>
-        </thead>
-
-          {{searchData(searchInput,data,'package_kg_per_bag','package_name_en','package_name_th','package_weight_bag')}}
-        <template is="dom-repeat" items="[[searchResult]]">
-          <tbody>
-            <tr>
-              <td>
-                <div class="text-center">{{_count(index)}}</div>
-              </td>
-              <td>
-                <div class="text-center">{{item.package_kg_per_bag}}</div>
-              </td>
-              <td>
-                <div>{{item.package_name_en}}</div>
-              </td>
-              <td>
-                <div>{{item.package_name_th}}</div>
-              </td>
-              <td>
-                <div class="text-center">{{item.package_weight_bag}}</div>
-              </td>
-              <td>
-                <div class="text-center">{{changeDateCC(item.date_updated)}}</div>
-              </td>
-              <td style="text-align:right;">
-                <paper-icon-button data="{{item}}" on-tap="_edit" icon="icons:create"></paper-icon-button>
-                <paper-icon-button data="{{item}}" icon="delete" on-tap="_delete"></paper-icon-button>
-              </td>
-            </tr>
-
-          </tbody>
-        </template>
-        <template is="dom-if" if="{{_isHave(searchResult)}}">
-          <tr>
-            <td colspan="6">
-              <div class="text-center no-data">ไม่มีข้อมูล</div>
-            </td>
-          </tr>
-        </template>
-      </table>-->
+  
       <vaadin-grid id="material" aria-label="Basic Binding Example" items="[[data]]" multi-sort="true">
 
         <vaadin-grid-column width="100px" flex-grow="0" flex-grow="0" resizable>
