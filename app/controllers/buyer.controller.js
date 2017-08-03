@@ -14,11 +14,11 @@ exports.list = function (req, res) {
         .orderBy(orderby || 'country_code3', 'buyer_name')
         .run()
         .then(function (result) {
-            res.setHeader('Access-Control-Allow-Origin', 'https://localhost:3001');
+            //res.setHeader('Access-Control-Allow-Origin', 'https://localhost:3001');
             res.json(result)
         })
         .error(function (err) {
-            res.setHeader('Access-Control-Allow-Origin', 'https://localhost:3001');
+            //res.setHeader('Access-Control-Allow-Origin', 'https://localhost:3001');
             res.json(err)
         })
 }
@@ -42,11 +42,11 @@ exports.getById = function (req, res) {
         .without('id')
         .run()
         .then(function (result) {
-            res.setHeader('Access-Control-Allow-Origin', 'https://localhost:3001');
+            //res.setHeader('Access-Control-Allow-Origin', 'https://localhost:3001');
             res.json(result)
         })
         .error(function (err) {
-            res.setHeader('Access-Control-Allow-Origin', 'https://localhost:3001');
+            //res.setHeader('Access-Control-Allow-Origin', 'https://localhost:3001');
             res.json(err)
         })
 }

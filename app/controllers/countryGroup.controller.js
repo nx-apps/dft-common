@@ -61,11 +61,11 @@ exports.country = function (req, res) {
         })
         .run()
         .then(function (result) {
-            res.setHeader('Access-Control-Allow-Origin', 'https://localhost:3001');
+            //res.setHeader('Access-Control-Allow-Origin', 'https://localhost:3001');
             res.json(result);
         })
         .catch(function (err) {
-            res.setHeader('Access-Control-Allow-Origin', 'https://localhost:3001');
+            //res.setHeader('Access-Control-Allow-Origin', 'https://localhost:3001');
             res.status(500).json(err);
         })
 }
@@ -81,11 +81,11 @@ exports.countries = function (req, res) {
         // })
         .run()
         .then(function (result) {
-            res.setHeader('Access-Control-Allow-Origin', 'https://localhost:3001');
+            //res.setHeader('Access-Control-Allow-Origin', 'https://localhost:3001');
             res.json(result);
         })
         .catch(function (err) {
-            res.setHeader('Access-Control-Allow-Origin', 'https://localhost:3001');
+            //res.setHeader('Access-Control-Allow-Origin', 'https://localhost:3001');
             res.status(500).json(err);
         })
 }

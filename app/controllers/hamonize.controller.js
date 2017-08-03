@@ -20,11 +20,11 @@ exports.list = function (req, res) {
         .orderBy('hamonize_id')
         .run()
         .then(function (result) {
-            res.setHeader('Access-Control-Allow-Origin', 'https://localhost:3001');
+            //res.setHeader('Access-Control-Allow-Origin', 'https://localhost:3001');
             res.json(result)
         })
         .error(function (err) {
-            res.setHeader('Access-Control-Allow-Origin', 'https://localhost:3001');
+            //res.setHeader('Access-Control-Allow-Origin', 'https://localhost:3001');
             res.json(err)
         })
 }
@@ -42,11 +42,11 @@ exports.getById = function (req, res) {
         .without('id')
         .run()
         .then(function (result) {
-            res.setHeader('Access-Control-Allow-Origin', 'https://localhost:3001');
+            //res.setHeader('Access-Control-Allow-Origin', 'https://localhost:3001');
             res.json(result)
         })
         .error(function (err) {
-            res.setHeader('Access-Control-Allow-Origin', 'https://localhost:3001');
+            //res.setHeader('Access-Control-Allow-Origin', 'https://localhost:3001');
             res.json(err)
         })
 }
@@ -65,7 +65,7 @@ exports.insert = function (req, res) {
             .insert(req.body)
             .run()
             .then(function (response) {
-                res.setHeader('Access-Control-Allow-Origin', 'https://localhost:3001');
+                //res.setHeader('Access-Control-Allow-Origin', 'https://localhost:3001');
                 result.message = response;
                 if (response.errors == 0) {
                     result.result = true;
@@ -74,7 +74,7 @@ exports.insert = function (req, res) {
                 res.json(result);
             })
             .error(function (err) {
-                res.setHeader('Access-Control-Allow-Origin', 'https://localhost:3001');
+                //res.setHeader('Access-Control-Allow-Origin', 'https://localhost:3001');
                 result.message = err;
                 res.json(result);
             })
