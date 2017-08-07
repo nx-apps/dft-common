@@ -3,29 +3,35 @@
 <link rel="import" href="./../../../../bower_components/gl-grid/gl-grid-col.html">
 <link rel="import" href="./../../../../bower_components/gl-form/gl-combo-box.html">
 <link rel="import" href="./../../../../bower_components/gl-form/gl-form-textarea.html">
+<link rel="import" href="./../../../../bower_components/paper-checkbox/paper-checkbox.html">
+
 <link rel="import" href="./../../components/validateFormBehaviors.html">
 <dom-module id="manage-notifyparty">
     <style include="iron-flex iron-flex-alignment gl-color gl-size">
-       *{
-      font-family: 'CSChatThaiUI', sans-serif;
-      -webkit-font-smoothing: antialiased;
-      font-size: var(--font-size-h5);
-      text-align: left;
-    }
-    .text-center {
-      text-align: center;
-      font-size: var(--font-size-h3);
-      background-color: var(--paper-grey-100);
-      margin-top: 20px;
-    }
-    .margin-top{
-      margin-top: 15px;
-    }
-    .button{
-      margin-top: 20px;
-      margin-bottom: 20px;
-    }
-    icon-button-management{
+        * {
+            font-family: 'CSChatThaiUI', sans-serif;
+            -webkit-font-smoothing: antialiased;
+            font-size: var(--font-size-h5);
+            text-align: left;
+        }
+
+        .text-center {
+            text-align: center;
+            font-size: var(--font-size-h3);
+            background-color: var(--paper-grey-100);
+            margin-top: 20px;
+        }
+
+        .margin-top {
+            margin-top: 15px;
+        }
+
+        .button {
+            margin-top: 20px;
+            margin-bottom: 20px;
+        }
+
+        icon-button-management {
             margin: 10px 10px;
         }
     </style>
@@ -35,48 +41,59 @@
             <icon-button-management btn-state="[[!btnState]]"></icon-button-management>
         </template>
 
-    <gl-grid-row width="{{getWidth}}">
-      <gl-grid-col width="[[getWidth]]" grid="[[300,12],[500,2]]"></gl-grid-col>
-      <gl-grid-col width="[[getWidth]]" grid="[[300,12],[500,4]]">
-        <gl-combo-box class=" required" required  items="{{ports}}" item-label-path="port_name" label="Port Name (ชื่อท่าเรือ)" item-value-path="port_id"
-        value="{{data.port_id}}" error-message="กรุณาเลือกท่าเรือ" required disabled="[[btnState]]" ></gl-combo-box>
-      </gl-grid-col>
-      <gl-grid-col width="[[getWidth]]" grid="[[300,12],[500,4]]">
-        <gl-combo-box class=" required" required  items="{{buyers}}" item-label-path="buyer_name" label="Buyer Name (ชื่อผู้ซื้อ)" item-value-path="buyer_id"
-        value="{{data.buyer_id}}" error-message="กรุณาเลือกผู้ซื้อ" required disabled="[[btnState]]" ></gl-combo-box>
-      </gl-grid-col>
-    </gl-grid-row>
+        <gl-grid-row width="{{getWidth}}">
+            <gl-grid-col width="[[getWidth]]" grid="[[300,12],[500,2]]"></gl-grid-col>
+            <gl-grid-col width="[[getWidth]]" grid="[[300,12],[500,4]]">
+                <gl-combo-box class=" required" required items="{{ports}}" item-label-path="port_name" label="Port Name (ชื่อท่าเรือ)" item-value-path="port_id"
+                    value="{{data.port_id}}" error-message="กรุณาเลือกท่าเรือ" required disabled="[[btnState]]"></gl-combo-box>
+            </gl-grid-col>
+            <gl-grid-col width="[[getWidth]]" grid="[[300,12],[500,4]]">
+                <gl-combo-box class=" required" required items="{{buyers}}" item-label-path="buyer_name" label="Buyer Name (ชื่อผู้ซื้อ)"
+                    item-value-path="buyer_id" value="{{data.buyer_id}}" error-message="กรุณาเลือกผู้ซื้อ" required disabled="[[btnState]]"></gl-combo-box>
+            </gl-grid-col>
+        </gl-grid-row>
 
-    <gl-grid-row>
-      <gl-grid-col width="[[getWidth]]" grid="[[300,12],[500,2]]"></gl-grid-col>
-      <gl-grid-col width="[[getWidth]]" grid="[[300,12],[500,8]]">
-        <gl-form-input class="margin-top  required" required  label="Notify Name (ชื่อที่อยู่ผู้รับสินค้า) :"  disabled="[[btnState]]" placeholder="กรอกชื่อที่อยู่ผู้รับสินค้า" value="{{data.notify_name}}" error-message="กรุณากรอกชื่อที่อยู่ผู้รับสินค้า" required></gl-form-input>
-      </gl-grid-col>
-    </gl-grid-row>
+        <gl-grid-row>
+            <gl-grid-col width="[[getWidth]]" grid="[[300,12],[500,2]]"></gl-grid-col>
+            <gl-grid-col width="[[getWidth]]" grid="[[300,12],[500,8]]">
+                <gl-form-input class="margin-top  required" required label="Notify Name (ชื่อที่อยู่ผู้รับสินค้า) :" disabled="[[btnState]]"
+                    placeholder="กรอกชื่อที่อยู่ผู้รับสินค้า" value="{{data.notify_name}}" error-message="กรุณากรอกชื่อที่อยู่ผู้รับสินค้า"
+                    required></gl-form-input>
+            </gl-grid-col>
+        </gl-grid-row>
 
-    <gl-grid-row>
-      <gl-grid-col width="[[getWidth]]" grid="[[300,12],[500,2]]"></gl-grid-col>
-      <gl-grid-col width="[[getWidth]]" grid="[[300,12],[500,4]]">
-        <gl-form-textarea class="margin-top  required" required  label="Tel. (เบอร์โทร) :"  disabled="[[btnState]]" placeholder="กรอกเบอร์โทร" value="{{data.notify_tel}}" error-message="กรุณากรอกเบอร์โทร" required></gl-form-textarea>
-      </gl-grid-col>
-      <gl-grid-col width="[[getWidth]]" grid="[[300,12],[500,4]]">
-        <gl-form-textarea class="margin-top  required" required  label="Fax. (เบอร์แฟกซ์) :"  disabled="[[btnState]]" placeholder="กรอกเบอร์แฟกซ์" value="{{data.notify_fax}}" error-message="กรุณากรอกเบอร์แฟกซ์" required></gl-form-textarea>
-      </gl-grid-col>
-    </gl-grid-row>
+        <gl-grid-row>
+            <gl-grid-col width="[[getWidth]]" grid="[[300,12],[500,2]]"></gl-grid-col>
+            <gl-grid-col width="[[getWidth]]" grid="[[300,12],[500,4]]">
+                <gl-form-textarea class="margin-top  required" required label="Tel. (เบอร์โทร) :" disabled="[[btnState]]" placeholder="กรอกเบอร์โทร"
+                    value="{{data.notify_tel}}" error-message="กรุณากรอกเบอร์โทร" required></gl-form-textarea>
+            </gl-grid-col>
+            <gl-grid-col width="[[getWidth]]" grid="[[300,12],[500,4]]">
+                <gl-form-textarea class="margin-top  required" required label="Fax. (เบอร์แฟกซ์) :" disabled="[[btnState]]" placeholder="กรอกเบอร์แฟกซ์"
+                    value="{{data.notify_fax}}" error-message="กรุณากรอกเบอร์แฟกซ์" required></gl-form-textarea>
+            </gl-grid-col>
+        </gl-grid-row>
 
-    <gl-grid-row>
-      <gl-grid-col width="[[getWidth]]" grid="[[300,12],[500,2]]"></gl-grid-col>
-      <gl-grid-col width="[[getWidth]]" grid="[[300,12],[500,8]]">
-        <gl-form-textarea class="margin-top  required" required  label="Nortfy Address (ที่อยู่) :" rows="2"  disabled="[[btnState]]" placeholder="กรอกที่อยู่" value="{{data.notify_address}}" error-message="กรุณากรอกที่อยู่" required></gl-form-textarea>
-      </gl-grid-col>
-    </gl-grid-row>
+        <gl-grid-row>
+            <gl-grid-col width="[[getWidth]]" grid="[[300,12],[500,2]]"></gl-grid-col>
+            <gl-grid-col width="[[getWidth]]" grid="[[300,12],[500,8]]">
+                <gl-form-textarea class="margin-top  required" required label="Nortfy Address (ที่อยู่) :" rows="2" disabled="[[btnState]]"
+                    placeholder="กรอกที่อยู่" value="{{data.notify_address}}" error-message="กรุณากรอกที่อยู่" required></gl-form-textarea>
+            </gl-grid-col>
+        </gl-grid-row>
+        <gl-grid-row>
+            <gl-grid-col width="[[getWidth]]" grid="[[300,12],[500,2]]"></gl-grid-col>
+            <gl-grid-col width="[[getWidth]]" grid="[[300,12],[500,8]]">
+                <paper-checkbox checked={{data.default_status}} disabled="[[btnState]]"> สำนักงานใหญ่</paper-checkbox>
+            </gl-grid-col>
+        </gl-grid-row>
 
-    <div class="horizontal end-justified layout">
-      <div class="button">
-        <paper-button raised on-tap="_cancel" hidden="{{btnState}}">คืนค่าข้อมูล</paper-button>
-        <paper-button class="gl-btn-success" raised on-tap="_save" hidden="{{btnState}}">บันทึก</paper-button>
-      </div>
-    </div>
+        <div class="horizontal end-justified layout">
+            <div class="button">
+                <paper-button raised on-tap="_cancel" hidden="{{btnState}}">คืนค่าข้อมูล</paper-button>
+                <paper-button class="gl-btn-success" raised on-tap="_save" hidden="{{btnState}}">บันทึก</paper-button>
+            </div>
+        </div>
     </template>
     <script>
         Polymer({
@@ -85,19 +102,19 @@
                 data: {
                     statePath: 'notifyparty.data'
                 },
-                buyers:{
-                    statePath:'buyer.list'
+                buyers: {
+                    statePath: 'buyer.list'
                 },
-                ports:{
-                    statePath:'port.list'
+                ports: {
+                    statePath: 'port.list'
                 },
-                btnState:{
+                btnState: {
                     statePath: 'commonState.btnState'
                 }
             },
-            behaviors: [nylonBehavior, ReduxBehavior,ValidateFormBehavior],
+            behaviors: [nylonBehavior, ReduxBehavior, ValidateFormBehavior],
             _save: function () {
-                if(this.validateForm('.required')){
+                if (this.validateForm('.required')) {
                     if (typeof this.data.notify_id !== 'undefined') {
                         this.dispatchAction('NOTIFY_PARTY_EDIT', this.data);
                     }

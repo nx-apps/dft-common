@@ -16,6 +16,9 @@
         "notify_fax": {
             "type": "string"
         },
+        "default_status": {
+            "type": "string"
+        },
         "buyer_id": {
             "type": "string"
         },

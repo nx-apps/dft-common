@@ -78,8 +78,8 @@ export function notifypartyAction(store) {
                 text: 'ต้องการแก้ไขข้อมูลใช่หรือไม่ ?',
                 confirmed: (result) => {
                     if (result == true) {
-                        let{notify_id,notify_name,notify_tel,notify_fax,notify_address,port_id,buyer_id} = data;
-                        let newData = {notify_name,notify_tel,notify_fax,notify_address,port_id,buyer_id};
+                        let{notify_id,notify_name,notify_tel,notify_fax,notify_address,port_id,buyer_id,default_status} = data;
+                        let newData = {notify_name,notify_tel,notify_fax,notify_address,port_id,buyer_id,default_status};
                         newData.id = data.notify_id;
                         // axios.get('./check/duplicate?table=notify_party&field=notify_name&value=' + newData.notify_name)
                         //     .then((response) => {
