@@ -29,7 +29,7 @@ export function incotermsAction(store) {
                 })
                 .catch(function (error) {
                     console.log('error');
-                    console.log(error);
+                    //console.log(error);
                 });
         },
         INCOTERMS_GET_ID: function (id) {
@@ -40,7 +40,7 @@ export function incotermsAction(store) {
                 })
                 .catch(function (error) {
                     console.log('error');
-                    console.log(error);
+                    //console.log(error);
                 });
         },
         INCOTERMS_INSERT: function (data) {

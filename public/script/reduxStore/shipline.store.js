@@ -26,7 +26,7 @@ export function shiplineAction(store) {
                 })
                 .catch(function (error) {
                     console.log('error');
-                    console.log(error);
+                    //console.log(error);
                 });
         },
         SHIPLINE_GET_ID: function (id) {
@@ -36,7 +36,7 @@ export function shiplineAction(store) {
                 })
                 .catch(function (error) {
                     console.log('error');
-                    console.log(error);
+                    //console.log(error);
                 });
         },
         SHIPLINE_INSERT: function (data) {

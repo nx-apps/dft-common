@@ -27,7 +27,7 @@ export function packageAction(store) {
                 })
                 .catch(function (error) {
                     console.log('error');
-                    console.log(error);
+                    //console.log(error);
                 });
         },
         PACKAGE_GET_ID: function (id) {
@@ -37,7 +37,7 @@ export function packageAction(store) {
                 })
                 .catch(function (error) {
                     console.log('error');
-                    console.log(error);
+                    //console.log(error);
                 });
         },
         PACKAGE_INSERT: function (data) {

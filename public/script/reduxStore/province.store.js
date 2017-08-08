@@ -26,7 +26,7 @@ export function provinceAction(store) {
                 })
                 .catch(function (error) {
                     console.log('error');
-                    console.log(error);
+                    //console.log(error);
                 });
         },
         PROVINCE_GET_ID: function (id) {
@@ -36,7 +36,7 @@ export function provinceAction(store) {
                 })
                 .catch(function (error) {
                     console.log('error');
-                    console.log(error);
+                    //console.log(error);
                 });
         },
         PROVINCE_INSERT: function (data) {

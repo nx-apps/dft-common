@@ -29,7 +29,7 @@ export function groupAction(store) {
                 })
                 .catch(function (error) {
                     console.log('error');
-                    console.log(error);
+                    //console.log(error);
                 });
         },
         GROUP_GET_LIST_TABLE: function () {
@@ -39,7 +39,7 @@ export function groupAction(store) {
                 })
                 .catch(function (error) {
                     console.log('error');
-                    console.log(error);
+                    //console.log(error);
                 });
         },
         GROUP_GET_ID: function (id) {
@@ -49,7 +49,7 @@ export function groupAction(store) {
                 })
                 .catch(function (error) {
                     console.log('error');
-                    console.log(error);
+                    //console.log(error);
                 });
         },
         GROUP_INSERT: function (data) {

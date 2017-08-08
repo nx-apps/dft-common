@@ -26,7 +26,7 @@ export function buyerAction(store) {
                 })
                 .catch(function (error) {
                     console.log('error');
-                    console.log(error);
+                    //console.log(error);
                 });
         },
         BUYER_GET_ID: function (id) {
@@ -36,7 +36,7 @@ export function buyerAction(store) {
                 })
                 .catch(function (error) {
                     console.log('error');
-                    console.log(error);
+                    //console.log(error);
                 });
         },
         BUYER_INSERT: function (data) {

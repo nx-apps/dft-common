@@ -26,7 +26,7 @@ export function portAction(store) {
                 })
                 .catch(function (error) {
                     console.log('error');
-                    console.log(error);
+                    //console.log(error);
                 });
         },
         PORT_GET_ID: function (id) {
@@ -37,7 +37,7 @@ export function portAction(store) {
                 })
                 .catch(function (error) {
                     console.log('error');
-                    console.log(error);
+                    //console.log(error);
                 });
         },
         PORT_INSERT: function (data) {

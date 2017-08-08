@@ -27,7 +27,7 @@ export function countryAction(store) {
                 })
                 .catch(function (error) {
                     console.log('error');
-                    console.log(error);
+                    //console.log(error);
                 });
         },
         COUNTRY_GET_ID: function (id) {
@@ -37,7 +37,7 @@ export function countryAction(store) {
                 })
                 .catch(function (error) {
                     console.log('error');
-                    console.log(error);
+                    //console.log(error);
                 });
         },
         COUNTRY_INSERT: function (data) {

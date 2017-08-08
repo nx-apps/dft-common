@@ -26,7 +26,7 @@ export function groupItemAction(store) {
                 })
                 .catch(function (error) {
                     console.log('error');
-                    console.log(error);
+                    //console.log(error);
                 });
         },
         GROUP_ITEM_GET_ID: function (id) {
@@ -36,7 +36,7 @@ export function groupItemAction(store) {
                 })
                 .catch(function (error) {
                     console.log('error');
-                    console.log(error);
+                    //console.log(error);
                 });
         },
         GROUP_ITEM_INSERT: function (data) {

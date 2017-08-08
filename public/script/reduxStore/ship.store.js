@@ -26,7 +26,7 @@ export function shipAction(store) {
                 })
                 .catch(function (error) {
                     console.log('error');
-                    console.log(error);
+                    //console.log(error);
                 });
         },
         SHIP_GET_ID: function (id) {
@@ -36,7 +36,7 @@ export function shipAction(store) {
                 })
                 .catch(function (error) {
                     console.log('error');
-                    console.log(error);
+                    //console.log(error);
                 });
         },
         SHIP_INSERT: function (data) {

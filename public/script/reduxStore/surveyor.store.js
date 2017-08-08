@@ -26,7 +26,7 @@ export function surveyorAction(store) {
                 })
                 .catch(function (error) {
                     console.log('error');
-                    console.log(error);
+                    //console.log(error);
                 });
         },
         SURVEYOR_GET_ID: function (id) {
@@ -36,7 +36,7 @@ export function surveyorAction(store) {
                 })
                 .catch(function (error) {
                     console.log('error');
-                    console.log(error);
+                    //console.log(error);
                 });
         },
         SURVEYOR_INSERT: function (data) {

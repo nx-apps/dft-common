@@ -26,7 +26,7 @@ export function bankAction(store) {
                 })
                 .catch(function (error) {
                     console.log('error');
-                    console.log(error);
+                    //console.log(error);
                 });
         },
         BANK_GET_ID: function (id) {
@@ -36,7 +36,7 @@ export function bankAction(store) {
                 })
                 .catch(function (error) {
                     console.log('error');
-                    console.log(error);
+                    //console.log(error);
                 });
         },
         BANK_INSERT: function (data) {

@@ -13,13 +13,13 @@ exports.list = function (req, res) {
                 date_created: row('date_created').toISO8601().split('T')(0),
                 date_updated: row('date_updated').toISO8601().split('T')(0),
                 sub: row('sub').merge((item) => {
-                    return r.db('common').table(row('table_name')).get(item('sub_id'))
+                    return r.db('common').table(row('table_name')).get(item('sub_id'))//.orderBy('hamonize_code')
 
                 })
             }
         })
         .without('id')
-        .orderBy(orderby || 'group_name_th')
+        .orderBy(orderby || 'name_th')
         .run()
         .then(function (result) {
             // //res.setHeader('Access-Control-Allow-Origin', 'https://localhost:3001');

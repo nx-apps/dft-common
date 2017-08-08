@@ -26,7 +26,7 @@ export function carrierAction(store) {
                 })
                 .catch(function (error) {
                     console.log('error');
-                    console.log(error);
+                    //console.log(error);
                 });
         },
         CARRIER_GET_ID: function (id) {
@@ -36,7 +36,7 @@ export function carrierAction(store) {
                 })
                 .catch(function (error) {
                     console.log('error');
-                    console.log(error);
+                    //console.log(error);
                 });
         },
         CARRIER_INSERT: function (data) {

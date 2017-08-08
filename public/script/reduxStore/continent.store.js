@@ -26,7 +26,7 @@ export function continentAction(store) {
                 })
                 .catch(function (error) {
                     console.log('error');
-                    console.log(error);
+                    //console.log(error);
                 });
         },
         CONTINENT_GET_ID: function (id) {
@@ -36,7 +36,7 @@ export function continentAction(store) {
                 })
                 .catch(function (error) {
                     console.log('error');
-                    console.log(error);
+                    //console.log(error);
                 });
         },
         CONTINENT_INSERT: function (data) {

@@ -31,7 +31,7 @@ export function hamonizeAction(store) {
                 })
                 .catch(function (error) {
                     console.log('error');
-                    console.log(error);
+                    //console.log(error);
                 });
         },
         HAMONIZE_GET_ID: function (id) {
@@ -41,7 +41,7 @@ export function hamonizeAction(store) {
                 })
                 .catch(function (error) {
                     console.log('error');
-                    console.log(error);
+                    //console.log(error);
                 });
         },
         HAMONIZE_INSERT: function (data) {

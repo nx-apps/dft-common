@@ -61,7 +61,7 @@ export function countryGroupAction(store) {
                     this.$$('nylon-panel-right').open();
                 })
                 .catch(err => {
-                    console.log(err);
+                    //console.log(err);
                 })
         },
         COUNTRY_GROUP_CLEAR_SELECT: function () {
@@ -81,7 +81,7 @@ export function countryGroupAction(store) {
                     });
                 })
                 .catch(err => {
-                    console.log(err);
+                    //console.log(err);
                 })
         },
         COUNTRY_GROUP_UPDATE: function (data) {
@@ -99,7 +99,7 @@ export function countryGroupAction(store) {
                     });
                 })
                 .catch(err => {
-                    console.log(err);
+                    //console.log(err);
                 })
         },
         COUNTRY_GROUP_DELETE: function (id) {
@@ -120,7 +120,7 @@ export function countryGroupAction(store) {
                                 });
                             })
                             .catch(err => {
-                                console.log(err);
+                                //console.log(err);
                             })
                     }
                 }

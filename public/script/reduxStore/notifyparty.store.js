@@ -27,7 +27,7 @@ export function notifypartyAction(store) {
                 })
                 .catch(function (error) {
                     console.log('error');
-                    console.log(error);
+                    //console.log(error);
                 });
         },
         NOTIFY_PARTY_GET_ID: function (id) {
@@ -37,7 +37,7 @@ export function notifypartyAction(store) {
                 })
                 .catch(function (error) {
                     console.log('error');
-                    console.log(error);
+                    //console.log(error);
                 });
         },
         NOTIFY_PARTY_INSERT: function (data) {
