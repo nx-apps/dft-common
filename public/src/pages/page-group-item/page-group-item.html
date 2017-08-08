@@ -70,7 +70,8 @@
             <div class="header-title">
                 กลุ่ม {{dataSeleted.group_name_th}}</div>
             <div class="horizontal justified layout">
-                <div class="horizontal layout" style="margin-top:25px;">
+                <div >
+                    <paper-button class="button-top" raised on-tap="goBack" > ย้อนกลับ </paper-button>
                 </div>
                 <div>
                     <paper-button class="gl-btn-primary button-top" title="เพิ่มกลุ่ม" raised on-tap="_toggleDrawer">
@@ -178,6 +179,9 @@
             },
             editInput: function () {
                 this.dispatchAction('BTN_SET_STATE', false);
+            },
+            goBack(){
+                window.history.back();
             },
             getData(data) {
                 // console.log(111111111111);
