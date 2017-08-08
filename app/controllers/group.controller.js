@@ -175,3 +175,49 @@ exports.delete = function (req, res) {
         res.json(result);
     }
 }
+
+exports.importData = function (req, res) {
+    req.jdbc.query('mssql', `
+        select a.*,b.rice_id from Groups_Rice a
+        left join Rice_in_Group b on a.ricegroup_id = b.ricegroup_id
+        order by a.ricegroup_id,b.rice_id
+    `,
+        [],
+        function (err, data) {
+            data = JSON.parse(data);
+            data = r.expr(data)
+                .group('RiceGroup_id')
+                .ungroup()
+                .map(function (m) {
+                    return {
+                        creater: 'admin',
+                        updater: 'admin',
+                        date_created: r.now().inTimezone('+07'),
+                        date_updated: r.now().inTimezone('+07'),
+                        table_name: 'hamonize',
+                        group_id: '1a324474-0940-4aa9-b4fd-0b98b9e4ce5c',
+                        name_en: m('reduction')(0)('RiceGroup_name_en'),
+                        name_th: m('reduction')(0)('RiceGroup_name_th'),
+                        sub: m('reduction')
+                            .map(function (m2) {
+                                return r.db('common').table('hamonize')
+                                    .filter({ hamonize_code: m2('rice_id') })
+                                    .getField('id')
+                                    .coerceTo('array')
+                            })
+                            .reduce(function (left, right) {
+                                return left.add(right)
+                            })
+                            .map(function (m2) {
+                                return { sub_id: m2 }
+                            })
+                    }
+                });
+                // r.db('common').table('groupitem').insert(data)
+                data
+                .run().then(function (data) {
+                    res.json(data);
+                })
+
+        });
+}
