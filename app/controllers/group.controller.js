@@ -47,25 +47,25 @@ exports.listtable = function (req, res) {
     var r = req.r;
     let table = [
         { table: "bank" },
-        { table: "buyer"},
+        { table: "buyer" },
         // { table: "carrier"},
-        { table: "continent"},
-        { table: "country"},
-        { table: "hamonize"},
-        { table: "incoterms"},
-        { table: "notify_party"},
-        { table: "package"},
-        { table: "port"},
+        { table: "continent" },
+        { table: "country" },
+        { table: "hamonize" },
+        { table: "incoterms" },
+        { table: "notify_party" },
+        { table: "package" },
+        { table: "port" },
         // { table: "province"},
-        { table: "ship"},
+        { table: "ship" },
         // { table: "shipline"},
-        { table: "surveyor"},
+        { table: "surveyor" },
     ]
     // r.db('common').table("group")
     r.expr(table)
-        .merge((item)=>{
+        .merge((item) => {
             return {
-                field:r.db('common').table(item('table'))(0).keys()
+                field: r.db('common').table(item('table'))(0).keys()
             }
         })
         .run()
@@ -73,13 +73,13 @@ exports.listtable = function (req, res) {
             let data = [],
                 sub = []
             for (var index = 0; index < result.length; index++) {
-                
+
                 // console.log(result[index].table);
                 for (var index2 = 0; index2 < result[index].field.length; index2++) {
                     // console.log(result[index].field[index2]);
-                    sub.push({id:result[index].field[index2]})
+                    sub.push({ id: result[index].field[index2] })
                 }
-                data.push({table:result[index].table,sub:sub})
+                data.push({ table: result[index].table, sub: sub })
                 sub = []
             }
             //res.setHeader('Access-Control-Allow-Origin', 'https://localhost:3001');
@@ -154,9 +154,10 @@ exports.delete = function (req, res) {
     var result = { result: false, message: null, id: null };
     if (req.params.id != '' || req.params.id != null) {
         result.id = req.params.id;
-        r.db('common').table('group')
-            .get(req.params.id)
-            .delete()
+        r.db('common').table('groupitem').getAll(req.params.id, { index: 'group_id' }).delete()
+            .merge((item) => {
+                return r.db('common').table('group').get(req.params.id).delete()
+            })
             .run()
             .then(function (response) {
                 result.message = response;
