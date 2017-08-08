@@ -42,7 +42,11 @@
             <gl-grid-col width="[[getWidth]]" grid="[[300,12],[500,4]]">
                 <gl-combo-box class=" required" required  items="{{countrys}}" item-label-path="country_name_en" label="Country (ประเทศ)" item-value-path="country_id"
                     value="{{data.country_id}}" error-message="กรุณาเลือกประเทศ" required placeholder="กรุณาเลือกประเทศ"
-                    style="margin-top:15px;" disabled="[[btnState]]"></gl-combo-box>
+                    style="margin-top:15px;" disabled="[[btnState]]">
+                    <template>
+                        [[item.country_name_en]]
+                    </template>
+                    </gl-combo-box>
             </gl-grid-col>
             <gl-grid-col width="[[getWidth]]" grid="[[300,12],[500,4]]">
                 <gl-form-input class="margin-top  required" required  label="Buyer Name (ชื่อผู้ซื้อ) :" placeholder="กรอกชื่อผู้ซื้อ" value="{{data.buyer_name}}"

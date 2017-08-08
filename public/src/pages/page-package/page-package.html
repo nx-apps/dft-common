@@ -15,10 +15,9 @@
 
 <dom-module id="page-package">
   <style is="custom-style" include="iron-flex iron-flex-factors iron-flex-alignment gl-table page-style">
-  
     vaadin-grid {
-        height: 100vh;
-      }
+      height: 100vh;
+    }
   </style>
   <template>
 
@@ -33,7 +32,7 @@
         </div>
       </div>
 
-  
+
       <vaadin-grid id="material" aria-label="Basic Binding Example" items="[[data]]" multi-sort="true">
 
         <vaadin-grid-column width="100px" flex-grow="0" flex-grow="0" resizable>
@@ -46,19 +45,7 @@
           </template>
         </vaadin-grid-column>
 
-        <vaadin-grid-column width="150px" flex-grow="0" resizable>
-          <template class="header">
-            <vaadin-grid-sorter path="package_kg_per_bag">
-              <div class="text-center">Package Weight (kg)
-                <p>(น้ำหนักแพ็คเกจ กก.)</div>
-            </vaadin-grid-sorter>
-            <vaadin-gird-filter-common aria-label="Package Weight" path="package_kg_per_bag" value="[[_package_kg_per_bag]]">
-            </vaadin-gird-filter-common>
-          </template>
-          <template>
-            <div class="text-center"> [[item.package_kg_per_bag]]</div>
-          </template>
-        </vaadin-grid-column>
+
 
         <vaadin-grid-column width="400px" flex-grow="0" resizable>
           <template class="header">
@@ -70,7 +57,7 @@
             </vaadin-gird-filter-common>
           </template>
           <template>
-            <div class="text-center"> [[item.package_name_en]]</div>
+            [[item.package_name_en]]
           </template>
         </vaadin-grid-column>
 
@@ -87,18 +74,30 @@
             <p style="white-space: normal">[[item.package_name_th]]</p>
           </template>
         </vaadin-grid-column>
-
-        <vaadin-grid-column width="350px" flex-grow="0" resizable>
+        <vaadin-grid-column width="150px" flex-grow="0" resizable>
+          <template class="header">
+            <vaadin-grid-sorter path="package_kg_per_bag">
+              <div class="text-center">Package Weight (kg)
+                <p>(น้ำหนักแพ็คเกจ กก.)</div>
+            </vaadin-grid-sorter>
+            <vaadin-gird-filter-common aria-label="Package Weight" path="package_kg_per_bag" value="[[_package_kg_per_bag]]">
+            </vaadin-gird-filter-common>
+          </template>
+          <template>
+            <div class="text-right"> [[item.package_kg_per_bag]]</div>
+          </template>
+        </vaadin-grid-column>
+        <vaadin-grid-column width="250px" flex-grow="0" resizable>
           <template class="header">
             <vaadin-grid-sorter path="package_weight_bag">
-              <div class="text-center">Package Weight_bag (g)
+              <div class="text-center">Package Weight Bag (g)
                 <p>(น้ำหนักกระสอบ กรัม.)</div>
             </vaadin-grid-sorter>
             <vaadin-gird-filter-common aria-label="Package Weight_bag" path="package_weight_bag" value="[[_package_weight_bag]]">
             </vaadin-gird-filter-common>
           </template>
           <template>
-            <div class="text-center">
+            <div class="text-right">
               <p style="white-space: normal">[[item.package_weight_bag]]</p>
             </div>
           </template>

@@ -50,7 +50,11 @@
       </gl-grid-col>
       <gl-grid-col width="[[getWidth]]" grid="[[300,12],[500,4]]">
         <gl-combo-box class="margin-top  required" required  error-message="กรุณาเลือกประเทศ" required style="margin-top:15px" items="{{countrys}}" label="Country (ประเทศ)" item-label-path="country_name_en"
-            item-value-path="country_id" value="{{data.country_id}}"disabled="[[btnState]]" ></gl-combo-box>
+            item-value-path="country_id" value="{{data.country_id}}"disabled="[[btnState]]" >
+            <template>
+                [[item.country_name_en]]
+            </template>
+            </gl-combo-box>
       </gl-grid-col>
     </gl-grid-row>
 
