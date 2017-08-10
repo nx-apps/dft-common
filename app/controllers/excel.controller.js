@@ -1,7 +1,7 @@
 exports.read = function (req, res) {
     //Read file here.
     var XLSX = require('xlsx');
-    var workbook = XLSX.readFile('../dft-common/files/hmcode14.xlsx');
+    var workbook = XLSX.readFile('../dft-common/files/port_g2g.xlsx');
 
     var file = workbook.Sheets;
     var data = {};
