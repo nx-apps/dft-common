@@ -1,5 +1,5 @@
 {
-  "name": "dft-eu",
+  "name": "dft-common",
   "homepage": "https://github.com/9lon/nylon",
   "authors": [
     "Namkhaeng PC-NEXT <pongpanot.t@nexts-corp.com>"
@@ -60,6 +60,7 @@
     "vaadin-grid": "^2.0.3",
     "plutonium-breadcrumbs": "lordoftheflies/plutonium-breadcrumbs#^0.1.2",
     "nylon-tag": "^0.0.1",
-    "paper-checkbox": "PolymerElements/paper-checkbox#^2.0.0"
+    "paper-checkbox": "PolymerElements/paper-checkbox#^2.0.0",
+    "paper-autocomplete": "ellipticaljs/paper-autocomplete#^2.6.1"
   }
 }

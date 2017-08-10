@@ -2,68 +2,95 @@
 <link rel="import" href="./../../../../bower_components/gl-grid/gl-grid-row.html">
 <link rel="import" href="./../../../../bower_components/gl-grid/gl-grid-col.html">
 <link rel="import" href="./../../../../bower_components/gl-form/gl-combo-box.html">
+
+<link rel="import" href="./../../../../bower_components/paper-autocomplete/paper-autocomplete-suggestions.html">
+
 <link rel="import" href="./../../components/validateFormBehaviors.html">
 <dom-module id="manage-port">
     <style include="iron-flex iron-flex-alignment gl-color gl-size">
-        *{
-      font-family: 'CSChatThaiUI', sans-serif;
-      -webkit-font-smoothing: antialiased;
-      font-size: var(--font-size-h5);
-      text-align: left;
-    }
-    .text-center {
-      text-align: center;
-      font-size: var(--font-size-h3);
-      background-color: var(--paper-grey-100);
-      margin-top: 20px;
-    }
-    .margin-top{
-      margin-top: 15px;
-    }
-    .button{
-      margin-top: 20px;
-      margin-bottom: 20px;
-    }
-    icon-button-management{
+        * {
+            font-family: 'CSChatThaiUI', sans-serif;
+            -webkit-font-smoothing: antialiased;
+            font-size: var(--font-size-h5);
+            text-align: left;
+            --suggestions-wrapper :{
+                width:auto;
+                /*background-color:red;*/
+            }
+        }
+
+        .text-center {
+            text-align: center;
+            font-size: var(--font-size-h3);
+            background-color: var(--paper-grey-100);
+            margin-top: 20px;
+        }
+
+        .margin-top {
+            margin-top: 15px;
+        }
+
+        .button {
+            margin-top: 20px;
+            margin-bottom: 20px;
+        }
+
+        icon-button-management {
             margin: 10px 10px;
         }
     </style>
     <template>
-     <div class="text-center">{{title}}ท่าเรือ</div>
-     <template is="dom-if" if={{_checkStatus(statusAction)}}>
-        <icon-button-management btn-state="[[!btnState]]"></icon-button-management>
-    </template>
-    <gl-grid-row width="{{getWidth}}">
-      <gl-grid-col width="[[getWidth]]" grid="[[300,12],[500,2]]"></gl-grid-col>
-      <gl-grid-col width="[[getWidth]]" grid="[[300,12],[500,4]]">
-        <gl-form-input class="margin-top  required" required  error-message="กรุณากรอกเลขประจำตัวท่าเรือ"  required label="Port ID (เลขประจำตัวท่าเรือ) :" placeholder="กรอกรหัสท่าเรือ" value="{{data.port_id}}" disabled="[[_checkStatus(statusAction)]]"></gl-form-input>
-      </gl-grid-col>
-      <gl-grid-col width="[[getWidth]]" grid="[[300,12],[500,4]]">
-        <gl-form-input class="margin-top  required" required  error-message="กรุณากรอกรหัสท่าเรือ" disabled="[[btnState]]" required label="Port Code (รหัสท่าเรือ) :" placeholder="port_code" value="{{data.port_code}}"></gl-form-input>
-      </gl-grid-col>
-    </gl-grid-row>
+        <div class="text-center">{{title}}ท่าเรือ</div>
+        <template is="dom-if" if={{_checkStatus(statusAction)}}>
+            <icon-button-management btn-state="[[!btnState]]"></icon-button-management>
+        </template>
 
-    <gl-grid-row>
-      <gl-grid-col width="[[getWidth]]" grid="[[300,12],[500,2]]"></gl-grid-col>
-      <gl-grid-col width="[[getWidth]]" grid="[[300,12],[500,4]]">
-        <gl-form-input class="margin-top  required" required  error-message="กรุณากรอกชื่อท่าเรือ" disabled="[[btnState]]" required label="Port Name (ชื่อท่าเรือ) :" placeholder="กรอกชื่อท่าเรือ" value="{{data.port_name}}"></gl-form-input>
-      </gl-grid-col>
-      <gl-grid-col width="[[getWidth]]" grid="[[300,12],[500,4]]">
-        <gl-combo-box class="margin-top  required" required  error-message="กรุณาเลือกประเทศ" required style="margin-top:15px" items="{{countrys}}" label="Country (ประเทศ)" item-label-path="country_name_en"
-            item-value-path="country_id" value="{{data.country_id}}"disabled="[[btnState]]" >
-            <template>
-                [[item.country_name_en]]
-            </template>
-            </gl-combo-box>
-      </gl-grid-col>
-    </gl-grid-row>
+        <gl-grid-row width="{{getWidth}}">
+            <gl-grid-col width="[[getWidth]]" grid="[[300,12],[500,2]]"></gl-grid-col>
+            <gl-grid-col width="[[getWidth]]" grid="[[300,12],[500,4]]">
+                <gl-combo-box class="margin-top  required" required error-message="กรุณาเลือกประเทศ" required style="margin-top:15px" items="{{countrys}}"
+                    label="Country (ประเทศ)" item-label-path="country_name_en" item-value-path="country_id" value="{{data.country_id}}"
+                    disabled="[[btnState]]">
+                    <template>
+                        [[item.country_name_en]]
+                    </template>
+                </gl-combo-box>
+            </gl-grid-col>
+            <gl-grid-col width="[[getWidth]]" grid="[[300,12],[500,4]]">
+                 <div class="autocomplete-wrapper">
+                    <gl-form-input id="myInput" class="margin-top  required" required error-message="กรุณากรอกชื่อท่าเรือ" disabled="[[btnState]]" required
+                    label="Port Name (ชื่อท่าเรือ) :" placeholder="กรอกชื่อท่าเรือ" value="{{data.port_name}}" on-value-changed="getLastValue"></gl-form-input>
+                    <paper-autocomplete-suggestions for="myInput" 
+                    source="[[portSearch]]" 
+                    ></paper-autocomplete-suggestions>
+                </div>
+                
+            </gl-grid-col>
+            
+        </gl-grid-row>
+        <gl-grid-row >
+            <gl-grid-col width="[[getWidth]]" grid="[[300,12],[500,2]]"></gl-grid-col>
+            <gl-grid-col width="[[getWidth]]" grid="[[300,12],[500,4]]">
+                <gl-form-input class="margin-top  required" required error-message="กรุณากรอกเลขประจำตัวท่าเรือ" required label="Port ID (เลขประจำตัวท่าเรือ) :"
+                    placeholder="กรอกรหัสท่าเรือ" value="{{data.port_id}}" disabled="[[_checkStatus(statusAction)]]"></gl-form-input>
+            </gl-grid-col>
+            <gl-grid-col width="[[getWidth]]" grid="[[300,12],[500,4]]">
+                
+                    <gl-form-input  class="margin-top  required" required error-message="กรุณากรอกรหัสท่าเรือ" disabled="[[btnState]]"
+                        required label="Port Code (รหัสท่าเรือ) :" placeholder="port_code" value="{{data.port_code}}" ></gl-form-input>
 
-    <div class="horizontal end-justified layout">
-      <div class="button">
-        <paper-button raised on-tap="_cancel" hidden="{{btnState}}">คืนค่าข้อมูล</paper-button>
-        <paper-button class="gl-btn-success" raised on-tap="_save" hidden="{{btnState}}">บันทึก</paper-button>
-      </div>
-    </div>
+
+            </gl-grid-col>
+        </gl-grid-row>
+
+        
+
+        <div class="horizontal end-justified layout">
+            <div class="button">
+                <paper-button raised on-tap="_cancel" hidden="{{btnState}}">คืนค่าข้อมูล</paper-button>
+                <paper-button class="gl-btn-success" raised on-tap="_save" hidden="{{btnState}}">บันทึก</paper-button>
+            </div>
+        </div>
     </template>
     <script>
         Polymer({
@@ -72,27 +99,55 @@
                 data: {
                     statePath: 'port.data'
                 },
-                countrys:{
+                countrys: {
                     statePath: 'country.list'
                 },
-                btnState:{
+                btnState: {
                     statePath: 'commonState.btnState'
+                },
+                portSearch: {
+                    statePath: 'port.portSearch',
+                    observer: 'getData'
                 }
             },
-            behaviors: [nylonBehavior, ReduxBehavior,ValidateFormBehavior],
+            behaviors: [nylonBehavior, ReduxBehavior, ValidateFormBehavior],
+            getData(data) {
+                // console.log(data);
+                if (data.length === 1) {
+                    // console.log(data);
+                    // port_id
+                    this.set('data',data[0])
+                }
+            },
+            getLastValue: function (e) {
+                if (this.data !== undefined && this.data.country_id !== undefined
+                    && this.data.port_name !== undefined) {
+                    if (this.data.port_name.length >= 1) {
+                        // console.log(this.data.port_name.length);
+                        let data = {
+                            country_id: this.data.country_id,
+                            port_name: this.data.port_name.toUpperCase()
+                        }
+                        this.debounce('value-changed', function () {
+                            this.dispatchAction('PORT_GET_SEARCH', data)
+                            // console.log(data);
+                        }, 500);
+                    }
+                }
+            },
             _save: function () {
-                if(this.validateForm('.required')){
-                if (this.statusAction == 'edit') {
-                    this.dispatchAction('PORT_EDIT', this.data);
-                }
-                else {
-                    this.dispatchAction('PORT_INSERT', this.data);
-                }
+                if (this.validateForm('.required')) {
+                    if (this.statusAction == 'edit') {
+                        this.dispatchAction('PORT_EDIT', this.data);
+                    }
+                    else {
+                        this.dispatchAction('PORT_INSERT', this.data);
+                    }
                 }
             },
             _cancel: function () {
                 if (this.statusAction == 'edit') {
-                    this.dispatchAction('PORT_GET_ID', this.data.id);
+                    this.dispatchAction('PORT_GET_ID', this.data.port_id);
                 }
                 else {
                     this.dispatchAction('CLEAR_DATA');

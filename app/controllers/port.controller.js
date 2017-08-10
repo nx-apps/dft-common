@@ -23,12 +23,18 @@ exports.list = function (req, res) {
         })
 }
 exports.search = function (req, res) {
-    let port_name = req.query.port_name
-    let country_id = req.query.country_id
-    r.db('common').table('locode').filter(function (f) {
-        return f('port_name').match(port_name)
-            .and(f('country_id').eq(country_id))
-    })
+    // let port_name = req.query.port_name
+    // let port = req.query.country_id
+    var country = req.query.country_id || 'CN';
+    var port = req.query.port_name || 'HUANGPU';
+    r.db('common').table('locode')
+        .filter(function (f) {
+            return f('country_id').eq(country)
+                .and(f('port_name').match('^' + port))
+        }).coerceTo('array')
+        .setDifference(
+        r.db('common').table('port').getAll(country, { index: 'country_id' }).pluck('country_id', 'id', 'port_code', 'port_name').coerceTo('array')
+        )
         .run()
         .then(function (result) {
             res.json(result)

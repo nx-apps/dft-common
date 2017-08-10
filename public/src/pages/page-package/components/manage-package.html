@@ -113,7 +113,7 @@
       },
       _cancel: function () {
         if (this.statusAction == 'edit') {
-          this.dispatchAction('PACKAGE_GET_ID', this.data.id);
+          this.dispatchAction('PACKAGE_GET_ID', this.data.package_ids);
         }
         else {
           this.dispatchAction('CLEAR_DATA');

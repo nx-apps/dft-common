@@ -2,7 +2,8 @@ import axios from '../axios'
 import { commonAction } from '../config'
 const initialState = {
     list: [],
-    data: {}
+    data: {},
+    portSearch:[]
 }
 export function portReducer(state = initialState, action) {
     switch (action.type) {
@@ -10,6 +11,8 @@ export function portReducer(state = initialState, action) {
             return Object.assign({}, state, { list: action.payload });
         case 'PORT_GET_ID':
             return Object.assign({}, state, { data: action.payload });
+        case 'PORT_GET_SEARCH':
+            return Object.assign({}, state, { portSearch: action.payload });
         case 'CLEAR_DATA':
             return Object.assign({}, state, { data: {} });
         default:
@@ -25,7 +28,7 @@ export function portAction(store) {
                     store.dispatch({ type: 'PORT_GET_DATA', payload: response.data })
                 })
                 .catch(function (error) {
-                    console.log('error');
+                    // console.log('error');
                     //console.log(error);
                 });
         },
@@ -36,7 +39,24 @@ export function portAction(store) {
                     store.dispatch({ type: 'PORT_GET_ID', payload: response.data })
                 })
                 .catch(function (error) {
-                    console.log('error');
+                    // console.log('error');
+                    //console.log(error);
+                });
+        },
+        PORT_GET_SEARCH: function (data) {
+            axios.get('./port/search?port_name=' + data.port_name + '&country_id=' + data.country_id)
+                .then(function (response) {
+                    // console.log(response.data);
+                    response.data.map((item)=>{
+                        item.text =item.port_name
+                        item.value = item.port_name
+                        item.port_id = item.id
+                        return item
+                    })
+                    store.dispatch({ type: 'PORT_GET_SEARCH', payload: response.data })
+                })
+                .catch(function (error) {
+                    // console.log('error');
                     //console.log(error);
                 });
         },
