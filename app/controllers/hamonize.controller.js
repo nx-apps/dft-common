@@ -1,6 +1,6 @@
 exports.list = function (req, res) {
     var r = req.r;
-    var orderby = req.query.orderby;
+    var orderby = req.query.orderby || 'hamonize_th'
     var countryGroup = req.query.group;
     if (typeof countryGroup === 'undefined') {
         countryGroup = r.db('common').table("hamonize")
@@ -12,12 +12,15 @@ exports.list = function (req, res) {
     countryGroup.merge(function (row) {
         return {
             hamonize_id: row('id'),
+            hamonize_code_num:row('hamonize_code').coerceTo('number'),
             date_created: row('date_created').toISO8601().split('T')(0),
             date_updated: row('date_updated').toISO8601().split('T')(0),
         }
     })
         .without('id')
-        .orderBy('hamonize_id')
+        .orderBy(r.asc(orderby))
+        .without('hamonize_code_num')
+        // .orderBy('hamonize_id')
         .run()
         .then(function (result) {
             //res.setHeader('Access-Control-Allow-Origin', 'https://localhost:3001');

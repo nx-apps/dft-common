@@ -2,7 +2,7 @@ exports.list = function (req, res) {
     var r = req.r;
     var orderby = req.query.orderby;
     // console.log();
-    r.db('common').table("groupitem").getAll(req.query.group_id,{index:"group_id"})
+    r.db('common').table("groupitem").getAll(req.query.group_id,{index:"group_id"}).limit(10)
         // .filter({ table: req.query.table, code: req.query.code })
         .eqJoin('group_id', r.db('common').table('group'))
         .pluck('left', { right: ['field_id'] })

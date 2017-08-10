@@ -22,6 +22,21 @@ exports.list = function (req, res) {
             res.json(err)
         })
 }
+exports.search = function (req, res) {
+    let port_name = req.query.port_name
+    let country_id = req.query.country_id
+    r.db('common').table('locode').filter(function (f) {
+        return f('port_name').match(port_name)
+            .and(f('country_id').eq(country_id))
+    })
+        .run()
+        .then(function (result) {
+            res.json(result)
+        })
+        .error(function (err) {
+            res.json(err)
+        })
+}
 exports.getById = function (req, res) {
     var r = req.r;
     r.db('common').table("port")
@@ -38,11 +53,9 @@ exports.getById = function (req, res) {
         .without('id')
         .run()
         .then(function (result) {
-            //res.setHeader('Access-Control-Allow-Origin', 'https://localhost:3001');
             res.json(result)
         })
         .error(function (err) {
-            //res.setHeader('Access-Control-Allow-Origin', 'https://localhost:3001');
             res.json(err)
         })
 }
