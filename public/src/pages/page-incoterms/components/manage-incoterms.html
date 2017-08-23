@@ -2,31 +2,41 @@
 <link rel="import" href="./../../../../bower_components/gl-grid/gl-grid-row.html">
 <link rel="import" href="./../../../../bower_components/gl-grid/gl-grid-col.html">
 <link rel="import" href="./../../components/validateFormBehaviors.html">
+
+<link rel="import" href="../../../redux-behavior.html">
+
+<link rel="import" href="../../../dispatchAction-behavior.html">
+
+<link rel="import" href="../../../nylon-behavior.html">
+
+<link rel="import" href="../../../layout/page-style.html">
+
 <dom-module id="manage-incoterms">
-    <style include="iron-flex iron-flex-alignment gl-color gl-size">
+    <style include="page-style iron-flex iron-flex-alignment gl-color gl-size">
         * {
             font-family: 'CSChatThaiUI', sans-serif;
             -webkit-font-smoothing: antialiased;
             font-size: var(--font-size-h5);
             text-align: left;
         }
-        
+
         .text-center {
             text-align: center;
             font-size: var(--font-size-h3);
             background-color: var(--paper-grey-100);
             margin-top: 20px;
         }
-        
+
         .margin-top {
             margin-top: 15px;
         }
-        
+
         .button {
             margin-top: 20px;
             margin-bottom: 20px;
         }
-        icon-button-management{
+
+        icon-button-management {
             margin: 10px 10px;
         }
     </style>
@@ -35,23 +45,40 @@
         <template is="dom-if" if="{{_checkStatus(statusAction)}}">
             <icon-button-management btn-state="[[!btnState]]"></icon-button-management>
         </template>
-        <gl-grid-row width="{{getWidth}}">
+        <div class="horizontal start-justified layout">
+            <div class="flex"></div>
+            <div class="flex flex-padding">
+                <gl-form-input class="margin-top  required" required error-message="กรุณากรอกรหัสข้อกำหนดส่งสินค้า" required label="Incoterms Code (รหัสข้อกำหนดส่งสินค้า) :"
+                    placeholder="กรอกรหัส" value="{{data.inct_id}}" disabled="[[_checkStatus(statusAction)]]"></gl-form-input>
+            </div>
+            <div class="flex"></div>
+        </div>
+
+        <div class="horizontal start-justified layout">
+            <div class="flex"></div>
+            <div class="flex flex-padding">
+                <gl-form-input class="margin-top  required" required error-message="กรุณากรอกชื่อข้อกำหนดส่งสินค้า" required label="Incoterms Name (ชื่อข้อกำหนดส่งสินค้า) :"
+                    placeholder="กรอกชื่อข้อกำหนดส่งสินค้า" value="{{data.inct_name}}" disabled="[[btnState]]"></gl-form-input>
+            </div>
+            <div class="flex"></div>
+        </div>
+        <!--<gl-grid-row width="{{getWidth}}">
             <gl-grid-col width="[[getWidth]]" grid="[[300,12],[500,4]]"></gl-grid-col>
             <gl-grid-col width="[[getWidth]]" grid="[[300,12],[500,4]]">
                 <gl-form-input class="margin-top  required" required  error-message="กรุณากรอกรหัสข้อกำหนดส่งสินค้า" required label="Incoterms Code (รหัสข้อกำหนดส่งสินค้า) :"
                     placeholder="กรอกรหัส" value="{{data.inct_id}}" disabled="[[_checkStatus(statusAction)]]"></gl-form-input>
             </gl-grid-col>
             <gl-grid-col width="[[getWidth]]" grid="[[300,12],[500,4]]"></gl-grid-col>
-        </gl-grid-row>
+        </gl-grid-row>-->
 
-        <gl-grid-row>
+        <!--<gl-grid-row>
             <gl-grid-col width="[[getWidth]]" grid="[[300,12],[500,4]]"></gl-grid-col>
             <gl-grid-col width="[[getWidth]]" grid="[[300,12],[500,4]]">
                 <gl-form-input class="margin-top  required" required  error-message="กรุณากรอกชื่อข้อกำหนดส่งสินค้า" required label="Incoterms Name (ชื่อข้อกำหนดส่งสินค้า) :"
                     placeholder="กรอกชื่อข้อกำหนดส่งสินค้า" value="{{data.inct_name}}" disabled="[[btnState]]"></gl-form-input>
             </gl-grid-col>
             <gl-grid-col width="[[getWidth]]" grid="[[300,12],[500,4]]"></gl-grid-col>
-        </gl-grid-row>
+        </gl-grid-row>-->
 
         <div class="horizontal end-justified layout">
             <div class="button">
@@ -67,7 +94,7 @@
                 data: {
                     statePath: 'incoterms.seleted'
                 },
-                btnState:{
+                btnState: {
                     statePath: 'commonState.btnState'
                 },
                 // statusAction:{
@@ -75,15 +102,15 @@
                 //     value:''
                 // }
             },
-            behaviors: [nylonBehavior, ReduxBehavior,ValidateFormBehavior],
+            behaviors: [nylonBehavior, ReduxBehavior, ValidateFormBehavior],
             _save: function () {
-                if(this.validateForm('.required')){
-                if (this.statusAction == 'edit') {
-                    this.dispatchAction('INCOTERMS_EDIT', this.data);
-                }
-                else {
-                    this.dispatchAction('INCOTERMS_INSERT', this.data);
-                }
+                if (this.validateForm('.required')) {
+                    if (this.statusAction == 'edit') {
+                        this.dispatchAction('INCOTERMS_EDIT', this.data);
+                    }
+                    else {
+                        this.dispatchAction('INCOTERMS_INSERT', this.data);
+                    }
                 }
             },
             _cancel: function () {

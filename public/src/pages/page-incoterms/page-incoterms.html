@@ -11,6 +11,14 @@
 <link rel="import" href="./../components/icon-button-management.html">
 <link rel="import" href="./../../layout/page-style.html">
 <link rel="import" href="./../components/search-behavior.html">
+
+<link rel="import" href="../../redux-behavior.html">
+
+<link rel="import" href="../../dispatchAction-behavior.html">
+  <link rel="import" href="../../action/incotermsAction.html">
+
+<link rel="import" href="../../action/commonStateAction.html">
+
 <dom-module id="page-incoterms">
   <style is="custom-style" include="iron-flex iron-flex-factors iron-flex-alignment gl-table page-style">
     * {
@@ -138,6 +146,9 @@
       <manage-incoterms status-action="[[statusAction]]" title="{{title}}"></manage-incoterms>
     </nylon-panel-right>
   </template>
+  
+
+
   <script>
     Polymer({
       is: "page-incoterms",

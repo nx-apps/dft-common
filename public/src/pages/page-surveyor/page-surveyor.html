@@ -11,29 +11,38 @@
 <link rel="import" href="./../components/icon-button-management.html">
 <link rel="import" href="./../../layout/page-style.html">
 <link rel="import" href="./../components/search-behavior.html">
+
+<link rel="import" href="../../redux-behavior.html">
+
+<link rel="import" href="../../dispatchAction-behavior.html">
+
+<link rel="import" href="../../nylon-behavior.html">
+<link rel="import" href="../../action/surveyorAction.html">
+
+<link rel="import" href="../../action/commonStateAction.html">
+
 <dom-module id="page-surveyor">
   <style is="custom-style" include="iron-flex iron-flex-factors iron-flex-alignment gl-table page-style">
-     
-
     vaadin-grid {
-        height: 100vh;
-      }
+      height: 100vh;
+    }
   </style>
   <template>
 
     <paper-material elevation="1" class="elevation">
 
 
-          <div class="horizontal justified layout">
-            <div class="horizontal layout" style="margin-top:25px;">
-            </div>
-            <div>
-              <paper-button class="gl-btn-primary button-top" title="เพิ่มหน่วยงานตรวจสอบสินค้า" raised on-tap="_toggleDrawer"><iron-icon icon="add"></iron-icon>เพิ่มหน่วยงาน</paper-button>
-            </div>
-          </div>
+      <div class="horizontal justified layout">
+        <div class="horizontal layout" style="margin-top:25px;">
+        </div>
+        <div>
+          <paper-button class="gl-btn-primary button-top" title="เพิ่มหน่วยงานตรวจสอบสินค้า" raised on-tap="_toggleDrawer">
+            <iron-icon icon="add"></iron-icon>เพิ่มหน่วยงาน</paper-button>
+        </div>
+      </div>
 
-      
-          <vaadin-grid id="material" aria-label="Basic Binding Example" items="[[data]]" multi-sort="true">
+
+      <vaadin-grid id="material" aria-label="Basic Binding Example" items="[[data]]" multi-sort="true">
 
         <vaadin-grid-column width="100px" flex-grow="0" flex-grow="0" resizable>
           <template class="header">
@@ -45,16 +54,17 @@
           </template>
         </vaadin-grid-column>
 
-        <vaadin-grid-column  resizable>
+        <vaadin-grid-column resizable>
           <template class="header">
             <vaadin-grid-sorter path="surveyor_name">
-              <div class="text-center">Surveyor Name<p>(ชื่อหน่วยงานตรวจสอบสินค้า)</div>
+              <div class="text-center">Surveyor Name
+                <p>(ชื่อหน่วยงานตรวจสอบสินค้า)</div>
             </vaadin-grid-sorter>
             <vaadin-gird-filter-common aria-label="Surveyor Name" path="surveyor_name" value="[[_surveyor_name]]">
             </vaadin-gird-filter-common>
           </template>
           <template>
-             [[item.surveyor_name]]
+            [[item.surveyor_name]]
           </template>
         </vaadin-grid-column>
 
@@ -90,31 +100,33 @@
       <manage-surveyor status-action="[[statusAction]]" title="{{title}}"></manage-surveyor>
     </nylon-panel-right>
   </template>
+
+
   <script>
     Polymer({
       is: "page-surveyor",
-      behaviors: [nylonBehavior, ReduxBehavior, surveyorAction,commonStateAction,SearchBehavior],
+      behaviors: [nylonBehavior, ReduxBehavior, surveyorAction, commonStateAction, SearchBehavior],
       properties: {
         data: {
           statePath: 'surveyor.list'
         }
       },
-       listeners: {
+      listeners: {
         'edit-input': 'editInput',
         'delete-input': '_delete'
       },
-      editInput(){
-        this.dispatchAction('BTN_SET_STATE',false);
+      editInput() {
+        this.dispatchAction('BTN_SET_STATE', false);
       },
       nylonPageActive: function () {
         this.dispatchAction('SURVEYOR_GET_DATA');
-        this.dispatchAction('BTN_SET_STATE',true);
+        this.dispatchAction('BTN_SET_STATE', true);
       },
       _toggleDrawer: function (e) {
         this.statusAction = 'add';
         this.$$('nylon-panel-right').open();
         this.dispatchAction('CLEAR_DATA');
-        this.dispatchAction('BTN_SET_STATE',false);
+        this.dispatchAction('BTN_SET_STATE', false);
         this.title = "เพิ่มข้อมูล";
       },
       _count: function (val) {
@@ -125,7 +137,7 @@
       },
       _edit: function (e) {
         this.statusAction = 'edit';
-        this.dispatchAction('BTN_SET_STATE',true);
+        this.dispatchAction('BTN_SET_STATE', true);
         this.$$('nylon-panel-right').open();
         this.dispatchAction('SURVEYOR_GET_ID', e.target.data.surveyor_id);
         this.title = "แก้ไขข้อมูล";

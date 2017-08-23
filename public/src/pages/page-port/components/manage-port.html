@@ -5,16 +5,25 @@
 
 <link rel="import" href="./../../../../bower_components/paper-autocomplete/paper-autocomplete-suggestions.html">
 
+<link rel="import" href="../../../redux-behavior.html">
+
+<link rel="import" href="../../../dispatchAction-behavior.html">
+
+<link rel="import" href="../../../nylon-behavior.html">
+
 <link rel="import" href="./../../components/validateFormBehaviors.html">
+
+<link rel="import" href="../../../layout/page-style.html">
+
 <dom-module id="manage-port">
-    <style include="iron-flex iron-flex-alignment gl-color gl-size">
+    <style include="page-style iron-flex iron-flex-alignment gl-color gl-size">
         * {
             font-family: 'CSChatThaiUI', sans-serif;
             -webkit-font-smoothing: antialiased;
             font-size: var(--font-size-h5);
             text-align: left;
-            --suggestions-wrapper :{
-                width:auto;
+            --suggestions-wrapper: {
+                width: auto;
                 /*background-color:red;*/
             }
         }
@@ -45,7 +54,42 @@
             <icon-button-management btn-state="[[!btnState]]"></icon-button-management>
         </template>
 
-        <gl-grid-row width="{{getWidth}}">
+        <div class="horizontal start-justified layout">
+            <div class="flex"></div>
+            <div class="flex-4 flex-padding">
+                <gl-combo-box class="margin-top  required" required error-message="กรุณาเลือกประเทศ" required style="margin-top:15px" items="{{countrys}}"
+                    label="Country (ประเทศ)" item-label-path="country_name_en" item-value-path="country_id" value="{{data.country_id}}"
+                    disabled="[[btnState]]">
+                    <template>
+                        [[item.country_name_en]]
+                    </template>
+                </gl-combo-box>
+            </div>
+            <div class="flex-4 flex-padding">
+                <div class="autocomplete-wrapper">
+                    <gl-form-input id="myInput" class="margin-top  required" required error-message="กรุณากรอกชื่อท่าเรือ" disabled="[[btnState]]"
+                        required label="Port Name (ชื่อท่าเรือ) :" placeholder="กรอกชื่อท่าเรือ" value="{{data.port_name}}" on-value-changed="getLastValue"></gl-form-input>
+                    <paper-autocomplete-suggestions for="myInput" source="[[portSearch]]"></paper-autocomplete-suggestions>
+                </div>
+            </div>
+            <div class="flex"></div>
+        </div>
+
+
+        <div class="horizontal start-justified layout">
+            <div class="flex"></div>
+            <div class="flex-4 flex-padding">
+                <gl-form-input class="margin-top  required" required error-message="กรุณากรอกเลขประจำตัวท่าเรือ" required label="Port ID (เลขประจำตัวท่าเรือ) :"
+                    placeholder="กรอกรหัสท่าเรือ" value="{{data.port_id}}" disabled="[[_checkStatus(statusAction)]]"></gl-form-input>
+            </div>
+            <div class="flex-4 flex-padding">
+                <gl-form-input class="margin-top  required" required error-message="กรุณากรอกรหัสท่าเรือ" disabled="[[btnState]]" required
+                    label="Port Code (รหัสท่าเรือ) :" placeholder="port_code" value="{{data.port_code}}"></gl-form-input>
+
+            </div>
+            <div class="flex"></div>
+        </div>
+        <!--<gl-grid-row width="{{getWidth}}">
             <gl-grid-col width="[[getWidth]]" grid="[[300,12],[500,2]]"></gl-grid-col>
             <gl-grid-col width="[[getWidth]]" grid="[[300,12],[500,4]]">
                 <gl-combo-box class="margin-top  required" required error-message="กรุณาเลือกประเทศ" required style="margin-top:15px" items="{{countrys}}"
@@ -57,33 +101,31 @@
                 </gl-combo-box>
             </gl-grid-col>
             <gl-grid-col width="[[getWidth]]" grid="[[300,12],[500,4]]">
-                 <div class="autocomplete-wrapper">
-                    <gl-form-input id="myInput" class="margin-top  required" required error-message="กรุณากรอกชื่อท่าเรือ" disabled="[[btnState]]" required
-                    label="Port Name (ชื่อท่าเรือ) :" placeholder="กรอกชื่อท่าเรือ" value="{{data.port_name}}" on-value-changed="getLastValue"></gl-form-input>
-                    <paper-autocomplete-suggestions for="myInput" 
-                    source="[[portSearch]]" 
-                    ></paper-autocomplete-suggestions>
+                <div class="autocomplete-wrapper">
+                    <gl-form-input id="myInput" class="margin-top  required" required error-message="กรุณากรอกชื่อท่าเรือ" disabled="[[btnState]]"
+                        required label="Port Name (ชื่อท่าเรือ) :" placeholder="กรอกชื่อท่าเรือ" value="{{data.port_name}}" on-value-changed="getLastValue"></gl-form-input>
+                    <paper-autocomplete-suggestions for="myInput" source="[[portSearch]]"></paper-autocomplete-suggestions>
                 </div>
-                
+
             </gl-grid-col>
-            
-        </gl-grid-row>
-        <gl-grid-row >
+
+        </gl-grid-row>-->
+        <!--<gl-grid-row>
             <gl-grid-col width="[[getWidth]]" grid="[[300,12],[500,2]]"></gl-grid-col>
             <gl-grid-col width="[[getWidth]]" grid="[[300,12],[500,4]]">
                 <gl-form-input class="margin-top  required" required error-message="กรุณากรอกเลขประจำตัวท่าเรือ" required label="Port ID (เลขประจำตัวท่าเรือ) :"
                     placeholder="กรอกรหัสท่าเรือ" value="{{data.port_id}}" disabled="[[_checkStatus(statusAction)]]"></gl-form-input>
             </gl-grid-col>
             <gl-grid-col width="[[getWidth]]" grid="[[300,12],[500,4]]">
-                
-                    <gl-form-input  class="margin-top  required" required error-message="กรุณากรอกรหัสท่าเรือ" disabled="[[btnState]]"
-                        required label="Port Code (รหัสท่าเรือ) :" placeholder="port_code" value="{{data.port_code}}" ></gl-form-input>
+
+                <gl-form-input class="margin-top  required" required error-message="กรุณากรอกรหัสท่าเรือ" disabled="[[btnState]]" required
+                    label="Port Code (รหัสท่าเรือ) :" placeholder="port_code" value="{{data.port_code}}"></gl-form-input>
 
 
             </gl-grid-col>
-        </gl-grid-row>
+        </gl-grid-row>-->
 
-        
+
 
         <div class="horizontal end-justified layout">
             <div class="button">
@@ -116,7 +158,7 @@
                 if (data.length === 1) {
                     // console.log(data);
                     // port_id
-                    this.set('data',data[0])
+                    this.set('data', data[0])
                 }
             },
             getLastValue: function (e) {

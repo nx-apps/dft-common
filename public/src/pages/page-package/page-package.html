@@ -13,6 +13,14 @@
 <link rel="import" href="./../components/search-behavior.html">
 <link rel="import" href="./../components/format-number-behavior.html">
 
+<link rel="import" href="../../redux-behavior.html">
+
+<link rel="import" href="../../dispatchAction-behavior.html">
+
+<link rel="import" href="../../nylon-behavior.html">
+<link rel="import" href="../../action/packageAction.html">
+
+<link rel="import" href="../../action/commonStateAction.html">
 <dom-module id="page-package">
   <style is="custom-style" include="iron-flex iron-flex-factors iron-flex-alignment gl-table page-style">
     vaadin-grid {
@@ -137,6 +145,9 @@
       <manage-package status-action="[[statusAction]]" title="{{title}}"></manage-package>
     </nylon-panel-right>
   </template>
+
+
+
   <script>
     Polymer({
       is: "page-package",

@@ -12,6 +12,18 @@
 <link rel="import" href="./../../../bower_components/vaadin-grid/vaadin-grid.html">
 <link rel="import" href="./../../../bower_components/vaadin-grid/vaadin-grid-sorter.html">
 <link rel="import" href="./../components/vaadin-gird-filter-common.html">
+
+<link rel="import" href="../../redux-behavior.html">
+
+<link rel="import" href="../../dispatchAction-behavior.html">
+
+<link rel="import" href="../../nylon-behavior.html">
+<link rel="import" href="../../action/hamonizeAction.html">
+
+<link rel="import" href="../../action/countryGroupAction.html">
+
+<link rel="import" href="../../action/commonStateAction.html">
+
 <dom-module id="page-hamonize">
   <style is="custom-style" include="iron-flex iron-flex-factors iron-flex-alignment gl-table page-style">
     /*.tableMaxHeight {
@@ -193,16 +205,16 @@
             </vaadin-gird-filter-common>
           </template>
           <template>
-             [[item.hamonize_code]]
+            [[item.hamonize_code]]
           </template>
         </vaadin-grid-column>
 
         <vaadin-grid-column flex-grow="0" resizable>
           <template class="header">
             <vaadin-grid-sorter path="hamonize_year">
-            <div class="text-center">Year
-              <p>(ปี)</div>
-              </vaadin-grid-sorter>
+              <div class="text-center">Year
+                <p>(ปี)</div>
+            </vaadin-grid-sorter>
             <vaadin-gird-filter-common aria-label="Hamonized Code" path="hamonize_year" value="[[_hamonizeYear]]">
             </vaadin-gird-filter-common>
           </template>
@@ -214,9 +226,9 @@
         <vaadin-grid-column width="350px" flex-grow="0" resizable>
           <template class="header">
             <vaadin-grid-sorter path="hamonize_th">
-            <div class="text-center">Rice Name
-              <p>(ชื่อข้าว ภาษาไทย)</div>
-              </vaadin-grid-sorter>
+              <div class="text-center">Rice Name
+                <p>(ชื่อข้าว ภาษาไทย)</div>
+            </vaadin-grid-sorter>
             <vaadin-gird-filter-common aria-label="Rice Name" path="hamonize_th" value="[[_hamonizeTh]]">
             </vaadin-gird-filter-common>
           </template>
@@ -228,9 +240,9 @@
         <vaadin-grid-column width="350px" flex-grow="0" resizable>
           <template class="header">
             <vaadin-grid-sorter path="hamonize_th2">
-            <div class="text-center">Rice Name 2
-              <p>(ชื่อข้าว ภาษาไทยที่ 2)</div>
-              </vaadin-grid-sorter>
+              <div class="text-center">Rice Name 2
+                <p>(ชื่อข้าว ภาษาไทยที่ 2)</div>
+            </vaadin-grid-sorter>
             <vaadin-gird-filter-common aria-label="Rice Name" path="hamonize_th2" value="[[_hamonizeTh2]]">
             </vaadin-gird-filter-common>
           </template>
@@ -242,9 +254,9 @@
         <vaadin-grid-column width="350px" flex-grow="0" resizable>
           <template class="header">
             <vaadin-grid-sorter path="hamonize_en">
-            <div class="text-center">Rice Name
-              <p>(ชื่อข้าว ภาษาอังกฤษ)</div>
-              </vaadin-grid-sorter>
+              <div class="text-center">Rice Name
+                <p>(ชื่อข้าว ภาษาอังกฤษ)</div>
+            </vaadin-grid-sorter>
             <vaadin-gird-filter-common aria-label="Rice Name" path="hamonize_en" value="[[_hamonizeEn]]">
             </vaadin-gird-filter-common>
           </template>
@@ -256,9 +268,9 @@
         <vaadin-grid-column width="350px" flex-grow="0" resizable>
           <template class="header">
             <vaadin-grid-sorter path="hamonize_en2">
-            <div class="text-center">Rice Name 2
-              <p>(ชื่อข้าว ภาษาอังกฤษที่ 2)</div>
-              </vaadin-grid-sorter>
+              <div class="text-center">Rice Name 2
+                <p>(ชื่อข้าว ภาษาอังกฤษที่ 2)</div>
+            </vaadin-grid-sorter>
             <vaadin-gird-filter-common aria-label="Rice Name" path="hamonize_en2" value="[[_hamonizeEn2]]">
             </vaadin-gird-filter-common>
           </template>
@@ -299,10 +311,12 @@
       <manage-hamonize status-action="[[statusAction]]" title="{{title}}"></manage-hamonize>
     </nylon-panel-right>
   </template>
+
+
   <script>
     Polymer({
       is: "page-hamonize",
-      behaviors: [nylonBehavior, ReduxBehavior, hamonizeAction, countryGroupAction, commonStateAction ,SearchBehavior],
+      behaviors: [nylonBehavior, ReduxBehavior, hamonizeAction, countryGroupAction, commonStateAction, SearchBehavior],
       properties: {
         data: {
           statePath: 'hamonize.list'

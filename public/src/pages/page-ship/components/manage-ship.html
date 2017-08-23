@@ -3,31 +3,41 @@
 <link rel="import" href="./../../../../bower_components/gl-grid/gl-grid-col.html">
 <link rel="import" href="./../../../../bower_components/gl-form/gl-combo-box.html">
 <link rel="import" href="./../../components/validateFormBehaviors.html">
+
+<link rel="import" href="../../../redux-behavior.html">
+
+<link rel="import" href="../../../dispatchAction-behavior.html">
+
+<link rel="import" href="../../../nylon-behavior.html">
+
+<link rel="import" href="../../../layout/page-style.html">
+
 <dom-module id="manage-ship">
-    <style include="iron-flex iron-flex-alignment gl-color gl-size">
+    <style include="page-style iron-flex iron-flex-alignment gl-color gl-size">
         * {
             font-family: 'CSChatThaiUI', sans-serif;
             -webkit-font-smoothing: antialiased;
             font-size: var(--font-size-h5);
             text-align: left;
         }
-        
+
         .text-center {
             text-align: center;
             font-size: var(--font-size-h3);
             background-color: var(--paper-grey-100);
             margin-top: 20px;
         }
-        
+
         .margin-top {
             margin-top: 15px;
         }
-        
+
         .button {
             margin-top: 20px;
             margin-bottom: 20px;
         }
-        icon-button-management{
+
+        icon-button-management {
             margin: 10px 10px;
         }
     </style>
@@ -44,14 +54,21 @@
                     label="Shipline Name (สายเรือ)" item-label-path="shipline_name" item-value-path="shipline_id" value="{{data.shipline_id}}"></gl-combo-box>
             </gl-grid-col>
         </gl-grid-row>-->
-
-        <gl-grid-row width="{{getWidth}}">
+        <div class="horizontal start-justified layout">
+            <div class="flex"></div>
+            <div class="flex flex-padding">
+                <gl-form-input class="margin-top  required" required error-message="กรุณากรอกชื่อเรือ" disabled="[[btnState]]" required label="Ship Name (ชื่อเรือ) :"
+                    placeholder="กรอกชื่อเรือ" value="{{data.ship_name}}"></gl-form-input>
+            </div>
+            <div class="flex"></div>
+        </div>
+        <!--<gl-grid-row width="{{getWidth}}">
             <gl-grid-col width="[[getWidth]]" grid="[[300,12],[500,4]]"></gl-grid-col>
             <gl-grid-col width="[[getWidth]]" grid="[[300,12],[500,4]]">
-                <gl-form-input class="margin-top  required" required  error-message="กรุณากรอกชื่อเรือ" disabled="[[btnState]]" required label="Ship Name (ชื่อเรือ) :" placeholder="กรอกชื่อเรือ"
-                    value="{{data.ship_name}}"></gl-form-input>
+                <gl-form-input class="margin-top  required" required error-message="กรุณากรอกชื่อเรือ" disabled="[[btnState]]" required label="Ship Name (ชื่อเรือ) :"
+                    placeholder="กรอกชื่อเรือ" value="{{data.ship_name}}"></gl-form-input>
             </gl-grid-col>
-        </gl-grid-row>
+        </gl-grid-row>-->
 
         <div class="horizontal end-justified layout">
             <div class="button">
@@ -67,16 +84,16 @@
                 data: {
                     statePath: 'ship.data'
                 },
-                shiplines:{
+                shiplines: {
                     statePath: 'shipline.list'
                 },
-                btnState:{
+                btnState: {
                     statePath: 'commonState.btnState'
                 }
             },
-            behaviors: [nylonBehavior, ReduxBehavior,ValidateFormBehavior],
+            behaviors: [nylonBehavior, ReduxBehavior, ValidateFormBehavior],
             _save: function () {
-                if(this.validateForm('.required')){
+                if (this.validateForm('.required')) {
                     if (typeof this.data.ship_id !== 'undefined') {
                         this.dispatchAction('SHIP_EDIT', this.data);
                     }

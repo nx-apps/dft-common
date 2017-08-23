@@ -4,6 +4,7 @@ import {dispatchActionBehavior} from './config'
 import {handleAuth} from './auth'
 import {i18nReducer,i18nAction} from './i18n'
 
+
 function requireAll(requireContext) {
   return requireContext.keys().map(requireContext);
 }
@@ -24,17 +25,18 @@ const storeApp = createStore(
     rootReducer,
     window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
 );
-window.ReduxBehavior = [PolymerRedux(storeApp),dispatchActionBehavior()];
-window.dispatchActionBehavior = dispatchActionBehavior();
+
+window.preReduxBehavior = PolymerRedux(storeApp)
+window.preDispatchActionBehavior = dispatchActionBehavior()
+window.dispatchActionBehavior = dispatchActionBehavior()
 
 handleAuth(storeApp);
-
-window.i18nAction = i18nAction(storeApp);
+window.prei18nAction = i18nAction(storeApp);
 modules.map(function(row){
 	for (var prop in row) {
 		var arrSplit = prop.split('Action');
 		if(arrSplit.length==2){
-			window[prop] = row[prop](storeApp);
+			window['pre'+prop] = row[prop](storeApp);
 		}
 	}
 })

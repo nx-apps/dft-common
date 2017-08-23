@@ -3,28 +3,41 @@
 <link rel="import" href="./../../../../bower_components/gl-grid/gl-grid-col.html">
 <link rel="import" href="./../../../../bower_components/gl-form/gl-combo-box.html">
 <link rel="import" href="./../../components/validateFormBehaviors.html">
+
+<link rel="import" href="../../../redux-behavior.html">
+
+<link rel="import" href="../../../dispatchAction-behavior.html">
+
+<link rel="import" href="../../../nylon-behavior.html">
+
+<link rel="import" href="../../../layout/page-style.html">
+
 <dom-module id="manage-surveyor">
-    <style include="iron-flex iron-flex-alignment gl-color gl-size">
-       *{
-      font-family: 'CSChatThaiUI', sans-serif;
-      -webkit-font-smoothing: antialiased;
-      font-size: var(--font-size-h5);
-      text-align: left;
-    }
-    .text-center {
-      text-align: center;
-      font-size: var(--font-size-h3);
-      background-color: var(--paper-grey-100);
-      margin-top: 20px;
-    }
-    .margin-top{
-      margin-top: 15px;
-    }
-    .button{
-      margin-top: 20px;
-      margin-bottom: 20px;
-    }
-    icon-button-management{
+    <style include="page-style iron-flex iron-flex-alignment gl-color gl-size">
+        * {
+            font-family: 'CSChatThaiUI', sans-serif;
+            -webkit-font-smoothing: antialiased;
+            font-size: var(--font-size-h5);
+            text-align: left;
+        }
+
+        .text-center {
+            text-align: center;
+            font-size: var(--font-size-h3);
+            background-color: var(--paper-grey-100);
+            margin-top: 20px;
+        }
+
+        .margin-top {
+            margin-top: 15px;
+        }
+
+        .button {
+            margin-top: 20px;
+            margin-bottom: 20px;
+        }
+
+        icon-button-management {
             margin: 10px 10px;
         }
     </style>
@@ -33,21 +46,31 @@
         <template is="dom-if" if={{_checkStatus(statusAction)}}>
             <icon-button-management btn-state="[[!btnState]]"></icon-button-management>
         </template>
+        <div class="horizontal start-justified layout">
+            <div class="flex"></div>
+            <div class="flex flex-padding">
+                <gl-form-input class="margin-top  required" required error-message="กรุณากรอกชื่อหน่วยงานตรวจสอบสินค้า" disabled="[[btnState]]"
+                    required label="Surveyor Name (ชื่อหน่วยงานตรวจสอบสินค้า) :" placeholder="กรอกชื่อหน่วยงานตรวจสอบสินค้า"
+                    value="{{data.surveyor_name}}"></gl-form-input>
+            </div>
+            <div class="flex"></div>
+        </div>
+        <!--<gl-grid-row width="{{getWidth}}">
+            <gl-grid-col width="[[getWidth]]" grid="[[300,12],[500,4]]"></gl-grid-col>
+            <gl-grid-col width="[[getWidth]]" grid="[[300,12],[500,4]]">
+                <gl-form-input class="margin-top  required" required error-message="กรุณากรอกชื่อหน่วยงานตรวจสอบสินค้า" disabled="[[btnState]]"
+                    required label="Surveyor Name (ชื่อหน่วยงานตรวจสอบสินค้า) :" placeholder="กรอกชื่อหน่วยงานตรวจสอบสินค้า"
+                    value="{{data.surveyor_name}}"></gl-form-input>
+            </gl-grid-col>
+            <gl-grid-col width="[[getWidth]]" grid="[[300,12],[500,4]]"></gl-grid-col>
+        </gl-grid-row>-->
 
-    <gl-grid-row width="{{getWidth}}">
-      <gl-grid-col width="[[getWidth]]" grid="[[300,12],[500,4]]"></gl-grid-col>
-      <gl-grid-col width="[[getWidth]]" grid="[[300,12],[500,4]]">
-        <gl-form-input class="margin-top  required" required  error-message="กรุณากรอกชื่อหน่วยงานตรวจสอบสินค้า" disabled="[[btnState]]" required label="Surveyor Name (ชื่อหน่วยงานตรวจสอบสินค้า) :" placeholder="กรอกชื่อหน่วยงานตรวจสอบสินค้า" value="{{data.surveyor_name}}"></gl-form-input>
-      </gl-grid-col>
-      <gl-grid-col width="[[getWidth]]" grid="[[300,12],[500,4]]"></gl-grid-col>
-    </gl-grid-row>
-
-    <div class="horizontal end-justified layout">
-      <div class="button">
-        <paper-button raised on-tap="_cancel" hidden="{{btnState}}">คืนค่าข้อมูล</paper-button>
-        <paper-button class="gl-btn-success" raised on-tap="_save" hidden="{{btnState}}">บันทึก</paper-button>
-      </div>
-    </div>
+        <div class="horizontal end-justified layout">
+            <div class="button">
+                <paper-button raised on-tap="_cancel" hidden="{{btnState}}">คืนค่าข้อมูล</paper-button>
+                <paper-button class="gl-btn-success" raised on-tap="_save" hidden="{{btnState}}">บันทึก</paper-button>
+            </div>
+        </div>
     </template>
     <script>
         Polymer({
@@ -56,13 +79,13 @@
                 data: {
                     statePath: 'surveyor.data'
                 },
-                btnState:{
+                btnState: {
                     statePath: 'commonState.btnState'
                 }
             },
-            behaviors: [nylonBehavior, ReduxBehavior,ValidateFormBehavior],
+            behaviors: [nylonBehavior, ReduxBehavior, ValidateFormBehavior],
             _save: function () {
-                if(this.validateForm('.required')){
+                if (this.validateForm('.required')) {
                     if (typeof this.data.surveyor_id !== 'undefined') {
                         this.dispatchAction('SURVEYOR_EDIT', this.data);
                     }

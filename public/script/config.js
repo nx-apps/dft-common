@@ -1,26 +1,26 @@
-export function commonAction(){
+export function commonAction() {
     return {
-        listeners:{
-            'method':'handleCall'
+        listeners: {
+            'method': 'handleCall'
         },
-        handleCall:function(e){
+        handleCall: function (e) {
             var detail = e.detail;
             var args = detail.args;
             var callback = detail.callback;
 
             var methodName = args[0];
             var args = Array.prototype.slice.call(args);
-            if(args.length>1)
-            args = args.slice(1,args.length);
+            if (args.length > 1)
+                args = args.slice(1, args.length);
 
             var argsText = "";
             var params = [];
-            args.map((row,i)=>{
+            args.map((row, i) => {
                 params.push(row);
-                if(i!=0) argsText+=',';
+                if (i != 0) argsText += ',';
                 argsText += `params[${i}]`
             });
-        
+
             callback(eval(`
                 if(this.${methodName})
                 this.${methodName}(${argsText})
@@ -30,29 +30,47 @@ export function commonAction(){
     }
 }
 
-export function dispatchActionBehavior(){
+export function dispatchActionBehavior() {
     return {
-        dispatchAction:function(){
-            return new Promise((reslove,reject)=>{
-                this.fire('method',{
-                    args:arguments,
-                    callback:(promise)=>{
-                        if(typeof promise == "undefined"){
+        dispatchAction: function () {
+            return new Promise((reslove, reject) => {
+                this.fire('method', {
+                    args: arguments,
+                    callback: (promise) => {
+                        if (typeof promise == "undefined") {
                             //reslove('Action no promise.');
-                        }else{
-                            promise.then((res)=>{
+                        } else {
+                            promise.then((res) => {
                                 reslove(promise);
-                            }).catch((err)=>{
+                            }).catch((err) => {
                                 reject(err);
                             })
                         }
                     }
                 });
             })
-            
+
         }
     }
 }
 
+let url = ''
+if (process.env.NODE_ENV == "production") {
+    // var port = ""
+    // if (window.location.port) {
+    // 	port = ':' + window.location.port
+    // }
+    // url = `https://${window.location.hostname}:3002`
+    url = `https://${window.location.hostname}`
+    window.console.log = function () {
+        return;
+    }
+} else {
+    // url = `https://${window.location.hostname}:${location.port}`
+    url = `https://${window.location.hostname}:3002`
+    window.console.log = function () {
+        return;
+    }
+}
 //export const baseURL = `https://${window.location.hostname}:${location.port}`;
-export const baseURL = `https://${window.location.hostname}:${location.port}`;
+export const baseURL = url

@@ -11,6 +11,19 @@
 <link rel="import" href="./../components/icon-button-management.html">
 <link rel="import" href="./../../layout/page-style.html">
 <link rel="import" href="./../components/search-behavior.html">
+
+<link rel="import" href="../../redux-behavior.html">
+
+<link rel="import" href="../../dispatchAction-behavior.html">
+
+
+<link rel="import" href="../../nylon-behavior.html">
+
+<link rel="import" href="../../action/countryAction.html">
+
+<link rel="import" href="../../action/portAction.html">
+
+<link rel="import" href="../../action/commonStateAction.html">
 <dom-module id="page-port">
   <style is="custom-style" include="iron-flex iron-flex-factors iron-flex-alignment gl-table page-style">
     * {
@@ -47,14 +60,15 @@
       font-size: var(--font-size-h5);
       margin: 10px 10px 10px 10px;
     }
+
     vaadin-grid {
-        height: 100vh;
-      }
+      height: 100vh;
+    }
   </style>
   <template>
 
     <paper-material elevation="1" class="elevation">
-    
+
 
       <div class="horizontal justified layout">
         <div class="horizontal layout" style="margin-top:25px;">
@@ -65,7 +79,7 @@
         </div>
       </div>
 
-   
+
       <vaadin-grid id="material" aria-label="Basic Binding Example" items="[[data]]" multi-sort="true">
 
         <vaadin-grid-column width="100px" flex-grow="0" flex-grow="0" resizable>
@@ -92,7 +106,7 @@
           </template>
         </vaadin-grid-column>
 
-        <vaadin-grid-column width="250px"flex-grow="0" resizable>
+        <vaadin-grid-column width="250px" flex-grow="0" resizable>
           <template class="header">
             <vaadin-grid-sorter path="port_id">
               <div class="text-center">Port ID
@@ -167,10 +181,12 @@
       <manage-port status-action="[[statusAction]]" title="{{title}}"></manage-port>
     </nylon-panel-right>
   </template>
+
+
   <script>
     Polymer({
       is: "page-port",
-      behaviors: [nylonBehavior, ReduxBehavior, [countryAction, portAction, commonStateAction, SearchBehavior]],
+      behaviors: [nylonBehavior, ReduxBehavior, countryAction, portAction, commonStateAction, SearchBehavior],
       properties: {
         data: {
           statePath: 'port.list'

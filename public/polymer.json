@@ -2,18 +2,56 @@
   "entrypoint": "index.html",
   "shell": "src/nylon-app.html",
   "fragments": [
+    "src/pages/page-main/page-main.html",
+    "src/pages/page-bank/page-bank.html",
+    "src/pages/page-buyer/page-buyer.html",
+    "src/pages/page-carrier/page-carrier.html",
+    "src/pages/page-continent/page-continent.html",
+    "src/pages/page-country/page-country.html",
+    "src/pages/page-group/page-group.html",
+    "src/pages/page-group-item/page-group-item.html",
+    "src/pages/page-hamonize/page-hamonize.html",
+    "src/pages/page-incoterms/page-incoterms.html",
+    "src/pages/page-notifyparty/page-notifyparty.html",
+    "src/pages/page-package/page-package.html",
+    "src/pages/page-port/page-port.html",
+    "src/pages/page-province/page-province.html",
+    "src/pages/page-ship/page-ship.html",
+    "src/pages/page-shipline/page-shipline.html",
+    "src/pages/page-surveyor/page-surveyor.html",
     "src/pages/page-401/page-401.html",
+    "src/pages/page-403/page-403.html",
     "src/pages/page-404/page-404.html"
+    
   ],
-  "sourceGlobs": [
+  "sources": [
     "src/**/*",
     "images/**/*",
     "bower.json",
-    "fonts/**/*"
+    "fonts/**/*",
+    "bower_components/gl-font/**/*"
   ],
-  "includeDependencies": [
+  "extraDependencies": [
     "bundle.js",
     "manifest.json",
     "bower_components/webcomponentsjs/webcomponents-lite.min.js"
+  ],
+  "builds": [
+    {
+      "name": "default",
+      "bundle": true,
+      "html": {
+        "minify": true
+      },
+      "css": {
+        "minify": true
+      },
+      "js": {
+        "minify": true,
+        "compile": false
+      },
+      "addServiceWorker": false,
+      "addPushManifest": false
+    }
   ]
 }

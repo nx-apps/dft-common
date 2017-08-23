@@ -3,62 +3,102 @@
 <link rel="import" href="./../../../../bower_components/gl-grid/gl-grid-col.html">
 <link rel="import" href="./../../../../bower_components/gl-form/gl-combo-box.html">
 <link rel="import" href="./../../components/validateFormBehaviors.html">
+
+<link rel="import" href="../../../redux-behavior.html">
+
+<link rel="import" href="../../../dispatchAction-behavior.html">
+
+<link rel="import" href="../../../nylon-behavior.html">
+
+<link rel="import" href="../../../layout/page-style.html">
+
 <dom-module id="manage-continent">
-    <style include="iron-flex iron-flex-alignment gl-color gl-size">
+    <style include="page-style iron-flex iron-flex-alignment gl-color gl-size">
         * {
             font-family: 'CSChatThaiUI', sans-serif;
             -webkit-font-smoothing: antialiased;
             font-size: var(--font-size-h5);
             text-align: left;
         }
-        
+
         .text-center {
             text-align: center;
             font-size: var(--font-size-h3);
             background-color: var(--paper-grey-100);
             margin-top: 20px;
         }
-        
+
         .margin-top {
             margin-top: 15px;
         }
-        
+
         .button {
             margin-top: 20px;
             margin-bottom: 20px;
         }
-        icon-button-management{
+
+        icon-button-management {
             margin: 10px 10px;
         }
     </style>
     <template>
         <div class="text-center">{{title}}ทวีป</div>
-         <template is="dom-if" if={{_checkStatus(data.continent_id)}}>
+        <template is="dom-if" if={{_checkStatus(data.continent_id)}}>
             <icon-button-management btn-state="[[!btnState]]"></icon-button-management>
         </template>
-        <gl-grid-row width="{{getWidth}}">
-            <gl-grid-col width="[[getWidth]]" grid="[[300,12],[500,4]]"></gl-grid-col>
-            <gl-grid-col width="[[getWidth]]" grid="[[300,12],[500,5]]">
-                <gl-form-input class="margin-top  required" required  error-message="กรุณากรอกรหัสทวีป" required label="Country Code (รหัสประเทศ) :"
-                    placeholder="ใส่รหัสประเทศ" value="{{data.continent_id}}" disabled="{{_obData(data.creater)}}"></gl-form-input>
-            </gl-grid-col>
-        </gl-grid-row>
 
-        <gl-grid-row>
-            <gl-grid-col width="[[getWidth]]" grid="[[300,12],[500,4]]"></gl-grid-col>
-            <gl-grid-col width="[[getWidth]]" grid="[[300,12],[500,5]]">
-                <gl-form-input class="margin-top  required" required  error-message="กรุณากรอกชื่อทวีป" required label="Country name (ชื่อประเทศภาษาไทย) :"
-                    placeholder="กรอกชื่อประเทศ" value="{{data.continent_name_th}}" disabled="[[btnState]]"></gl-form-input>
-            </gl-grid-col>
-        </gl-grid-row>
+        <div class="horizontal start-justified layout">
+            <div class="flex"></div>
+            <div class="flex flex-padding">
+                <gl-form-input class="margin-top  required" required error-message="กรุณากรอกรหัสทวีป" required label="Country Code (รหัสประเทศ) :"
+                    placeholder="ใส่รหัสทวีป" value="{{data.continent_id}}" disabled="{{_obData(data.creater)}}"></gl-form-input>
+            </div>
+            <div class="flex"></div>
+        </div>
 
-        <gl-grid-row>
+
+        <div class="horizontal start-justified layout">
+            <div class="flex"></div>
+            <div class="flex flex-padding">
+                <gl-form-input class="margin-top  required" required error-message="กรุณากรอกชื่อทวีป" required label="Country name (ชื่อประเทศภาษาไทย) :"
+                    placeholder="กรอกชื่อทวีป" value="{{data.continent_name_th}}" disabled="[[btnState]]"></gl-form-input>
+            </div>
+            <div class="flex"></div>
+        </div>
+
+
+        <div class="horizontal start-justified layout">
+            <div class="flex"></div>
+            <div class="flex flex-padding">
+                <gl-form-input class="margin-top  required" required error-message="กรุณากรอกชื่อทวีป" required label="Country name (ชื่อประเทศภาษาอังกฤษ) :"
+                    placeholder="กรอกชื่อทวีป" value="{{data.continent_name_en}}" disabled="[[btnState]]"></gl-form-input>
+            </div>
+            <div class="flex"></div>
+        </div>
+
+        <!--<gl-grid-row width="{{getWidth}}">
             <gl-grid-col width="[[getWidth]]" grid="[[300,12],[500,4]]"></gl-grid-col>
             <gl-grid-col width="[[getWidth]]" grid="[[300,12],[500,5]]">
-                <gl-form-input class="margin-top  required" required  error-message="กรุณากรอกชื่อทวีป" required label="Country name (ชื่อประเทศภาษาอังกฤษ) :"
-                    placeholder="กรอกชื่อประเทศ" value="{{data.continent_name_en}}" disabled="[[btnState]]"></gl-form-input>
+                <gl-form-input class="margin-top  required" required error-message="กรุณากรอกรหัสทวีป" required label="Country Code (รหัสประเทศ) :"
+                    placeholder="ใส่รหัสทวีป" value="{{data.continent_id}}" disabled="{{_obData(data.creater)}}"></gl-form-input>
             </gl-grid-col>
-        </gl-grid-row>
+        </gl-grid-row>-->
+
+        <!--<gl-grid-row>
+            <gl-grid-col width="[[getWidth]]" grid="[[300,12],[500,4]]"></gl-grid-col>
+            <gl-grid-col width="[[getWidth]]" grid="[[300,12],[500,5]]">
+                <gl-form-input class="margin-top  required" required error-message="กรุณากรอกชื่อทวีป" required label="Country name (ชื่อประเทศภาษาไทย) :"
+                    placeholder="กรอกชื่อทวีป" value="{{data.continent_name_th}}" disabled="[[btnState]]"></gl-form-input>
+            </gl-grid-col>
+        </gl-grid-row>-->
+
+        <!--<gl-grid-row>
+            <gl-grid-col width="[[getWidth]]" grid="[[300,12],[500,4]]"></gl-grid-col>
+            <gl-grid-col width="[[getWidth]]" grid="[[300,12],[500,5]]">
+                <gl-form-input class="margin-top  required" required error-message="กรุณากรอกชื่อทวีป" required label="Country name (ชื่อประเทศภาษาอังกฤษ) :"
+                    placeholder="กรอกชื่อทวีป" value="{{data.continent_name_en}}" disabled="[[btnState]]"></gl-form-input>
+            </gl-grid-col>
+        </gl-grid-row>-->
 
         <div class="horizontal end-justified layout">
             <div class="button">
@@ -74,19 +114,19 @@
                 data: {
                     statePath: 'continent.data'
                 },
-                btnState:{
+                btnState: {
                     statePath: 'commonState.btnState'
                 }
             },
-            behaviors: [nylonBehavior, ReduxBehavior,ValidateFormBehavior],
+            behaviors: [nylonBehavior, ReduxBehavior, ValidateFormBehavior],
             _save: function () {
-                if(this.validateForm('.required')){
-                if (this.data.creater == 'admin') {
-                    this.dispatchAction('CONTINENT_EDIT', this.data);
-                }
-                else {
-                    this.dispatchAction('CONTINENT_INSERT', this.data);
-                }
+                if (this.validateForm('.required')) {
+                    if (this.data.creater == 'admin') {
+                        this.dispatchAction('CONTINENT_EDIT', this.data);
+                    }
+                    else {
+                        this.dispatchAction('CONTINENT_INSERT', this.data);
+                    }
                 }
             },
             _cancel: function () {
@@ -97,8 +137,8 @@
                     this.dispatchAction('CLEAR_DATA');
                 }
             },
-            _obData: function(val){
-                if(typeof val != 'undefined' && val != undefined){
+            _obData: function (val) {
+                if (typeof val != 'undefined' && val != undefined) {
                     return true
                 }
             },

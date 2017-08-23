@@ -11,12 +11,22 @@
 <link rel="import" href="./../components/icon-button-management.html">
 <link rel="import" href="./../../layout/page-style.html">
 <link rel="import" href="./../components/search-behavior.html">
+
+<link rel="import" href="../../redux-behavior.html">
+
+<link rel="import" href="../../dispatchAction-behavior.html">
+
+<link rel="import" href="../../nylon-behavior.html">
+
+<link rel="import" href="../../nylon-behavior.html">
+<link rel="import" href="../../action/shiplineAction.html">
+
+<link rel="import" href="../../action/commonStateAction.html">
 <dom-module id="page-shipline">
   <style is="custom-style" include="iron-flex iron-flex-factors iron-flex-alignment gl-table page-style">
-    
     vaadin-grid {
-        height: 100vh;
-      }
+      height: 100vh;
+    }
   </style>
   <template>
 
@@ -32,7 +42,7 @@
         </div>
       </div>
 
-    
+
       <vaadin-grid id="material" aria-label="Basic Binding Example" items="[[data]]" multi-sort="true">
 
         <vaadin-grid-column width="100px" flex-grow="0" flex-grow="0" resizable>
@@ -55,16 +65,16 @@
             </vaadin-gird-filter-common>
           </template>
           <template>
-             [[item.shipline_name]]
+            [[item.shipline_name]]
           </template>
         </vaadin-grid-column>
 
         <vaadin-grid-column resizable>
           <template class="header">
             <vaadin-grid-sorter path="shipline_tel">
-            <div class="text-center">Tel.
+              <div class="text-center">Tel.
                 <p>(เบอร์โทรศัพท์)</div>
-              </vaadin-grid-sorter>
+            </vaadin-grid-sorter>
             <vaadin-gird-filter-common aria-label="Tel" path="shipline_tel" value="[[_shipline_tel]]">
             </vaadin-gird-filter-common>
           </template>
@@ -105,6 +115,9 @@
       <manage-shipline status-action="[[statusAction]]" title="{{title}}"></manage-shipline>
     </nylon-panel-right>
   </template>
+
+
+
   <script>
     Polymer({
       is: "page-shipline",

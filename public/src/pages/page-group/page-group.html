@@ -24,6 +24,46 @@
 
 <link rel="import" href="./../../../bower_components/vaadin-grid/vaadin-grid.html">
 
+<link rel="import" href="../../redux-behavior.html">
+
+<link rel="import" href="../../dispatchAction-behavior.html">
+
+<link rel="import" href="../../nylon-behavior.html">
+<link rel="import" href="../../action/bankAction.html">
+
+<link rel="import" href="../../action/buyerAction.html">
+
+<link rel="import" href="../../action/carrierAction.html">
+
+<link rel="import" href="../../action/groupAction.html">
+
+<link rel="import" href="../../action/hamonizeAction.html">
+
+<link rel="import" href="../../action/commonStateAction.html">
+
+<link rel="import" href="../../action/continentAction.html">
+
+<link rel="import" href="../../action/countryAction.html">
+
+<link rel="import" href="../../action/countryGroupAction.html">
+
+<link rel="import" href="../../action/groupItemAction.html">
+
+<link rel="import" href="../../action/incotermsAction.html">
+
+<link rel="import" href="../../action/notifypartyAction.html">
+
+<link rel="import" href="../../action/packageAction.html">
+
+<link rel="import" href="../../action/portAction.html">
+
+<link rel="import" href="../../action/provinceAction.html">
+
+<link rel="import" href="../../action/shipAction.html">
+
+<link rel="import" href="../../action/shiplineAction.html">
+
+<link rel="import" href="../../action/surveyorAction.html">
 
 <dom-module id="page-group">
     <template>
@@ -93,7 +133,8 @@
                 <vaadin-grid-column width="250px" flex-grow="0" resizable>
                     <template class="header">
                         <vaadin-grid-sorter path="group_name_th">
-                            <div class="text-center"><p>ชือไทย</div>
+                            <div class="text-center">
+                                <p>ชือไทย</div>
                         </vaadin-grid-sorter>
                         <vaadin-gird-filter-common aria-label="Group" path="group_name_th" value="[[_group_name_th]]">
                         </vaadin-gird-filter-common>
@@ -180,10 +221,17 @@
             <manage-group status-action="[[statusAction]]" title="{{title}}"></manage-group>
         </nylon-panel-right>
     </template>
+
+
+
     <script>
         Polymer({
             is: 'page-group',
-            behaviors: [nylonBehavior, ReduxBehavior, groupAction, countryAction, hamonizeAction, commonStateAction, SearchBehavior],
+            behaviors: [nylonBehavior, ReduxBehavior, SearchBehavior, bankAction,
+                buyerAction, carrierAction, commonStateAction, continentAction,
+                countryAction, countryGroupAction, groupAction, groupItemAction,
+                hamonizeAction, incotermsAction, notifypartyAction, packageAction,
+                portAction, provinceAction, shipAction, shiplineAction, surveyorAction],
             properties: {
                 data: {
                     statePath: 'group.list'

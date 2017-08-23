@@ -4,9 +4,17 @@
 
 <link rel="import" href="./tag-dropdown.html">
 
+<link rel="import" href="../../../redux-behavior.html">
+
+<link rel="import" href="../../../dispatchAction-behavior.html">
+
+<link rel="import" href="../../../nylon-behavior.html">
+
+<link rel="import" href="../../../layout/page-style.html">
+
 <dom-module id="manage-group">
     <template>
-        <style include="iron-flex iron-flex-factors iron-flex-alignment gl-table page-style">
+        <style include="page-style iron-flex iron-flex-factors iron-flex-alignment gl-table page-style">
             * {
                 font-family: 'CSChatThaiUI', sans-serif;
                 -webkit-font-smoothing: antialiased;
@@ -33,33 +41,81 @@
         </template>
         <!--{{statusAction}}///[[_checkStatus(statusAction)]]-->
         <template is="dom-if" if={{_checkStatus(statusAction)}}>
-            <gl-grid-row width="{{getWidth}}">
+            <div class="horizontal start-justified layout">
+                <div class="flex"></div>
+                <div class="flex flex-padding">
+                    <gl-form-input class="margin-top  " label="URL :" placeholder="URL" value="[[url]][[data.group_id]]" read-only></gl-form-input>
+                </div>
+                <div class="flex"></div>
+            </div>
+            <!--<gl-grid-row width="{{getWidth}}">
                 <gl-grid-col width="[[getWidth]]" grid="[[300,12],[500,3]]"></gl-grid-col>
                 <gl-grid-col width="[[getWidth]]" grid="[[300,12],[500,6]]">
                     <gl-form-input class="margin-top  " label="URL :" placeholder="URL" value="[[url]][[data.group_id]]" read-only></gl-form-input>
                 </gl-grid-col>
                 <gl-grid-col width="[[getWidth]]" grid="[[300,12],[500,3]]"></gl-grid-col>
-            </gl-grid-row>
+            </gl-grid-row>-->
         </template>
-        <gl-grid-row width="{{getWidth}}">
+
+        <div class="horizontal start-justified layout">
+            <div class="flex"></div>
+            <div class="flex flex-padding">
+                <gl-form-input class="margin-top  required" required error-message="ชื่อกลุ่ม (ไทย)" label="ชื่อกลุ่ม (ไทย) :" placeholder="ชื่อกลุ่ม (ไทย)"
+                    value="{{data.group_name_th}}" disabled="[[btnState]]"></gl-form-input>
+            </div>
+            <div class="flex"></div>
+        </div>
+
+        <div class="horizontal start-justified layout">
+            <div class="flex"></div>
+            <div class="flex flex-padding">
+                <gl-form-input class="margin-top  required" required error-message="ชื่อกลุ่ม (อังกฤษ)" label="ชื่อกลุ่ม (อังกฤษ) :" placeholder="ชื่อกลุ่ม (อังกฤษ)"
+                    value="{{data.group_name_en}}" disabled="[[btnState]]"></gl-form-input>
+            </div>
+            <div class="flex"></div>
+        </div>
+
+        <div class="horizontal start-justified layout">
+            <div class="flex"></div>
+            <div class="flex flex-padding">
+                <paper-dropdown-menu label="ตาราง" placeholder="ตาราง" disabled="[[btnState]]" on-value-changed="test">
+                    <paper-listbox attr-for-selected="value" selected="{{data.table_name}}" slot="dropdown-content" class="dropdown-content">
+                        <template is="dom-repeat" items={{keydata}}>
+                            <paper-item value="[[item.table]]">[[item.table]]</paper-item>
+                        </template>
+                    </paper-listbox>
+                </paper-dropdown-menu>
+            </div>
+            <div class="flex"></div>
+        </div>
+
+        <div class="horizontal start-justified layout">
+            <div class="flex"></div>
+            <div class="flex flex-padding">
+                <tag-dropdown id="tagValue" label="ชื่อที่ต้องการแสดง" items="{{field}}" value="{{data}}" disabled="[[btnState]]"></tag-dropdown>
+            </div>
+            <div class="flex"></div>
+        </div>
+
+        <!--<gl-grid-row width="{{getWidth}}">
             <gl-grid-col width="[[getWidth]]" grid="[[300,12],[500,3]]"></gl-grid-col>
             <gl-grid-col width="[[getWidth]]" grid="[[300,12],[500,6]]">
                 <gl-form-input class="margin-top  required" required error-message="ชื่อกลุ่ม (ไทย)" label="ชื่อกลุ่ม (ไทย) :" placeholder="ชื่อกลุ่ม (ไทย)"
                     value="{{data.group_name_th}}" disabled="[[btnState]]"></gl-form-input>
             </gl-grid-col>
             <gl-grid-col width="[[getWidth]]" grid="[[300,12],[500,3]]"></gl-grid-col>
-        </gl-grid-row>
+        </gl-grid-row>-->
 
-        <gl-grid-row>
+        <!--<gl-grid-row>
             <gl-grid-col width="[[getWidth]]" grid="[[300,12],[500,3]]"></gl-grid-col>
             <gl-grid-col width="[[getWidth]]" grid="[[300,12],[500,6]]">
                 <gl-form-input class="margin-top  required" required error-message="ชื่อกลุ่ม (อังกฤษ)" label="ชื่อกลุ่ม (อังกฤษ) :" placeholder="ชื่อกลุ่ม (อังกฤษ)"
                     value="{{data.group_name_en}}" disabled="[[btnState]]"></gl-form-input>
             </gl-grid-col>
             <gl-grid-col width="[[getWidth]]" grid="[[300,12],[500,3]]"></gl-grid-col>
-        </gl-grid-row>
+        </gl-grid-row>-->
 
-        <gl-grid-row>
+        <!--<gl-grid-row>
             <gl-grid-col width="[[getWidth]]" grid="[[300,12],[500,3]]"></gl-grid-col>
             <gl-grid-col width="[[getWidth]]" grid="[[300,12],[500,6]]">
                 <paper-dropdown-menu label="ตาราง" placeholder="ตาราง" disabled="[[btnState]]" on-value-changed="test">
@@ -72,7 +128,7 @@
             </gl-grid-col>
             <gl-grid-col width="[[getWidth]]" grid="[[300,12],[500,3]]"></gl-grid-col>
 
-        </gl-grid-row>
+        </gl-grid-row>-->
         <!--<gl-grid-row>-->
         {{getKey(data.table_name)}}
         <!--<gl-grid-col width="[[getWidth]]" grid="[[300,12],[500,3]]"></gl-grid-col>
@@ -88,15 +144,15 @@
 
         </gl-grid-row>-->
 
-        <gl-grid-row>
+        <!--<gl-grid-row>
             <gl-grid-col width="[[getWidth]]" grid="[[300,12],[500,3]]"></gl-grid-col>
             <gl-grid-col width="[[getWidth]]" grid="[[300,12],[500,6]]">
                 <tag-dropdown id="tagValue" label="ชื่อที่ต้องการแสดง" items="{{field}}" value="{{data}}" disabled="[[btnState]]"></tag-dropdown>
-                <!--<nylon-tag-dropdown id="tagValue" label="ชื่อที่ต้องการแสดง" items="{{field}}"></nylon-tag-dropdown>-->
+                <nylon-tag-dropdown id="tagValue" label="ชื่อที่ต้องการแสดง" items="{{field}}"></nylon-tag-dropdown>
             </gl-grid-col>
             <gl-grid-col width="[[getWidth]]" grid="[[300,12],[500,3]]"></gl-grid-col>
 
-        </gl-grid-row>
+        </gl-grid-row>-->
 
         <div class="horizontal end-justified layout">
             <div class="button">

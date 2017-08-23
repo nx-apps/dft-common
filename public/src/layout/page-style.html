@@ -2,9 +2,12 @@
 
 <link rel="import" href="./../../bower_components/gl-styles/gl-color.html">
 <link rel="import" href="./../../bower_components/gl-styles/gl-size.html">
+
+<link rel="import" href="./../../bower_components/iron-flex-layout/iron-flex-layout-classes.html">
+
 <dom-module id="page-style">
     <template>
-        <style include="gl-size gl-color">
+        <style include="gl-size gl-color iron-flex iron-flex-alignment iron-flex-factors iron-positioning">
             .header {
                 font-size: 32px;
                 padding-top: 20px;
@@ -193,6 +196,9 @@
             .img-center {
                 display: block;
                 margin: 0 auto;
+            }
+            .flex-padding {
+                margin-right: 10px;
             }
         </style>
     </template>
