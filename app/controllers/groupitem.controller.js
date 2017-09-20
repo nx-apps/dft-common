@@ -2,7 +2,7 @@ exports.list = function (req, res) {
     var r = req.r;
     var orderby = req.query.orderby;
     // console.log();
-    r.db('common').table("groupitem").getAll(req.query.group_id,{index:"group_id"}).limit(10)
+    r.db('common').table("groupitem").getAll(req.query.group_id,{index:"group_id"})
         // .filter({ table: req.query.table, code: req.query.code })
         .eqJoin('group_id', r.db('common').table('group'))
         .pluck('left', { right: ['field_id'] })
@@ -40,7 +40,11 @@ exports.getById = function (req, res) {
             return {
                 sub_group_id: row('id'),
                 date_created: row('date_created').toISO8601().split('T')(0),
-                date_updated: row('date_updated').toISO8601().split('T')(0)
+                date_updated: row('date_updated').toISO8601().split('T')(0),
+                sub: row('sub').merge((item) => {
+                    return r.db('common').table(row('table_name')).get(item('sub_id'))//.orderBy('hamonize_code')
+
+                })
             }
         })
         // .without('id')
