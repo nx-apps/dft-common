@@ -60,6 +60,14 @@
         <div class="horizontal start-justified layout">
             <div class="flex"></div>
             <div class="flex flex-padding">
+                <gl-form-input class="margin-top  required" required error-message="CODE กลุ่ม" label="CODE กลุ่ม :" placeholder="CODE กลุ่ม"
+                    value="{{data.id}}" disabled="[[setDisabled]]"></gl-form-input>
+            </div>
+            <div class="flex"></div>
+        </div>
+        <div class="horizontal start-justified layout">
+            <div class="flex"></div>
+            <div class="flex flex-padding">
                 <gl-form-input class="margin-top  required" required error-message="ชื่อกลุ่ม (ไทย)" label="ชื่อกลุ่ม (ไทย) :" placeholder="ชื่อกลุ่ม (ไทย)"
                     value="{{data.group_name_th}}" disabled="[[btnState]]"></gl-form-input>
             </div>
@@ -168,6 +176,11 @@
             properties: {
                 data: {
                     statePath: 'group.data',
+                    observer: 'setDisCode'
+                },
+                setDisabled: {
+                    type: Boolean,
+                    value: false
                 },
                 btnState: {
                     statePath: 'commonState.btnState'
@@ -185,6 +198,11 @@
                     type: Array,
                     value: []
                 }
+            },
+            setDisCode(data) {
+                this.set('setDisabled', false)
+                if (data.hasOwnProperty('id'))
+                    this.set('setDisabled', true)
             },
             _save: function () {
                 // console.log(this.data);

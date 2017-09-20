@@ -32,7 +32,7 @@ exports.getById = function (req, res) {
                 date_updated: row('date_updated').toISO8601().split('T')(0)
             }
         })
-        .without('id')
+        // .without('id')
         .run()
         .then(function (result) {
             //res.setHeader('Access-Control-Allow-Origin', 'https://localhost:3001');
@@ -58,7 +58,7 @@ exports.listtable = function (req, res) {
         { table: "port" },
         // { table: "province"},
         { table: "ship" },
-        // { table: "shipline"},
+        { table: "license_type"},
         { table: "surveyor" },
     ]
     // r.db('common').table("group")

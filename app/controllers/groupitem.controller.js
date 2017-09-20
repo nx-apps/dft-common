@@ -43,7 +43,7 @@ exports.getById = function (req, res) {
                 date_updated: row('date_updated').toISO8601().split('T')(0)
             }
         })
-        .without('id')
+        // .without('id')
         .run()
         .then(function (result) {
             // //res.setHeader('Access-Control-Allow-Origin', 'https://localhost:3001');

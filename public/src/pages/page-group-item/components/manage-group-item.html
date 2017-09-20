@@ -46,7 +46,13 @@
         </template>
         <!--{{statusAction}}///[[_checkStatus(statusAction)]]-->
 
-
+        <div class="horizontal start-justified layout">
+            <div class="flex"></div>
+            <div class="flex flex-padding">
+                <gl-form-input class="margin-top  required" required label="CODE กลุ่ม :" placeholder="CODE กลุ่ม" value="{{data.id}}" disabled="[[setDisabled]]"></gl-form-input>
+            </div>
+            <div class="flex"></div>
+        </div>
 
         <div class="horizontal start-justified layout">
             <div class="flex"></div>
@@ -72,7 +78,7 @@
                 <vaadin-grid aria-label="Dynamic Columns Example" id="material" items="{{dataUse}}">
                     <vaadin-grid-column width="40px" flex-grow="0">
                         <template class="header">
-                            <paper-checkbox on-tap="selectAll" checked="{{statusCheck}}" disabled="[[btnState]]"></paper-checkbox>
+                            <!-- <paper-checkbox on-tap="selectAll" checked="{{statusCheck}}" disabled="[[btnState]]"></paper-checkbox> -->
                         </template>
                         <template>
                             <paper-checkbox style="padding-left:7px;" checked="{{item.check}}" disabled="[[btnState]]"></paper-checkbox>
@@ -154,6 +160,10 @@
                     // val: {}
                     // observer: 'setData'
                 },
+                setDisabled: {
+                    type: Boolean,
+                    value: false
+                },
                 btnState: {
                     statePath: 'commonState.btnState'
                 },
@@ -227,6 +237,7 @@
             },
             observers: [
                 'setName(dataList,name,data)',
+                'seInit(name,data)',
             ],
             setData(data) {
                 // console.log(data)
@@ -289,14 +300,19 @@
 
 
             },
+            seInit(name, data) {
+                this.set('setDisabled', false)
+                if (data.hasOwnProperty('id'))
+                    this.set('setDisabled', true)
+
+                if (!data.hasOwnProperty('id')) {
+                    this.set('data.id', name.group_id + '_')
+                }
+            },
             setName(data, name, dataOld) {
                 try {
-                    // console.log(1121212);
+                    // console.log(name);
                     if (data.length > 0) {
-                        // var t0 = performance.now();
-                        // console.log(data);
-                        // console.log(name);
-                        // console.log(dataOld);
                         let arr = [],
                             obj = {},
                             havecode = false,

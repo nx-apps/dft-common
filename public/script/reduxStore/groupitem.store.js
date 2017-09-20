@@ -45,7 +45,7 @@ export function groupItemAction(store) {
                 text: 'ต้องการเพิ่มข้อมูลใช่หรือไม่ ?',
                 confirmed: (result) => {
                     if (result == true) {
-                        console.log(data);
+                        // console.log(data);
                         this.fire('toast', { status: 'load', text: 'กำลังบันทึกข้อมูล...' })
                         axios.post('./groupItem/insert', data)
                             .then((response) => {
