@@ -5,6 +5,10 @@
 <link rel="import" href="./../../../../bower_components/paper-checkbox/paper-checkbox.html">
 <link rel="import" href="./../../../../bower_components/vaadin-grid/vaadin-grid-column.html">
 
+<link rel="import" href="../../../../bower_components/paper-dialog/paper-dialog.html">
+
+<link rel="import" href="../../../../bower_components/paper-dialog-scrollable/paper-dialog-scrollable.html">
+
 <link rel="import" href="./../../components/validateFormBehaviors.html">
 <link rel="import" href="./../../components/vaadin-gird-filter-common.html">
 
@@ -26,18 +30,119 @@
                 font-size: var(--font-size-h5);
                 text-align: left;
             }
-            /*
+
             .text-center {
                 text-align: center;
                 font-size: var(--font-size-h3);
                 background-color: var(--paper-grey-100);
                 margin-top: 20px;
-            }*/
+            }
+
+            paper-icon-button.crud:hover {
+                background-color: var(--paper-grey-200);
+                border-radius: 5px;
+                box-shadow: inset 0 0 3px 3px rgba(0, 0, 0, .2);
+            }
+
+            table.gl-table-default {
+                border: 1px solid #ddd;
+            }
+
+            table.gl-table-default>tbody.table-body>tr>td {
+                /*cursor: pointer;*/
+                padding: 10px 15px;
+            }
 
             paper-dropdown-menu,
             paper-listbox,
             paper-item {
                 width: 100%;
+            }
+
+            div.main {
+                /*background-color: red;*/
+                height: 300px;
+                overflow-y: scroll;
+                /*min-width: 300px;*/
+                border: solid darkblue 1px;
+            }
+
+            span.namesub {
+                display: inline-block;
+                /*background-color: blue;*/
+                width: 70%;
+            }
+
+            span.year {
+                display: inline-block;
+                width: 20%;
+                /*background-color: red;*/
+                /*display: inline;*/
+                /*float: right;*/
+            }
+
+            .collapse-content {
+                padding: 15px;
+                width: 500px;
+                border: 1px solid #dedede;
+            }
+
+            .header-item {
+                border: 1px solid #ddd;
+                background-color: #F1F1F1;
+                padding: 15px;
+            }
+
+            .subdiv {
+                border-bottom: 1px solid #ddd;
+                border-right: 1px solid #ddd;
+                border-left: 1px solid #ddd;
+                height: 300px;
+                overflow-y: scroll;
+            }
+
+            .main-item,
+            .sub-item {
+                padding: 15px 0px;
+                /*border: 1px solid #ddd;*/
+                border-bottom: 1px solid #ddd;
+            }
+
+            .main-item:hover,
+            .sub-item:hover {
+                background-color: #F1F1F1;
+            }
+
+            .sub-item {
+                padding-left: 60px;
+            }
+
+            paper-icon-button .hamonize {
+                margin-top: -50px;
+            }
+
+            paper-dialog.size-position {
+                width: 800px;
+                height: 550px;
+                overflow: auto;
+            }
+
+            tbody {
+                display: block;
+                height: 400px;
+                max-height: 400px;
+                overflow-y: scroll;
+            }
+
+            thead,
+            tbody tr {
+                display: table;
+                width: 100%;
+                table-layout: fixed;
+            }
+
+            table {
+                height: 380px;
             }
         </style>
         <div class="text-center">{{title}}กลุ่ม</div>
@@ -72,83 +177,91 @@
             <div class="flex"></div>
         </div>
 
-        <div class="horizontal start-justified layout">
+        <div class="horizontal end-justified layout">
+            <div class="flex-7"></div>
+            <div class="flex-5 flex-padding">
+                <paper-button raised on-tap="addItemTotable" class="gl-btn-primary" hidden="[[btnState]]">เลือก</paper-button>
+                <paper-button raised on-tap="DeleteAllItemTotable" class="gl-btn-danger" hidden="[[btnState]]">ลบทั้งหมด</paper-button>
+            </div>
+            <!-- <div class="flex"></div> -->
+        </div>
+
+        <div class="horizontal end-justified layout">
             <div class="flex"></div>
             <div class="flex-10 flex-padding">
-                <vaadin-grid aria-label="Dynamic Columns Example" id="material" items="{{dataUse}}">
-                    <vaadin-grid-column width="40px" flex-grow="0">
-                        <template class="header">
-                            <!-- <paper-checkbox on-tap="selectAll" checked="{{statusCheck}}" disabled="[[btnState]]"></paper-checkbox> -->
-                        </template>
-                        <template>
-                            <paper-checkbox style="padding-left:7px;" checked="{{item.check}}" disabled="[[btnState]]"></paper-checkbox>
-                        </template>
-                    </vaadin-grid-column>
-                    <template is="dom-repeat" items="[[columns]]" as="column">
-
-                        <vaadin-grid-column resizable>
-                            <template class="header">[[column]]
-                                <vaadin-gird-filter-common aria-label="[[column]]" path="[[column]]" value="[[_name]]">
-                                </vaadin-gird-filter-common>
+                <table class="gl-table-default">
+                    <thead class="table-head">
+                        <tr>
+                            <template is="dom-repeat" items={{columns}}>
+                                <th style="width:20%">[[item]]</th>
                             </template>
-                            <template>[[get(column, item)]]</template>
-                        </vaadin-grid-column>
-                    </template>
-
-                </vaadin-grid>
+                            <th style="width:10%">#</th>
+                        </tr>
+                    </thead>
+                    <tbody class="table-body">
+                        <template is="dom-repeat" items="{{data.sub}}" as="main">
+                            <tr>
+                                <template is="dom-repeat" items={{columns}}>
+                                    <td style="width:20%">[[_showData(main,item)]]</td>
+                                </template>
+                                <td style="width:10%">
+                                    <div hidden="[[btnState]]">
+                                        <paper-icon-button class="crud" data="{{main}}" icon="delete" disabled="[[btnState]]" on-tap="_deleteItem"></paper-icon-button>
+                                    </div>
+                                </td>
+                            </tr>
+                        </template>
+                        <template is="dom-if" if="[[_isShow(data.sub,data.sub.*)]]">
+                            <tr>
+                                <td colspan="5" style="text-align: center;">ไม่มีข้อมูล</td>
+                            </tr>
+                        </template>
+                    </tbody>
+                </table>
             </div>
             <div class="flex"></div>
         </div>
-        <!--<gl-grid-row width="{{getWidth}}">
-            <gl-grid-col width="[[getWidth]]" grid="[[300,12],[500,3]]"></gl-grid-col>
-            <gl-grid-col width="[[getWidth]]" grid="[[300,12],[500,6]]">
-                <gl-form-input class="margin-top  required" required error-message="ชื่อ (ไทย)" label="ชื่อ (ไทย) :" placeholder="ชื่อ (ไทย)"
-                    value="{{data.name_th}}" disabled="[[btnState]]"></gl-form-input>
-            </gl-grid-col>
-            <gl-grid-col width="[[getWidth]]" grid="[[300,12],[500,3]]"></gl-grid-col>
-        </gl-grid-row>-->
-        <!--<gl-grid-row>
-            <gl-grid-col width="[[getWidth]]" grid="[[300,12],[500,3]]"></gl-grid-col>
-            <gl-grid-col width="[[getWidth]]" grid="[[300,12],[500,6]]">
-                <gl-form-input class="margin-top  required" required error-message="ชื่อ (อังกฤษ)" label="ชื่อ (อังกฤษ) :" placeholder="ชื่อ(อังกฤษ)"
-                    value="{{data.name_en}}" disabled="[[btnState]]"></gl-form-input>
-            </gl-grid-col>
-            <gl-grid-col width="[[getWidth]]" grid="[[300,12],[500,3]]"></gl-grid-col>
-        </gl-grid-row>-->
 
-        <!--<gl-grid-row>
-            <gl-grid-col width="[[getWidth]]" grid="[[300,12],[500,1]]"></gl-grid-col>
-            <gl-grid-col width="[[getWidth]]" grid="[[300,12],[500,10]]">
-                <vaadin-grid aria-label="Dynamic Columns Example" id="material" items="{{dataUse}}">
-                    <vaadin-grid-column width="40px" flex-grow="0">
-                        <template class="header">
-                            <paper-checkbox on-tap="selectAll" checked="{{statusCheck}}" disabled="[[btnState]]"></paper-checkbox>
-                        </template>
-                        <template>
-                            <paper-checkbox style="padding-left:7px;" checked="{{item.check}}" disabled="[[btnState]]"></paper-checkbox>
-                        </template>
-                    </vaadin-grid-column>
-                    <template is="dom-repeat" items="[[columns]]" as="column">
 
-                        <vaadin-grid-column resizable>
-                            <template class="header">[[column]]
-                                <vaadin-gird-filter-common aria-label="[[column]]" path="[[column]]" value="[[_name]]">
-                                </vaadin-gird-filter-common>
-                            </template>
-                            <template>[[get(column, item)]]</template>
-                        </vaadin-grid-column>
-                    </template>
 
-                </vaadin-grid>
-                <gl-grid-col width="[[getWidth]]" grid="[[300,12],[500,1]]"></gl-grid-col>
-            </gl-grid-col>
-        </gl-grid-row>-->
         <div class="horizontal end-justified layout">
             <div class="button">
                 <paper-button raised on-tap="_cancel" hidden="{{btnState}}">คืนค่าข้อมูล</paper-button>
                 <paper-button class="gl-btn-success" raised on-tap="_save" hidden="{{btnState}}">บันทึก</paper-button>
             </div>
         </div>
+
+        <paper-dialog id="itemGroup" class="size-position">
+            <h2>รายชื่อรายการ</h2>
+            <paper-dialog-scrollable>
+                <div name="list">
+                    <div class="horizontal layout header-item" warp>
+                        <div class="header-div flex"></div>
+                        <template is="dom-repeat" items={{columns}}>
+                            <div class="header-div flex-3" style="padding-right:15px;">
+                                <gl-form-input label="[[item]]" id="input_[[item]]" always-float-label type="search" on-value-changed="searchItem"></gl-form-input>
+                            </div>
+                        </template>
+                    </div>
+                    <div class="subdiv">
+                        <template is="dom-repeat" items={{dataUse}} index-as="indexroot" as="main">
+                            <div hidden="{{main.hidden}}">
+                                <div class="horizontal layout main-item">
+                                    <div class="row flex">
+                                        <paper-checkbox style="padding-left:25px;" id="{{indexroot}}" checked="{{main.check}}" disabled="[[commonState.btnDisabled]]">
+                                    </div>
+                                    <template is="dom-repeat" items={{columns}}>
+                                        <div class="row flex-3">[[_showData(main,item)]]</div>
+                                    </template>
+                                </div>
+                        </template>
+                        </div>
+                    </div>
+            </paper-dialog-scrollable>
+            <div class="buttons">
+                <paper-button dialog-confirm autofocus raised on-tap="checkAddItem">ปิด</paper-button>
+            </div>
+        </paper-dialog>
     </template>
     <script>
         Polymer({
@@ -169,60 +282,60 @@
                 },
                 hamonize_list: {
                     statePath: 'hamonize.list',
-                    observer: 'setCheckBox'
+                    observer: 'setDataList'
                 },
                 country_list: {
                     statePath: 'country.list',
-                    observer: 'setCheckBox'
+                    observer: 'setDataList'
                 },
                 bank_list: {
                     statePath: 'bank.list',
-                    observer: 'setCheckBox'
+                    observer: 'setDataList'
                 },
                 buyer_list: {
                     statePath: 'buyer.list',
-                    observer: 'setCheckBox'
+                    observer: 'setDataList'
                 },
                 carrier_list: {
                     statePath: 'carrier.list',
-                    observer: 'setCheckBox'
+                    observer: 'setDataList'
                 },
                 continent_list: {
                     statePath: 'continent.list',
-                    observer: 'setCheckBox'
+                    observer: 'setDataList'
                 },
                 incoterms_list: {
                     statePath: 'incoterms.list',
-                    observer: 'setCheckBox'
+                    observer: 'setDataList'
                 },
                 notify_party_list: {
                     statePath: 'notify_party.list',
-                    observer: 'setCheckBox'
+                    observer: 'setDataList'
                 },
                 package_list: {
                     statePath: 'package.list',
-                    observer: 'setCheckBox'
+                    observer: 'setDataList'
                 },
                 port_list: {
                     statePath: 'port.list',
-                    observer: 'setCheckBox'
+                    observer: 'setDataList'
                 },
                 ship_list: {
                     statePath: 'ship.list',
-                    observer: 'setCheckBox'
+                    observer: 'setDataList'
                 },
                 shipline_list: {
                     statePath: 'shipline.list',
-                    observer: 'setCheckBox'
+                    observer: 'setDataList'
                 },
                 surveyor_list: {
                     statePath: 'surveyor.list',
-                    observer: 'setCheckBox'
+                    observer: 'setDataList'
                 },
                 dataList: {
                     type: Array
                 },
-                dataUSe: {
+                dataUse: {
                     type: Array,
                     observer: 'setData'
                 },
@@ -242,7 +355,11 @@
             setData(data) {
                 // console.log(data)
             },
-            setCheckBox(data) {
+            _showData(main, item) {
+                // console.log(main);
+                return main[item]
+            },
+            setDataList(data) {
                 try {
                     // console.log(111)
                     // console.log(this.name);
@@ -310,8 +427,9 @@
                 }
             },
             setName(data, name, dataOld) {
-                try {
-                    // console.log(name);
+                // try {
+                // console.log(dataOld);
+                if (data !== undefined && data !== '' && data !== {} && dataOld.id !== 'undefined_') {
                     if (data.length > 0) {
                         let arr = [],
                             obj = {},
@@ -324,80 +442,102 @@
                                 // obj.name = obj.name + ' ' + data[index][name.name[index2].id]
                                 obj[name.fields[index2].field] = data[index][name.fields[index2].field]
                             }
-                            // name_id = name.field_id
-
-                            // obj.sub_code = data[index][name_id]
                             obj.id = data[index][name.table_name + '_id']
-
                             if (dataOld.sub !== undefined) {
-                                // console.log(dataOld.sub);
-                                // console.log(dataOld.sub.length );
-                                for (let index3 = 0; index3 < dataOld.sub.length; index3++) {
-                                    // console.log();
-                                    if (obj.id === dataOld.sub[index3].sub_id) {
-                                        this.$.material.selectItem(obj)
-                                        obj.check = true
-                                        // console.log(1);
-                                        // console.log(obj)
-                                        break;
-                                    } else {
-                                        obj.check = false
-                                    }
-                                }
+                                // console.log(1);
+                                let result = dataOld.sub.find(item => item.sub_id === obj.id)
+                                obj.check = (result !== undefined ? true : false)
                             } else {
                                 obj.check = false
                             }
+                            obj.hidden = false
                             // console.log(obj);
                             arr.push(obj)
                             obj = {}
                         }
-                        // console.log(arr);
                         name.fields.map((item) => {
                             columns.push(item.field)
                         })
-
-                        // console.log(name);
-                        // for (var index = 0; index < data.length; index++) {
-                        //     for (var index2 = 0; index2 < name.name.length; index2++) {
-                        //         obj[name.name[index2].id] = data[index][name.name[index2].id]
-                        //         console.log(name.name[index2].id)
-                        //     }
-                        //     name_id = name.field_id
-                        //     console.log(name_id);
-                        //     if (name_id === "id") {
-                        //         name_id = name.table + '_' + name.field_id
-                        //     }
-                        //     obj.sub_code = data[index][name_id]
-                        //     obj.id = data[index][name.table + '_id']
-                        //     obj.check = false
-                        //     console.log(2222222);
-                        //     // if (dataOld !== '' && dataOld.sub.find((item) => obj.id === item.id) !== undefined){
-                        //     //     obj.check = true
-                        //     // }
-                        //     console.log(3333333);
-                        //     // console.log(name.name);
-                        //     console.log(obj);
-                        //     arr.push(obj)
-                        //     obj = {}
-                        // }
-                        // console.log(121212);
-                        // var t1 = performance.now();
-                        // console.log("Call to doSomething took " + (t1 - t0) + " milliseconds.");
-                        // console.log(arr);
-                        // console.log(1121);
                         this.set('columns', columns)
-                        // console.log(columns);
+                        // console.log(columns)
                         this.set('dataUse', arr)
                         // console.log(this.dataUse)
                     }
-                } catch (e) {
-                    // console.log(e);
+
                 }
 
+            },
+            checkAddItem() {
+                this.setItem(this.dataUse)
+            },
+
+            setItem: function (dataUse) {
+                let items = dataUse.filter(item => item.check === true)
+                this.set('data.sub', items)
+            },
+            _deleteItem(e) {
+                // let deleteBtn = e.currentTarget.data.id
+                this._deleteSeleredItem(e.currentTarget.data.id)
+
+            },
+            _deleteSeleredItem(id) {
+                let index = this.dataUse.findIndex(item => item.id === id)
+                this.dataUse[index].check = false
+                this.notifyPath('dataUse'+[index],false)
+                this.set('dataUse.'+[index]+'.check',false)
+                this.debounce('setDataSub', () => {
+                    this.setItem(this.dataUse)
+                }, 100)
+            },
+            searchItem(e) {
+                let data = {},
+                    countPropertity = 0
+                for (var index = 0; index < this.columns.length; index++) {
+                    var element = this.columns[index]
+                    let inputElement = 'input_' + element
+                    if (Polymer.dom(this.root).querySelector('#' + inputElement) !== undefined &&
+                        Polymer.dom(this.root).querySelector('#' + inputElement) !== null &&
+                        Polymer.dom(this.root).querySelector('#' + inputElement).value !== '') {
+                        data[element] = Polymer.dom(this.root).querySelector('#' + inputElement).value
+                        countPropertity++
+                    }
+                }
+                if (countPropertity > 0) {
+                    const checkIsHave = (data, index, properties) => {
+                        // console.log(data,index,properties);
+                        let arrIsTrue = []
+                        for (var key in properties) {
+                            if (properties.hasOwnProperty(key)) {
+                                let prop = properties[key]
+                                let str1 = String(data[index][key]),
+                                    str2 = String(properties[key])
+                                // gเช็ดดว่าเป็นภาษาอังกฏษเปล่า
+                                if (/^[a-zA-Z]+$/.test(String(properties[key]))) {
+                                    str1 = str1.toLowerCase()
+                                    str2 = str2.toLowerCase()
+                                }
+                                arrIsTrue.push(str1.search(str2.toLowerCase()) > -1 ? false : true)
+                            }
+                        }
+                        return arrIsTrue.every(elem => elem == true)
+                    }
+                    this.dataUse.map((item, index) => {
+                        this.set('dataUse.' + index + '.hidden', checkIsHave(this.dataUse, [index], data))
+                    })
+                }
             },
             setLowper() {
                 this.set('data.code', this.data.code.toLowerCase())
                 // console.log(this.data.code);
+            },
+            _isShow: function (data, dataLoop) {
+                try {
+                    let resulte = data.every((item) => item.hidden === true)
+                    // console.log(resulte);
+                    return resulte
+                } catch (error) {
+
+                }
             },
             _save: function () {
                 // console.log(this.$.material.selectedItems);
@@ -498,6 +638,15 @@
                 }, 100)
 
             },
+            addItemTotable() {
+                this.$.itemGroup.open()
+            },
+            DeleteAllItemTotable() {
+                this.data.sub.map((item) => {
+                    this._deleteSeleredItem(item.id)
+                })
+                console.log(this.dataUse);
+            }
             // checkItem(statusCheck,check,item,index){
             //     let setDate = statusCheck !== check
             //     // if (check) {

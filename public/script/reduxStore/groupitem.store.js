@@ -2,7 +2,7 @@ import axios from '../axios'
 import { commonAction } from '../config'
 const initialState = {
     list: [],
-    data: {  }
+    data: {}
 }
 export function groupItemReducer(state = initialState, action) {
     switch (action.type) {
@@ -11,7 +11,7 @@ export function groupItemReducer(state = initialState, action) {
         case 'GROUP_ITEM_GET_ID':
             return Object.assign({}, state, { data: action.payload });
         case 'GROUP_ITEM_CLEAR_SELECT':
-            return Object.assign({}, state, { data: { } });
+            return Object.assign({}, state, { data: {} });
         default:
             return state
     }
@@ -20,12 +20,19 @@ export function groupItemAction(store) {
     return [commonAction(),
     {
         GROUP_ITEM_GET_DATA: function (data) {
+            this.fire('toast', { status: 'load', text: 'กำลังดึงข้อมูล...' })
             axios.get('./groupItem?group_id=' + data)
                 .then(function (response) {
                     store.dispatch({ type: 'GROUP_ITEM_GET_DATA', payload: response.data })
+                    
                 })
                 .catch(function (error) {
                     console.log('error');
+                    // this.fire('toast', {
+                    //     status: 'connectError', text: 'ไม่สามารถดึงข้อมูลได้',
+                    //     callback: () => {
+                    //     }
+                    // })
                     //console.log(error);
                 });
         },
@@ -81,7 +88,7 @@ export function groupItemAction(store) {
                         this.dispatchAction('BTN_SET_STATE', true);
                         var newData = {
                             id: data.sub_group_id,
-                            code:data.code,
+                            code: data.code,
                             group_id: data.group_id,
                             name_th: data.name_th,
                             name_en: data.name_en,

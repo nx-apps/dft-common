@@ -106,16 +106,17 @@
                 margin-top: 15px;
                 margin-left: 25px;
             }
+
             vaadin-grid {
-        height: auto;
-      }
+                height: auto;
+            }
         </style>
         <paper-material elevation="1" class="elevation">
             <div class="header-title">
                 กลุ่ม {{dataSeleted.group_name_th}}</div>
             <div class="horizontal justified layout">
-                <div >
-                    <paper-button class="button-top" raised on-tap="goBack" > ย้อนกลับ </paper-button>
+                <div>
+                    <paper-button class="button-top" raised on-tap="goBack"> ย้อนกลับ </paper-button>
                 </div>
                 <div>
                     <paper-button class="gl-btn-primary button-top" title="เพิ่มกลุ่ม" raised on-tap="_toggleDrawer">
@@ -146,11 +147,11 @@
                         </vaadin-gird-filter-common>
                     </template>
                     <template>
-                         [[item.name_th]]
+                        [[item.name_th]]
                     </template>
                 </vaadin-grid-column>
 
-                <vaadin-grid-column  resizable>
+                <vaadin-grid-column resizable>
                     <template class="header">
                         <vaadin-grid-sorter path="name_en">
                             <div class="text-center">Group
@@ -160,7 +161,7 @@
                         </vaadin-gird-filter-common>
                     </template>
                     <template>
-                         [[item.name_en]]
+                        [[item.name_en]]
                     </template>
                 </vaadin-grid-column>
 
@@ -224,12 +225,13 @@
             editInput: function () {
                 this.dispatchAction('BTN_SET_STATE', false);
             },
-            goBack(){
+            goBack() {
                 window.history.back();
             },
             getData(data) {
                 // console.log(111111111111);
                 // console.log(data);
+                // this.fire('toast', { status: 'load', text: 'กำลังดึงข้อมูล...' })
                 this.dispatchAction('GROUP_ITEM_GET_DATA', data.group_id);
                 switch (data.table_name) {
                     case 'bank':
@@ -276,6 +278,11 @@
                         this.fire('nylon-change-page', { path: `/group/กลุ่ม/17` })
                         break;
                 }
+                this.fire('toast', {
+                    status: 'success', text: 'ดึงข้อมูลสำเร็จ', callback: () => {
+
+                    }
+                });
             },
             nylonPageActive: function () {
                 // this.dispatchAction('GROUP_GET_DATA');
